@@ -11,6 +11,7 @@
   const resourcePanel = $("#resourcePanel");
   const resourceList = $("#resourceList");
   const branchTitle = $("#branchTitle");
+  const branchMeta = $("#branchMeta");
   const viewer = $("#recordViewer");
   const title = $("#collectionTitle");
   const position = $("#imagePosition");
@@ -119,6 +120,17 @@
     return registry.length ? registry.map((item) => item.canonicalName) : derivedBranches;
   }
 
+  function branchDetails(name) {
+    return registry.find((item) => item.canonicalName === name) || null;
+  }
+
+  function yearLabel(item) {
+    if (!item?.earliestYear) return "";
+    return item.latestYear && item.latestYear !== item.earliestYear
+      ? `${item.earliestYear}–${item.latestYear}`
+      : String(item.earliestYear);
+  }
+
   function relatedCollections(name) {
     return catalog.collections.map((collection) => ({ collection, score: collectionScore(collection, name) }))
       .filter(({ score }) => Number.isFinite(score))
@@ -140,10 +152,11 @@
       .sort((a, b) => a.score - b.score || a.name.localeCompare(b.name));
     count.textContent = `${matches.length} of ${branchNames().length} branches`;
     branchList.replaceChildren(...matches.map(({ name }) => {
+      const details = branchDetails(name);
       const button = document.createElement("button");
       button.type = "button";
       button.className = "collection-link";
-      button.innerHTML = `<span>${name}</span>`;
+      button.innerHTML = `<span>${name}</span>${yearLabel(details) ? `<small>Sources: ${yearLabel(details)}</small>` : ""}`;
       button.addEventListener("click", () => openBranch(name, button));
       return button;
     }));
@@ -185,6 +198,13 @@
     viewer.hidden = true;
     resourcePanel.hidden = false;
     branchTitle.textContent = name;
+    const details = branchDetails(name);
+    const facts = [];
+    if (yearLabel(details)) facts.push(`<span><strong>Years found:</strong> ${yearLabel(details)}</span>`);
+    if (details?.variants) facts.push(`<span><strong>Known variants:</strong> ${details.variants}</span>`);
+    if (details?.relatedBranches) facts.push(`<span><strong>Related branch:</strong> ${details.relatedBranches}</span>`);
+    branchMeta.innerHTML = facts.join("");
+    branchMeta.hidden = !facts.length;
     const matches = relatedCollections(name);
     if (!matches.length || (matches.length === 1 && matches[0].id === "public-branch-registry")) {
       resourceList.innerHTML = `<div class="empty-resource"><strong>Branch recorded</strong><p>Record images for this branch are not yet included in the online starter. Its name and evidence remain available in the branch registry.</p><a href="branch-registry.html">Open branch registry</a></div>`;

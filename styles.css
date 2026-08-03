@@ -76,6 +76,8 @@ button, input { font: inherit; }
 .resource-panel { max-width: 1050px; margin: 0 auto; }
 .resource-panel h2 { margin: 0; font-size: clamp(1.8rem, 4vw, 3rem); font-weight: 500; }
 .resource-panel > p:not(.eyebrow) { color: var(--muted); }
+.branch-meta { display: flex; flex-wrap: wrap; gap: 8px 18px; margin: 12px 0 18px; padding: 11px 13px; color: var(--muted); border-left: 3px solid var(--gold); background: #eee8da; font: .8rem/1.45 Arial, sans-serif; }
+.branch-meta[hidden] { display: none; }
 .resource-list { display: grid; grid-template-columns: repeat(auto-fit, minmax(230px, 1fr)); gap: 13px; margin-top: 24px; }
 .resource-card, .empty-resource { min-height: 145px; padding: 20px; text-align: left; color: var(--ink); border: 1px solid var(--line); border-top: 4px solid var(--gold); background: var(--panel); }
 .resource-card { display: grid; align-content: start; gap: 8px; cursor: pointer; }
