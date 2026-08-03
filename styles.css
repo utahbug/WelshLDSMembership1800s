@@ -112,6 +112,9 @@ button, input { font: inherit; }
 .view-toolbar .index-mode { margin-left: 5px; color: #69490d; border-color: var(--gold); background: #fbf2dc; box-shadow: inset 3px 0 0 var(--gold); }
 .view-toolbar .index-mode::before { content: "▦ "; font-weight: 700; }
 .view-toolbar .index-mode.active { color: white; border-color: #8a651d; background: #9a7229; box-shadow: inset 3px 0 0 #f1d48d; }
+.view-context { min-width: 160px; display: grid; gap: 2px; margin-left: auto; padding-left: 12px; color: var(--green-dark); text-align: right; }
+.view-context strong { font-size: .8rem; }
+.view-context small { max-width: 320px; overflow: hidden; color: var(--muted); font-size: .68rem; text-overflow: ellipsis; white-space: nowrap; }
 .record-stage { min-height: 55vh; margin: 0; padding: 14px; display: grid; place-items: center; background: #302f2a; border-radius: 5px; }
 .record-stage[hidden] { display: none; }
 .record-stage img { display: block; max-width: 100%; max-height: 72vh; object-fit: contain; box-shadow: 0 4px 22px #0008; }
@@ -157,6 +160,7 @@ button, input { font: inherit; }
   .site-menu nav { position: fixed; top: 95px; right: 10px; }
   .page-spread { grid-template-columns: 1fr; }
   .blank-page { display: none; }
+  .view-context { width: 100%; margin-left: 0; padding: 5px 0 0; text-align: left; border-top: 1px solid var(--line); }
 }
 .research-links {
   display: grid;

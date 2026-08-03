@@ -35,6 +35,7 @@
   const collectionTab = $("#browseCollections");
   const shiftPairing = $("#shiftPairing");
   const backToResources = $("#backToResources");
+  const viewContext = $("#viewContext");
   const number = new Intl.NumberFormat("en-US");
 
   let registry = [];
@@ -342,6 +343,9 @@
     backToResources.textContent = keepResources ? `← Back to ${currentBranchName} resources` : "← Back to branch resources";
     viewer.hidden = false;
     title.textContent = collection.name;
+    viewContext.innerHTML = keepResources
+      ? `<strong>Branch: ${currentBranchName}</strong><small>${collection.name}</small>`
+      : `<strong>${collection.name}</strong>`;
     source.textContent = catalog.sources.find((item) => item.id === currentRecords[0]?.source)?.label ?? collection.category;
     buildPageIndex();
     setView(initialView);
