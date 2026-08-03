@@ -109,6 +109,9 @@ button, input { font: inherit; }
 .view-toolbar { position: sticky; z-index: 3; top: 0; display: flex; flex-wrap: wrap; align-items: center; gap: 6px; margin: 0 0 14px; padding: 9px; background: #f4f0e6ee; border: 1px solid var(--line); backdrop-filter: blur(8px); font: .78rem Arial, sans-serif; }
 .view-toolbar button { padding: 7px 10px; color: var(--green-dark); border: 1px solid #aaa28f; border-radius: 3px; background: var(--panel); cursor: pointer; }
 .view-toolbar button.active { color: white; border-color: var(--green); background: var(--green); }
+.view-toolbar .index-mode { margin-left: 5px; color: #69490d; border-color: var(--gold); background: #fbf2dc; box-shadow: inset 3px 0 0 var(--gold); }
+.view-toolbar .index-mode::before { content: "▦ "; font-weight: 700; }
+.view-toolbar .index-mode.active { color: white; border-color: #8a651d; background: #9a7229; box-shadow: inset 3px 0 0 #f1d48d; }
 .record-stage { min-height: 55vh; margin: 0; padding: 14px; display: grid; place-items: center; background: #302f2a; border-radius: 5px; }
 .record-stage[hidden] { display: none; }
 .record-stage img { display: block; max-width: 100%; max-height: 72vh; object-fit: contain; box-shadow: 0 4px 22px #0008; }
