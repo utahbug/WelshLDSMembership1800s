@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-08-03T20:05:21.519Z",
+  "generatedAt": "2026-08-03T20:40:57.319Z",
   "registry": [
     {
       "canonicalName": "Abersychan",
@@ -356,14 +356,14 @@
     {
       "canonicalName": "Ffestiniog",
       "entityType": "Branch",
-      "variants": "",
+      "variants": "Festiniog",
       "earliestYear": null,
       "latestYear": null,
       "localCd": false,
       "localNote": true,
       "familySearch": false,
       "comparisonStatus": "Research note only",
-      "filmAndCallNumbers": "Wales2Utah research note",
+      "filmAndCallNumbers": "Festiniog record-book title supplied by project owner; Wales2Utah research note",
       "relatedBranches": "",
       "relationshipNotes": "",
       "notes": "Needs human review; absence from one source is not proof the branch or record was absent.",
@@ -1370,6 +1370,17 @@
       "reference": "CD 62; general minutes",
       "sourceUrl": "",
       "localPath": "C:\\Users\\kenro\\Desktop\\HOME\\Wales\\Welsh Church Records 1847-1899\\ORIGINAL CDs (Orig Welsh 1800s Records)"
+    },
+    {
+      "rawName": "Festiniog",
+      "canonicalName": "Ffestiniog",
+      "relatedBranch": "",
+      "relationshipNote": "",
+      "source": "Historical record-book spelling",
+      "dateText": "",
+      "reference": "Festiniog record-book title supplied by project owner",
+      "sourceUrl": "",
+      "localPath": ""
     },
     {
       "rawName": "Abersycan (1887-1889)",

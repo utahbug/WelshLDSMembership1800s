@@ -122,6 +122,10 @@ for (const [name, dateText, reference] of meetingChecklist) {
   addEvidence(name, "2007 meeting transcription checklist", dateText, reference, "", originalSource?.path ?? "");
 }
 
+// The surviving book title uses the anglicized single-F spelling. Preserve it
+// as a visible historical variant of the Welsh double-F place name.
+addEvidence("Festiniog", "Historical record-book spelling", "", "Festiniog record-book title supplied by project owner");
+
 if (notesSource) {
   const branchesPath = path.join(notesSource.path, "Branches");
   for (const entry of fs.readdirSync(branchesPath, { withFileTypes: true })) {

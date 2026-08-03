@@ -90,7 +90,11 @@
     return score;
   }
 
-  const allNames = [...new Set(catalog.collections.flatMap((collection) => [collection.name, ...collection.aliases]))]
+  const allNames = [...new Set(catalog.collections.flatMap((collection) => [
+    collection.name,
+    ...collection.aliases,
+    ...collection.images.map((record) => record.name.replace(/\.[^.]+$/, "")),
+  ]))]
     .sort((left, right) => left.localeCompare(right, "en", { sensitivity: "base" }));
 
   function renderSuggestions(value) {
