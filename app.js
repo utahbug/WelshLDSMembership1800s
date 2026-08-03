@@ -6,7 +6,8 @@
   const search = $("#collectionSearch");
   const suggestions = $("#collectionSuggestions");
   const count = $("#collectionCount");
-  const categoryList = $("#categoryList");
+  const categoryFilter = $("#categoryFilter");
+  const categorySelect = $("#categorySelect");
   const welcome = $("#welcome");
   const resourcePanel = $("#resourcePanel");
   const resourceList = $("#resourceList");
@@ -194,7 +195,7 @@
     const branches = browseMode === "branches";
     branchList.hidden = !branches;
     list.hidden = branches;
-    categoryList.hidden = branches;
+    categoryFilter.hidden = branches;
     branchTab.classList.toggle("active", branches);
     collectionTab.classList.toggle("active", !branches);
     if (branches) renderBranches(); else renderCollections();
@@ -375,18 +376,11 @@
     .map(([label, value]) => `<div><dt>${label}</dt><dd>${number.format(value)}</dd></div>`).join("");
 
   const categories = ["All collections", ...new Set(catalog.collections.map((collection) => collection.category))];
-  categoryList.replaceChildren(...categories.map((category) => {
-    const button = document.createElement("button");
-    button.type = "button";
-    button.className = `category-button${category === currentCategory ? " active" : ""}`;
-    button.textContent = category;
-    button.addEventListener("click", () => {
-      currentCategory = category;
-      [...categoryList.children].forEach((item) => item.classList.toggle("active", item === button));
-      renderCollections();
-    });
-    return button;
-  }));
+  categorySelect.replaceChildren(...categories.map((category) => Object.assign(document.createElement("option"), { value: category, textContent: category })));
+  categorySelect.addEventListener("change", () => {
+    currentCategory = categorySelect.value;
+    renderCollections();
+  });
 
   const requestedSearch = new URLSearchParams(location.search).get("search");
   if (requestedSearch) search.value = requestedSearch;

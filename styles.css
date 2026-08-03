@@ -55,9 +55,10 @@ button, input { font: inherit; }
 .browse-tabs button { padding: 8px 5px; color: var(--green-dark); border: 1px solid #bdb4a1; background: #f7f1e5; cursor: pointer; font: 700 .76rem Arial, sans-serif; }
 .browse-tabs button.active { color: white; border-color: var(--green); background: var(--green); }
 .collection-count { color: var(--muted); font: .78rem Arial, sans-serif; }
-.category-list { display: grid; gap: 5px; margin: 14px 0; }
-.category-button { padding: 8px 9px; text-align: left; color: var(--green-dark); border: 1px solid #bdb4a1; border-radius: 4px; background: #f7f1e5; cursor: pointer; }
-.category-button.active { color: white; border-color: var(--green); background: var(--green); }
+.category-filter { margin: 12px 0; }
+.category-filter[hidden] { display: none; }
+.category-filter label { margin-bottom: 5px; }
+.category-filter select { width: 100%; padding: 9px 34px 9px 10px; color: var(--green-dark); border: 1px solid #aaa28f; border-radius: 4px; background: var(--panel); font: .8rem/1.25 Arial, sans-serif; }
 #collectionList, #branchList { display: grid; gap: 3px; }
 .collection-link { width: 100%; padding: 10px 11px; text-align: left; color: var(--ink); border: 0; border-left: 3px solid transparent; background: transparent; cursor: pointer; }
 .collection-link:hover, .collection-link:focus-visible { background: #fffaf0; border-left-color: var(--gold); }
