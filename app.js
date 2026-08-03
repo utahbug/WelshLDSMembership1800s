@@ -108,10 +108,12 @@
     return "Resource";
   }
 
+  const nonBranchLabels = new Set(["branches", "assets", "general transcriptions and indexes", "master branch registry"]);
   const derivedBranches = [...new Set(catalog.collections
     .filter((collection) => /membership|branch/i.test(collection.category + collection.name))
     .map((collection) => collection.name.replace(/[,([]?\s*\d{4}[\s\S]*$/i, "").replace(/^\d+\s*-\s*/, "").trim()))]
-    .filter(Boolean).sort((a, b) => a.localeCompare(b, "en", { sensitivity: "base" }));
+    .filter((name) => name && !nonBranchLabels.has(name.toLowerCase()))
+    .sort((a, b) => a.localeCompare(b, "en", { sensitivity: "base" }));
 
   function branchNames() {
     return registry.length ? registry.map((item) => item.canonicalName) : derivedBranches;
