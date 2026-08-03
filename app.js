@@ -204,8 +204,8 @@
   function openBranch(name, selectedButton) {
     [...branchList.children].forEach((button) => button.classList.toggle("active", button === selectedButton));
     welcome.hidden = true;
-    viewer.hidden = true;
     resourcePanel.hidden = false;
+    resourcePanel.classList.add("compact");
     branchTitle.textContent = name;
     const details = branchDetails(name);
     const facts = [];
@@ -216,6 +216,7 @@
     branchMeta.hidden = !facts.length;
     const matches = relatedCollections(name);
     if (!matches.length || (matches.length === 1 && matches[0].id === "public-branch-registry")) {
+      viewer.hidden = true;
       resourceList.innerHTML = `<div class="empty-resource"><strong>Branch recorded</strong><p>Record images for this branch are not yet included in the online starter. Its name and evidence remain available in the branch registry.</p><a href="branch-registry.html">Open branch registry</a></div>`;
     } else {
       resourceList.replaceChildren(...matches.map((collection) => {
@@ -223,10 +224,16 @@
         const button = document.createElement("button");
         button.type = "button";
         button.className = "resource-card";
+        button.dataset.collectionId = collection.id;
         button.innerHTML = `<span class="resource-kind">${resourceKind(collection)}</span><strong>${collection.name}</strong><small>${number.format(records.length)} item${records.length === 1 ? "" : "s"}</small>`;
-        button.addEventListener("click", () => openCollection(collection));
+        button.addEventListener("click", () => openCollection(collection, { keepResources: true, initialView: records.some((record) => record.type === "image") ? "continuous" : "index" }));
         return button;
       }));
+      const preferred = matches[0];
+      openCollection(preferred, {
+        keepResources: true,
+        initialView: visibleRecords(preferred).some((record) => record.type === "image") ? "continuous" : "index",
+      });
     }
     sidebar.classList.remove("open");
     menu.setAttribute("aria-expanded", "false");
@@ -318,18 +325,21 @@
     if (single) showImage(currentImage);
   }
 
-  function openCollection(collection) {
+  function openCollection(collection, options = {}) {
+    const { keepResources = false, initialView = "index" } = options;
     currentCollection = collection;
     currentRecords = visibleRecords(collection);
     currentImage = 0;
     pairingShifted = false;
     welcome.hidden = true;
-    resourcePanel.hidden = true;
+    resourcePanel.hidden = !keepResources;
+    if (!keepResources) resourcePanel.classList.remove("compact");
     viewer.hidden = false;
     title.textContent = collection.name;
     source.textContent = catalog.sources.find((item) => item.id === currentRecords[0]?.source)?.label ?? collection.category;
     buildPageIndex();
-    setView("index");
+    setView(initialView);
+    resourceList.querySelectorAll(".resource-card").forEach((button) => button.classList.toggle("active", button.dataset.collectionId === collection.id));
     position.textContent = `${number.format(currentRecords.length)} available item${currentRecords.length === 1 ? "" : "s"} · full resolution loads on demand`;
     renderCollections();
     sidebar.classList.remove("open");

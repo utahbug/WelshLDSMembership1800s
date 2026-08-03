@@ -82,11 +82,18 @@ button, input { font: inherit; }
 .resource-card, .empty-resource { min-height: 145px; padding: 20px; text-align: left; color: var(--ink); border: 1px solid var(--line); border-top: 4px solid var(--gold); background: var(--panel); }
 .resource-card { display: grid; align-content: start; gap: 8px; cursor: pointer; }
 .resource-card:hover, .resource-card:focus-visible { border-color: var(--green); box-shadow: 0 8px 24px #173c311c; }
+.resource-card.active { color: white; border-color: var(--green); border-top-color: var(--gold); background: var(--green); }
+.resource-card.active .resource-kind, .resource-card.active small { color: #f0dfb4; }
 .resource-card strong { font-size: 1.08rem; font-weight: 500; }
 .resource-card small { color: var(--muted); font: .76rem Arial, sans-serif; }
 .resource-kind { color: var(--green); font: 700 .7rem Arial, sans-serif; letter-spacing: .08em; text-transform: uppercase; }
 .empty-resource { grid-column: 1 / -1; }
 .empty-resource a { color: var(--green); }
+.resource-panel.compact { max-width: none; margin: 0 0 22px; padding-bottom: 16px; border-bottom: 1px solid var(--line); }
+.resource-panel.compact h2 { font-size: clamp(1.4rem, 3vw, 2rem); }
+.resource-panel.compact > p:not(.eyebrow) { margin-bottom: 8px; }
+.resource-panel.compact .resource-list { display: flex; gap: 8px; margin-top: 12px; padding-bottom: 6px; overflow-x: auto; }
+.resource-panel.compact .resource-card { flex: 0 0 min(260px, 75vw); min-height: 98px; padding: 12px 14px; }
 
 .viewer-heading { display: flex; justify-content: space-between; align-items: end; gap: 24px; margin-bottom: 20px; }
 .viewer-heading h2, .viewer-heading p { margin: 0; }
