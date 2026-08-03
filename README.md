@@ -46,6 +46,8 @@ The first public starter emphasizes the branch registry. Conference transcriptio
 
 Machine-specific catalog files and absolute archive paths are excluded from Git. The source archives remain authoritative and untouched.
 
+The public social card uses a 2019 photograph supplied by the project owner of a historic Ffestiniog family home. The photograph is cropped and captioned for sharing without altering the building or landscape.
+
 ## Build a portable flash-drive edition
 
 Use an empty folder on an exFAT-formatted flash drive; 64 GB is recommended. The builder is resumable, copies only cataloged unique files, and never changes the source archives.
