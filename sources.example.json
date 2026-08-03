@@ -1,0 +1,48 @@
+{
+  "sources": [
+    {
+      "id": "primary",
+      "label": "Primary membership archive",
+      "path": "C:\\path\\to\\Wales LDS Membership Records\\LDS Branches and Minutes (from CDs)",
+      "priority": 1,
+      "category": "LDS membership and branch records"
+    },
+    {
+      "id": "original-cds",
+      "label": "Original CD archive",
+      "path": "C:\\path\\to\\Welsh Church Records 1847-1899\\ORIGINAL CDs (Orig Welsh 1800s Records)",
+      "priority": 2,
+      "category": "LDS membership and branch records"
+    },
+    {
+      "id": "robohelp",
+      "label": "Recovered RoboHelp output",
+      "path": "C:\\path\\to\\Welsh Church Records 1847-1899\\RH-OUTPUT\\Images",
+      "priority": 3,
+      "category": "LDS membership and branch records"
+    },
+    {
+      "id": "conference-minutes",
+      "label": "Welsh conference-minute transcriptions",
+      "path": "C:\\path\\to\\Conference Minutes\\TRANSCRIPTIONS",
+      "priority": 1,
+      "category": "LDS conference and district minutes",
+      "includeRootFiles": true
+    },
+    {
+      "id": "merthyr-bishop",
+      "label": "Merthyr Bishop Records (non-LDS)",
+      "path": "C:\\path\\to\\Merthr Bishop Records",
+      "priority": 1,
+      "category": "Merthyr Bishop Records (non-LDS)",
+      "includeRootFiles": true
+    },
+    {
+      "id": "robohelp-research-notes",
+      "label": "Recovered Wales2Utah research notes",
+      "path": "C:\\path\\to\\Wales2Utah_RawBranches\\LDS",
+      "priority": 1,
+      "category": "Research notes and unfinished indexes"
+    }
+  ]
+}
