@@ -93,7 +93,9 @@
     const hasImages = collection.images.some((record) => record.type === "image");
     return collection.images.filter((record) => {
       if (record.type === "image" && /(?:\d|_)t(?:a)?\.[^.]+$/i.test(record.name)) return false;
-      if (hasImages && [".htm", ".html"].includes(record.extension?.toLowerCase()) && record.source === "robohelp") return false;
+      const legacyHtml = [".htm", ".html"].includes(record.extension?.toLowerCase())
+        && (hasImages || ["robohelp", "primary", "original-cds"].includes(record.source));
+      if (legacyHtml) return false;
       return true;
     });
   }
@@ -133,8 +135,13 @@
 
   function relatedCollections(name) {
     return catalog.collections.map((collection) => ({ collection, score: collectionScore(collection, name) }))
-      .filter(({ score }) => Number.isFinite(score))
-      .sort((a, b) => a.score - b.score || a.collection.name.localeCompare(b.collection.name))
+      .filter(({ collection, score }) => Number.isFinite(score)
+        && visibleRecords(collection).length
+        && !nonBranchLabels.has(collection.name.toLowerCase()))
+      .sort((a, b) => {
+        const kindDifference = (resourceKind(a.collection) === "Record images" ? 0 : 1) - (resourceKind(b.collection) === "Record images" ? 0 : 1);
+        return kindDifference || a.score - b.score || a.collection.name.localeCompare(b.collection.name);
+      })
       .map(({ collection }) => collection);
   }
 
@@ -165,7 +172,9 @@
   function renderCollections() {
     const query = search.value.trim();
     const matches = catalog.collections.map((collection) => ({ collection, score: collectionScore(collection, query) }))
-      .filter(({ collection, score }) => (currentCategory === "All collections" || collection.category === currentCategory) && (!query || Number.isFinite(score)))
+      .filter(({ collection, score }) => visibleRecords(collection).length
+        && (currentCategory === "All collections" || collection.category === currentCategory)
+        && (!query || Number.isFinite(score)))
       .sort((a, b) => a.score - b.score || a.collection.name.localeCompare(b.collection.name));
     count.textContent = `${matches.length} of ${catalog.collections.length} collections`;
     list.replaceChildren(...matches.map(({ collection }) => {
