@@ -32,6 +32,7 @@
   const sidebar = $("#sidebar");
   const menu = $("#menuButton");
   const sidebarToggle = $("#sidebarToggle");
+  const sidebarResizer = $("#sidebarResizer");
   const branchTab = $("#browseBranches");
   const collectionTab = $("#browseCollections");
   const shiftPairing = $("#shiftPairing");
@@ -49,6 +50,7 @@
   let pairingShifted = false;
   let currentBranchName = "";
   let lazyObserver = null;
+  let resizingSidebar = false;
 
   if (!catalog) {
     welcome.innerHTML = "<h2>Catalog not generated</h2><p>Run the catalog builder before opening this viewer.</p>";
@@ -409,6 +411,39 @@
     sidebarToggle.setAttribute("aria-expanded", String(!collapsed));
     try { localStorage.setItem("welsh-sidebar-collapsed", String(collapsed)); } catch {}
   });
+  function setSidebarWidth(width) {
+    const bounded = Math.max(72, Math.min(width, window.innerWidth * 0.55));
+    sidebar.style.width = `${bounded}px`;
+    sidebarResizer.setAttribute("aria-valuenow", String(Math.round(bounded)));
+    return bounded;
+  }
+  sidebarResizer.addEventListener("pointerdown", (event) => {
+    resizingSidebar = true;
+    sidebarResizer.setPointerCapture?.(event.pointerId);
+    document.body.classList.add("resizing-sidebar");
+    event.preventDefault();
+  });
+  window.addEventListener("pointermove", (event) => {
+    if (!resizingSidebar) return;
+    const workspaceLeft = $(".workspace").getBoundingClientRect().left;
+    setSidebarWidth(event.clientX - workspaceLeft);
+  });
+  window.addEventListener("pointerup", () => {
+    if (!resizingSidebar) return;
+    resizingSidebar = false;
+    document.body.classList.remove("resizing-sidebar");
+    try { localStorage.setItem("welsh-sidebar-width", sidebar.style.width); } catch {}
+  });
+  sidebarResizer.addEventListener("dblclick", () => {
+    setSidebarWidth(320);
+    try { localStorage.setItem("welsh-sidebar-width", "320px"); } catch {}
+  });
+  sidebarResizer.addEventListener("keydown", (event) => {
+    const current = sidebar.getBoundingClientRect().width;
+    if (!["ArrowLeft", "ArrowRight", "Home"].includes(event.key)) return;
+    setSidebarWidth(event.key === "Home" ? 320 : current + (event.key === "ArrowLeft" ? -20 : 20));
+    event.preventDefault();
+  });
   document.addEventListener("keydown", (event) => {
     if (!currentCollection || viewMode !== "single" || event.target.matches("input")) return;
     if (event.key === "ArrowLeft") showImage(currentImage - 1);
@@ -424,6 +459,8 @@
     document.body.classList.toggle("sidebar-collapsed", collapsed);
     sidebarToggle.textContent = collapsed ? "Show branches" : "Hide branches";
     sidebarToggle.setAttribute("aria-expanded", String(!collapsed));
+    const savedWidth = Number.parseFloat(localStorage.getItem("welsh-sidebar-width"));
+    if (Number.isFinite(savedWidth)) setSidebarWidth(savedWidth);
   } catch {}
   renderBrowse();
 })();

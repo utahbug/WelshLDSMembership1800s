@@ -49,8 +49,14 @@ button, input { font: inherit; }
 .site-menu a:hover, .site-menu a:focus-visible { background: #eee6d5; }
 
 .workspace { display: flex; min-height: calc(100vh - 129px); }
-.sidebar { flex: 0 0 auto; width: 320px; min-width: 250px; max-width: 52vw; padding: 24px 18px; overflow: auto; resize: horizontal; border-right: 1px solid var(--line); background: #ebe5d7; }
+.sidebar { flex: 0 0 auto; width: 320px; min-width: 72px; max-width: 55vw; padding: 24px 18px; overflow: auto; border-right: 0; background: #ebe5d7; }
 .sidebar-collapsed .sidebar { display: none; }
+.sidebar-resizer { position: relative; z-index: 4; flex: 0 0 11px; display: grid; place-items: center; cursor: col-resize; background: #d8d0bf; border-inline: 1px solid #c2b8a4; touch-action: none; }
+.sidebar-resizer span { width: 3px; height: 54px; border-radius: 3px; background: var(--green); opacity: .65; }
+.sidebar-resizer:hover, .sidebar-resizer:focus-visible { background: #e7dcc3; outline: 2px solid var(--gold); outline-offset: -2px; }
+.sidebar-resizer:hover span, .sidebar-resizer:focus-visible span, .resizing-sidebar .sidebar-resizer span { opacity: 1; }
+.sidebar-collapsed .sidebar-resizer { display: none; }
+.resizing-sidebar { cursor: col-resize; user-select: none; }
 .sidebar label { display: block; margin-bottom: 8px; font: 700 .82rem Arial, sans-serif; color: var(--green-dark); }
 .sidebar input { width: 100%; padding: 11px 12px; border: 1px solid #aaa28f; border-radius: 5px; background: var(--panel); }
 .search-help { margin: 7px 2px 10px; color: var(--muted); font: .72rem/1.35 Arial, sans-serif; }
@@ -155,7 +161,8 @@ button, input { font: inherit; }
   .sidebar-toggle { display: none; }
   .date-line { display: none; }
   .workspace { display: block; min-height: calc(100vh - 109px); }
-  .sidebar, .sidebar-collapsed .sidebar { position: fixed; z-index: 5; inset: 109px auto 0 0; display: block; width: min(88vw, 330px); min-width: 0; max-width: none; resize: none; transform: translateX(-105%); transition: transform .2s ease; box-shadow: 12px 0 30px #0003; }
+  .sidebar, .sidebar-collapsed .sidebar { position: fixed; z-index: 5; inset: 109px auto 0 0; display: block; width: min(88vw, 330px) !important; min-width: 0; max-width: none; transform: translateX(-105%); transition: transform .2s ease; box-shadow: 12px 0 30px #0003; }
+  .sidebar-resizer { display: none; }
   .sidebar.open { transform: translateX(0); }
   .viewer { padding: 20px 14px; }
   .viewer-heading { align-items: start; flex-direction: column; }
