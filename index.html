@@ -22,23 +22,30 @@
       <h1>LDS Welsh Membership Records</h1>
       <p class="date-line">Nineteenth-century branches, conferences, and minutes</p>
     </div>
+    <details class="site-menu">
+      <summary>Project menu</summary>
+      <nav aria-label="Project pages">
+        <a href="branch-registry.html">Branch registry</a>
+        <a href="work-remaining.html">Transcription &amp; translation</a>
+        <a href="BRANCH_REGISTRY.csv">Download branch CSV</a>
+        <a href="outputs/branch-registry/Welsh-LDS-Branch-Registry.xlsx">Download Excel workbook</a>
+      </nav>
+    </details>
   </header>
 
   <main class="workspace">
     <aside class="sidebar" id="sidebar">
-      <label for="collectionSearch">Find a collection</label>
+      <label for="collectionSearch">Find a branch or collection</label>
       <input id="collectionSearch" type="search" placeholder="Cardiff, Ffestiniog, Llansawel…" autocomplete="off" list="collectionSuggestions" aria-describedby="searchHelp">
       <datalist id="collectionSuggestions"></datalist>
       <p class="search-help" id="searchHelp">Approximate spelling is welcome. Try either Welsh or anglicized forms.</p>
-      <div class="research-links" aria-label="Branch research files">
-        <strong>Research guides</strong>
-        <a href="branch-registry.html">Browse branch registry</a>
-        <a href="BRANCH_REGISTRY.csv">Open CSV</a>
-        <a href="outputs/branch-registry/Welsh-LDS-Branch-Registry.xlsx">Open Excel workbook</a>
-        <a href="work-remaining.html">Work remaining: transcription &amp; translation</a>
+      <div class="browse-tabs" role="group" aria-label="Browse list">
+        <button type="button" id="browseBranches" class="active">All branches</button>
+        <button type="button" id="browseCollections">All collections</button>
       </div>
       <p class="collection-count" id="collectionCount"></p>
       <div class="category-list" id="categoryList" aria-label="Collection categories"></div>
+      <nav id="branchList" aria-label="Welsh branches"></nav>
       <nav id="collectionList" aria-label="Record collections"></nav>
     </aside>
 
@@ -49,6 +56,13 @@
         <p>The original record images remain safely in their archive folders. Choose a collection from the list to begin. Related records extending into the early 1900s are retained for archival completeness.</p>
         <dl class="archive-stats" id="archiveStats"></dl>
       </div>
+
+      <section class="resource-panel" id="resourcePanel" hidden>
+        <p class="eyebrow">Available resources</p>
+        <h2 id="branchTitle"></h2>
+        <p>Choose a ledger, minutes collection, transcription, or related resource.</p>
+        <div class="resource-list" id="resourceList"></div>
+      </section>
 
       <div class="record-viewer" id="recordViewer" hidden>
         <div class="viewer-heading">
@@ -62,6 +76,14 @@
             <button type="button" id="nextImage">Next →</button>
           </div>
         </div>
+        <div class="view-toolbar" aria-label="Record viewing mode">
+          <strong>View:</strong>
+          <button type="button" data-view="index" class="active">Page index</button>
+          <button type="button" data-view="continuous">Continuous</button>
+          <button type="button" data-view="facing">Facing pages</button>
+          <button type="button" data-view="single">Single page</button>
+          <button type="button" id="shiftPairing" hidden>Shift pairing</button>
+        </div>
         <figure class="record-stage">
           <img id="recordImage" alt="">
           <div class="document-preview" id="documentPreview" hidden>
@@ -72,6 +94,7 @@
           </div>
           <figcaption id="recordCaption"></figcaption>
         </figure>
+        <div class="continuous-view" id="continuousView" hidden></div>
         <div class="thumbnail-strip" id="thumbnailStrip" aria-label="Pages in this collection"></div>
       </div>
     </section>

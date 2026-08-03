@@ -34,7 +34,9 @@ function walk(directory) {
 
 function isThumbnail(filePath) {
   const base = path.basename(filePath, path.extname(filePath));
-  return /t$/i.test(base) || /_(?:color2?|focus)$/i.test(base);
+  // Original CD interfaces stored tiny navigation copies beside the scans.
+  // Common suffixes are "t" and "ta"; neither belongs in the reading order.
+  return /(?:\d|_)t(?:a)?$/i.test(base) || /_(?:color2?|focus)$/i.test(base);
 }
 
 function cleanCollectionName(name) {
