@@ -1,0 +1,74 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="A local archive viewer for nineteenth-century Welsh Latter-day Saint membership records.">
+  <title>LDS Welsh Membership Records, 1800s</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <header class="masthead">
+    <button class="menu-button" id="menuButton" type="button" aria-label="Show record collections" aria-controls="sidebar" aria-expanded="false">☰</button>
+    <div>
+      <p class="eyebrow">Historical archive</p>
+      <h1>LDS Welsh Membership Records</h1>
+      <p class="date-line">Nineteenth-century branches, conferences, and minutes</p>
+    </div>
+  </header>
+
+  <main class="workspace">
+    <aside class="sidebar" id="sidebar">
+      <label for="collectionSearch">Find a collection</label>
+      <input id="collectionSearch" type="search" placeholder="Cardiff, Llansawel…" autocomplete="off">
+      <div class="research-links" aria-label="Branch research files">
+        <strong>Branch registry</strong>
+        <a href="BRANCH_REGISTRY.csv">Open CSV</a>
+        <a href="outputs/branch-registry/Welsh-LDS-Branch-Registry.xlsx">Open Excel workbook</a>
+      </div>
+      <p class="collection-count" id="collectionCount"></p>
+      <div class="category-list" id="categoryList" aria-label="Collection categories"></div>
+      <nav id="collectionList" aria-label="Record collections"></nav>
+    </aside>
+
+    <section class="viewer" aria-live="polite">
+      <div class="welcome" id="welcome">
+        <p class="eyebrow">Recovered collection</p>
+        <h2>Select a branch or record collection</h2>
+        <p>The original record images remain safely in their archive folders. Choose a collection from the list to begin. Related records extending into the early 1900s are retained for archival completeness.</p>
+        <dl class="archive-stats" id="archiveStats"></dl>
+      </div>
+
+      <div class="record-viewer" id="recordViewer" hidden>
+        <div class="viewer-heading">
+          <div>
+            <p class="eyebrow" id="recordSource"></p>
+            <h2 id="collectionTitle"></h2>
+            <p id="imagePosition"></p>
+          </div>
+          <div class="viewer-actions">
+            <button type="button" id="previousImage">← Previous</button>
+            <button type="button" id="nextImage">Next →</button>
+          </div>
+        </div>
+        <figure class="record-stage">
+          <img id="recordImage" alt="">
+          <div class="document-preview" id="documentPreview" hidden>
+            <p class="document-type" id="documentType"></p>
+            <h3 id="documentName"></h3>
+            <iframe id="documentFrame" title="Document preview" hidden></iframe>
+            <a id="documentLink" href="">Open document</a>
+          </div>
+          <figcaption id="recordCaption"></figcaption>
+        </figure>
+        <div class="thumbnail-strip" id="thumbnailStrip" aria-label="Pages in this collection"></div>
+      </div>
+    </section>
+  </main>
+
+  <noscript>This viewer requires JavaScript to navigate the local image catalog.</noscript>
+  <script src="data/catalog.public.js"></script>
+  <script src="data/catalog.local.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>
