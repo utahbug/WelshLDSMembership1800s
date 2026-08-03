@@ -31,6 +31,7 @@ The first public starter emphasizes the branch registry. Conference transcriptio
 ## Project handoff and recovery
 
 - [`TRANSCRIPTION_INVENTORY.md`](TRANSCRIPTION_INVENTORY.md) records the readability of every surviving conference-minute transcription file.
+- [`TRANSCRIPTION_STATUS_NOTES.md`](TRANSCRIPTION_STATUS_NOTES.md) records the handwritten and typed 2007 page-level completion evidence found at the front of the combined PDFs.
 - [`RECOVERY_PLACEHOLDERS.md`](RECOVERY_PLACEHOLDERS.md) preserves the 2007 project's known incomplete work and missing-folder clues by CD and call number.
 - [`RIGHTS_AND_PROVENANCE.md`](RIGHTS_AND_PROVENANCE.md) records reported permission, attribution, and source-handling guidance.
 - `node scripts/audit-transcriptions.mjs` regenerates the transcription integrity inventory without changing the originals.

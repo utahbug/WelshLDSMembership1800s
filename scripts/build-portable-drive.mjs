@@ -70,6 +70,7 @@ const portableFiles = [
   ["styles.css", "styles.css"],
   ["README.md", "PROJECT_README.md"],
   ["TRANSCRIPTION_INVENTORY.md", "TRANSCRIPTION_INVENTORY.md"],
+  ["TRANSCRIPTION_STATUS_NOTES.md", "TRANSCRIPTION_STATUS_NOTES.md"],
   ["RECOVERY_PLACEHOLDERS.md", "RECOVERY_PLACEHOLDERS.md"],
   ["RIGHTS_AND_PROVENANCE.md", "RIGHTS_AND_PROVENANCE.md"],
   ["BRANCH_REGISTRY.csv", "BRANCH_REGISTRY.csv"],
@@ -97,6 +98,7 @@ No original source archive was deleted or modified when this edition was built.
 Important project documents:
 - PROJECT_README.md
 - TRANSCRIPTION_INVENTORY.md
+- TRANSCRIPTION_STATUS_NOTES.md
 - RECOVERY_PLACEHOLDERS.md
 - RIGHTS_AND_PROVENANCE.md
 - BRANCH_REGISTRY.csv
