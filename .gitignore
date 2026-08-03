@@ -8,3 +8,4 @@ node_modules/
 outputs/branch-registry/*.png
 outputs/branch-registry/*.inspect.ndjson
 tmp/
+_github_upload/
