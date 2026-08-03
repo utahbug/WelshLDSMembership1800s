@@ -97,6 +97,9 @@ button, input { font: inherit; }
 .resource-panel.compact .resource-card { flex: 0 0 min(260px, 75vw); min-height: 98px; padding: 12px 14px; }
 
 .viewer-heading { display: flex; justify-content: space-between; align-items: end; gap: 24px; margin-bottom: 20px; }
+.back-to-resources { margin: 0 0 14px; padding: 8px 11px; color: var(--green-dark); border: 1px solid #aaa28f; border-radius: 4px; background: var(--panel); cursor: pointer; font: 700 .78rem Arial, sans-serif; }
+.back-to-resources:hover, .back-to-resources:focus-visible { color: white; border-color: var(--green); background: var(--green); }
+.back-to-resources[hidden] { display: none; }
 .viewer-heading h2, .viewer-heading p { margin: 0; }
 .viewer-heading h2 { font-size: clamp(1.45rem, 3vw, 2.3rem); font-weight: 500; }
 #imagePosition { margin-top: 6px; color: var(--muted); }

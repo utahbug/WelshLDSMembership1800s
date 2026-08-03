@@ -34,6 +34,7 @@
   const branchTab = $("#browseBranches");
   const collectionTab = $("#browseCollections");
   const shiftPairing = $("#shiftPairing");
+  const backToResources = $("#backToResources");
   const number = new Intl.NumberFormat("en-US");
 
   let registry = [];
@@ -44,6 +45,7 @@
   let browseMode = "branches";
   let viewMode = "index";
   let pairingShifted = false;
+  let currentBranchName = "";
   let lazyObserver = null;
 
   if (!catalog) {
@@ -203,6 +205,7 @@
   }
 
   function openBranch(name, selectedButton) {
+    currentBranchName = name;
     [...branchList.children].forEach((button) => button.classList.toggle("active", button === selectedButton));
     welcome.hidden = true;
     resourcePanel.hidden = false;
@@ -335,6 +338,8 @@
     welcome.hidden = true;
     resourcePanel.hidden = !keepResources;
     if (!keepResources) resourcePanel.classList.remove("compact");
+    backToResources.hidden = !keepResources;
+    backToResources.textContent = keepResources ? `← Back to ${currentBranchName} resources` : "← Back to branch resources";
     viewer.hidden = false;
     title.textContent = collection.name;
     source.textContent = catalog.sources.find((item) => item.id === currentRecords[0]?.source)?.label ?? collection.category;
@@ -389,6 +394,7 @@
   collectionTab.addEventListener("click", () => { browseMode = "collections"; renderBrowse(); });
   $(".view-toolbar").addEventListener("click", (event) => { if (event.target.dataset.view) setView(event.target.dataset.view); });
   shiftPairing.addEventListener("click", () => { pairingShifted = !pairingShifted; shiftPairing.classList.toggle("active", pairingShifted); renderScrollable(); });
+  backToResources.addEventListener("click", () => resourcePanel.scrollIntoView({ behavior: "smooth", block: "start" }));
   previous.addEventListener("click", () => showImage(currentImage - 1));
   next.addEventListener("click", () => showImage(currentImage + 1));
   menu.addEventListener("click", () => {
