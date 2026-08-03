@@ -3,6 +3,7 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
   <meta name="description" content="A local archive viewer for nineteenth-century Welsh Latter-day Saint membership records.">
   <meta property="og:title" content="Welsh LDS Membership Records">
   <meta property="og:description" content="A growing public archive of nineteenth-century Welsh LDS branches, membership records, and conference minutes.">
@@ -26,7 +27,9 @@
   <main class="workspace">
     <aside class="sidebar" id="sidebar">
       <label for="collectionSearch">Find a collection</label>
-      <input id="collectionSearch" type="search" placeholder="Cardiff, Llansawel…" autocomplete="off">
+      <input id="collectionSearch" type="search" placeholder="Cardiff, Ffestiniog, Llansawel…" autocomplete="off" list="collectionSuggestions" aria-describedby="searchHelp">
+      <datalist id="collectionSuggestions"></datalist>
+      <p class="search-help" id="searchHelp">Approximate spelling is welcome. Try either Welsh or anglicized forms.</p>
       <div class="research-links" aria-label="Branch research files">
         <strong>Research guides</strong>
         <a href="branch-registry.html">Browse branch registry</a>

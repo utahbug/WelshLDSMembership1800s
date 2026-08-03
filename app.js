@@ -2,6 +2,7 @@
   const catalog = window.WELSH_RECORD_CATALOG;
   const list = document.querySelector("#collectionList");
   const search = document.querySelector("#collectionSearch");
+  const suggestions = document.querySelector("#collectionSuggestions");
   const count = document.querySelector("#collectionCount");
   const categoryList = document.querySelector("#categoryList");
   const welcome = document.querySelector("#welcome");
@@ -38,6 +39,73 @@
   }
 
   const number = new Intl.NumberFormat("en-US");
+
+  function normalized(value) {
+    return value
+      .normalize("NFD").replace(/[\u0300-\u036f]/g, "")
+      .toLowerCase()
+      .replace(/\bff/g, "f")
+      .replace(/[^a-z0-9]/g, "");
+  }
+
+  function editDistance(left, right) {
+    if (!left) return right.length;
+    if (!right) return left.length;
+    const previous = Array.from({ length: right.length + 1 }, (_, index) => index);
+    for (let i = 1; i <= left.length; i += 1) {
+      const current = [i];
+      for (let j = 1; j <= right.length; j += 1) {
+        current[j] = Math.min(
+          current[j - 1] + 1,
+          previous[j] + 1,
+          previous[j - 1] + (left[i - 1] === right[j - 1] ? 0 : 1),
+        );
+      }
+      previous.splice(0, previous.length, ...current);
+    }
+    return previous[right.length];
+  }
+
+  function nameScore(query, candidate) {
+    const q = normalized(query);
+    const names = [candidate, ...String(candidate).split(/[^\p{L}\p{N}]+/u)].map(normalized).filter(Boolean);
+    if (!q) return 0;
+    if (names.some((name) => name.startsWith(q))) return 0;
+    if (names.some((name) => name.includes(q))) return 1;
+    const distance = Math.min(...names.map((name) => editDistance(q, name)));
+    const allowance = q.length >= 8 ? 2 : q.length >= 5 ? 1 : 0;
+    return distance <= allowance ? 2 + distance : Infinity;
+  }
+
+  function collectionScore(collection, query) {
+    const score = Math.min(...[
+      collection.name,
+      ...collection.aliases,
+      ...collection.images.map((record) => record.name),
+    ].map((name) => nameScore(query, name)));
+
+    // The GitHub starter intentionally carries only the finding aid, not every
+    // record image. Keep that aid discoverable for branch-name searches.
+    if (!Number.isFinite(score) && collection.id === "public-branch-registry") return 100;
+    return score;
+  }
+
+  const allNames = [...new Set(catalog.collections.flatMap((collection) => [collection.name, ...collection.aliases]))]
+    .sort((left, right) => left.localeCompare(right, "en", { sensitivity: "base" }));
+
+  function renderSuggestions(value) {
+    if (!suggestions) return;
+    const ranked = allNames
+      .map((name) => ({ name, score: nameScore(value, name) }))
+      .filter((item) => Number.isFinite(item.score))
+      .sort((left, right) => left.score - right.score || left.name.localeCompare(right.name))
+      .slice(0, 12);
+    suggestions.replaceChildren(...ranked.map(({ name }) => {
+      const option = document.createElement("option");
+      option.value = name;
+      return option;
+    }));
+  }
   document.querySelector("#archiveStats").innerHTML = [
     ["Collections", catalog.stats.collections],
     ["Unique images", catalog.stats.uniqueImages],
@@ -45,11 +113,11 @@
   ].map(([label, value]) => `<div><dt>${label}</dt><dd>${number.format(value)}</dd></div>`).join("");
 
   function renderCollections(filter = "") {
-    const query = filter.trim().toLowerCase();
-    const matches = catalog.collections.filter((collection) =>
+    const query = filter.trim();
+    const matches = catalog.collections.map((collection) => ({ collection, score: collectionScore(collection, query) })).filter(({ collection, score }) =>
       (currentCategory === "All collections" || collection.category === currentCategory)
-      && [collection.name, ...collection.aliases].some((name) => name.toLowerCase().includes(query)),
-    );
+      && (!query || Number.isFinite(score)),
+    ).sort((left, right) => left.score - right.score || left.collection.name.localeCompare(right.collection.name)).map(({ collection }) => collection);
     count.textContent = `${matches.length} of ${catalog.collections.length} collections`;
     list.replaceChildren(...matches.map((collection) => {
       const button = document.createElement("button");
@@ -123,7 +191,10 @@
     strip.children[currentImage]?.scrollIntoView({ behavior: "smooth", block: "nearest", inline: "center" });
   }
 
-  search.addEventListener("input", () => renderCollections(search.value));
+  search.addEventListener("input", () => {
+    renderSuggestions(search.value);
+    renderCollections(search.value);
+  });
   previous.addEventListener("click", () => showImage(currentImage - 1));
   next.addEventListener("click", () => showImage(currentImage + 1));
   menu.addEventListener("click", () => {
@@ -150,4 +221,5 @@
     return button;
   }));
   renderCollections(search.value);
+  renderSuggestions(search.value);
 })();

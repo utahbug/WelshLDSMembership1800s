@@ -44,6 +44,7 @@ button, input { font: inherit; }
 .sidebar { padding: 24px 18px; overflow-y: auto; border-right: 1px solid var(--line); background: #ebe5d7; }
 .sidebar label { display: block; margin-bottom: 8px; font: 700 .82rem Arial, sans-serif; color: var(--green-dark); }
 .sidebar input { width: 100%; padding: 11px 12px; border: 1px solid #aaa28f; border-radius: 5px; background: var(--panel); }
+.search-help { margin: 7px 2px 10px; color: var(--muted); font: .72rem/1.35 Arial, sans-serif; }
 .collection-count { color: var(--muted); font: .78rem Arial, sans-serif; }
 .category-list { display: grid; gap: 5px; margin: 14px 0; }
 .category-button { padding: 8px 9px; text-align: left; color: var(--green-dark); border: 1px solid #bdb4a1; border-radius: 4px; background: #f7f1e5; cursor: pointer; }

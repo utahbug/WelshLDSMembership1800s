@@ -3,6 +3,7 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
   <title>Welsh LDS Historical Branch Registry</title>
   <style>
     body { margin: 0; color: #25241f; background: #faf8f2; font: 16px/1.45 system-ui, sans-serif; }
@@ -29,7 +30,9 @@
   </header>
   <main>
     <div class="tools">
-      <input id="search" type="search" placeholder="Search a branch, spelling, date, or related branch">
+      <input id="search" type="search" placeholder="Search a branch, approximate spelling, date, or related branch" list="branchSuggestions" aria-describedby="searchHelp">
+      <datalist id="branchSuggestions"></datalist>
+      <small id="searchHelp">Small spelling differences and F/Ff variants are accepted.</small>
       <span id="count"></span>
       <a href="BRANCH_REGISTRY.csv">Download CSV</a>
       <a href="outputs/branch-registry/Welsh-LDS-Branch-Registry.xlsx">Download Excel workbook</a>
@@ -46,13 +49,43 @@
     const rows = document.querySelector("#rows");
     const search = document.querySelector("#search");
     const count = document.querySelector("#count");
+    const suggestions = document.querySelector("#branchSuggestions");
     let registry = [];
     const safe = (value) => String(value ?? "").replace(/[&<>"']/g, (char) => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"})[char]);
+    const normalized = (value) => String(value ?? "").normalize("NFD").replace(/[\u0300-\u036f]/g, "").toLowerCase().replace(/\bff/g, "f").replace(/[^a-z0-9]/g, "");
+    function editDistance(left, right) {
+      if (!left) return right.length;
+      const previous = Array.from({ length: right.length + 1 }, (_, index) => index);
+      for (let i = 1; i <= left.length; i += 1) {
+        const current = [i];
+        for (let j = 1; j <= right.length; j += 1) {
+          current[j] = Math.min(current[j - 1] + 1, previous[j] + 1, previous[j - 1] + (left[i - 1] === right[j - 1] ? 0 : 1));
+        }
+        previous.splice(0, previous.length, ...current);
+      }
+      return previous[right.length];
+    }
+    function score(query, candidate) {
+      const q = normalized(query); const name = normalized(candidate);
+      if (!q) return 0;
+      if (name.startsWith(q)) return 0;
+      if (name.includes(q)) return 1;
+      const allowance = q.length >= 8 ? 2 : q.length >= 5 ? 1 : 0;
+      const distance = editDistance(q, name);
+      return distance <= allowance ? 2 + distance : Infinity;
+    }
+    function itemScore(item, query) {
+      const names = [item.canonicalName, ...(item.variants || "").split(";"), ...(item.relatedBranches || "").split(";")];
+      const nameMatch = Math.min(...names.map((name) => score(query, name)));
+      return Number.isFinite(nameMatch) ? nameMatch : (Object.values(item).join(" ").toLowerCase().includes(query.toLowerCase()) ? 4 : Infinity);
+    }
     function render() {
-      const query = search.value.trim().toLowerCase();
-      const matches = registry.filter((item) => Object.values(item).join(" ").toLowerCase().includes(query));
+      const query = search.value.trim();
+      const matches = registry.map((item) => ({ item, score: itemScore(item, query) })).filter(({ score }) => !query || Number.isFinite(score)).sort((a, b) => a.score - b.score || a.item.canonicalName.localeCompare(b.item.canonicalName)).map(({ item }) => item);
       count.textContent = `${matches.length} of ${registry.length} entries`;
       rows.innerHTML = matches.map((item) => `<tr><td><strong>${safe(item.canonicalName)}</strong><br><small>${safe(item.entityType)}</small></td><td>${safe(item.variants)}</td><td>${safe(item.earliestYear)}${item.latestYear && item.latestYear !== item.earliestYear ? `–${safe(item.latestYear)}` : ""}</td><td class="status">${safe(item.comparisonStatus)}</td><td>${safe(item.relatedBranches)}</td><td class="relationship">${safe(item.relationshipNotes)}</td><td>${safe(item.filmAndCallNumbers)}</td></tr>`).join("");
+      const likelyNames = registry.map((item) => item.canonicalName).filter((name) => Number.isFinite(score(query, name))).slice(0, 12);
+      suggestions.replaceChildren(...likelyNames.map((name) => { const option = document.createElement("option"); option.value = name; return option; }));
     }
     fetch("data/branch-registry.json").then((response) => response.json()).then((data) => { registry = data.registry; render(); });
     search.addEventListener("input", render);
