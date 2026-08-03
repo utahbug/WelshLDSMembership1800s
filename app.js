@@ -31,6 +31,7 @@
   const next = $("#nextImage");
   const sidebar = $("#sidebar");
   const menu = $("#menuButton");
+  const sidebarToggle = $("#sidebarToggle");
   const branchTab = $("#browseBranches");
   const collectionTab = $("#browseCollections");
   const shiftPairing = $("#shiftPairing");
@@ -405,6 +406,12 @@
     const open = sidebar.classList.toggle("open");
     menu.setAttribute("aria-expanded", String(open));
   });
+  sidebarToggle.addEventListener("click", () => {
+    const collapsed = document.body.classList.toggle("sidebar-collapsed");
+    sidebarToggle.textContent = collapsed ? "Show branches" : "Hide branches";
+    sidebarToggle.setAttribute("aria-expanded", String(!collapsed));
+    try { localStorage.setItem("welsh-sidebar-collapsed", String(collapsed)); } catch {}
+  });
   document.addEventListener("keydown", (event) => {
     if (!currentCollection || viewMode !== "single" || event.target.matches("input")) return;
     if (event.key === "ArrowLeft") showImage(currentImage - 1);
@@ -415,5 +422,11 @@
     registry = data.registry || [];
     renderBrowse();
   }).catch(() => renderBrowse());
+  try {
+    const collapsed = localStorage.getItem("welsh-sidebar-collapsed") === "true";
+    document.body.classList.toggle("sidebar-collapsed", collapsed);
+    sidebarToggle.textContent = collapsed ? "Show branches" : "Hide branches";
+    sidebarToggle.setAttribute("aria-expanded", String(!collapsed));
+  } catch {}
   renderBrowse();
 })();
