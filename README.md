@@ -30,6 +30,7 @@ The first public starter emphasizes the branch registry. Conference transcriptio
 
 ## Project handoff and recovery
 
+- [`work-remaining.html`](work-remaining.html) is the human-readable web guide to material identified as needing transcription, translation, or source-page recovery. On the full local edition, its source links filter the archive viewer to the likely collection; on the public starter, unavailable source files are clearly identified as not yet online.
 - [`TRANSCRIPTION_INVENTORY.md`](TRANSCRIPTION_INVENTORY.md) records the readability of every surviving conference-minute transcription file.
 - [`TRANSCRIPTION_STATUS_NOTES.md`](TRANSCRIPTION_STATUS_NOTES.md) records the handwritten and typed 2007 page-level completion evidence found at the front of the combined PDFs.
 - [`RECOVERY_PLACEHOLDERS.md`](RECOVERY_PLACEHOLDERS.md) preserves the 2007 project's known incomplete work and missing-folder clues by CD and call number.

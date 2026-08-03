@@ -25,6 +25,9 @@
   let currentImage = 0;
   let currentCategory = "All collections";
 
+  const requestedSearch = new URLSearchParams(location.search).get("search");
+  if (requestedSearch) search.value = requestedSearch;
+
   function recordUrl(record) {
     return location.protocol === "http:" || location.protocol === "https:" ? record.serveUrl : record.url;
   }
@@ -146,5 +149,5 @@
     });
     return button;
   }));
-  renderCollections();
+  renderCollections(search.value);
 })();

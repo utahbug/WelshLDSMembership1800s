@@ -69,6 +69,8 @@ const aliases = new Map(Object.entries({
   "merthr tydfil": "Merthyr Tydfil", "merthry tydfil": "Merthyr Tydfil", "merthyr tydfil": "Merthyr Tydfil", "merthyr tudful": "Merthyr Tydfil",
   "nanty glo": "Nantyglo", "nantyglo": "Nantyglo",
   "pen y cae": "Pen-y-cae",
+  "pen y darran": "Pen-y-Darran", "penydarran": "Pen-y-Darran",
+  "gymmer": "Cymmer",
   "treboth": "Treboeth", "treboeth": "Treboeth",
   "treforis": "Treforest", "treforest": "Treforest",
   "twynyrodyn": "Twyn-yr-Odyn", "twyn yr odyn": "Twyn-yr-Odyn",
@@ -105,6 +107,21 @@ function addEvidence(rawName, source, dateText = "", reference = "", sourceUrl =
 
 for (const [name, dateText, callNumber, cd] of cdIndex) addEvidence(name, "2007 CD branch index", dateText, `CD ${cd}; ${callNumber}`, "", originalSource?.path ?? "");
 
+// Names appearing in the 2007 meeting-transcription checklist. These are
+// additional local-record evidence, not proof that each was an independent
+// branch throughout the whole date range.
+const meetingChecklist = [
+  ["Pen-y-Darran", "", "CD 36; two-page baptism list"],
+  ["Gymmer", "1852-1857; 1863", "CD 59; meeting transcription checklist"],
+  ["Stepaside", "1858-1860", "CD 44; LR 12727 11; general minutes"],
+  ["Swansea", "1852-1854", "CD 61; general minutes"],
+  ["Pontypool", "1857-1884", "CD 62; general minutes"],
+  ["Abersychan", "1889", "CD 62; general minutes"],
+];
+for (const [name, dateText, reference] of meetingChecklist) {
+  addEvidence(name, "2007 meeting transcription checklist", dateText, reference, "", originalSource?.path ?? "");
+}
+
 if (notesSource) {
   const branchesPath = path.join(notesSource.path, "Branches");
   for (const entry of fs.readdirSync(branchesPath, { withFileTypes: true })) {
@@ -123,7 +140,7 @@ const grouped = Map.groupBy(evidence, (item) => item.canonicalName);
 const registry = [...grouped.entries()].map(([canonicalName, entries]) => {
   const allYears = entries.flatMap((entry) => years(`${entry.rawName} ${entry.dateText}`));
   const variants = [...new Set(entries.map((entry) => baseName(entry.rawName)).filter((name) => name !== canonicalName))];
-  const localCd = entries.some((entry) => entry.source === "2007 CD branch index");
+  const localCd = entries.some((entry) => ["2007 CD branch index", "2007 meeting transcription checklist"].includes(entry.source));
   const localNote = entries.some((entry) => entry.source === "Recovered RoboHelp branch note");
   const familySearch = entries.some((entry) => entry.source === "FamilySearch catalog");
   let comparisonStatus = "Research note only";

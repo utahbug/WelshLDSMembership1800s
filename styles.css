@@ -114,3 +114,31 @@ button, input { font: inherit; }
   border: 1px solid #b9b1a2;
   background: white;
 }
+
+.compact-masthead { min-height: 105px; }
+.guide-page { width: min(1180px, calc(100% - 32px)); margin: 0 auto; padding: 24px 0 60px; }
+.breadcrumb { margin-bottom: 20px; font: .9rem Arial, sans-serif; }
+.breadcrumb a, .work-table a { color: var(--green); }
+.guide-intro, .guide-section { margin-bottom: 28px; padding: clamp(22px, 4vw, 38px); border: 1px solid var(--line); background: var(--panel); }
+.guide-intro h2, .guide-section h2 { margin-top: 0; font-weight: 500; }
+.guide-intro p, .guide-section li { line-height: 1.6; }
+.evidence-note { padding: 13px 16px; border-left: 4px solid var(--gold); background: #f6efdf; }
+.work-table-wrap { overflow-x: auto; border: 1px solid var(--line); background: var(--panel); }
+.work-table { width: 100%; border-collapse: collapse; line-height: 1.45; }
+.work-table th { color: white; background: var(--green); font: 700 .82rem Arial, sans-serif; text-align: left; }
+.work-table th, .work-table td { padding: 13px 14px; border-bottom: 1px solid var(--line); vertical-align: top; }
+.work-table tbody tr:nth-child(even) { background: #f8f3e8; }
+.work-table td:first-child { white-space: nowrap; font-weight: 700; }
+.work-table td:last-child small { display: block; margin-top: 4px; color: var(--muted); font: .74rem Arial, sans-serif; }
+.task { display: block; width: fit-content; margin-bottom: 5px; padding: 3px 7px; border-radius: 3px; font: 700 .7rem Arial, sans-serif; text-transform: uppercase; letter-spacing: .03em; }
+.task.transcription { color: #702b22; background: #f1d6ce; }
+.task.translation { color: #174c3d; background: #cee8df; }
+.task.both { color: #56380b; background: #f3dfad; }
+.task.partial, .task.review { color: #3d3b69; background: #dedcf0; }
+.complete-section { border-left: 5px solid var(--green); }
+.discovery-section { border-left: 5px solid var(--gold); }
+
+@media (max-width: 700px) {
+  .work-table th:nth-child(2), .work-table td:nth-child(2) { min-width: 220px; }
+  .work-table th:nth-child(3), .work-table td:nth-child(3) { min-width: 280px; }
+}

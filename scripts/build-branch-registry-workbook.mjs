@@ -13,7 +13,7 @@ const evidence = workbook.worksheets.add("Evidence Log");
 const guidance = workbook.worksheets.add("How to Use");
 workbook.comments.setSelf({ displayName: "User" });
 
-const masterHeaders = ["Canonical name", "Entity type", "Known variants", "Earliest year", "Latest year", "Local CD index", "Recovered note", "FamilySearch catalog", "Comparison status", "Film / call numbers", "Related branch", "Relationship note", "Research notes", "Source URLs"];
+const masterHeaders = ["Canonical name", "Entity type", "Known variants", "Earliest year", "Latest year", "Local record evidence", "Recovered note", "FamilySearch catalog", "Comparison status", "Film / call numbers", "Related branch", "Relationship note", "Research notes", "Source URLs"];
 master.getRange("A1:N1").values = [masterHeaders];
 master.getRangeByIndexes(1, 0, data.registry.length, masterHeaders.length).values = data.registry.map((row) => [
   row.canonicalName, row.entityType, row.variants, row.earliestYear, row.latestYear,
