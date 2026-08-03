@@ -210,8 +210,9 @@
     currentBranchName = name;
     [...branchList.children].forEach((button) => button.classList.toggle("active", button === selectedButton));
     welcome.hidden = true;
+    viewer.hidden = true;
     resourcePanel.hidden = false;
-    resourcePanel.classList.add("compact");
+    resourcePanel.classList.remove("compact");
     branchTitle.textContent = name;
     const details = branchDetails(name);
     const facts = [];
@@ -235,11 +236,6 @@
         button.addEventListener("click", () => openCollection(collection, { keepResources: true, initialView: records.some((record) => record.type === "image") ? "continuous" : "index" }));
         return button;
       }));
-      const preferred = matches[0];
-      openCollection(preferred, {
-        keepResources: true,
-        initialView: visibleRecords(preferred).some((record) => record.type === "image") ? "continuous" : "index",
-      });
     }
     sidebar.classList.remove("open");
     menu.setAttribute("aria-expanded", "false");
@@ -355,6 +351,7 @@
     renderCollections();
     sidebar.classList.remove("open");
     menu.setAttribute("aria-expanded", "false");
+    if (keepResources) requestAnimationFrame(() => viewer.scrollIntoView({ behavior: "smooth", block: "start" }));
   }
 
   function showImage(index) {
