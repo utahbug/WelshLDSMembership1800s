@@ -177,6 +177,7 @@ button, input { font: inherit; }
 .pan-enabled img { transition: none; will-change: transform; }
 .continuous-view.pan-enabled:not(.facing-current) .scroll-page img { width: auto; max-width: none; max-height: none; }
 .continuous-view.facing-current .page-spread { grid-template-columns: repeat(2, minmax(var(--facing-page-width, 720px), 1fr)); width: max-content; min-width: 100%; }
+.continuous-view.facing-current.fit-spread .page-spread { grid-template-columns: repeat(2, minmax(0, 1fr)); width: 100%; min-width: 0; }
 .continuous-view.facing-current .scroll-page { width: 100%; }
 .scroll-page { min-width: 0; margin: 0 auto; text-align: center; }
 .scroll-page img { display: block; width: auto; max-width: 100%; min-height: 180px; margin: 0 auto; background: #24231f; box-shadow: 0 5px 24px #0009; }

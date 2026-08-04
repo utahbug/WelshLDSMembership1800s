@@ -369,7 +369,14 @@
 
   function setFacingZoom(width) {
     facingPageWidth = Math.max(120, Math.min(1600, Math.round(width)));
+    continuousView.classList.remove("fit-spread");
     continuousView.style.setProperty("--facing-page-width", `${facingPageWidth}px`);
+  }
+
+  function fitFacingSpread() {
+    continuousView.classList.add("fit-spread");
+    continuousView.style.removeProperty("--facing-page-width");
+    continuousView.scrollLeft = 0;
   }
 
   function setView(mode) {
@@ -391,7 +398,7 @@
     if (!facing) facingTools.open = false;
     if (mode === "continuous") renderScrollable();
     if (facing) {
-      setFacingZoom(Math.max(240, (continuousView.clientWidth - 30) / 2));
+      fitFacingSpread();
       renderFacingPair();
     }
     if (single) showImage(currentImage);
@@ -538,7 +545,7 @@
   $(".view-toolbar").addEventListener("click", (event) => { if (event.target.dataset.view) setView(event.target.dataset.view); });
   facingZoomOut.addEventListener("click", () => setFacingZoom(facingPageWidth - 160));
   facingZoomIn.addEventListener("click", () => setFacingZoom(facingPageWidth + 160));
-  facingZoomFit.addEventListener("click", () => setFacingZoom(Math.max(240, (continuousView.clientWidth - 30) / 2)));
+  facingZoomFit.addEventListener("click", fitFacingSpread);
   swapFacingPages.addEventListener("click", () => {
     const indexes = facingIndexes();
     const spreadKey = indexes.map((index) => index ?? "blank").join("-");
