@@ -273,6 +273,7 @@
       pageImage.dataset.src = recordUrl(record);
       pageImage.alt = `${currentCollection.name}, page ${index + 1}`;
       pageImage.decoding = "async";
+      pageImage.draggable = false;
       figure.append(pageImage);
     } else {
       const link = document.createElement("a");
@@ -379,6 +380,14 @@
   }
 
   function setPanEnabled(enabled) {
+    if (!enabled) {
+      [stage, continuousView].forEach((surface) => surface.querySelectorAll("img.pan-moved").forEach((item) => {
+        item.classList.remove("pan-moved");
+        item.style.removeProperty("transform");
+        delete item.dataset.panX;
+        delete item.dataset.panY;
+      }));
+    }
     panEnabled = enabled;
     panTool.classList.toggle("active", enabled);
     panTool.setAttribute("aria-pressed", String(enabled));
@@ -389,27 +398,34 @@
 
   function enableDragPan(surface) {
     let dragging = false;
+    let panTarget = null;
     let startX = 0;
     let startY = 0;
-    let startLeft = 0;
-    let startTop = 0;
+    let startPanX = 0;
+    let startPanY = 0;
     surface.addEventListener("pointerdown", (event) => {
       if (!panEnabled || event.button !== 0) return;
+      panTarget = event.target.closest("img");
+      if (!panTarget) return;
       dragging = true;
       startX = event.clientX;
       startY = event.clientY;
-      startLeft = surface.scrollLeft;
-      startTop = surface.scrollTop;
+      startPanX = Number(panTarget.dataset.panX || 0);
+      startPanY = Number(panTarget.dataset.panY || 0);
       surface.classList.add("is-panning");
       surface.setPointerCapture?.(event.pointerId);
       event.preventDefault();
     });
     surface.addEventListener("pointermove", (event) => {
-      if (!dragging) return;
-      surface.scrollLeft = startLeft - (event.clientX - startX);
-      surface.scrollTop = startTop - (event.clientY - startY);
+      if (!dragging || !panTarget) return;
+      const panX = startPanX + event.clientX - startX;
+      const panY = startPanY + event.clientY - startY;
+      panTarget.dataset.panX = String(panX);
+      panTarget.dataset.panY = String(panY);
+      panTarget.classList.add("pan-moved");
+      panTarget.style.transform = `translate(${panX}px, ${panY}px)`;
     });
-    const stop = () => { dragging = false; surface.classList.remove("is-panning"); };
+    const stop = () => { dragging = false; panTarget = null; surface.classList.remove("is-panning"); };
     surface.addEventListener("pointerup", stop);
     surface.addEventListener("pointercancel", stop);
   }
