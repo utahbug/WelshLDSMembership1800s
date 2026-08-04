@@ -368,7 +368,7 @@
   }
 
   function setFacingZoom(width) {
-    facingPageWidth = Math.max(320, Math.min(1600, Math.round(width)));
+    facingPageWidth = Math.max(120, Math.min(1600, Math.round(width)));
     continuousView.style.setProperty("--facing-page-width", `${facingPageWidth}px`);
   }
 
@@ -390,7 +390,10 @@
     facingTools.hidden = !facing;
     if (!facing) facingTools.open = false;
     if (mode === "continuous") renderScrollable();
-    if (facing) renderFacingPair();
+    if (facing) {
+      setFacingZoom(Math.max(240, (continuousView.clientWidth - 30) / 2));
+      renderFacingPair();
+    }
     if (single) showImage(currentImage);
   }
 
@@ -535,7 +538,7 @@
   $(".view-toolbar").addEventListener("click", (event) => { if (event.target.dataset.view) setView(event.target.dataset.view); });
   facingZoomOut.addEventListener("click", () => setFacingZoom(facingPageWidth - 160));
   facingZoomIn.addEventListener("click", () => setFacingZoom(facingPageWidth + 160));
-  facingZoomFit.addEventListener("click", () => setFacingZoom(Math.max(320, (continuousView.clientWidth - 36) / 2)));
+  facingZoomFit.addEventListener("click", () => setFacingZoom(Math.max(240, (continuousView.clientWidth - 30) / 2)));
   swapFacingPages.addEventListener("click", () => {
     const indexes = facingIndexes();
     const spreadKey = indexes.map((index) => index ?? "blank").join("-");
