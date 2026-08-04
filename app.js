@@ -40,6 +40,7 @@
   const facingZoomOut = $("#facingZoomOut");
   const facingZoomFit = $("#facingZoomFit");
   const facingZoomIn = $("#facingZoomIn");
+  const swapFacingPages = $("#swapFacingPages");
   const backToResources = $("#backToResources");
   const viewContext = $("#viewContext");
   const number = new Intl.NumberFormat("en-US");
@@ -56,6 +57,7 @@
   let facingPageWidth = 720;
   let lazyObserver = null;
   let resizingSidebar = false;
+  const swappedSpreads = new Set();
 
   if (!catalog) {
     welcome.innerHTML = "<h2>Catalog not generated</h2><p>Run the catalog builder before opening this viewer.</p>";
@@ -322,13 +324,18 @@
     continuousView.classList.add("facing-current");
     const spread = document.createElement("section");
     spread.className = "page-spread";
-    const indexes = facingIndexes();
+    const naturalIndexes = facingIndexes();
+    const spreadKey = `${pairingShifted ? 1 : 0}:${naturalIndexes.map((index) => index ?? "blank").join("-")}`;
+    const swapped = swappedSpreads.has(spreadKey);
+    const indexes = swapped ? [...naturalIndexes].reverse() : naturalIndexes;
+    swapFacingPages.classList.toggle("active", swapped);
+    swapFacingPages.textContent = swapped ? "Left/right swapped" : "Swap left/right";
     indexes.forEach((index) => {
       if (index == null) spread.append(Object.assign(document.createElement("div"), { className: "blank-page", ariaHidden: "true" }));
       else spread.append(makeRecordFigure(currentRecords[index], index));
     });
     continuousView.append(spread);
-    const shown = indexes.filter((index) => index != null).map((index) => index + 1);
+    const shown = indexes.filter((index) => index != null).map((index) => index + 1).sort((a, b) => a - b);
     position.textContent = `Pages ${shown.join("–")} of ${number.format(currentRecords.length)} · full-resolution sources`;
     previous.disabled = shown[0] <= 1;
     next.disabled = shown[shown.length - 1] >= currentRecords.length;
@@ -373,6 +380,7 @@
     currentRecords = visibleRecords(collection);
     currentImage = 0;
     pairingShifted = false;
+    swappedSpreads.clear();
     welcome.hidden = true;
     resourcePanel.hidden = !keepResources;
     if (keepResources) resourcePanel.open = false;
@@ -446,6 +454,13 @@
   facingZoomOut.addEventListener("click", () => setFacingZoom(facingPageWidth - 160));
   facingZoomIn.addEventListener("click", () => setFacingZoom(facingPageWidth + 160));
   facingZoomFit.addEventListener("click", () => setFacingZoom(Math.max(320, (continuousView.clientWidth - 36) / 2)));
+  swapFacingPages.addEventListener("click", () => {
+    const indexes = facingIndexes();
+    const spreadKey = `${pairingShifted ? 1 : 0}:${indexes.map((index) => index ?? "blank").join("-")}`;
+    if (swappedSpreads.has(spreadKey)) swappedSpreads.delete(spreadKey);
+    else swappedSpreads.add(spreadKey);
+    renderFacingPair();
+  });
   backToResources.addEventListener("click", () => {
     resourcePanel.open = true;
     resourcePanel.scrollIntoView({ behavior: "smooth", block: "start" });
