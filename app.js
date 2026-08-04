@@ -16,7 +16,6 @@
   const viewer = $("#recordViewer");
   const title = $("#collectionTitle");
   const position = $("#imagePosition");
-  const source = $("#recordSource");
   const image = $("#recordImage");
   const stage = $(".record-stage");
   const documentPreview = $("#documentPreview");
@@ -392,7 +391,6 @@
     viewContext.innerHTML = keepResources
       ? `<strong>Branch: ${currentBranchName}</strong><small>${collection.name}</small>`
       : `<strong>${collection.name}</strong>`;
-    source.textContent = catalog.sources.find((item) => item.id === currentRecords[0]?.source)?.label ?? collection.category;
     buildPageIndex();
     setView(initialView);
     resourceList.querySelectorAll(".resource-card").forEach((button) => button.classList.toggle("active", button.dataset.collectionId === collection.id));
