@@ -363,6 +363,7 @@
     panTool.hidden = !(single || facing);
     setPanEnabled(false);
     facingTools.hidden = !facing;
+    if (!facing) facingTools.open = false;
     if (mode === "continuous") renderScrollable();
     if (facing) renderFacingPair();
     if (single) showImage(currentImage);

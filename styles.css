@@ -132,8 +132,14 @@ button, input { font: inherit; }
 .view-toolbar .index-mode { margin-left: 5px; color: #69490d; border-color: var(--gold); background: #fbf2dc; box-shadow: inset 3px 0 0 var(--gold); }
 .view-toolbar .index-mode::before { content: "▦ "; font-weight: 700; }
 .view-toolbar .index-mode.active { color: white; border-color: #8a651d; background: #9a7229; box-shadow: inset 3px 0 0 #f1d48d; }
-.facing-tools { display: inline-flex; flex-wrap: wrap; gap: 4px; padding-left: 5px; border-left: 1px solid var(--line); }
+.facing-tools { position: relative; padding-left: 5px; border-left: 1px solid var(--line); }
 .facing-tools[hidden] { display: none; }
+.facing-tools summary { padding: 7px 10px; color: var(--green-dark); border: 1px solid #aaa28f; border-radius: 3px; background: var(--panel); cursor: pointer; list-style: none; }
+.facing-tools summary::-webkit-details-marker { display: none; }
+.facing-tools summary::after { content: " ▾"; }
+.facing-tools[open] summary::after { content: " ▴"; }
+.facing-tools > div { position: absolute; z-index: 12; top: calc(100% + 5px); left: 5px; min-width: 220px; display: grid; grid-template-columns: 1fr 1fr; gap: 5px; padding: 8px; background: var(--panel); border: 1px solid var(--line); box-shadow: 0 10px 24px #0003; }
+.facing-tools > div button:last-child { grid-column: 1 / -1; }
 .view-toolbar .pan-tool { font-weight: 700; }
 .view-context { min-width: 160px; display: grid; gap: 2px; margin-left: auto; padding-left: 12px; color: var(--green-dark); text-align: right; }
 .view-context strong { font-size: .8rem; }
