@@ -40,6 +40,7 @@
   const facingZoomFit = $("#facingZoomFit");
   const facingZoomIn = $("#facingZoomIn");
   const swapFacingPages = $("#swapFacingPages");
+  const panTool = $("#panTool");
   const backToResources = $("#backToResources");
   const viewContext = $("#viewContext");
   const number = new Intl.NumberFormat("en-US");
@@ -56,6 +57,7 @@
   let facingPageWidth = 720;
   let lazyObserver = null;
   let resizingSidebar = false;
+  let panEnabled = false;
   const swappedSpreads = new Set();
 
   if (!catalog) {
@@ -358,6 +360,8 @@
     continuousView.hidden = single || index;
     previous.hidden = !(single || facing);
     next.hidden = !(single || facing);
+    panTool.hidden = !(single || facing);
+    setPanEnabled(false);
     facingTools.hidden = !facing;
     if (mode === "continuous") renderScrollable();
     if (facing) renderFacingPair();
@@ -371,6 +375,42 @@
       return;
     }
     showImage(currentImage + direction);
+  }
+
+  function setPanEnabled(enabled) {
+    panEnabled = enabled;
+    panTool.classList.toggle("active", enabled);
+    panTool.setAttribute("aria-pressed", String(enabled));
+    panTool.textContent = enabled ? "✋ Panning on" : "✋ Pan image";
+    stage.classList.toggle("pan-enabled", enabled && viewMode === "single");
+    continuousView.classList.toggle("pan-enabled", enabled && viewMode === "facing");
+  }
+
+  function enableDragPan(surface) {
+    let dragging = false;
+    let startX = 0;
+    let startY = 0;
+    let startLeft = 0;
+    let startTop = 0;
+    surface.addEventListener("pointerdown", (event) => {
+      if (!panEnabled || event.button !== 0) return;
+      dragging = true;
+      startX = event.clientX;
+      startY = event.clientY;
+      startLeft = surface.scrollLeft;
+      startTop = surface.scrollTop;
+      surface.classList.add("is-panning");
+      surface.setPointerCapture?.(event.pointerId);
+      event.preventDefault();
+    });
+    surface.addEventListener("pointermove", (event) => {
+      if (!dragging) return;
+      surface.scrollLeft = startLeft - (event.clientX - startX);
+      surface.scrollTop = startTop - (event.clientY - startY);
+    });
+    const stop = () => { dragging = false; surface.classList.remove("is-panning"); };
+    surface.addEventListener("pointerup", stop);
+    surface.addEventListener("pointercancel", stop);
   }
 
   function openCollection(collection, options = {}) {
@@ -459,6 +499,9 @@
     else swappedSpreads.add(spreadKey);
     renderFacingPair();
   });
+  panTool.addEventListener("click", () => setPanEnabled(!panEnabled));
+  enableDragPan(stage);
+  enableDragPan(continuousView);
   backToResources.addEventListener("click", () => {
     resourcePanel.open = true;
     resourcePanel.scrollIntoView({ behavior: "smooth", block: "start" });

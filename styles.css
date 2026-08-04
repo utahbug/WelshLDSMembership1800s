@@ -134,12 +134,15 @@ button, input { font: inherit; }
 .view-toolbar .index-mode.active { color: white; border-color: #8a651d; background: #9a7229; box-shadow: inset 3px 0 0 #f1d48d; }
 .facing-tools { display: inline-flex; flex-wrap: wrap; gap: 4px; padding-left: 5px; border-left: 1px solid var(--line); }
 .facing-tools[hidden] { display: none; }
+.view-toolbar .pan-tool { font-weight: 700; }
 .view-context { min-width: 160px; display: grid; gap: 2px; margin-left: auto; padding-left: 12px; color: var(--green-dark); text-align: right; }
 .view-context strong { font-size: .8rem; }
 .view-context small { max-width: 320px; overflow: hidden; color: var(--muted); font-size: .68rem; text-overflow: ellipsis; white-space: nowrap; }
 .record-stage { min-height: 55vh; margin: 0; padding: 14px; display: grid; place-items: center; background: #302f2a; border-radius: 5px; }
 .record-stage[hidden] { display: none; }
 .record-stage img { display: block; max-width: 100%; max-height: 72vh; object-fit: contain; box-shadow: 0 4px 22px #0008; }
+.record-stage.pan-enabled { height: 72vh; display: block; overflow: auto; cursor: grab; touch-action: none; }
+.record-stage.pan-enabled img { width: auto; max-width: none; max-height: none; margin: 0; user-select: none; pointer-events: none; }
 .document-preview { max-width: 620px; padding: 46px; text-align: center; color: var(--ink); background: var(--panel); border: 1px solid var(--line); }
 .document-preview h3 { overflow-wrap: anywhere; }
 .document-preview a { display: inline-block; padding: 11px 16px; color: white; background: var(--green); border-radius: 4px; text-decoration: none; }
@@ -158,7 +161,10 @@ button, input { font: inherit; }
 
 .continuous-view { display: grid; gap: 28px; margin-inline: calc(clamp(22px, 4vw, 54px) * -1); padding: 24px clamp(12px, 2vw, 28px) 60px; background: #302f2a; }
 .continuous-view[hidden] { display: none; }
-.continuous-view.facing-current { display: block; overflow-x: auto; overflow-y: hidden; }
+.continuous-view.facing-current { display: block; overflow: auto; }
+.continuous-view.pan-enabled { height: 74vh; cursor: grab; touch-action: none; }
+.pan-enabled.is-panning { cursor: grabbing; }
+.continuous-view.pan-enabled img { user-select: none; pointer-events: none; }
 .continuous-view.facing-current .page-spread { grid-template-columns: repeat(2, minmax(var(--facing-page-width, 720px), 1fr)); width: max-content; min-width: 100%; }
 .continuous-view.facing-current .scroll-page { width: 100%; }
 .scroll-page { min-width: 0; margin: 0 auto; text-align: center; }
