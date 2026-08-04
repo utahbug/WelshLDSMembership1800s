@@ -91,7 +91,7 @@ button, input { font: inherit; }
 .resource-panel { width: min(1050px, 100%); margin: 0; }
 .resource-panel > summary { display: flex; align-items: baseline; gap: 12px; padding: 10px 13px; color: var(--green-dark); border: 1px solid var(--line); background: #eee8da; cursor: pointer; list-style: none; }
 .resource-panel > summary::-webkit-details-marker { display: none; }
-.resource-panel > summary::before { content: "▸"; color: var(--gold); }
+.resource-panel > summary::before { content: "▸"; flex: 0 0 16px; color: var(--gold); font-size: 1.2rem; line-height: .8; text-align: center; }
 .resource-panel[open] > summary::before { content: "▾"; }
 .resource-panel > summary span { color: var(--gold); font: 700 .72rem Arial, sans-serif; letter-spacing: .13em; text-transform: uppercase; }
 .resource-panel > summary strong { font-size: 1.05rem; font-weight: 500; }
