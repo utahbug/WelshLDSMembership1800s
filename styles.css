@@ -95,7 +95,7 @@ button, input { font: inherit; }
 .resource-panel[open] > summary::before { content: "▾"; }
 .resource-panel > summary span { color: var(--gold); font: 700 .72rem Arial, sans-serif; letter-spacing: .13em; text-transform: uppercase; }
 .resource-panel > summary strong { font-size: 1.05rem; font-weight: 500; }
-.resource-content { padding-top: 18px; }
+.resource-content { padding: 18px 0 0 18px; }
 .resource-content > p { color: var(--muted); }
 .branch-meta { display: flex; flex-wrap: wrap; gap: 8px 18px; margin: 12px 0 18px; padding: 11px 13px; color: var(--muted); border-left: 3px solid var(--gold); background: #eee8da; font: .8rem/1.45 Arial, sans-serif; }
 .branch-meta[hidden] { display: none; }
@@ -210,6 +210,7 @@ button, input { font: inherit; }
   .workspace { height: auto; overflow: visible; }
   .viewer { height: auto; padding: 20px 14px; overflow: visible; }
   .resource-list { grid-template-columns: 1fr; }
+  .resource-content { padding-left: 10px; }
   .viewer-heading { align-items: start; flex-direction: column; }
   .archive-stats { grid-template-columns: 1fr; }
   .site-menu summary { padding: 8px; font-size: .78rem; }
