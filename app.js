@@ -360,7 +360,7 @@
     continuousView.hidden = single || index;
     previous.hidden = !(single || facing);
     next.hidden = !(single || facing);
-    panTool.hidden = !(single || facing);
+    panTool.hidden = !(single || facing || mode === "continuous");
     setPanEnabled(false);
     facingTools.hidden = !facing;
     if (!facing) facingTools.open = false;
@@ -384,7 +384,7 @@
     panTool.setAttribute("aria-pressed", String(enabled));
     panTool.textContent = enabled ? "✋ Panning on" : "✋ Pan image";
     stage.classList.toggle("pan-enabled", enabled && viewMode === "single");
-    continuousView.classList.toggle("pan-enabled", enabled && viewMode === "facing");
+    continuousView.classList.toggle("pan-enabled", enabled && ["continuous", "facing"].includes(viewMode));
   }
 
   function enableDragPan(surface) {
