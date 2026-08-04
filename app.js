@@ -41,6 +41,7 @@
   const facingZoomIn = $("#facingZoomIn");
   const swapFacingPages = $("#swapFacingPages");
   const panTool = $("#panTool");
+  const resetPan = $("#resetPan");
   const backToResources = $("#backToResources");
   const viewContext = $("#viewContext");
   const number = new Intl.NumberFormat("en-US");
@@ -379,19 +380,22 @@
     showImage(currentImage + direction);
   }
 
+  function resetPannedImages() {
+    [stage, continuousView].forEach((surface) => surface.querySelectorAll("img.pan-moved").forEach((item) => {
+      item.classList.remove("pan-moved");
+      item.style.removeProperty("transform");
+      delete item.dataset.panX;
+      delete item.dataset.panY;
+    }));
+  }
+
   function setPanEnabled(enabled) {
-    if (!enabled) {
-      [stage, continuousView].forEach((surface) => surface.querySelectorAll("img.pan-moved").forEach((item) => {
-        item.classList.remove("pan-moved");
-        item.style.removeProperty("transform");
-        delete item.dataset.panX;
-        delete item.dataset.panY;
-      }));
-    }
+    if (!enabled) resetPannedImages();
     panEnabled = enabled;
     panTool.classList.toggle("active", enabled);
     panTool.setAttribute("aria-pressed", String(enabled));
     panTool.textContent = enabled ? "✋ Panning on" : "✋ Pan image";
+    resetPan.hidden = !enabled;
     stage.classList.toggle("pan-enabled", enabled && viewMode === "single");
     continuousView.classList.toggle("pan-enabled", enabled && ["continuous", "facing"].includes(viewMode));
   }
@@ -517,6 +521,7 @@
     renderFacingPair();
   });
   panTool.addEventListener("click", () => setPanEnabled(!panEnabled));
+  resetPan.addEventListener("click", resetPannedImages);
   enableDragPan(stage);
   enableDragPan(continuousView);
   backToResources.addEventListener("click", () => {
