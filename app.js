@@ -57,6 +57,7 @@
   let currentBranchName = "";
   let facingPageWidth = 720;
   let lazyObserver = null;
+  let pagePositionObserver = null;
   let resizingSidebar = false;
   let panEnabled = false;
   const swappedSpreads = new Set();
@@ -270,6 +271,7 @@
     const figure = document.createElement("figure");
     figure.className = "scroll-page";
     figure.id = `page-${index + 1}`;
+    figure.dataset.pageIndex = String(index);
     if (record.type === "image") {
       const pageImage = document.createElement("img");
       pageImage.dataset.src = recordUrl(record);
@@ -311,6 +313,31 @@
     continuousView.classList.remove("facing-current");
     currentRecords.forEach((record, index) => continuousView.append(makeRecordFigure(record, index)));
     startLazyLoading();
+    startPagePositionTracking();
+  }
+
+  function startPagePositionTracking() {
+    pagePositionObserver?.disconnect();
+    pagePositionObserver = new IntersectionObserver((entries) => {
+      if (entries.some((entry) => entry.isIntersecting)) syncCurrentPageFromScroll();
+    }, { root: $(".viewer"), rootMargin: "-40% 0px -40% 0px", threshold: 0 });
+    continuousView.querySelectorAll(".scroll-page").forEach((page) => pagePositionObserver.observe(page));
+  }
+
+  function syncCurrentPageFromScroll() {
+    const pages = [...continuousView.querySelectorAll(".scroll-page")];
+    if (!pages.length) return;
+    const viewer = $(".viewer");
+    const viewerCenter = viewer.getBoundingClientRect().top + viewer.clientHeight / 2;
+    const nearestPage = pages.reduce((nearest, page) => {
+      const pageBox = page.getBoundingClientRect();
+      const nearestBox = nearest.getBoundingClientRect();
+      const pageDistance = Math.abs(pageBox.top + pageBox.height / 2 - viewerCenter);
+      const nearestDistance = Math.abs(nearestBox.top + nearestBox.height / 2 - viewerCenter);
+      return pageDistance < nearestDistance ? page : nearest;
+    });
+    currentImage = Number(nearestPage.dataset.pageIndex);
+    position.textContent = `Page ${number.format(currentImage + 1)} of ${number.format(currentRecords.length)} · full-resolution source`;
   }
 
   function facingIndexes() {
@@ -353,6 +380,8 @@
   }
 
   function setView(mode) {
+    if (viewMode === "continuous" && mode !== "continuous") syncCurrentPageFromScroll();
+    if (mode !== "continuous") pagePositionObserver?.disconnect();
     viewMode = mode;
     $(".view-toolbar").querySelectorAll("[data-view]").forEach((button) => button.classList.toggle("active", button.dataset.view === mode));
     const single = mode === "single";
