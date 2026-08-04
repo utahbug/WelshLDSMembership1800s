@@ -297,37 +297,64 @@
 
   function renderScrollable() {
     continuousView.replaceChildren();
-    if (viewMode === "continuous") {
-      currentRecords.forEach((record, index) => continuousView.append(makeRecordFigure(record, index)));
-    } else {
-      const pages = currentRecords.map((record, index) => ({ record, index }));
-      if (pairingShifted) pages.unshift(null);
-      for (let i = 0; i < pages.length; i += 2) {
-        const spread = document.createElement("section");
-        spread.className = "page-spread";
-        [pages[i], pages[i + 1]].forEach((page) => {
-          if (page) spread.append(makeRecordFigure(page.record, page.index));
-          else spread.append(Object.assign(document.createElement("div"), { className: "blank-page", ariaHidden: "true" }));
-        });
-        continuousView.append(spread);
-      }
-    }
+    continuousView.classList.remove("facing-current");
+    currentRecords.forEach((record, index) => continuousView.append(makeRecordFigure(record, index)));
     startLazyLoading();
+  }
+
+  function facingIndexes() {
+    if (!pairingShifted) {
+      const left = Math.floor(currentImage / 2) * 2;
+      return [left, left + 1 < currentRecords.length ? left + 1 : null];
+    }
+    if (currentImage === 0) return [null, 0];
+    const left = 1 + Math.floor((currentImage - 1) / 2) * 2;
+    return [left, left + 1 < currentRecords.length ? left + 1 : null];
+  }
+
+  function renderFacingPair() {
+    continuousView.replaceChildren();
+    continuousView.classList.add("facing-current");
+    const spread = document.createElement("section");
+    spread.className = "page-spread";
+    const indexes = facingIndexes();
+    indexes.forEach((index) => {
+      if (index == null) spread.append(Object.assign(document.createElement("div"), { className: "blank-page", ariaHidden: "true" }));
+      else spread.append(makeRecordFigure(currentRecords[index], index));
+    });
+    continuousView.append(spread);
+    const shown = indexes.filter((index) => index != null).map((index) => index + 1);
+    position.textContent = `Pages ${shown.join("–")} of ${number.format(currentRecords.length)} · full-resolution sources`;
+    previous.disabled = shown[0] <= 1;
+    next.disabled = shown[shown.length - 1] >= currentRecords.length;
+    startLazyLoading();
+    continuousView.scrollLeft = 0;
   }
 
   function setView(mode) {
     viewMode = mode;
     $(".view-toolbar").querySelectorAll("[data-view]").forEach((button) => button.classList.toggle("active", button.dataset.view === mode));
     const single = mode === "single";
+    const facing = mode === "facing";
     const index = mode === "index";
     stage.hidden = !single;
     strip.hidden = !index;
     continuousView.hidden = single || index;
-    previous.hidden = !single;
-    next.hidden = !single;
-    shiftPairing.hidden = mode !== "facing";
-    if (mode === "continuous" || mode === "facing") renderScrollable();
+    previous.hidden = !(single || facing);
+    next.hidden = !(single || facing);
+    shiftPairing.hidden = !facing;
+    if (mode === "continuous") renderScrollable();
+    if (facing) renderFacingPair();
     if (single) showImage(currentImage);
+  }
+
+  function navigatePages(direction) {
+    if (viewMode === "facing") {
+      currentImage = Math.max(0, Math.min(currentImage + direction * 2, currentRecords.length - 1));
+      renderFacingPair();
+      return;
+    }
+    showImage(currentImage + direction);
   }
 
   function openCollection(collection, options = {}) {
@@ -405,13 +432,13 @@
     renderBrowse();
   });
   $(".view-toolbar").addEventListener("click", (event) => { if (event.target.dataset.view) setView(event.target.dataset.view); });
-  shiftPairing.addEventListener("click", () => { pairingShifted = !pairingShifted; shiftPairing.classList.toggle("active", pairingShifted); renderScrollable(); });
+  shiftPairing.addEventListener("click", () => { pairingShifted = !pairingShifted; shiftPairing.classList.toggle("active", pairingShifted); renderFacingPair(); });
   backToResources.addEventListener("click", () => {
     resourcePanel.open = true;
     resourcePanel.scrollIntoView({ behavior: "smooth", block: "start" });
   });
-  previous.addEventListener("click", () => showImage(currentImage - 1));
-  next.addEventListener("click", () => showImage(currentImage + 1));
+  previous.addEventListener("click", () => navigatePages(-1));
+  next.addEventListener("click", () => navigatePages(1));
   menu.addEventListener("click", () => {
     const open = sidebar.classList.toggle("open");
     menu.setAttribute("aria-expanded", String(open));
@@ -464,9 +491,9 @@
     event.preventDefault();
   });
   document.addEventListener("keydown", (event) => {
-    if (!currentCollection || viewMode !== "single" || event.target.matches("input")) return;
-    if (event.key === "ArrowLeft") showImage(currentImage - 1);
-    if (event.key === "ArrowRight") showImage(currentImage + 1);
+    if (!currentCollection || !["single", "facing"].includes(viewMode) || event.target.matches("input")) return;
+    if (event.key === "ArrowLeft") navigatePages(-1);
+    if (event.key === "ArrowRight") navigatePages(1);
   });
 
   fetch("data/branch-registry.json").then((response) => response.json()).then((data) => {
