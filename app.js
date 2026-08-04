@@ -225,6 +225,7 @@
     resourcePanel.hidden = false;
     resourcePanel.open = true;
     resourcePanel.classList.remove("compact");
+    $(".viewer").scrollTop = 0;
     branchTitle.textContent = name;
     const details = branchDetails(name);
     const facts = [];
