@@ -79,6 +79,7 @@ button, input { font: inherit; }
 .collection-link span { overflow-wrap: anywhere; }
 
 .viewer { flex: 1 1 auto; height: 100%; min-width: 0; padding: clamp(22px, 4vw, 54px); overflow-y: auto; }
+.viewer.record-open { padding-top: 10px; }
 .welcome { max-width: 760px; margin: 8vh auto 0; padding: clamp(26px, 5vw, 56px); background: var(--panel); border: 1px solid var(--line); box-shadow: 0 18px 45px #4d493b18; }
 .welcome h2 { margin: 0; font-size: clamp(1.8rem, 4vw, 3.2rem); font-weight: 500; }
 .welcome > p:last-of-type { color: var(--muted); font-size: 1.08rem; line-height: 1.65; }

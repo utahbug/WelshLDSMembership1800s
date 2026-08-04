@@ -226,6 +226,7 @@
     resourcePanel.hidden = false;
     resourcePanel.open = true;
     resourcePanel.classList.remove("compact");
+    $(".viewer").classList.remove("record-open");
     $(".viewer").scrollTop = 0;
     branchTitle.textContent = name;
     const details = branchDetails(name);
@@ -474,9 +475,9 @@
     pairingShifted = false;
     swappedSpreads.clear();
     welcome.hidden = true;
-    resourcePanel.hidden = !keepResources;
-    if (keepResources) resourcePanel.open = false;
+    resourcePanel.hidden = true;
     if (!keepResources) resourcePanel.classList.remove("compact");
+    $(".viewer").classList.add("record-open");
     backToResources.hidden = !keepResources;
     backToResources.textContent = keepResources ? `← Back to ${currentBranchName} resources` : "← Back to branch resources";
     viewer.hidden = false;
@@ -491,7 +492,7 @@
     renderCollections();
     sidebar.classList.remove("open");
     menu.setAttribute("aria-expanded", "false");
-    if (keepResources) requestAnimationFrame(() => resourcePanel.scrollIntoView({ behavior: "smooth", block: "start" }));
+    requestAnimationFrame(() => $(".viewer").scrollTo({ top: 0, behavior: "smooth" }));
   }
 
   function showImage(index) {
@@ -557,8 +558,11 @@
   enableDragPan(stage);
   enableDragPan(continuousView);
   backToResources.addEventListener("click", () => {
+    viewer.hidden = true;
+    resourcePanel.hidden = false;
     resourcePanel.open = true;
-    resourcePanel.scrollIntoView({ behavior: "smooth", block: "start" });
+    $(".viewer").classList.remove("record-open");
+    $(".viewer").scrollTo({ top: 0, behavior: "smooth" });
   });
   previous.addEventListener("click", () => navigatePages(-1));
   next.addEventListener("click", () => navigatePages(1));
