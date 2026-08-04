@@ -465,12 +465,22 @@
   }
 
   function resetPannedImages() {
-    [stage, continuousView].forEach((surface) => surface.querySelectorAll("img.pan-moved").forEach((item) => {
+    [stage, continuousView].forEach((surface) => surface.querySelectorAll("img.pan-moved, img.image-zoomed").forEach((item) => {
       item.classList.remove("pan-moved");
+      item.classList.remove("image-zoomed");
       item.style.removeProperty("transform");
+      item.style.removeProperty("transform-origin");
       delete item.dataset.panX;
       delete item.dataset.panY;
+      delete item.dataset.imageZoom;
     }));
+  }
+
+  function applyImageTransform(item) {
+    const panX = Number(item.dataset.panX || 0);
+    const panY = Number(item.dataset.panY || 0);
+    const zoom = Number(item.dataset.imageZoom || 1);
+    item.style.transform = `translate(${panX}px, ${panY}px) scale(${zoom})`;
   }
 
   function setPanEnabled(enabled) {
@@ -513,11 +523,30 @@
       panTarget.dataset.panX = String(panX);
       panTarget.dataset.panY = String(panY);
       panTarget.classList.add("pan-moved");
-      panTarget.style.transform = `translate(${panX}px, ${panY}px)`;
+      applyImageTransform(panTarget);
     });
     const stop = () => { dragging = false; panTarget = null; surface.classList.remove("is-panning"); };
     surface.addEventListener("pointerup", stop);
     surface.addEventListener("pointercancel", stop);
+  }
+
+  function enableImageWheelZoom(surface) {
+    surface.addEventListener("wheel", (event) => {
+      if (!event.ctrlKey) return;
+      const target = event.target.closest("img");
+      if (!target) return;
+      event.preventDefault();
+      const currentZoom = Number(target.dataset.imageZoom || 1);
+      const nextZoom = Math.max(.5, Math.min(4, currentZoom * (event.deltaY < 0 ? 1.12 : .89)));
+      const box = target.getBoundingClientRect();
+      const originX = Math.max(0, Math.min(100, ((event.clientX - box.left) / box.width) * 100));
+      const originY = Math.max(0, Math.min(100, ((event.clientY - box.top) / box.height) * 100));
+      target.style.transformOrigin = `${originX}% ${originY}%`;
+      target.dataset.imageZoom = String(nextZoom);
+      target.classList.toggle("image-zoomed", Math.abs(nextZoom - 1) > .01);
+      applyImageTransform(target);
+      if (!panEnabled) setPanEnabled(true);
+    }, { passive: false });
   }
 
   function openCollection(collection, options = {}) {
@@ -616,6 +645,8 @@
   jumpLastPage.addEventListener("click", () => scrollContinuousToPage(currentRecords.length - 1, "end"));
   enableDragPan(stage);
   enableDragPan(continuousView);
+  enableImageWheelZoom(stage);
+  enableImageWheelZoom(continuousView);
   backToResources.addEventListener("click", () => {
     viewer.hidden = true;
     resourcePanel.hidden = false;
