@@ -395,8 +395,8 @@
     panEnabled = enabled;
     panTool.classList.toggle("active", enabled);
     panTool.setAttribute("aria-pressed", String(enabled));
-    panTool.textContent = "✋";
-    panTool.title = enabled ? "Panning on — drag an image in any direction" : "Pan image: drag a full-size image left, right, up, or down";
+    panTool.textContent = enabled ? "↖" : "✋";
+    panTool.title = enabled ? "Return to normal pointer" : "Pan image: drag a full-size image left, right, up, or down";
     panTool.setAttribute("aria-label", enabled ? "Turn off image panning" : "Pan image");
     resetPan.hidden = !enabled;
     stage.classList.toggle("pan-enabled", enabled && viewMode === "single");
