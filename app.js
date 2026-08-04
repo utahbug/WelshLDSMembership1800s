@@ -34,7 +34,6 @@
   const sidebarResizer = $("#sidebarResizer");
   const branchTab = $("#browseBranches");
   const collectionTab = $("#browseCollections");
-  const shiftPairing = $("#shiftPairing");
   const facingTools = $("#facingTools");
   const facingZoomOut = $("#facingZoomOut");
   const facingZoomFit = $("#facingZoomFit");
@@ -53,7 +52,6 @@
   let currentCategory = "All collections";
   let browseMode = "branches";
   let viewMode = "index";
-  let pairingShifted = false;
   let currentBranchName = "";
   let facingPageWidth = 720;
   let lazyObserver = null;
@@ -342,13 +340,7 @@
   }
 
   function facingIndexes() {
-    if (!pairingShifted) {
-      const left = Math.floor(currentImage / 2) * 2;
-      return [left, left + 1 < currentRecords.length ? left + 1 : null];
-    }
-    if (currentImage === 0) return [null, 0];
-    const left = 1 + Math.floor((currentImage - 1) / 2) * 2;
-    return [left, left + 1 < currentRecords.length ? left + 1 : null];
+    return [currentImage, currentImage + 1 < currentRecords.length ? currentImage + 1 : null];
   }
 
   function renderFacingPair() {
@@ -357,7 +349,7 @@
     const spread = document.createElement("section");
     spread.className = "page-spread";
     const naturalIndexes = facingIndexes();
-    const spreadKey = `${pairingShifted ? 1 : 0}:${naturalIndexes.map((index) => index ?? "blank").join("-")}`;
+    const spreadKey = naturalIndexes.map((index) => index ?? "blank").join("-");
     const swapped = swappedSpreads.has(spreadKey);
     const indexes = swapped ? [...naturalIndexes].reverse() : naturalIndexes;
     swapFacingPages.classList.toggle("active", swapped);
@@ -472,7 +464,6 @@
     currentCollection = collection;
     currentRecords = visibleRecords(collection);
     currentImage = 0;
-    pairingShifted = false;
     swappedSpreads.clear();
     welcome.hidden = true;
     resourcePanel.hidden = true;
@@ -542,13 +533,12 @@
     renderBrowse();
   });
   $(".view-toolbar").addEventListener("click", (event) => { if (event.target.dataset.view) setView(event.target.dataset.view); });
-  shiftPairing.addEventListener("click", () => { pairingShifted = !pairingShifted; shiftPairing.classList.toggle("active", pairingShifted); renderFacingPair(); });
   facingZoomOut.addEventListener("click", () => setFacingZoom(facingPageWidth - 160));
   facingZoomIn.addEventListener("click", () => setFacingZoom(facingPageWidth + 160));
   facingZoomFit.addEventListener("click", () => setFacingZoom(Math.max(320, (continuousView.clientWidth - 36) / 2)));
   swapFacingPages.addEventListener("click", () => {
     const indexes = facingIndexes();
-    const spreadKey = `${pairingShifted ? 1 : 0}:${indexes.map((index) => index ?? "blank").join("-")}`;
+    const spreadKey = indexes.map((index) => index ?? "blank").join("-");
     if (swappedSpreads.has(spreadKey)) swappedSpreads.delete(spreadKey);
     else swappedSpreads.add(spreadKey);
     renderFacingPair();
