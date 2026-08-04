@@ -214,6 +214,7 @@
     welcome.hidden = true;
     viewer.hidden = true;
     resourcePanel.hidden = false;
+    resourcePanel.open = true;
     resourcePanel.classList.remove("compact");
     branchTitle.textContent = name;
     const details = branchDetails(name);
@@ -337,6 +338,7 @@
     pairingShifted = false;
     welcome.hidden = true;
     resourcePanel.hidden = !keepResources;
+    if (keepResources) resourcePanel.open = false;
     if (!keepResources) resourcePanel.classList.remove("compact");
     backToResources.hidden = !keepResources;
     backToResources.textContent = keepResources ? `← Back to ${currentBranchName} resources` : "← Back to branch resources";
@@ -353,7 +355,7 @@
     renderCollections();
     sidebar.classList.remove("open");
     menu.setAttribute("aria-expanded", "false");
-    if (keepResources) requestAnimationFrame(() => viewer.scrollIntoView({ behavior: "smooth", block: "start" }));
+    if (keepResources) requestAnimationFrame(() => resourcePanel.scrollIntoView({ behavior: "smooth", block: "start" }));
   }
 
   function showImage(index) {
@@ -395,10 +397,19 @@
   if (requestedSearch) search.value = requestedSearch;
   search.addEventListener("input", renderBrowse);
   branchTab.addEventListener("click", () => { browseMode = "branches"; renderBrowse(); });
-  collectionTab.addEventListener("click", () => { browseMode = "collections"; renderBrowse(); });
+  collectionTab.addEventListener("click", () => {
+    browseMode = "collections";
+    document.body.classList.remove("sidebar-collapsed");
+    sidebarToggle.textContent = "Hide branches";
+    sidebarToggle.setAttribute("aria-expanded", "true");
+    renderBrowse();
+  });
   $(".view-toolbar").addEventListener("click", (event) => { if (event.target.dataset.view) setView(event.target.dataset.view); });
   shiftPairing.addEventListener("click", () => { pairingShifted = !pairingShifted; shiftPairing.classList.toggle("active", pairingShifted); renderScrollable(); });
-  backToResources.addEventListener("click", () => resourcePanel.scrollIntoView({ behavior: "smooth", block: "start" }));
+  backToResources.addEventListener("click", () => {
+    resourcePanel.open = true;
+    resourcePanel.scrollIntoView({ behavior: "smooth", block: "start" });
+  });
   previous.addEventListener("click", () => showImage(currentImage - 1));
   next.addEventListener("click", () => showImage(currentImage + 1));
   menu.addEventListener("click", () => {
@@ -416,6 +427,14 @@
     sidebar.style.width = `${bounded}px`;
     sidebarResizer.setAttribute("aria-valuenow", String(Math.round(bounded)));
     return bounded;
+  }
+  function fitSidebarToBranchNames() {
+    const canvas = document.createElement("canvas");
+    const context = canvas.getContext("2d");
+    context.font = getComputedStyle(branchList).font || "16px Georgia";
+    const segments = branchNames().flatMap((name) => name.split(",").map((part) => part.trim()));
+    const longest = Math.max(0, ...segments.map((name) => context.measureText(name).width));
+    setSidebarWidth(Math.max(250, Math.min(360, Math.ceil(longest + 64))));
   }
   sidebarResizer.addEventListener("pointerdown", (event) => {
     resizingSidebar = true;
@@ -435,8 +454,8 @@
     try { localStorage.setItem("welsh-sidebar-width", sidebar.style.width); } catch {}
   });
   sidebarResizer.addEventListener("dblclick", () => {
-    setSidebarWidth(320);
-    try { localStorage.setItem("welsh-sidebar-width", "320px"); } catch {}
+    fitSidebarToBranchNames();
+    try { localStorage.removeItem("welsh-sidebar-width"); } catch {}
   });
   sidebarResizer.addEventListener("keydown", (event) => {
     const current = sidebar.getBoundingClientRect().width;
@@ -452,6 +471,7 @@
 
   fetch("data/branch-registry.json").then((response) => response.json()).then((data) => {
     registry = data.registry || [];
+    try { if (!localStorage.getItem("welsh-sidebar-width")) fitSidebarToBranchNames(); } catch { fitSidebarToBranchNames(); }
     renderBrowse();
   }).catch(() => renderBrowse());
   try {

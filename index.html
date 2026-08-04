@@ -22,6 +22,7 @@
       <h1>LDS Welsh Membership Records</h1>
       <p class="date-line">Nineteenth-century branches, conferences, and minutes</p>
     </div>
+    <button class="masthead-collections" id="browseCollections" type="button">All collections</button>
     <button class="sidebar-toggle" id="sidebarToggle" type="button" aria-controls="sidebar" aria-expanded="true">Hide branches</button>
     <details class="site-menu">
       <summary>Project menu</summary>
@@ -40,9 +41,8 @@
       <input id="collectionSearch" type="search" placeholder="Cardiff, Ffestiniog, Llansawel…" autocomplete="off" list="collectionSuggestions" aria-describedby="searchHelp">
       <datalist id="collectionSuggestions"></datalist>
       <p class="search-help" id="searchHelp">Approximate spelling is welcome. Try either Welsh or anglicized forms.</p>
-      <div class="browse-tabs" role="group" aria-label="Browse list">
+      <div class="browse-tabs" aria-label="Branch list">
         <button type="button" id="browseBranches" class="active">All branches</button>
-        <button type="button" id="browseCollections">All collections</button>
       </div>
       <p class="collection-count" id="collectionCount"></p>
       <div class="category-filter" id="categoryFilter">
@@ -62,15 +62,17 @@
         <dl class="archive-stats" id="archiveStats"></dl>
       </div>
 
-      <section class="resource-panel" id="resourcePanel" hidden>
-        <p class="eyebrow">Available resources</p>
-        <h2 id="branchTitle"></h2>
-        <div class="branch-meta" id="branchMeta"></div>
-        <p>Choose a ledger, minutes collection, transcription, or related resource.</p>
-        <div class="resource-list" id="resourceList"></div>
-      </section>
+      <details class="resource-panel" id="resourcePanel" hidden open>
+        <summary><span>Available resources</span><strong id="branchTitle"></strong></summary>
+        <div class="resource-content">
+          <div class="branch-meta" id="branchMeta"></div>
+          <p>Choose a ledger, minutes collection, transcription, or related resource.</p>
+          <div class="resource-list" id="resourceList"></div>
+        </div>
+      </details>
 
       <div class="record-viewer" id="recordViewer" hidden>
+        <div class="viewer-sticky">
         <button class="back-to-resources" id="backToResources" type="button" hidden>← Back to branch resources</button>
         <div class="viewer-heading">
           <div>
@@ -85,12 +87,13 @@
         </div>
         <div class="view-toolbar" aria-label="Record viewing mode">
           <strong>View:</strong>
-          <button type="button" data-view="single">Single page</button>
           <button type="button" data-view="continuous">Continuous</button>
-          <button type="button" data-view="index" class="index-mode active" title="Choose a page without loading all record images">Page index</button>
+          <button type="button" data-view="single">Single page</button>
           <button type="button" data-view="facing">Facing pages</button>
+          <button type="button" data-view="index" class="index-mode active" title="Choose a page without loading all record images">Page index</button>
           <button type="button" id="shiftPairing" hidden>Shift pairing</button>
           <span class="view-context" id="viewContext"></span>
+        </div>
         </div>
         <figure class="record-stage">
           <img id="recordImage" alt="">
