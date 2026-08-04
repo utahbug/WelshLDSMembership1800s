@@ -36,6 +36,10 @@
   const branchTab = $("#browseBranches");
   const collectionTab = $("#browseCollections");
   const shiftPairing = $("#shiftPairing");
+  const facingTools = $("#facingTools");
+  const facingZoomOut = $("#facingZoomOut");
+  const facingZoomFit = $("#facingZoomFit");
+  const facingZoomIn = $("#facingZoomIn");
   const backToResources = $("#backToResources");
   const viewContext = $("#viewContext");
   const number = new Intl.NumberFormat("en-US");
@@ -49,6 +53,7 @@
   let viewMode = "index";
   let pairingShifted = false;
   let currentBranchName = "";
+  let facingPageWidth = 720;
   let lazyObserver = null;
   let resizingSidebar = false;
 
@@ -331,6 +336,11 @@
     continuousView.scrollLeft = 0;
   }
 
+  function setFacingZoom(width) {
+    facingPageWidth = Math.max(320, Math.min(1600, Math.round(width)));
+    continuousView.style.setProperty("--facing-page-width", `${facingPageWidth}px`);
+  }
+
   function setView(mode) {
     viewMode = mode;
     $(".view-toolbar").querySelectorAll("[data-view]").forEach((button) => button.classList.toggle("active", button.dataset.view === mode));
@@ -342,7 +352,7 @@
     continuousView.hidden = single || index;
     previous.hidden = !(single || facing);
     next.hidden = !(single || facing);
-    shiftPairing.hidden = !facing;
+    facingTools.hidden = !facing;
     if (mode === "continuous") renderScrollable();
     if (facing) renderFacingPair();
     if (single) showImage(currentImage);
@@ -433,6 +443,9 @@
   });
   $(".view-toolbar").addEventListener("click", (event) => { if (event.target.dataset.view) setView(event.target.dataset.view); });
   shiftPairing.addEventListener("click", () => { pairingShifted = !pairingShifted; shiftPairing.classList.toggle("active", pairingShifted); renderFacingPair(); });
+  facingZoomOut.addEventListener("click", () => setFacingZoom(facingPageWidth - 160));
+  facingZoomIn.addEventListener("click", () => setFacingZoom(facingPageWidth + 160));
+  facingZoomFit.addEventListener("click", () => setFacingZoom(Math.max(320, (continuousView.clientWidth - 36) / 2)));
   backToResources.addEventListener("click", () => {
     resourcePanel.open = true;
     resourcePanel.scrollIntoView({ behavior: "smooth", block: "start" });
