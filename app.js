@@ -43,6 +43,7 @@
   const resetPan = $("#resetPan");
   const jumpFirstPage = $("#jumpFirstPage");
   const jumpLastPage = $("#jumpLastPage");
+  const lineGuideTool = $("#lineGuideTool");
   const backToResources = $("#backToResources");
   const viewContext = $("#viewContext");
   const number = new Intl.NumberFormat("en-US");
@@ -60,6 +61,8 @@
   let pagePositionObserver = null;
   let resizingSidebar = false;
   let panEnabled = false;
+  let lineGuidesEnabled = false;
+  const lineGuidePositions = [38, 38];
   const swappedSpreads = new Set();
 
   if (!catalog) {
@@ -357,6 +360,32 @@
     return [currentImage, currentImage + 1 < currentRecords.length ? currentImage + 1 : null];
   }
 
+  function makeLineGuide(side) {
+    const guide = document.createElement("button");
+    guide.type = "button";
+    guide.className = "ledger-guide";
+    guide.dataset.side = String(side);
+    guide.style.top = `${lineGuidePositions[side]}%`;
+    guide.setAttribute("aria-label", `Adjust ${side === 0 ? "left" : "right"} ledger row guide`);
+    guide.title = "Drag this line up or down";
+    guide.addEventListener("pointerdown", (event) => {
+      guide.setPointerCapture?.(event.pointerId);
+      const page = guide.parentElement;
+      const move = (moveEvent) => {
+        const box = page.getBoundingClientRect();
+        const percent = Math.max(2, Math.min(98, ((moveEvent.clientY - box.top) / box.height) * 100));
+        lineGuidePositions[side] = percent;
+        guide.style.top = `${percent}%`;
+      };
+      guide.addEventListener("pointermove", move);
+      const stop = () => guide.removeEventListener("pointermove", move);
+      guide.addEventListener("pointerup", stop, { once: true });
+      guide.addEventListener("pointercancel", stop, { once: true });
+      event.preventDefault();
+    });
+    return guide;
+  }
+
   function renderFacingPair() {
     continuousView.replaceChildren();
     continuousView.classList.add("facing-current");
@@ -368,9 +397,13 @@
     const indexes = swapped ? [...naturalIndexes].reverse() : naturalIndexes;
     swapFacingPages.classList.toggle("active", swapped);
     swapFacingPages.textContent = swapped ? "Left/right swapped" : "Swap left/right";
-    indexes.forEach((index) => {
+    indexes.forEach((index, side) => {
       if (index == null) spread.append(Object.assign(document.createElement("div"), { className: "blank-page", ariaHidden: "true" }));
-      else spread.append(makeRecordFigure(currentRecords[index], index));
+      else {
+        const page = makeRecordFigure(currentRecords[index], index);
+        if (lineGuidesEnabled) page.append(makeLineGuide(side));
+        spread.append(page);
+      }
     });
     continuousView.append(spread);
     const shown = indexes.filter((index) => index != null).map((index) => index + 1).sort((a, b) => a - b);
@@ -408,6 +441,7 @@
     previous.hidden = !(single || facing);
     next.hidden = !(single || facing);
     panTool.hidden = !(single || facing || mode === "continuous");
+    lineGuideTool.hidden = !facing;
     jumpFirstPage.hidden = mode !== "continuous";
     jumpLastPage.hidden = mode !== "continuous";
     setPanEnabled(false);
@@ -572,6 +606,12 @@
   });
   panTool.addEventListener("click", () => setPanEnabled(!panEnabled));
   resetPan.addEventListener("click", resetPannedImages);
+  lineGuideTool.addEventListener("click", () => {
+    lineGuidesEnabled = !lineGuidesEnabled;
+    lineGuideTool.classList.toggle("active", lineGuidesEnabled);
+    lineGuideTool.setAttribute("aria-pressed", String(lineGuidesEnabled));
+    renderFacingPair();
+  });
   jumpFirstPage.addEventListener("click", () => scrollContinuousToPage(0));
   jumpLastPage.addEventListener("click", () => scrollContinuousToPage(currentRecords.length - 1, "end"));
   enableDragPan(stage);
