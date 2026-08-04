@@ -130,6 +130,8 @@ button, input { font: inherit; }
 .view-toolbar { display: flex; flex-wrap: wrap; align-items: center; gap: 6px; margin: 0; padding: 9px; background: #f4f0e6ee; border: 1px solid var(--line); font: .78rem Arial, sans-serif; }
 .view-toolbar button { padding: 7px 10px; color: var(--green-dark); border: 1px solid #aaa28f; border-radius: 3px; background: var(--panel); cursor: pointer; }
 .view-toolbar button.active { color: white; border-color: var(--green); background: var(--green); }
+.view-toolbar .jump-page { min-width: 34px; padding: 5px 8px; color: var(--green-dark); }
+.jump-page svg { display: block; width: 18px; height: 18px; fill: none; stroke: currentColor; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
 .view-toolbar .index-mode { margin-left: 5px; color: #69490d; border-color: var(--gold); background: #fbf2dc; box-shadow: inset 3px 0 0 var(--gold); }
 .view-toolbar .index-mode::before { content: "▦ "; font-weight: 700; }
 .view-toolbar .index-mode.active { color: white; border-color: #8a651d; background: #9a7229; box-shadow: inset 3px 0 0 #f1d48d; }

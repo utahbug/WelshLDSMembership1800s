@@ -41,6 +41,8 @@
   const swapFacingPages = $("#swapFacingPages");
   const panTool = $("#panTool");
   const resetPan = $("#resetPan");
+  const jumpFirstPage = $("#jumpFirstPage");
+  const jumpLastPage = $("#jumpLastPage");
   const backToResources = $("#backToResources");
   const viewContext = $("#viewContext");
   const number = new Intl.NumberFormat("en-US");
@@ -307,12 +309,24 @@
     pending.forEach((item) => lazyObserver.observe(item));
   }
 
-  function renderScrollable() {
+  function renderScrollable(targetIndex = currentImage) {
     continuousView.replaceChildren();
     continuousView.classList.remove("facing-current");
     currentRecords.forEach((record, index) => continuousView.append(makeRecordFigure(record, index)));
     startLazyLoading();
-    startPagePositionTracking();
+    requestAnimationFrame(() => {
+      scrollContinuousToPage(targetIndex, "start", "auto");
+      startPagePositionTracking();
+    });
+  }
+
+  function scrollContinuousToPage(index, block = "start", behavior = "smooth") {
+    const boundedIndex = Math.max(0, Math.min(index, currentRecords.length - 1));
+    const page = continuousView.querySelector(`[data-page-index="${boundedIndex}"]`);
+    if (!page) return;
+    currentImage = boundedIndex;
+    page.scrollIntoView({ behavior, block, inline: "nearest" });
+    position.textContent = `Page ${number.format(currentImage + 1)} of ${number.format(currentRecords.length)} · full-resolution source`;
   }
 
   function startPagePositionTracking() {
@@ -381,6 +395,7 @@
 
   function setView(mode) {
     if (viewMode === "continuous" && mode !== "continuous") syncCurrentPageFromScroll();
+    const savedPage = currentImage;
     if (mode !== "continuous") pagePositionObserver?.disconnect();
     viewMode = mode;
     $(".view-toolbar").querySelectorAll("[data-view]").forEach((button) => button.classList.toggle("active", button.dataset.view === mode));
@@ -393,10 +408,12 @@
     previous.hidden = !(single || facing);
     next.hidden = !(single || facing);
     panTool.hidden = !(single || facing || mode === "continuous");
+    jumpFirstPage.hidden = mode !== "continuous";
+    jumpLastPage.hidden = mode !== "continuous";
     setPanEnabled(false);
     facingTools.hidden = !facing;
     if (!facing) facingTools.open = false;
-    if (mode === "continuous") renderScrollable();
+    if (mode === "continuous") renderScrollable(savedPage);
     if (facing) {
       fitFacingSpread();
       renderFacingPair();
@@ -555,6 +572,8 @@
   });
   panTool.addEventListener("click", () => setPanEnabled(!panEnabled));
   resetPan.addEventListener("click", resetPannedImages);
+  jumpFirstPage.addEventListener("click", () => scrollContinuousToPage(0));
+  jumpLastPage.addEventListener("click", () => scrollContinuousToPage(currentRecords.length - 1, "end"));
   enableDragPan(stage);
   enableDragPan(continuousView);
   backToResources.addEventListener("click", () => {
