@@ -315,8 +315,16 @@ button, input { font: inherit; }
 .picker-panel > label { display: block; margin-bottom: 7px; font: 700 .78rem Arial, sans-serif; }
 .picker-panel > input { width: 100%; padding: 12px; border: 1px solid #aaa28f; background: white; }
 #pickerBranchList { display: grid; gap: 5px; margin-top: 14px; }
-.picker-branch { padding: 11px 13px; }
-.picker-branch small { margin-top: 3px; color: var(--muted); font: .72rem Arial, sans-serif; }
+.picker-branch {
+  padding: 9px 10px;
+  border: 0;
+  border-radius: 3px;
+  background: transparent;
+  font: 400 .9rem/1.25 Arial, sans-serif;
+}
+.picker-branch strong { font-weight: 400; }
+.picker-branch small { margin-top: 2px; color: var(--muted); font: .7rem Arial, sans-serif; }
+.picker-branch:hover, .picker-branch:focus-visible { border-color: transparent; background: #e4dccb; box-shadow: none; }
 .resource-list { display: block; }
 .resource-group { margin: 24px 0; }
 .resource-group h3, .branch-information h3 { margin: 0 0 10px; color: var(--green-dark); font-size: 1.15rem; font-weight: 500; }
