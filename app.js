@@ -67,7 +67,7 @@
     "886311": "61", "708611": "62",
   }));
 
-  let registry = [];
+  let registry = window.WELSH_BRANCH_REGISTRY?.registry || [];
   let currentCollection = null;
   let currentRecords = [];
   let currentImage = 0;
@@ -234,7 +234,7 @@
       button.type = "button";
       button.className = "collection-link";
       button.innerHTML = `<span>${name}</span>${yearLabel(details) ? `<small>Sources: ${yearLabel(details)}</small>` : ""}`;
-      button.addEventListener("click", () => openBranch(name, button));
+      button.addEventListener("click", () => window.WELSH_ROUTE_BRANCH ? window.WELSH_ROUTE_BRANCH(name) : openBranch(name, button));
       return button;
     }));
   }
@@ -273,6 +273,7 @@
 
   function openBranch(name, selectedButton) {
     currentBranchName = name;
+    directoryPanel.hidden = true;
     [...branchList.children].forEach((button) => button.classList.toggle("active", button === selectedButton));
     welcome.hidden = true;
     viewer.hidden = true;
@@ -812,7 +813,8 @@
     if (event.key === "ArrowRight") navigatePages(1);
   });
 
-  fetch("data/branch-registry.json").then((response) => response.json()).then((data) => {
+  if (registry.length) renderBrowse();
+  else fetch("data/branch-registry.json").then((response) => response.json()).then((data) => {
     registry = data.registry || [];
     try { if (!localStorage.getItem("welsh-sidebar-width")) fitSidebarToBranchNames(); } catch { fitSidebarToBranchNames(); }
     renderBrowse();

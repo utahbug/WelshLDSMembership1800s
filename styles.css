@@ -290,7 +290,7 @@ button, input { font: inherit; }
 #branchList.branch-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(205px, 1fr)); gap: 10px; padding-top: 16px; }
 .branch-card, .picker-branch, .search-result { text-align: left; color: var(--ink); border: 1px solid var(--line); background: var(--panel); cursor: pointer; }
 .branch-card { min-height: 88px; padding: 15px; border-top: 3px solid var(--gold); }
-.branch-card strong, .branch-card small, .picker-branch strong, .search-result > * { display: block; }
+.branch-card strong, .branch-card small, .picker-branch strong, .picker-branch small, .search-result > * { display: block; }
 .branch-card small { margin-top: 7px; color: var(--muted); font: .75rem/1.35 Arial, sans-serif; }
 .branch-card:hover, .branch-card:focus-visible, .picker-branch:hover, .picker-branch:focus-visible, .search-result:hover, .search-result:focus-visible { border-color: var(--green); box-shadow: 0 4px 16px #173c3118; }
 .search-results { max-width: 980px; margin: 24px 0; }
@@ -310,6 +310,7 @@ button, input { font: inherit; }
 .picker-panel > input { width: 100%; padding: 12px; border: 1px solid #aaa28f; background: white; }
 #pickerBranchList { display: grid; gap: 5px; margin-top: 14px; }
 .picker-branch { padding: 11px 13px; }
+.picker-branch small { margin-top: 3px; color: var(--muted); font: .72rem Arial, sans-serif; }
 .resource-list { display: block; }
 .resource-group { margin: 24px 0; }
 .resource-group h3, .branch-information h3 { margin: 0 0 10px; color: var(--green-dark); font-size: 1.15rem; font-weight: 500; }

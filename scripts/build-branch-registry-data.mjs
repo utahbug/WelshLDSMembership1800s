@@ -166,7 +166,9 @@ const registry = [...grouped.entries()].map(([canonicalName, entries]) => {
 }).sort((a, b) => a.canonicalName.localeCompare(b.canonicalName, "en", { sensitivity: "base" }));
 
 fs.mkdirSync(path.join(root, "data"), { recursive: true });
-fs.writeFileSync(path.join(root, "data", "branch-registry.json"), JSON.stringify({ generatedAt: new Date().toISOString(), registry, evidence }, null, 2), "utf8");
+const output = { generatedAt: new Date().toISOString(), registry, evidence };
+fs.writeFileSync(path.join(root, "data", "branch-registry.json"), JSON.stringify(output, null, 2), "utf8");
+fs.writeFileSync(path.join(root, "data", "branch-registry.js"), `window.WELSH_BRANCH_REGISTRY = ${JSON.stringify(output)};\n`, "utf8");
 
 function csvCell(value) { const text = value == null ? "" : String(value); return `"${text.replaceAll('"', '""')}"`; }
 const headers = Object.keys(registry[0]);
