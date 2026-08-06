@@ -320,6 +320,19 @@ button, input { font: inherit; }
 .branch-picker { position: fixed; z-index: 50; inset: 0; }
 .picker-backdrop { position: absolute; inset: 0; width: 100%; border: 0; background: #0008; }
 .picker-panel { position: absolute; top: 0; right: 0; width: min(430px, 92vw); height: 100%; padding: 22px; overflow: auto; background: var(--paper); box-shadow: -12px 0 40px #0005; }
+.branch-picker.compact-popover .picker-backdrop { background: transparent; }
+.branch-picker.compact-popover .picker-panel {
+  top: var(--picker-top);
+  right: auto;
+  left: var(--picker-left);
+  width: 360px;
+  height: min(560px, calc(100vh - var(--picker-top) - 12px));
+  padding: 14px;
+  border: 1px solid var(--line);
+  border-radius: 5px;
+  box-shadow: 0 12px 30px #0004;
+}
+.branch-picker.compact-popover .picker-heading h2 { margin: 0 0 10px; font: 700 .82rem Arial, sans-serif; }
 .picker-heading { display: flex; align-items: center; justify-content: space-between; }
 .picker-heading h2 { font-weight: 500; }
 .picker-heading button { width: 42px; height: 42px; border: 1px solid var(--line); background: var(--panel); cursor: pointer; }

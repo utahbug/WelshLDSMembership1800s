@@ -28,8 +28,16 @@
   function branchButton(name, compact = false) { const button = document.createElement("button"); button.type = "button"; button.className = compact ? "picker-branch" : "branch-card"; const collections = related(name); button.innerHTML = `<strong>${name}</strong><small>${compact ? years(detailsFor(name)) : `${years(detailsFor(name))} · ${collections.length} record collection${collections.length === 1 ? "" : "s"}`}</small>`; button.addEventListener("click", () => routeBranch(name)); return button; }
   function renderDirectory() { count.textContent = `${names().length} identified branches`; branchList.replaceChildren(...names().map((name) => branchButton(name))); renderPicker(); }
   function renderPicker() { const query = pickerSearch.value.trim(); const found = names().filter((name) => matches(query, [name, detailsFor(name)?.variants, detailsFor(name)?.relatedBranches].join(" "))); pickerList.replaceChildren(...found.map((name) => branchButton(name, true))); }
-  function openPicker() { picker.hidden = false; pickerButton.setAttribute("aria-expanded", "true"); pickerSearch.value = ""; renderPicker(); requestAnimationFrame(() => pickerSearch.focus()); }
-  function closePicker(refocus = true) { picker.hidden = true; pickerButton.setAttribute("aria-expanded", "false"); if (refocus) pickerButton.focus(); }
+  function openPicker(anchor = null) {
+    picker.classList.toggle("compact-popover", anchor === branchPagePicker && innerWidth > 760);
+    if (picker.classList.contains("compact-popover")) {
+      const box = anchor.getBoundingClientRect();
+      picker.style.setProperty("--picker-top", `${Math.max(12, Math.min(innerHeight - 420, box.bottom + 5))}px`);
+      picker.style.setProperty("--picker-left", `${Math.min(innerWidth - 380, Math.max(12, box.left))}px`);
+    }
+    picker.hidden = false; pickerButton.setAttribute("aria-expanded", "true"); pickerSearch.value = ""; renderPicker(); requestAnimationFrame(() => pickerSearch.focus());
+  }
+  function closePicker(refocus = true) { picker.hidden = true; picker.classList.remove("compact-popover"); pickerButton.setAttribute("aria-expanded", "false"); if (refocus) pickerButton.focus(); }
   function sourceText(collection) { const text = [collection.name, ...(collection.images || []).slice(0, 10).map((item) => item.name)].join(" "); const cd = text.match(/(?:^|\D)(?:CD\s*)?(\d{1,2})(?:\s*[-–]|\b)/i)?.[1]; const call = text.match(/\b(?:LR|CR)\s*\d+(?:\s+\d+)?/i)?.[0]; return [cd && `CD ${cd}`, call].filter(Boolean).join(" · ") || "Source CD not yet identified"; }
   function searchCatalog(query) {
     searchResults.hidden = !query; if (!query) { resultList.replaceChildren(); return; }
@@ -45,7 +53,7 @@
     const d = detailsFor(name); const info = document.createElement("section"); info.className = "branch-information"; info.innerHTML = `<h3>Source coverage</h3><p>${[d?.filmAndCallNumbers, d?.comparisonStatus, d?.localNote].filter(Boolean).join(" · ") || "Detailed source coverage has not yet been entered."}</p><h3>Alternate names and branch relationships</h3><p>${[d?.variants, d?.relatedBranches].filter(Boolean).join(" · ") || "No alternate names or relationships have yet been recorded."}</p><h3>Registry and technical details</h3><p><a href="branch-registry.html">Consult the branch coverage matrix</a></p><h3>Work remaining</h3><p>${cards.length ? "Review source coverage, transcription status, and discrepancies." : "Locate and connect records for this identified branch."}</p>`; fragment.append(info); list.replaceChildren(fragment);
   }
   function syncSearch(source) { const value = source.value; search.value = value; globalSearch.value = value; directory.hidden = false; $("#resourcePanel").hidden = true; $("#recordViewer").hidden = true; searchCatalog(value.trim()); if (source === globalSearch) directory.scrollIntoView({ block: "start" }); }
-  pickerButton.addEventListener("click", openPicker); branchPagePicker.addEventListener("click", openPicker); $("#closeBranchPicker").addEventListener("click", () => closePicker()); $("#pickerBackdrop").addEventListener("click", () => closePicker()); pickerSearch.addEventListener("input", renderPicker);
+  pickerButton.addEventListener("click", () => openPicker()); branchPagePicker.addEventListener("click", () => openPicker(branchPagePicker)); $("#closeBranchPicker").addEventListener("click", () => closePicker()); $("#pickerBackdrop").addEventListener("click", () => closePicker()); pickerSearch.addEventListener("input", renderPicker);
   [search, globalSearch].forEach((input) => input.addEventListener("input", () => syncSearch(input)));
   document.addEventListener("keydown", (event) => { if (event.key === "Escape" && !picker.hidden) closePicker(); if (!picker.hidden && ["ArrowDown", "ArrowUp"].includes(event.key)) { const buttons = [...pickerList.querySelectorAll("button")]; const index = buttons.indexOf(document.activeElement); buttons[Math.max(0, Math.min(buttons.length - 1, index + (event.key === "ArrowDown" ? 1 : -1)))]?.focus(); event.preventDefault(); } });
   window.addEventListener("popstate", () => { const branch = new URLSearchParams(location.search).get("branch"); if (branch) routeBranch(branch, false); else { directory.hidden = false; branchPagePicker.hidden = true; $("#resourcePanel").hidden = true; $("#recordViewer").hidden = true; document.title = "LDS Welsh Membership Records, 1800s"; } });
