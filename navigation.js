@@ -13,6 +13,7 @@
   const pickerSearch = $("#pickerSearch");
   const pickerList = $("#pickerBranchList");
   const pickerButton = $("#branchesButton");
+  const branchPagePicker = $("#branchPagePicker");
   let registry = window.WELSH_BRANCH_REGISTRY?.registry || [];
 
   const normalize = (value) => String(value || "").normalize("NFD").replace(/[\u0300-\u036f]/g, "").toLowerCase().replace(/\bff/g, "f").replace(/[^a-z0-9]/g, "");
@@ -22,7 +23,7 @@
   const detailsFor = (name) => registry.find((item) => item.canonicalName === name);
   const names = () => registry.map((item) => item.canonicalName).sort((a, b) => a.localeCompare(b));
   function related(name) { const key = normalize(name); return catalog.collections.filter((collection) => normalize([collection.name, ...(collection.aliases || [])].join(" ")).includes(key) || normalize(collection.name).includes(key.slice(0, Math.max(4, key.length - 2)))); }
-  function routeBranch(name, push = true) { window.WELSH_OPEN_BRANCH?.(name); directory.hidden = true; closePicker(false); if (push) history.pushState({ branch: name }, "", `?branch=${encodeURIComponent(name)}`); document.title = `${name} — LDS Welsh Membership Records`; organizeResources(name); }
+  function routeBranch(name, push = true) { window.WELSH_OPEN_BRANCH?.(name); directory.hidden = true; branchPagePicker.hidden = false; closePicker(false); if (push) history.pushState({ branch: name }, "", `?branch=${encodeURIComponent(name)}`); document.title = `${name} — LDS Welsh Membership Records`; organizeResources(name); }
   window.WELSH_ROUTE_BRANCH = routeBranch;
   function branchButton(name, compact = false) { const button = document.createElement("button"); button.type = "button"; button.className = compact ? "picker-branch" : "branch-card"; const collections = related(name); button.innerHTML = `<strong>${name}</strong><small>${compact ? years(detailsFor(name)) : `${years(detailsFor(name))} · ${collections.length} record collection${collections.length === 1 ? "" : "s"}`}</small>`; button.addEventListener("click", () => routeBranch(name)); return button; }
   function renderDirectory() { count.textContent = `${names().length} identified branches`; branchList.replaceChildren(...names().map((name) => branchButton(name))); renderPicker(); }
@@ -44,10 +45,10 @@
     const d = detailsFor(name); const info = document.createElement("section"); info.className = "branch-information"; info.innerHTML = `<h3>Source coverage</h3><p>${[d?.filmAndCallNumbers, d?.comparisonStatus, d?.localNote].filter(Boolean).join(" · ") || "Detailed source coverage has not yet been entered."}</p><h3>Alternate names and branch relationships</h3><p>${[d?.variants, d?.relatedBranches].filter(Boolean).join(" · ") || "No alternate names or relationships have yet been recorded."}</p><h3>Registry and technical details</h3><p><a href="branch-registry.html">Consult the branch coverage matrix</a></p><h3>Work remaining</h3><p>${cards.length ? "Review source coverage, transcription status, and discrepancies." : "Locate and connect records for this identified branch."}</p>`; fragment.append(info); list.replaceChildren(fragment);
   }
   function syncSearch(source) { const value = source.value; search.value = value; globalSearch.value = value; directory.hidden = false; $("#resourcePanel").hidden = true; $("#recordViewer").hidden = true; searchCatalog(value.trim()); if (source === globalSearch) directory.scrollIntoView({ block: "start" }); }
-  pickerButton.addEventListener("click", openPicker); $("#closeBranchPicker").addEventListener("click", () => closePicker()); $("#pickerBackdrop").addEventListener("click", () => closePicker()); pickerSearch.addEventListener("input", renderPicker);
+  pickerButton.addEventListener("click", openPicker); branchPagePicker.addEventListener("click", openPicker); $("#closeBranchPicker").addEventListener("click", () => closePicker()); $("#pickerBackdrop").addEventListener("click", () => closePicker()); pickerSearch.addEventListener("input", renderPicker);
   [search, globalSearch].forEach((input) => input.addEventListener("input", () => syncSearch(input)));
   document.addEventListener("keydown", (event) => { if (event.key === "Escape" && !picker.hidden) closePicker(); if (!picker.hidden && ["ArrowDown", "ArrowUp"].includes(event.key)) { const buttons = [...pickerList.querySelectorAll("button")]; const index = buttons.indexOf(document.activeElement); buttons[Math.max(0, Math.min(buttons.length - 1, index + (event.key === "ArrowDown" ? 1 : -1)))]?.focus(); event.preventDefault(); } });
-  window.addEventListener("popstate", () => { const branch = new URLSearchParams(location.search).get("branch"); if (branch) routeBranch(branch, false); else { directory.hidden = false; $("#resourcePanel").hidden = true; $("#recordViewer").hidden = true; document.title = "LDS Welsh Membership Records, 1800s"; } });
+  window.addEventListener("popstate", () => { const branch = new URLSearchParams(location.search).get("branch"); if (branch) routeBranch(branch, false); else { directory.hidden = false; branchPagePicker.hidden = true; $("#resourcePanel").hidden = true; $("#recordViewer").hidden = true; document.title = "LDS Welsh Membership Records, 1800s"; } });
   function start() { renderDirectory(); const branch = new URLSearchParams(location.search).get("branch"); if (branch && names().includes(branch)) routeBranch(branch, false); }
   if (registry.length) start();
   else fetch("data/branch-registry.json").then((response) => response.json()).then((data) => { registry = data.registry || []; start(); }).catch(() => { count.textContent = "Branch registry could not be loaded."; });
