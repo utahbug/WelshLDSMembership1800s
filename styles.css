@@ -89,8 +89,9 @@ button, input { font: inherit; }
 .archive-stats dd { margin: 5px 0 0; font-size: 1.55rem; color: var(--green-dark); }
 
 .resource-panel { width: min(1050px, 100%); margin: 0; }
+.branch-page-actions { display: flex; flex-wrap: wrap; align-items: center; gap: 7px; margin-bottom: 7px; }
 .branch-page-picker {
-  margin: 0 0 7px;
+  margin: 0;
   padding: 6px 9px;
   color: var(--green-dark);
   border: 1px solid #bdb4a1;
@@ -100,6 +101,7 @@ button, input { font: inherit; }
   font: 700 .72rem Arial, sans-serif;
 }
 .branch-page-picker:hover, .branch-page-picker:focus-visible { border-color: var(--green); background: #eee5d2; }
+.branch-page-actions .back-to-resources { margin: 0; }
 .resource-panel > summary { display: flex; align-items: baseline; gap: 12px; padding: 10px 13px; color: var(--green-dark); border: 1px solid var(--line); background: #eee8da; cursor: pointer; list-style: none; }
 .resource-panel > summary::-webkit-details-marker { display: none; }
 .resource-panel > summary::before { content: "▸"; flex: 0 0 16px; color: var(--gold); font-size: 1.2rem; line-height: .8; text-align: center; }

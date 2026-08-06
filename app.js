@@ -274,6 +274,7 @@
   function openBranch(name, selectedButton) {
     currentBranchName = name;
     directoryPanel.hidden = true;
+    backToResources.hidden = true;
     [...branchList.children].forEach((button) => button.classList.toggle("active", button === selectedButton));
     welcome.hidden = true;
     viewer.hidden = true;
