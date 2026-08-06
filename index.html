@@ -12,7 +12,6 @@
   <header class="masthead">
     <div class="site-title"><p class="eyebrow">Historical archive</p><h1>LDS Welsh Membership Records</h1><p class="date-line">Nineteenth-century branches, conferences, and minutes</p></div>
     <nav class="global-nav" aria-label="Site navigation">
-      <button id="branchesButton" type="button" aria-controls="branchPicker" aria-expanded="false">Branches <span aria-hidden="true">▾</span></button>
       <label class="header-search" for="globalSearch"><span class="sr-only">Search the archive</span><input id="globalSearch" type="search" placeholder="Search" autocomplete="off"></label>
       <details class="site-menu"><summary>About &amp; tools</summary><nav aria-label="About and project tools">
         <a href="README.md">About this project</a><a href="branch-registry.html">Branch coverage matrix</a><a href="work-remaining.html">Unmatched branches and work remaining</a><a href="RIGHTS_AND_PROVENANCE.md">Sources and methodology</a><a href="outputs/branch-registry/Welsh-LDS-Branch-Registry.xlsx">Download project workbook</a>
@@ -33,7 +32,7 @@
       <section class="search-results" id="searchResults" hidden><h3>Search results</h3><div id="searchResultList"></div></section>
       <div class="directory-heading"><h3>All known branches</h3><p id="collectionCount"></p></div><nav class="branch-grid" id="branchList" aria-label="All known Welsh branches"></nav>
     </section>
-    <button class="branch-page-picker" id="branchPagePicker" type="button" hidden>Branches <span aria-hidden="true">▾</span></button>
+    <button class="branch-page-picker" id="branchPagePicker" type="button" aria-controls="branchPicker" aria-expanded="false" hidden>Branches <span aria-hidden="true">▾</span></button>
     <details class="resource-panel" id="resourcePanel" hidden open><summary><span>Available resources</span><strong id="branchTitle"></strong></summary><div class="resource-content"><div class="branch-meta" id="branchMeta"></div><div class="resource-list" id="resourceList"></div></div></details>
     <div class="record-viewer" id="recordViewer" hidden>
       <div class="viewer-intro"><button class="back-to-resources" id="backToResources" type="button" hidden>← Back to branch resources</button><div class="viewer-heading"><div><h2 id="collectionTitle"></h2><p id="imagePosition"></p></div><div class="viewer-actions"><button type="button" id="previousImage">← Previous</button><button type="button" id="nextImage">Next →</button></div></div></div>
