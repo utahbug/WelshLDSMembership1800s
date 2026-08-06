@@ -351,6 +351,12 @@ button, input { font: inherit; }
 .picker-branch strong { font-weight: 400; }
 .picker-branch small { margin-top: 2px; color: var(--muted); font: .7rem Arial, sans-serif; }
 .picker-branch:hover, .picker-branch:focus-visible { border-color: transparent; background: #e4dccb; box-shadow: none; }
+.masthead { position: relative; top: auto; }
+.global-nav .header-icon, .site-menu summary { width: 40px; height: 40px; display: grid; place-items: center; padding: 0; font: 1.05rem/1 Arial, sans-serif; }
+.site-menu a, .site-menu nav button { padding: 10px; color: var(--green-dark); border: 0; background: transparent; text-align: left; text-decoration: none; cursor: pointer; }
+.site-menu a:hover, .site-menu a:focus-visible, .site-menu nav button:hover, .site-menu nav button:focus-visible { background: #eee6d5; }
+.workspace { min-height: calc(100vh - 97px); height: auto; overflow: visible; }
+.viewer { height: auto; overflow: visible; }
 .resource-list { display: block; }
 .resource-group { margin: 24px 0; }
 .resource-group h3, .branch-information h3 { margin: 0 0 10px; color: var(--green-dark); font-size: 1.15rem; font-weight: 500; }

@@ -102,6 +102,10 @@
       .replace(/\bff/g, "f").replace(/[^a-z0-9]/g, "");
   }
 
+  function displayTitle(value) {
+    return String(value ?? "").replace(/,(?=\S)/g, ", ");
+  }
+
   function editDistance(left, right) {
     if (!left) return right.length;
     if (!right) return left.length;
@@ -254,7 +258,7 @@
       const button = document.createElement("button");
       button.type = "button";
       button.className = `collection-link${currentCollection?.id === collection.id ? " active" : ""}`;
-      button.innerHTML = `<span>${collection.name}</span><small>${[imageCount && `${number.format(imageCount)} images`, documentCount && `${number.format(documentCount)} documents`].filter(Boolean).join(" · ")}</small>`;
+      button.innerHTML = `<span>${displayTitle(collection.name)}</span><small>${[imageCount && `${number.format(imageCount)} images`, documentCount && `${number.format(documentCount)} documents`].filter(Boolean).join(" · ")}</small>`;
       button.addEventListener("click", () => openCollection(collection));
       return button;
     }));
@@ -282,7 +286,7 @@
     resourcePanel.open = true;
     resourcePanel.classList.remove("compact");
     $(".viewer").classList.remove("record-open");
-    $(".viewer").scrollTop = 0;
+    window.scrollTo({ top: 0, behavior: "auto" });
     branchTitle.textContent = name;
     const details = branchDetails(name);
     const facts = [];
@@ -302,7 +306,7 @@
         button.type = "button";
         button.className = "resource-card";
         button.dataset.collectionId = collection.id;
-        button.innerHTML = `<span class="resource-kind">${resourceKind(collection)}</span><strong>${collection.name}</strong><small>${number.format(records.length)} item${records.length === 1 ? "" : "s"}</small><span class="resource-provenance">${resourceProvenance(collection)}</span>`;
+        button.innerHTML = `<span class="resource-kind">${resourceKind(collection)}</span><strong>${displayTitle(collection.name)}</strong><small>${number.format(records.length)} item${records.length === 1 ? "" : "s"}</small><span class="resource-provenance">${resourceProvenance(collection)}</span>`;
         const online = catalog.edition !== "public" || (collection.availability?.online && collection.publicStorage);
         if (online) button.addEventListener("click", () => openCollection(collection, { keepResources: true, initialView: records.some((record) => record.type === "image") ? "continuous" : "index" }));
         else {
@@ -398,15 +402,14 @@
     pagePositionObserver?.disconnect();
     pagePositionObserver = new IntersectionObserver((entries) => {
       if (entries.some((entry) => entry.isIntersecting)) syncCurrentPageFromScroll();
-    }, { root: $(".viewer"), rootMargin: "-40% 0px -40% 0px", threshold: 0 });
+    }, { root: null, rootMargin: "-40% 0px -40% 0px", threshold: 0 });
     continuousView.querySelectorAll(".scroll-page").forEach((page) => pagePositionObserver.observe(page));
   }
 
   function syncCurrentPageFromScroll() {
     const pages = [...continuousView.querySelectorAll(".scroll-page")];
     if (!pages.length) return;
-    const viewer = $(".viewer");
-    const viewerCenter = viewer.getBoundingClientRect().top + viewer.clientHeight / 2;
+    const viewerCenter = window.innerHeight / 2;
     const nearestPage = pages.reduce((nearest, page) => {
       const pageBox = page.getBoundingClientRect();
       const nearestBox = nearest.getBoundingClientRect();
@@ -652,10 +655,10 @@
     backToResources.hidden = !keepResources;
     backToResources.textContent = keepResources ? `← Back to ${currentBranchName} resources` : "← Back to branch resources";
     viewer.hidden = false;
-    title.textContent = collection.name;
+    title.textContent = displayTitle(collection.name);
     viewContext.innerHTML = keepResources
-      ? `<strong>Branch: ${currentBranchName}</strong><small>${collection.name}</small>`
-      : `<strong>${collection.name}</strong>`;
+      ? `<strong>Branch: ${currentBranchName}</strong><small>${displayTitle(collection.name)}</small>`
+      : `<strong>${displayTitle(collection.name)}</strong>`;
     buildPageIndex();
     setView(initialView);
     resourceList.querySelectorAll(".resource-card").forEach((button) => button.classList.toggle("active", button.dataset.collectionId === collection.id));
@@ -663,7 +666,7 @@
     renderCollections();
     sidebar.classList.remove("open");
     menu.setAttribute("aria-expanded", "false");
-    requestAnimationFrame(() => $(".viewer").scrollTo({ top: 0, behavior: "smooth" }));
+    requestAnimationFrame(() => window.scrollTo({ top: 0, behavior: "smooth" }));
   }
 
   window.WELSH_OPEN_COLLECTION = openCollection;
@@ -753,7 +756,7 @@
     resourcePanel.hidden = false;
     resourcePanel.open = true;
     $(".viewer").classList.remove("record-open");
-    $(".viewer").scrollTo({ top: 0, behavior: "smooth" });
+    window.scrollTo({ top: 0, behavior: "smooth" });
   });
   previous.addEventListener("click", () => navigatePages(-1));
   next.addEventListener("click", () => navigatePages(1));
