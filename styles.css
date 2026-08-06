@@ -289,7 +289,7 @@ button, input { font: inherit; }
 .global-nav { display: flex; align-items: center; gap: 8px; margin-left: auto; font-family: Arial, sans-serif; }
 .global-nav > button, .site-menu summary { padding: 10px 12px; color: white; border: 1px solid #ffffff66; border-radius: 5px; background: transparent; cursor: pointer; }
 .header-search input { width: clamp(120px, 16vw, 250px); padding: 10px 12px; border: 1px solid #ffffff77; border-radius: 5px; background: #fff; color: var(--ink); }
-.workspace { display: block; height: calc(100vh - 97px); }
+.workspace { display: block; height: calc(100vh - 97px); border-left: 4px solid #b4202a; }
 .viewer { width: 100%; }
 .branch-directory {
   min-height: 100%;
