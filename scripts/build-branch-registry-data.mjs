@@ -124,7 +124,7 @@ for (const [name, dateText, reference] of meetingChecklist) {
 
 // The surviving book title uses the anglicized single-F spelling. Preserve it
 // as a visible historical variant of the Welsh double-F place name.
-addEvidence("Festiniog", "Record book located; images pending", "", "Ffestiniog membership record book located by project owner; surviving title uses Festiniog");
+addEvidence("Festiniog", "Local membership record images", "", "Ffestiniog membership record book integrated into local archive; surviving title uses Festiniog; 94 unique viewer images");
 
 if (notesSource) {
   const branchesPath = path.join(notesSource.path, "Branches");

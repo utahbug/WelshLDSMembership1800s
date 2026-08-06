@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-08-06T00:38:51.586Z",
+  "generatedAt": "2026-08-06T07:12:42.220Z",
   "registry": [
     {
       "canonicalName": "Abersychan",
@@ -363,7 +363,7 @@
       "localNote": true,
       "familySearch": false,
       "comparisonStatus": "Research note only",
-      "filmAndCallNumbers": "Ffestiniog membership record book located by project owner; surviving title uses Festiniog; Wales2Utah research note",
+      "filmAndCallNumbers": "Ffestiniog membership record book integrated into local archive; surviving title uses Festiniog; 94 unique viewer images; Wales2Utah research note",
       "relatedBranches": "",
       "relationshipNotes": "",
       "notes": "Needs human review; absence from one source is not proof the branch or record was absent.",
@@ -1376,9 +1376,9 @@
       "canonicalName": "Ffestiniog",
       "relatedBranch": "",
       "relationshipNote": "",
-      "source": "Record book located; images pending",
+      "source": "Local membership record images",
       "dateText": "",
-      "reference": "Ffestiniog membership record book located by project owner; surviving title uses Festiniog",
+      "reference": "Ffestiniog membership record book integrated into local archive; surviving title uses Festiniog; 94 unique viewer images",
       "sourceUrl": "",
       "localPath": ""
     },
