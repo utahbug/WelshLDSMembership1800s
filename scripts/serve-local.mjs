@@ -6,7 +6,7 @@ import { fileURLToPath } from "node:url";
 const root = path.resolve(import.meta.dirname, "..");
 const configPath = path.join(root, "sources.local.json");
 const catalogPath = path.join(root, "data", "catalog.local.js");
-const port = Number(process.env.PORT || 18765);
+const port = Number(process.env.PORT || 18766);
 
 if (!fs.existsSync(configPath) || !fs.existsSync(catalogPath)) {
   throw new Error("Run node scripts/build-catalog.mjs before starting the viewer.");
@@ -64,7 +64,8 @@ const server = http.createServer((request, response) => {
   sendFile(response, localPath);
 });
 
-server.listen(port, "127.0.0.1", () => {
+server.listen(port, "0.0.0.0", () => {
   console.log(`Welsh records viewer: http://127.0.0.1:${port}/`);
+  console.log(`Phone/tablet access: http://YOUR-PC-IP:${port}/`);
   console.log("Press Ctrl+C to stop.");
 });

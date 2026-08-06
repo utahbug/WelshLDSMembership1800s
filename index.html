@@ -1,131 +1,54 @@
 <!doctype html>
 <html lang="en">
 <head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
   <link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
-  <meta name="description" content="A local archive viewer for nineteenth-century Welsh Latter-day Saint membership records.">
-  <meta property="og:title" content="Welsh LDS Membership Records">
-  <meta property="og:description" content="A growing public archive of nineteenth-century Welsh LDS branches, membership records, and conference minutes.">
-  <meta property="og:type" content="website">
-  <meta property="og:url" content="https://utahbug.github.io/WelshLDSMembership1800s/">
-  <meta property="og:image" content="https://utahbug.github.io/WelshLDSMembership1800s/assets/welsh-lds-membership-social-card-ffestiniog-home.png">
-  <meta name="twitter:card" content="summary_large_image">
-  <title>LDS Welsh Membership Records, 1800s</title>
-  <link rel="stylesheet" href="styles.css">
+  <meta name="description" content="Welsh Latter-day Saint branches, membership records, transcriptions, and minutes.">
+  <meta property="og:title" content="Welsh LDS Membership Records"><meta property="og:description" content="A growing archive of nineteenth-century Welsh LDS branches, membership records, and conference minutes.">
+  <meta property="og:type" content="website"><meta property="og:url" content="https://utahbug.github.io/WelshLDSMembership1800s/"><meta property="og:image" content="https://utahbug.github.io/WelshLDSMembership1800s/assets/welsh-lds-membership-social-card-ffestiniog-home.png"><meta name="twitter:card" content="summary_large_image">
+  <title>LDS Welsh Membership Records, 1800s</title><link rel="stylesheet" href="styles.css">
 </head>
 <body>
   <header class="masthead">
-    <button class="menu-button" id="menuButton" type="button" aria-label="Show record collections" aria-controls="sidebar" aria-expanded="false">☰</button>
-    <div>
-      <p class="eyebrow">Historical archive</p>
-      <h1>LDS Welsh Membership Records</h1>
-      <p class="date-line">Nineteenth-century branches, conferences, and minutes</p>
-    </div>
-    <button class="masthead-collections" id="browseCollections" type="button">All collections</button>
-    <button class="sidebar-toggle" id="sidebarToggle" type="button" aria-controls="sidebar" aria-expanded="true">Hide branches</button>
-    <details class="site-menu">
-      <summary>Project menu</summary>
-      <nav aria-label="Project pages">
-        <a href="branch-registry.html">Branch registry</a>
-        <a href="work-remaining.html">Transcription &amp; translation</a>
-        <a href="BRANCH_REGISTRY.csv">Download branch CSV</a>
-        <a href="outputs/branch-registry/Welsh-LDS-Branch-Registry.xlsx">Download Excel workbook</a>
-      </nav>
-    </details>
+    <div class="site-title"><p class="eyebrow">Historical archive</p><h1>LDS Welsh Membership Records</h1><p class="date-line">Nineteenth-century branches, conferences, and minutes</p></div>
+    <nav class="global-nav" aria-label="Site navigation">
+      <button id="branchesButton" type="button" aria-controls="branchPicker" aria-expanded="false">Branches <span aria-hidden="true">▾</span></button>
+      <label class="header-search" for="globalSearch"><span class="sr-only">Search the archive</span><input id="globalSearch" type="search" placeholder="Search" autocomplete="off"></label>
+      <details class="site-menu"><summary>About &amp; tools</summary><nav aria-label="About and project tools">
+        <a href="README.md">About this project</a><a href="branch-registry.html">Branch coverage matrix</a><a href="work-remaining.html">Unmatched branches and work remaining</a><a href="RIGHTS_AND_PROVENANCE.md">Sources and methodology</a><a href="outputs/branch-registry/Welsh-LDS-Branch-Registry.xlsx">Download project workbook</a>
+      </nav></details>
+    </nav>
   </header>
-
-  <main class="workspace">
-    <aside class="sidebar" id="sidebar">
-      <label for="collectionSearch">Find a branch or collection</label>
-      <input id="collectionSearch" type="search" placeholder="Cardiff, Ffestiniog, Llansawel…" autocomplete="off" list="collectionSuggestions" aria-describedby="searchHelp">
-      <datalist id="collectionSuggestions"></datalist>
-      <p class="search-help" id="searchHelp">Approximate spelling is welcome. Try either Welsh or anglicized forms.</p>
-      <div class="browse-tabs" aria-label="Branch list">
-        <button type="button" id="browseBranches" class="active">All branches</button>
-      </div>
-      <p class="collection-count" id="collectionCount"></p>
-      <div class="category-filter" id="categoryFilter">
-        <label for="categorySelect">Collection type</label>
-        <select id="categorySelect" aria-label="Collection type"></select>
-      </div>
-      <nav id="branchList" aria-label="Welsh branches"></nav>
-      <nav id="collectionList" aria-label="Record collections"></nav>
-    </aside>
-    <div class="sidebar-resizer" id="sidebarResizer" role="separator" aria-label="Resize branch panel" aria-orientation="vertical" tabindex="0" title="Drag to resize the branch panel; double-click to reset"><span></span></div>
-
-    <section class="viewer" aria-live="polite">
-      <div class="welcome" id="welcome">
-        <p class="eyebrow">Recovered collection</p>
-        <h2>Select a branch or record collection</h2>
-        <p>The original record images remain safely in their archive folders. Choose a collection from the list to begin. Related records extending into the early 1900s are retained for archival completeness.</p>
-        <dl class="archive-stats" id="archiveStats"></dl>
-      </div>
-
-      <details class="resource-panel" id="resourcePanel" hidden open>
-        <summary><span>Available resources</span><strong id="branchTitle"></strong></summary>
-        <div class="resource-content">
-          <div class="branch-meta" id="branchMeta"></div>
-          <p>Choose a ledger, minutes collection, transcription, or related resource.</p>
-          <div class="resource-list" id="resourceList"></div>
-        </div>
-      </details>
-
-      <div class="record-viewer" id="recordViewer" hidden>
-        <div class="viewer-intro">
-        <button class="back-to-resources" id="backToResources" type="button" hidden>← Back to branch resources</button>
-        <div class="viewer-heading">
-            <div>
-              <h2 id="collectionTitle"></h2>
-              <p id="imagePosition"></p>
-          </div>
-          <div class="viewer-actions">
-            <button type="button" id="previousImage">← Previous</button>
-            <button type="button" id="nextImage">Next →</button>
-          </div>
-        </div>
-        </div>
-        <div class="view-toolbar" aria-label="Record viewing mode">
-          <strong>View:</strong>
-          <button type="button" data-view="single">Single page</button>
-            <button type="button" data-view="continuous">Continuous</button>
-            <button type="button" data-view="facing">Facing pages</button>
-            <button type="button" data-view="index" class="index-mode active" title="Choose a page without loading all record images">Page index</button>
-            <button type="button" class="jump-page" id="jumpFirstPage" aria-label="Jump to first page" hidden title="Jump to the first page"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 4h16M12 20V7M7 12l5-5 5 5"/></svg></button>
-            <button type="button" class="jump-page" id="jumpLastPage" aria-label="Jump to last page" hidden title="Jump to the last page"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 20h16M12 4v13m-5-5 5 5 5-5"/></svg></button>
-            <button type="button" class="line-guide-tool" id="lineGuideTool" aria-label="Show adjustable row guides" aria-pressed="false" hidden title="Show two horizontal guides; drag either line to align ledger rows"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 8h8M13 15h8"/></svg></button>
-            <button type="button" class="pan-tool" id="panTool" aria-label="Pan image" aria-pressed="false" hidden title="Pan image: drag a full-size image left, right, up, or down">✋</button>
-            <button type="button" class="reset-pan" id="resetPan" hidden title="Return moved images to their normal centered positions">Reset positions</button>
-            <details class="facing-tools" id="facingTools" hidden>
-              <summary>Facing tools</summary>
-              <div>
-                <button type="button" id="facingZoomOut" title="Make both facing pages smaller">Zoom −</button>
-                <button type="button" id="facingZoomFit" title="Fit both facing pages within the viewer">Fit spread</button>
-                <button type="button" id="facingZoomIn" title="Enlarge both facing pages; horizontal scrolling may be needed">Zoom +</button>
-                <button type="button" id="swapFacingPages" title="Reverse only the currently displayed left and right pages">Swap left/right</button>
-              </div>
-            </details>
-            <span class="view-context" id="viewContext"></span>
-        </div>
-        <figure class="record-stage">
-          <img id="recordImage" alt="" draggable="false">
-          <div class="document-preview" id="documentPreview" hidden>
-            <p class="document-type" id="documentType"></p>
-            <h3 id="documentName"></h3>
-            <iframe id="documentFrame" title="Document preview" hidden></iframe>
-            <a id="documentLink" href="">Open document</a>
-          </div>
-          <figcaption id="recordCaption"></figcaption>
-        </figure>
-        <div class="continuous-view" id="continuousView" hidden></div>
-        <div class="thumbnail-strip" id="thumbnailStrip" aria-label="Pages in this collection"></div>
-      </div>
+  <div class="branch-picker" id="branchPicker" hidden>
+    <button class="picker-backdrop" id="pickerBackdrop" type="button" aria-label="Close branch picker"></button>
+    <section class="picker-panel" role="dialog" aria-modal="true" aria-labelledby="pickerTitle">
+      <div class="picker-heading"><h2 id="pickerTitle">Choose a branch</h2><button id="closeBranchPicker" type="button" aria-label="Close branch picker">×</button></div>
+      <label for="pickerSearch">Search branch names and alternate spellings</label><input id="pickerSearch" type="search" autocomplete="off" placeholder="Ffestiniog, Festiniog, Merthyr…"><nav id="pickerBranchList" aria-label="Branch picker results"></nav>
     </section>
-  </main>
-
-  <noscript>This viewer requires JavaScript to navigate the local image catalog.</noscript>
-  <script src="data/catalog.public.js"></script>
-  <script src="data/catalog.local.js"></script>
-  <script src="app.js"></script>
-</body>
-</html>
+  </div>
+  <main class="workspace"><section class="viewer" aria-live="polite">
+    <section class="branch-directory" id="directoryPanel">
+      <p class="eyebrow">Browse the archive</p><h2>Welsh branches</h2>
+      <label for="collectionSearch">Search branches, collections, CD numbers, call numbers, dates, and filenames</label><input id="collectionSearch" type="search" placeholder="Try Cardiff, CD 58, LR2157, or Ffestionog" autocomplete="off" aria-describedby="searchHelp"><p class="search-help" id="searchHelp">Approximate spelling is welcome. Welsh, anglicized, and alternate forms are included.</p>
+      <section class="search-results" id="searchResults" hidden><h3>Search results</h3><div id="searchResultList"></div></section>
+      <div class="directory-heading"><h3>All known branches</h3><p id="collectionCount"></p></div><nav class="branch-grid" id="branchList" aria-label="All known Welsh branches"></nav>
+    </section>
+    <details class="resource-panel" id="resourcePanel" hidden open><summary><span>Available resources</span><strong id="branchTitle"></strong></summary><div class="resource-content"><div class="branch-meta" id="branchMeta"></div><div class="resource-list" id="resourceList"></div></div></details>
+    <div class="record-viewer" id="recordViewer" hidden>
+      <div class="viewer-intro"><button class="back-to-resources" id="backToResources" type="button" hidden>← Back to branch resources</button><div class="viewer-heading"><div><h2 id="collectionTitle"></h2><p id="imagePosition"></p></div><div class="viewer-actions"><button type="button" id="previousImage">← Previous</button><button type="button" id="nextImage">Next →</button></div></div></div>
+      <div class="view-toolbar" aria-label="Record viewing mode"><strong>View:</strong>
+        <button type="button" data-view="single">Single page</button><button type="button" data-view="continuous">Continuous</button><button type="button" data-view="facing">Facing pages</button><button type="button" data-view="index" class="index-mode active" title="Choose a page without loading all images">▦ Page index</button>
+        <button type="button" class="jump-page" id="jumpFirstPage" aria-label="Jump to first page" hidden title="Jump to first page">⇈</button><button type="button" class="jump-page" id="jumpLastPage" aria-label="Jump to last page" hidden title="Jump to last page">⇊</button>
+        <button type="button" class="line-guide-tool" id="lineGuideTool" aria-label="Show adjustable row guides" aria-pressed="false" hidden title="Show adjustable ledger guides"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 8h18M3 15h18"/></svg></button>
+        <span class="guide-controls" id="guideControls" hidden><button type="button" id="guideRotateLeft" title="Tilt guides counterclockwise">↶</button><output id="guideAngle">0°</output><button type="button" id="guideRotateRight" title="Tilt guides clockwise">↷</button><button type="button" id="guideNarrow" title="Reduce guide spacing">↕−</button><button type="button" id="guideWiden" title="Increase guide spacing">↕+</button><button type="button" id="guideReset">Reset guide</button></span>
+        <button type="button" class="pan-tool" id="panTool" aria-label="Pan image" aria-pressed="false" hidden title="Drag a zoomed image">✋</button><button type="button" class="reset-pan" id="resetPan" hidden>Reset positions</button>
+        <details class="image-tools" id="imageTools"><summary>Rotate image</summary><div><button type="button" data-rotate="-1">−1°</button><button type="button" data-rotate="-.5">−0.5°</button><button type="button" data-rotate=".5">+0.5°</button><button type="button" data-rotate="1">+1°</button><button type="button" data-rotate-reset>Reset</button></div></details>
+        <details class="facing-tools" id="facingTools" hidden><summary>Facing tools</summary><div><button type="button" id="facingZoomOut">Zoom −</button><button type="button" id="facingZoomFit">Fit spread</button><button type="button" id="facingZoomIn">Zoom +</button><button type="button" id="swapFacingPages">Swap left/right</button></div></details><span class="view-context" id="viewContext"></span>
+      </div>
+      <figure class="record-stage"><img id="recordImage" alt="" draggable="false"><div class="document-preview" id="documentPreview" hidden><p class="document-type" id="documentType"></p><h3 id="documentName"></h3><iframe id="documentFrame" title="Document preview" hidden></iframe><a id="documentLink" href="">Open document</a></div><figcaption id="recordCaption"></figcaption></figure>
+      <div class="continuous-view" id="continuousView" hidden></div><div class="thumbnail-strip" id="thumbnailStrip" aria-label="Pages in this collection"></div>
+    </div>
+  </section></main>
+  <div class="legacy-controls" hidden aria-hidden="true"><div id="welcome"><dl id="archiveStats"></dl></div><aside id="sidebar"><input id="legacySearch"><datalist id="collectionSuggestions"></datalist><div id="categoryFilter"><select id="categorySelect"></select></div><nav id="collectionList"></nav></aside><button id="menuButton"></button><button id="sidebarToggle"></button><div id="sidebarResizer"></div><button id="browseBranches"></button><button id="browseCollections"></button></div>
+  <noscript>This viewer requires JavaScript.</noscript><script src="data/catalog.public.js"></script><script src="data/catalog.local.js"></script><script src="app.js"></script><script src="navigation.js"></script>
+</body></html>

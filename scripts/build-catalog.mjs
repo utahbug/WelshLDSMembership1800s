@@ -186,12 +186,15 @@ const collections = [...collectionMap.values()]
     ...collection,
     aliases: [...collection.aliases].sort(natural.compare),
     sources: [...collection.sources],
+    availability: { local: true, portable: true, online: false },
+    publicStorage: null,
     images: collection.images.sort((a, b) => natural.compare(a.name, b.name)),
   }))
   .filter((collection) => collection.images.length)
   .sort((a, b) => natural.compare(a.name, b.name));
 
 const catalog = {
+  edition: "local",
   generatedAt: new Date().toISOString(),
   title: "LDS Welsh Membership Records, 1800s",
   sources: sourceReports.map(({ path: sourcePath, ...source }) => source),

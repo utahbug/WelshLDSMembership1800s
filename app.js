@@ -4,8 +4,12 @@
   const list = $("#collectionList");
   const branchList = $("#branchList");
   const search = $("#collectionSearch");
+  const globalSearch = $("#globalSearch");
   const suggestions = $("#collectionSuggestions");
+  const searchResults = $("#searchResults");
+  const searchResultList = $("#searchResultList");
   const count = $("#collectionCount");
+  const directoryPanel = $("#directoryPanel");
   const categoryFilter = $("#categoryFilter");
   const categorySelect = $("#categorySelect");
   const welcome = $("#welcome");
@@ -28,6 +32,10 @@
   const continuousView = $("#continuousView");
   const previous = $("#previousImage");
   const next = $("#nextImage");
+  const branchesButton = $("#branchesButton");
+  const branchPicker = $("#branchPicker");
+  const pickerSearch = $("#pickerSearch");
+  const pickerBranchList = $("#pickerBranchList");
   const sidebar = $("#sidebar");
   const menu = $("#menuButton");
   const sidebarToggle = $("#sidebarToggle");
@@ -44,9 +52,20 @@
   const jumpFirstPage = $("#jumpFirstPage");
   const jumpLastPage = $("#jumpLastPage");
   const lineGuideTool = $("#lineGuideTool");
+  const guideControls = $("#guideControls");
+  const guideAngleOutput = $("#guideAngle");
+  const imageTools = $("#imageTools");
   const backToResources = $("#backToResources");
   const viewContext = $("#viewContext");
   const number = new Intl.NumberFormat("en-US");
+  const minutesCdByCall = new Map(Object.entries({
+    "141622": "35", "122087": "36", "241210": "37", "1761621": "38", "984611": "39",
+    "1761622": "40", "1761721": "41", "1175711": "42/55", "1001111": "43/60",
+    "1272711": "44", "1201521": "45", "886310": "46", "101123": "47", "1240410": "48",
+    "1314511": "49", "1219911": "50", "1175911": "51", "1128011": "52", "1128021": "53",
+    "1175710": "54", "1277011": "56", "1240421": "57", "1134311": "58", "1115222": "59",
+    "886311": "61", "708611": "62",
+  }));
 
   let registry = [];
   let currentCollection = null;
@@ -63,14 +82,18 @@
   let panEnabled = false;
   let lineGuidesEnabled = false;
   const lineGuidePositions = [38, 38];
+  let lineGuideAngle = 0;
+  let lineGuideSpacing = 12;
+  const imageRotations = new Map();
   const swappedSpreads = new Set();
 
   if (!catalog) {
-    welcome.innerHTML = "<h2>Catalog not generated</h2><p>Run the catalog builder before opening this viewer.</p>";
+    directoryPanel.innerHTML = "<h2>Catalog not generated</h2><p>Run the catalog builder before opening this viewer.</p>";
     return;
   }
 
   function recordUrl(record) {
+    if (catalog.edition === "public" && currentCollection?.publicStorage?.baseUrl) return `${currentCollection.publicStorage.baseUrl}${encodeURIComponent(record.name)}`;
     return location.protocol === "http:" || location.protocol === "https:" ? record.serveUrl : record.url;
   }
 
@@ -129,6 +152,33 @@
     if (images) return "Record images";
     if (documents) return "Documents";
     return "Resource";
+  }
+
+  function transcriptionPdfRange(cdText) {
+    const firstCd = Number.parseInt(cdText, 10);
+    if (firstCd >= 35 && firstCd <= 39) return "CDs 35–39";
+    if (firstCd >= 40 && firstCd <= 43) return "CDs 40–43";
+    if (firstCd >= 44 && firstCd <= 59) return "CDs 44–59";
+    if (firstCd >= 60 && firstCd <= 62) return "CDs 60–62";
+    return "";
+  }
+
+  function resourceProvenance(collection) {
+    const leadingCd = collection.name.match(/^(\d{1,2})\s*[-–]/)?.[1];
+    if (leadingCd) {
+      const pdfRange = transcriptionPdfRange(leadingCd);
+      return pdfRange ? `CD ${leadingCd} · Included in transcription PDF ${pdfRange}` : `CD ${leadingCd}`;
+    }
+    const searchable = [collection.name, ...collection.images.slice(0, 8).map((record) => record.name)].join(" ");
+    const callMatch = searchable.match(/\bLR\D*(\d+)\D+(\d+)\b/i);
+    const compactName = collection.name.replace(/\D/g, "");
+    const joinedCallKey = [...minutesCdByCall.keys()].sort((a, b) => b.length - a.length).find((key) => compactName.endsWith(key));
+    const callKey = callMatch ? `${callMatch[1]}${callMatch[2]}` : joinedCallKey ?? "";
+    const minutesCd = minutesCdByCall.get(callKey);
+    if (minutesCd) return `Source CD ${minutesCd}`;
+    const branchCds = branchDetails(currentBranchName)?.filmAndCallNumbers?.match(/\bCD\s+(\d+)/gi) ?? [];
+    if (branchCds.length) return `Source ${branchCds.join(", ")}`;
+    return "CD source not yet identified";
   }
 
   const nonBranchLabels = new Set(["branches", "assets", "general transcriptions and indexes", "master branch registry"]);
@@ -250,14 +300,22 @@
         button.type = "button";
         button.className = "resource-card";
         button.dataset.collectionId = collection.id;
-        button.innerHTML = `<span class="resource-kind">${resourceKind(collection)}</span><strong>${collection.name}</strong><small>${number.format(records.length)} item${records.length === 1 ? "" : "s"}</small>`;
-        button.addEventListener("click", () => openCollection(collection, { keepResources: true, initialView: records.some((record) => record.type === "image") ? "continuous" : "index" }));
+        button.innerHTML = `<span class="resource-kind">${resourceKind(collection)}</span><strong>${collection.name}</strong><small>${number.format(records.length)} item${records.length === 1 ? "" : "s"}</small><span class="resource-provenance">${resourceProvenance(collection)}</span>`;
+        const online = catalog.edition !== "public" || (collection.availability?.online && collection.publicStorage);
+        if (online) button.addEventListener("click", () => openCollection(collection, { keepResources: true, initialView: records.some((record) => record.type === "image") ? "continuous" : "index" }));
+        else {
+          button.classList.add("unavailable");
+          button.disabled = true;
+          button.insertAdjacentHTML("beforeend", '<span class="availability-note">Images are preserved in the local and portable editions but are not yet published online.</span>');
+        }
         return button;
       }));
     }
     sidebar.classList.remove("open");
     menu.setAttribute("aria-expanded", "false");
   }
+
+  window.WELSH_OPEN_BRANCH = openBranch;
 
   function buildPageIndex() {
     strip.replaceChildren(...currentRecords.map((record, index) => {
@@ -282,6 +340,8 @@
       pageImage.alt = `${currentCollection.name}, page ${index + 1}`;
       pageImage.decoding = "async";
       pageImage.draggable = false;
+      pageImage.dataset.rotation = String(imageRotations.get(index) || 0);
+      applyImageTransform(pageImage);
       figure.append(pageImage);
     } else {
       const link = document.createElement("a");
@@ -366,6 +426,8 @@
     guide.className = "ledger-guide";
     guide.dataset.side = String(side);
     guide.style.top = `${lineGuidePositions[side]}%`;
+    guide.style.setProperty("--guide-angle", `${lineGuideAngle}deg`);
+    guide.style.setProperty("--guide-spacing", `${lineGuideSpacing / 2}px`);
     guide.setAttribute("aria-label", `Adjust ${side === 0 ? "left" : "right"} ledger row guide`);
     guide.title = "Drag this line up or down";
     guide.addEventListener("pointerdown", (event) => {
@@ -383,7 +445,23 @@
       guide.addEventListener("pointercancel", stop, { once: true });
       event.preventDefault();
     });
+    guide.addEventListener("keydown", (event) => {
+      if (["ArrowUp", "ArrowDown"].includes(event.key)) {
+        lineGuidePositions[side] = Math.max(2, Math.min(98, lineGuidePositions[side] + (event.key === "ArrowUp" ? -1 : 1)));
+        guide.style.top = `${lineGuidePositions[side]}%`;
+        event.preventDefault();
+      }
+      if (["[", "]"].includes(event.key)) { lineGuideAngle = Math.max(-8, Math.min(8, lineGuideAngle + (event.key === "[" ? -.5 : .5))); updateGuideDisplay(); event.preventDefault(); }
+    });
     return guide;
+  }
+
+  function updateGuideDisplay() {
+    guideAngleOutput.textContent = `${lineGuideAngle.toFixed(1).replace(".0", "")}°`;
+    continuousView.querySelectorAll(".ledger-guide").forEach((guide) => {
+      guide.style.setProperty("--guide-angle", `${lineGuideAngle}deg`);
+      guide.style.setProperty("--guide-spacing", `${lineGuideSpacing / 2}px`);
+    });
   }
 
   function renderFacingPair() {
@@ -442,6 +520,7 @@
     next.hidden = !(single || facing);
     panTool.hidden = !(single || facing || mode === "continuous");
     lineGuideTool.hidden = !facing;
+    guideControls.hidden = !facing || !lineGuidesEnabled;
     jumpFirstPage.hidden = mode !== "continuous";
     jumpLastPage.hidden = mode !== "continuous";
     setPanEnabled(false);
@@ -480,7 +559,15 @@
     const panX = Number(item.dataset.panX || 0);
     const panY = Number(item.dataset.panY || 0);
     const zoom = Number(item.dataset.imageZoom || 1);
-    item.style.transform = `translate(${panX}px, ${panY}px) scale(${zoom})`;
+    const rotation = Number(item.dataset.rotation || 0);
+    item.style.transform = `translate(${panX}px, ${panY}px) scale(${zoom}) rotate(${rotation}deg)`;
+  }
+
+  function rotateVisibleImages(delta, reset = false) {
+    const targets = viewMode === "single" ? [image] : [...continuousView.querySelectorAll("img")].filter((item) => {
+      const box = item.getBoundingClientRect(); return box.bottom > 0 && box.top < innerHeight;
+    });
+    targets.forEach((item) => { const index = Number(item.closest("[data-page-index]")?.dataset.pageIndex ?? currentImage); const angle = reset ? 0 : Math.max(-10, Math.min(10, Number(item.dataset.rotation || imageRotations.get(index) || 0) + delta)); item.dataset.rotation = String(angle); imageRotations.set(index, angle); applyImageTransform(item); });
   }
 
   function setPanEnabled(enabled) {
@@ -554,6 +641,7 @@
     currentCollection = collection;
     currentRecords = visibleRecords(collection);
     currentImage = 0;
+    imageRotations.clear();
     swappedSpreads.clear();
     welcome.hidden = true;
     resourcePanel.hidden = true;
@@ -576,6 +664,8 @@
     requestAnimationFrame(() => $(".viewer").scrollTo({ top: 0, behavior: "smooth" }));
   }
 
+  window.WELSH_OPEN_COLLECTION = openCollection;
+
   function showImage(index) {
     if (!currentRecords.length) return;
     currentImage = Math.max(0, Math.min(index, currentRecords.length - 1));
@@ -586,6 +676,8 @@
     if (isImage) {
       image.src = recordUrl(record);
       image.alt = `${currentCollection.name}, record image ${currentImage + 1}`;
+      image.dataset.rotation = String(imageRotations.get(currentImage) || 0);
+      applyImageTransform(image);
     } else {
       image.removeAttribute("src");
       documentType.textContent = `${record.extension.replace(".", "").toUpperCase()} document`;
@@ -639,8 +731,15 @@
     lineGuidesEnabled = !lineGuidesEnabled;
     lineGuideTool.classList.toggle("active", lineGuidesEnabled);
     lineGuideTool.setAttribute("aria-pressed", String(lineGuidesEnabled));
+    guideControls.hidden = !lineGuidesEnabled;
     renderFacingPair();
   });
+  $("#guideRotateLeft").addEventListener("click", () => { lineGuideAngle = Math.max(-8, lineGuideAngle - .5); updateGuideDisplay(); });
+  $("#guideRotateRight").addEventListener("click", () => { lineGuideAngle = Math.min(8, lineGuideAngle + .5); updateGuideDisplay(); });
+  $("#guideNarrow").addEventListener("click", () => { lineGuideSpacing = Math.max(2, lineGuideSpacing - 2); updateGuideDisplay(); });
+  $("#guideWiden").addEventListener("click", () => { lineGuideSpacing = Math.min(80, lineGuideSpacing + 2); updateGuideDisplay(); });
+  $("#guideReset").addEventListener("click", () => { lineGuideAngle = 0; lineGuideSpacing = 12; lineGuidePositions[0] = 38; lineGuidePositions[1] = 38; renderFacingPair(); updateGuideDisplay(); });
+  imageTools.addEventListener("click", (event) => { if (event.target.dataset.rotateReset !== undefined) rotateVisibleImages(0, true); else if (event.target.dataset.rotate) rotateVisibleImages(Number(event.target.dataset.rotate)); });
   jumpFirstPage.addEventListener("click", () => scrollContinuousToPage(0));
   jumpLastPage.addEventListener("click", () => scrollContinuousToPage(currentRecords.length - 1, "end"));
   enableDragPan(stage);

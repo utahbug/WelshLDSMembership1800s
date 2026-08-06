@@ -29,6 +29,7 @@ const context = { window: {} };
 vm.runInNewContext(fs.readFileSync(catalogSource, "utf8"), context);
 const catalog = context.window.WELSH_RECORD_CATALOG;
 const portableCatalog = structuredClone(catalog);
+portableCatalog.edition = "portable";
 let copied = 0;
 let skipped = 0;
 let copiedBytes = 0;
@@ -53,6 +54,7 @@ function copyResumable(source, target) {
 }
 
 for (const collection of portableCatalog.collections) {
+  collection.availability = { local: true, portable: true, online: Boolean(collection.publicStorage) };
   for (const item of collection.images) {
     const source = fileURLToPath(item.url);
     const relative = portableRelativePath(item);
