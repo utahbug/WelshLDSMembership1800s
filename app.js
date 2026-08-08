@@ -102,6 +102,10 @@
     return renderedFacingIndexes[activeFacingSide] ?? renderedFacingIndexes.find((index) => index != null) ?? currentImage;
   }
 
+  function selectedGuideIndex() {
+    return viewMode === "facing" ? selectedFacingIndex() : (selectedImageIndex ?? currentImage);
+  }
+
   function selectFacingSide(side) {
     activeFacingSide = Number(side) === 1 && renderedFacingIndexes[1] != null ? 1 : 0;
     guideTarget.value = String(activeFacingSide);
@@ -543,7 +547,16 @@
     guide.setAttribute("aria-label", `Adjust ${side === 0 ? "left" : "right"} ledger row guide`);
     guide.title = "Drag this line up or down";
     guide.addEventListener("pointerdown", (event) => {
-      selectFacingSide(side);
+      if (viewMode === "facing") selectFacingSide(side);
+      else {
+        selectedImageIndex = pageIndex;
+        currentImage = pageIndex;
+        if (viewMode === "continuous") {
+          continuousView.querySelectorAll(".selected-sequence-image").forEach((page) => page.classList.remove("selected-sequence-image"));
+          guide.parentElement.classList.add("selected-sequence-image");
+        }
+        updateGuideDisplay();
+      }
       guide.setPointerCapture?.(event.pointerId);
       const page = guide.parentElement;
       const move = (moveEvent) => {
@@ -575,14 +588,25 @@
   }
 
   function updateGuideDisplay() {
-    const selected = pageState(selectedFacingIndex());
+    const selected = pageState(selectedGuideIndex());
     guideAngleOutput.textContent = `${selected.guideAngle.toFixed(1).replace(".0", "")}°`;
-    continuousView.querySelectorAll(".ledger-guide").forEach((guide) => {
+    viewer.querySelectorAll(".ledger-guide").forEach((guide) => {
       const state = pageState(Number(guide.dataset.pageIndex));
       guide.style.top = `${state.guidePosition}%`;
       guide.style.setProperty("--guide-angle", `${state.guideAngle}deg`);
       guide.style.setProperty("--guide-spacing", `${state.guideSpacing / 2}px`);
     });
+  }
+
+  function renderLineGuides() {
+    stage.querySelectorAll(".ledger-guide").forEach((guide) => guide.remove());
+    continuousView.querySelectorAll(".ledger-guide").forEach((guide) => guide.remove());
+    if (!lineGuidesEnabled) return;
+    if (viewMode === "single" && !image.hidden) stage.append(makeLineGuide(currentImage, 0));
+    if (["continuous", "facing"].includes(viewMode)) continuousView.querySelectorAll(".scroll-page[data-page-index]").forEach((page) => {
+      page.append(makeLineGuide(Number(page.dataset.pageIndex), Number(page.dataset.facingSide || 0)));
+    });
+    updateGuideDisplay();
   }
 
   function updateScaleDisplay() {
@@ -606,7 +630,6 @@
         const page = makeRecordFigure(currentRecords[index], index);
         page.dataset.facingSide = String(side);
         page.addEventListener("pointerdown", () => activateFacingSpread(spread, side));
-        if (lineGuidesEnabled) page.append(makeLineGuide(index, side));
         spread.append(page);
       });
       continuousView.append(spread);
@@ -668,10 +691,11 @@
     previous.hidden = !(single || facing);
     next.hidden = !(single || facing);
     panTool.hidden = !(single || facing || mode === "continuous");
-    lineGuideTool.hidden = !facing;
+    lineGuideTool.hidden = index;
     activePageIndicator.hidden = !facing;
     rotationTarget.hidden = !facing;
-    guideControls.hidden = !facing || !lineGuidesEnabled;
+    guideControls.hidden = index || !lineGuidesEnabled;
+    guideTarget.hidden = !facing;
     jumpFirstPage.hidden = mode !== "continuous";
     jumpLastPage.hidden = mode !== "continuous";
     setPanEnabled(false);
@@ -684,6 +708,7 @@
       renderFacingSeries(savedPage);
     }
     if (single) showImage(savedPage);
+    renderLineGuides();
   }
 
   function navigatePages(direction) {
@@ -861,6 +886,7 @@
     position.textContent = `Page ${number.format(currentImage + 1)} of ${number.format(currentRecords.length)} · full-resolution source`;
     previous.disabled = currentImage === 0;
     next.disabled = currentImage === currentRecords.length - 1;
+    if (viewMode === "single") renderLineGuides();
   }
 
   $("#archiveStats").innerHTML = [["Collections", catalog.stats.collections], ["Unique images", catalog.stats.uniqueImages], ["Duplicates collapsed", catalog.stats.exactDuplicates]]
@@ -889,11 +915,12 @@
   facingZoomIn.addEventListener("click", () => setFacingZoom(.05));
   facingZoomFit.addEventListener("click", () => setFacingZoom(0, true));
   swapFacingPages.addEventListener("click", () => {
+    const selectedBeforeSwap = selectedFacingIndex();
     const indexes = facingIndexes();
     const spreadKey = indexes.map((index) => index ?? "blank").join("-");
     if (swappedSpreads.has(spreadKey)) swappedSpreads.delete(spreadKey);
     else swappedSpreads.add(spreadKey);
-    renderFacingSeries(currentImage);
+    renderFacingSeries(selectedBeforeSwap);
   });
   panTool.addEventListener("click", () => setPanEnabled(!panEnabled));
   resetPan.addEventListener("click", resetPannedImages);
@@ -902,15 +929,13 @@
     lineGuideTool.classList.toggle("active", lineGuidesEnabled);
     lineGuideTool.setAttribute("aria-pressed", String(lineGuidesEnabled));
     guideControls.hidden = !lineGuidesEnabled;
-    renderFacingSeries(currentImage);
+    renderLineGuides();
   });
   guideTarget.addEventListener("change", () => selectFacingSide(guideTarget.value));
   rotationTarget.addEventListener("change", () => selectFacingSide(rotationTarget.value === "right" ? 1 : 0));
-  $("#guideRotateLeft").addEventListener("click", () => { const state = pageState(selectedFacingIndex()); state.guideAngle = Math.max(-8, state.guideAngle - .5); updateGuideDisplay(); });
-  $("#guideRotateRight").addEventListener("click", () => { const state = pageState(selectedFacingIndex()); state.guideAngle = Math.min(8, state.guideAngle + .5); updateGuideDisplay(); });
-  $("#guideNarrow").addEventListener("click", () => { const state = pageState(selectedFacingIndex()); state.guideSpacing = Math.max(2, state.guideSpacing - 2); updateGuideDisplay(); });
-  $("#guideWiden").addEventListener("click", () => { const state = pageState(selectedFacingIndex()); state.guideSpacing = Math.min(80, state.guideSpacing + 2); updateGuideDisplay(); });
-  $("#guideReset").addEventListener("click", () => { const state = pageState(selectedFacingIndex()); state.guideAngle = 0; state.guideSpacing = 12; state.guidePosition = 38; updateGuideDisplay(); });
+  $("#guideRotateLeft").addEventListener("click", () => { const state = pageState(selectedGuideIndex()); state.guideAngle = Math.max(-8, state.guideAngle - .5); updateGuideDisplay(); });
+  $("#guideRotateRight").addEventListener("click", () => { const state = pageState(selectedGuideIndex()); state.guideAngle = Math.min(8, state.guideAngle + .5); updateGuideDisplay(); });
+  $("#guideReset").addEventListener("click", () => { const state = pageState(selectedGuideIndex()); state.guideAngle = 0; state.guidePosition = 38; updateGuideDisplay(); });
   imageTools.addEventListener("click", (event) => { if (event.target.dataset.rotateReset !== undefined) rotateVisibleImages(0, true); else if (event.target.dataset.rotate) rotateVisibleImages(Number(event.target.dataset.rotate)); });
   jumpFirstPage.addEventListener("click", () => scrollContinuousToPage(0));
   jumpLastPage.addEventListener("click", () => scrollContinuousToPage(currentRecords.length - 1, "end"));
