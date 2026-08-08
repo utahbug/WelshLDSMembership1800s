@@ -29,12 +29,14 @@
   const documentLink = $("#documentLink");
   const caption = $("#recordCaption");
   const strip = $("#thumbnailStrip");
+  const pageIndexButton = $("#pageIndexButton");
+  const pageIndexPanel = $("#pageIndexPanel");
+  const closePageIndex = $("#closePageIndex");
   const continuousView = $("#continuousView");
   const previous = $("#previousImage");
   const next = $("#nextImage");
   const branchesButton = $("#branchesButton");
   const branchPicker = $("#branchPicker");
-  const pickerSearch = $("#pickerSearch");
   const pickerBranchList = $("#pickerBranchList");
   const sidebar = $("#sidebar");
   const menu = $("#menuButton");
@@ -362,11 +364,62 @@
       const button = document.createElement("button");
       button.type = "button";
       button.className = "page-index-button";
-      button.innerHTML = `<strong>${index + 1}</strong><small>${record.type === "image" ? "Image" : record.extension.replace(".", "").toUpperCase()}</small>`;
+      button.dataset.pageIndex = String(index);
       button.title = record.name;
-      button.addEventListener("click", () => { showImage(index); setView("single"); });
+      button.setAttribute("aria-label", `Open ${record.type === "image" ? "image" : "document"} ${index + 1}: ${record.name}`);
+      if (record.type === "image") {
+        const thumbnail = document.createElement("img");
+        thumbnail.src = recordUrl(record);
+        thumbnail.alt = "";
+        thumbnail.loading = "lazy";
+        thumbnail.decoding = "async";
+        button.append(thumbnail);
+      }
+      const pageNumber = document.createElement("span");
+      pageNumber.textContent = String(index + 1);
+      button.append(pageNumber);
+      button.addEventListener("click", () => navigateFromPageIndex(index));
       return button;
     }));
+  }
+
+  function openPageIndex() {
+    pageIndexPanel.hidden = false;
+    pageIndexButton.classList.add("active");
+    pageIndexButton.setAttribute("aria-expanded", "true");
+    requestAnimationFrame(() => strip.querySelector(`[data-page-index="${selectedImageIndex ?? currentImage}"]`)?.focus() || closePageIndex.focus());
+  }
+
+  function closePageIndexPanel(refocus = true) {
+    pageIndexPanel.hidden = true;
+    pageIndexButton.classList.remove("active");
+    pageIndexButton.setAttribute("aria-expanded", "false");
+    if (refocus) pageIndexButton.focus();
+  }
+
+  function navigateFromPageIndex(index) {
+    closePageIndexPanel(false);
+    if (viewMode === "single") {
+      showImage(index);
+      return;
+    }
+    if (viewMode === "continuous") {
+      const page = continuousView.querySelector(`[data-page-index="${index}"]`);
+      page?.click();
+      scrollContinuousToPage(index, "center", "auto");
+      return;
+    }
+    if (viewMode === "facing") {
+      const page = continuousView.querySelector(`[data-page-index="${index}"]`);
+      const spread = page?.closest(".page-spread");
+      if (!page || !spread) return;
+      facingSelectionLocked = true;
+      activateFacingSpread(spread, Number(page.dataset.facingSide || 0));
+      page.scrollIntoView({ block: "center", inline: "center", behavior: "auto" });
+      return;
+    }
+    showImage(index);
+    setView("single");
   }
 
   function makeRecordFigure(record, index) {
@@ -686,7 +739,6 @@
     const facing = mode === "facing";
     const index = mode === "index";
     stage.hidden = !single;
-    strip.hidden = !index;
     continuousView.hidden = single || index;
     previous.hidden = !(single || facing);
     next.hidden = !(single || facing);
@@ -709,6 +761,7 @@
     }
     if (single) showImage(savedPage);
     renderLineGuides();
+    if (index) openPageIndex();
   }
 
   function navigatePages(direction) {
@@ -911,6 +964,10 @@
     renderBrowse();
   });
   $(".view-toolbar").addEventListener("click", (event) => { if (event.target.dataset.view) setView(event.target.dataset.view); });
+  pageIndexButton.addEventListener("click", openPageIndex);
+  closePageIndex.addEventListener("click", () => closePageIndexPanel());
+  $("#pageIndexBackdrop").addEventListener("click", () => closePageIndexPanel());
+  document.addEventListener("keydown", (event) => { if (event.key === "Escape" && !pageIndexPanel.hidden) closePageIndexPanel(); });
   facingZoomOut.addEventListener("click", () => setFacingZoom(-.05));
   facingZoomIn.addEventListener("click", () => setFacingZoom(.05));
   facingZoomFit.addEventListener("click", () => setFacingZoom(0, true));

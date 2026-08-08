@@ -11,7 +11,6 @@
   const searchResults = $("#searchResults");
   const resultList = $("#searchResultList");
   const picker = $("#branchPicker");
-  const pickerSearch = $("#pickerSearch");
   const pickerList = $("#pickerBranchList");
   const branchPagePicker = $("#branchPagePicker");
   let registry = window.WELSH_BRANCH_REGISTRY?.registry || [];
@@ -28,7 +27,8 @@
   window.WELSH_ROUTE_BRANCH = routeBranch;
   function branchButton(name, compact = false) { const button = document.createElement("button"); button.type = "button"; button.className = compact ? "picker-branch" : "branch-card"; const collections = related(name); button.innerHTML = `<strong>${name}</strong><small>${compact ? years(detailsFor(name)) : `${years(detailsFor(name))} · ${collections.length} record collection${collections.length === 1 ? "" : "s"}`}</small>`; button.addEventListener("click", () => routeBranch(name)); return button; }
   function renderDirectory() { count.textContent = `${names().length} identified branches`; branchList.replaceChildren(...names().map((name) => branchButton(name))); renderPicker(); }
-  function renderPicker() { const query = pickerSearch.value.trim(); const found = names().filter((name) => matches(query, [name, detailsFor(name)?.variants, detailsFor(name)?.relatedBranches].join(" "))); pickerList.replaceChildren(...found.map((name) => branchButton(name, true))); }
+  function showAllBranches(push = true) { directory.hidden = false; branchPagePicker.hidden = true; $("#resourcePanel").hidden = true; $("#recordViewer").hidden = true; closePicker(false); if (push) history.pushState({}, "", location.pathname); document.title = "LDS Welsh Membership Records, 1800s"; window.scrollTo({ top: 0, behavior: "smooth" }); }
+  function renderPicker() { const all = document.createElement("button"); all.type = "button"; all.className = "picker-branch all-branches"; all.innerHTML = "<strong>All Branches</strong>"; all.addEventListener("click", () => showAllBranches()); pickerList.replaceChildren(all, ...names().map((name) => branchButton(name, true))); }
   function openPicker(anchor = null) {
     picker.classList.toggle("compact-popover", anchor === branchPagePicker && innerWidth > 760);
     if (picker.classList.contains("compact-popover")) {
@@ -36,7 +36,7 @@
       picker.style.setProperty("--picker-top", `${Math.max(12, Math.min(innerHeight - 420, box.bottom + 5))}px`);
       picker.style.setProperty("--picker-left", `${Math.min(innerWidth - 380, Math.max(12, box.left))}px`);
     }
-    picker.hidden = false; branchPagePicker.setAttribute("aria-expanded", "true"); pickerSearch.value = ""; renderPicker(); requestAnimationFrame(() => pickerSearch.focus());
+    picker.hidden = false; branchPagePicker.setAttribute("aria-expanded", "true"); renderPicker(); requestAnimationFrame(() => pickerList.querySelector("button")?.focus());
   }
   function closePicker(refocus = true) { picker.hidden = true; picker.classList.remove("compact-popover"); branchPagePicker.setAttribute("aria-expanded", "false"); if (refocus && !branchPagePicker.hidden) branchPagePicker.focus(); }
   function sourceText(collection) { const text = [collection.name, ...(collection.images || []).slice(0, 10).map((item) => item.name)].join(" "); const cd = text.match(/(?:^|\D)(?:CD\s*)?(\d{1,2})(?:\s*[-–]|\b)/i)?.[1]; const call = text.match(/\b(?:LR|CR)\s*\d+(?:\s+\d+)?/i)?.[0]; return [cd && `CD ${cd}`, call].filter(Boolean).join(" · ") || "Source CD not yet identified"; }
@@ -55,10 +55,10 @@
   }
   function openSearch() { directory.hidden = false; branchPagePicker.hidden = true; $("#resourcePanel").hidden = true; $("#recordViewer").hidden = true; document.querySelector(".site-menu")?.removeAttribute("open"); directory.scrollIntoView({ block: "start" }); requestAnimationFrame(() => search.focus()); }
   function syncSearch() { directory.hidden = false; $("#resourcePanel").hidden = true; $("#recordViewer").hidden = true; searchCatalog(search.value.trim()); }
-  branchPagePicker.addEventListener("click", () => openPicker(branchPagePicker)); $("#closeBranchPicker").addEventListener("click", () => closePicker()); $("#pickerBackdrop").addEventListener("click", () => closePicker()); pickerSearch.addEventListener("input", renderPicker);
+  branchPagePicker.addEventListener("click", () => openPicker(branchPagePicker)); $("#closeBranchPicker").addEventListener("click", () => closePicker()); $("#pickerBackdrop").addEventListener("click", () => closePicker());
   search.addEventListener("input", syncSearch); headerSearchButton.addEventListener("click", openSearch); menuSearchButton.addEventListener("click", openSearch);
   document.addEventListener("keydown", (event) => { if (event.key === "Escape" && !picker.hidden) closePicker(); if (!picker.hidden && ["ArrowDown", "ArrowUp"].includes(event.key)) { const buttons = [...pickerList.querySelectorAll("button")]; const index = buttons.indexOf(document.activeElement); buttons[Math.max(0, Math.min(buttons.length - 1, index + (event.key === "ArrowDown" ? 1 : -1)))]?.focus(); event.preventDefault(); } });
-  window.addEventListener("popstate", () => { const branch = new URLSearchParams(location.search).get("branch"); if (branch) routeBranch(branch, false); else { directory.hidden = false; branchPagePicker.hidden = true; $("#resourcePanel").hidden = true; $("#recordViewer").hidden = true; document.title = "LDS Welsh Membership Records, 1800s"; } });
+  window.addEventListener("popstate", () => { const branch = new URLSearchParams(location.search).get("branch"); if (branch) routeBranch(branch, false); else showAllBranches(false); });
   function start() { renderDirectory(); const branch = new URLSearchParams(location.search).get("branch"); if (branch && names().includes(branch)) routeBranch(branch, false); }
   if (registry.length) start();
   else fetch("data/branch-registry.json").then((response) => response.json()).then((data) => { registry = data.registry || []; start(); }).catch(() => { count.textContent = "Branch registry could not be loaded."; });
