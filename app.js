@@ -59,6 +59,7 @@
   const guideAngleOutput = $("#guideAngle");
   const activePageIndicator = $("#activePageIndicator");
   const imageTools = $("#imageTools");
+  const temporaryToolPopovers = [...document.querySelectorAll(".view-toolbar details.image-tools, .view-toolbar details.image-adjustments, .view-toolbar details.scale-tools")];
   const brightnessValue = $("#brightnessValue");
   const contrastValue = $("#contrastValue");
   const brightnessSlider = $("#brightnessSlider");
@@ -103,6 +104,12 @@
   function pageState(index) {
     if (!pageStates.has(index)) pageStates.set(index, { rotation: 0, scale: 1, brightness: 1, contrast: 1, guidePosition: 38, guideAngle: 0, guideSpacing: 12 });
     return pageStates.get(index);
+  }
+
+  function closeTemporaryToolPopovers(except = null) {
+    temporaryToolPopovers.forEach((popover) => {
+      if (popover !== except) popover.removeAttribute("open");
+    });
   }
 
   function selectedFacingIndex() {
@@ -1158,6 +1165,16 @@
   closePageIndex.addEventListener("click", () => closePageIndexPanel());
   $("#pageIndexBackdrop").addEventListener("click", () => closePageIndexPanel());
   document.addEventListener("keydown", (event) => { if (event.key === "Escape" && !pageIndexPanel.hidden) closePageIndexPanel(); });
+  temporaryToolPopovers.forEach((popover) => popover.addEventListener("toggle", () => {
+    if (popover.open) closeTemporaryToolPopovers(popover);
+  }));
+  document.addEventListener("pointerdown", (event) => {
+    const openPopover = temporaryToolPopovers.find((popover) => popover.open);
+    if (openPopover && !openPopover.contains(event.target)) closeTemporaryToolPopovers();
+  });
+  document.addEventListener("keydown", (event) => {
+    if (event.key === "Escape") closeTemporaryToolPopovers();
+  });
   facingZoomOut.addEventListener("click", () => setFacingZoom(-.05));
   facingZoomIn.addEventListener("click", () => setFacingZoom(.05));
   facingZoomFit.addEventListener("click", () => setFacingZoom(0, true));
