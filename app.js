@@ -86,6 +86,7 @@
   let facingSelectionLocked = false;
   let lazyObserver = null;
   let pagePositionObserver = null;
+  let facingScrollFrame = null;
   let resizingSidebar = false;
   let panEnabled = false;
   let lineGuidesEnabled = false;
@@ -512,11 +513,16 @@
 
   function startFacingPositionTracking() {
     pagePositionObserver?.disconnect();
-    pagePositionObserver = new IntersectionObserver((entries) => {
-      if (!facingSelectionLocked && entries.some((entry) => entry.isIntersecting)) syncFacingSpreadFromScroll();
-    }, { root: null, rootMargin: "-35% 0px -35% 0px", threshold: 0 });
-    continuousView.querySelectorAll(".page-spread").forEach((spread) => pagePositionObserver.observe(spread));
+    pagePositionObserver = null;
   }
+
+  window.addEventListener("scroll", () => {
+    if (viewMode !== "facing" || facingSelectionLocked || facingScrollFrame != null) return;
+    facingScrollFrame = requestAnimationFrame(() => {
+      facingScrollFrame = null;
+      syncFacingSpreadFromScroll();
+    });
+  }, { passive: true });
 
   continuousView.addEventListener("wheel", () => { facingSelectionLocked = false; }, { passive: true });
   continuousView.addEventListener("touchstart", () => { facingSelectionLocked = false; }, { passive: true });
