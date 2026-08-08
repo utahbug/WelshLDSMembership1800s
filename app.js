@@ -737,6 +737,15 @@
     const target = selectedAdjustmentTargets(index)[0];
     if (!target) return;
     enhanceStatus.textContent = "Analyzing…";
+    const storedEnhancement = currentRecords[index]?.enhancement;
+    if (storedEnhancement) {
+      const state = pageState(index);
+      state.brightness = storedEnhancement.brightness;
+      state.contrast = storedEnhancement.contrast;
+      applySelectedImageAdjustments(index);
+      enhanceStatus.textContent = `Enhanced from tones ${storedEnhancement.low}–${storedEnhancement.high}`;
+      return;
+    }
     if (!target.complete || !target.naturalWidth) {
       await new Promise((resolve) => target.addEventListener("load", resolve, { once: true }));
     }
@@ -777,7 +786,8 @@
       applySelectedImageAdjustments(index);
       enhanceStatus.textContent = `Enhanced from tones ${low}–${high}`;
     } catch (error) {
-      enhanceStatus.textContent = "This image cannot be analyzed in the current edition.";
+      const cause = error?.name === "SecurityError" ? "browser blocked canvas pixel access" : (error?.message || "unknown error");
+      enhanceStatus.textContent = `Auto Enhance unavailable: ${cause}.`;
     }
   }
 

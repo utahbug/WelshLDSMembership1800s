@@ -28,7 +28,7 @@ const publicCatalog = {
       sources: collection.sources || [],
       availability: { local: true, portable: true, online: Boolean(publicStorage) },
       publicStorage,
-      images: collection.images.map((item) => ({ name: item.name, extension: item.extension, type: item.type, source: item.source, url: "", serveUrl: "" })),
+      images: collection.images.map((item) => ({ name: item.name, extension: item.extension, type: item.type, source: item.source, enhancement: item.enhancement, url: "", serveUrl: "" })),
     };
   }),
 };

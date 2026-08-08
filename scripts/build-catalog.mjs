@@ -2,10 +2,12 @@ import crypto from "node:crypto";
 import fs from "node:fs";
 import path from "node:path";
 import { pathToFileURL } from "node:url";
+import sharp from "sharp";
 
 const root = path.resolve(import.meta.dirname, "..");
 const configPath = path.join(root, "sources.local.json");
 const outputDir = path.join(root, "data");
+const enhancementCachePath = path.join(outputDir, "image-enhancements.local.json");
 
 if (!fs.existsSync(configPath)) {
   throw new Error("Copy sources.example.json to sources.local.json and update the archive paths.");
@@ -159,6 +161,67 @@ for (const candidate of candidates.sort((a, b) => a.priority - b.priority || nat
   }
 }
 
+const enhancementCache = fs.existsSync(enhancementCachePath)
+  ? JSON.parse(fs.readFileSync(enhancementCachePath, "utf8"))
+  : {};
+
+function enhancementFromHistogram(histogram, total) {
+  const percentile = (fraction) => {
+    const threshold = total * fraction;
+    let seen = 0;
+    for (let tone = 0; tone < histogram.length; tone += 1) {
+      seen += histogram[tone];
+      if (seen >= threshold) return tone;
+    }
+    return 255;
+  };
+  const low = percentile(.02);
+  const high = percentile(.98);
+  const midpoint = Math.max(1, (low + high) / 2);
+  const contrast = Math.max(.75, Math.min(2, 220 / Math.max(12, high - low)));
+  const brightness = Math.max(.65, Math.min(1.75, (132 - 127.5 * (1 - contrast)) / (contrast * midpoint)));
+  return {
+    low,
+    high,
+    brightness: Math.round(brightness * 20) / 20,
+    contrast: Math.round(contrast * 20) / 20,
+  };
+}
+
+async function analyzeImage(candidate) {
+  const stat = fs.statSync(candidate.file);
+  const cached = enhancementCache[candidate.file];
+  if (cached?.size === stat.size && cached?.mtimeMs === stat.mtimeMs) return cached.enhancement;
+  const { data } = await sharp(candidate.file)
+    .resize({ width: 256, height: 256, fit: "inside", withoutEnlargement: true })
+    .removeAlpha()
+    .greyscale()
+    .raw()
+    .toBuffer({ resolveWithObject: true });
+  const histogram = new Uint32Array(256);
+  for (const tone of data) histogram[tone] += 1;
+  const enhancement = enhancementFromHistogram(histogram, data.length);
+  enhancementCache[candidate.file] = { size: stat.size, mtimeMs: stat.mtimeMs, enhancement };
+  return enhancement;
+}
+
+const imagesToAnalyze = retained.filter((candidate) => candidate.type === "image");
+let nextEnhancement = 0;
+async function enhancementWorker() {
+  while (nextEnhancement < imagesToAnalyze.length) {
+    const candidate = imagesToAnalyze[nextEnhancement];
+    nextEnhancement += 1;
+    try {
+      candidate.enhancement = await analyzeImage(candidate);
+    } catch (error) {
+      console.warn(`Could not analyze ${candidate.file}: ${error.message}`);
+    }
+    if (nextEnhancement % 250 === 0) console.log(`Analyzed ${nextEnhancement} of ${imagesToAnalyze.length} images...`);
+  }
+}
+await Promise.all(Array.from({ length: Math.min(6, imagesToAnalyze.length) }, enhancementWorker));
+fs.writeFileSync(enhancementCachePath, JSON.stringify(enhancementCache), "utf8");
+
 const collectionMap = new Map();
 for (const image of retained) {
   const key = image.collectionKey || image.collection.toLowerCase();
@@ -183,6 +246,7 @@ for (const image of retained) {
     source: image.sourceId,
     type: image.type,
     extension: image.extension,
+    enhancement: image.enhancement,
   });
 }
 
