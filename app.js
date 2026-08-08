@@ -722,6 +722,26 @@
     updateImageAdjustmentDisplay();
   }
 
+  function resetSelectedPageDisplay() {
+    const index = selectedGuideIndex();
+    const state = pageState(index);
+    state.rotation = 0;
+    state.scale = 1;
+    state.brightness = 1;
+    state.contrast = 1;
+    selectedAdjustmentTargets(index).forEach((target) => {
+      target.classList.remove("image-zoomed");
+      target.style.removeProperty("transform-origin");
+      target.dataset.rotation = "0";
+      target.dataset.imageZoom = "1";
+      target.dataset.imageBrightness = "1";
+      target.dataset.imageContrast = "1";
+      applyImageTransform(target);
+    });
+    if (viewMode === "facing") updateScaleDisplay();
+    updateImageAdjustmentDisplay();
+  }
+
   function adjustSelectedImage(property, value, reset = false) {
     const index = selectedGuideIndex();
     const state = pageState(index);
@@ -1167,6 +1187,7 @@
   brightnessSlider.addEventListener("input", () => adjustSelectedImage("brightness", Number(brightnessSlider.value) / 100));
   contrastSlider.addEventListener("input", () => adjustSelectedImage("contrast", Number(contrastSlider.value) / 100));
   $("#imageAdjustmentsReset").addEventListener("click", () => adjustSelectedImage("brightness", 0, true));
+  $("#resetPage").addEventListener("click", resetSelectedPageDisplay);
   jumpFirstPage.addEventListener("click", () => scrollContinuousToPage(0));
   jumpLastPage.addEventListener("click", () => scrollContinuousToPage(currentRecords.length - 1, "end"));
   enableDragPan(stage);
