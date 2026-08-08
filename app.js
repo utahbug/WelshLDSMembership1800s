@@ -68,6 +68,7 @@
   const rotationTarget = $("#rotationTarget");
   const backToResources = $("#backToResources");
   const viewerBreadcrumbs = $("#viewerBreadcrumbs");
+  const breadcrumbCurrentPage = $("#breadcrumbCurrentPage");
   const viewContext = $("#viewContext");
   const number = new Intl.NumberFormat("en-US");
   const minutesCdByCall = new Map(Object.entries({
@@ -1086,8 +1087,10 @@
     $(".viewer").classList.add("record-open");
     viewerBreadcrumbs.hidden = !keepResources;
     backToResources.hidden = !keepResources;
-    backToResources.textContent = keepResources ? `${currentBranchName} resources` : "Branch resources";
+    backToResources.textContent = keepResources ? `${currentBranchName} Resources` : "Branch Resources";
     backToResources.href = keepResources ? `?branch=${encodeURIComponent(currentBranchName)}` : "./";
+    const kind = resourceKind(collection);
+    breadcrumbCurrentPage.textContent = kind === "Record images" ? "Membership Record" : kind;
     viewer.hidden = false;
     title.textContent = collectionHeading(collection);
     viewContext.innerHTML = keepResources
