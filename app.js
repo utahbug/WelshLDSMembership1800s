@@ -423,6 +423,7 @@
     continuousView.classList.remove("facing-current");
     currentRecords.forEach((record, index) => continuousView.append(makeRecordFigure(record, index)));
     if (selectedImageIndex != null) continuousView.querySelector(`[data-page-index="${selectedImageIndex}"]`)?.classList.add("selected-sequence-image");
+    startLazyLoading();
     requestAnimationFrame(() => {
       scrollContinuousToPage(targetIndex, "start", "auto");
       startPagePositionTracking();
@@ -604,7 +605,6 @@
       });
       continuousView.append(spread);
     }
-    startLazyLoading();
     requestAnimationFrame(() => {
       const boundedTargetIndex = Math.max(0, Math.min(targetIndex, currentRecords.length - 1));
       const targetPage = continuousView.querySelector(`[data-page-index="${boundedTargetIndex}"]`);
