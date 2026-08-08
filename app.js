@@ -59,6 +59,8 @@
   const guideAngleOutput = $("#guideAngle");
   const activePageIndicator = $("#activePageIndicator");
   const imageTools = $("#imageTools");
+  const brightnessValue = $("#brightnessValue");
+  const contrastValue = $("#contrastValue");
   const rotationTarget = $("#rotationTarget");
   const backToResources = $("#backToResources");
   const viewContext = $("#viewContext");
@@ -95,7 +97,7 @@
   const swappedSpreads = new Set();
 
   function pageState(index) {
-    if (!pageStates.has(index)) pageStates.set(index, { rotation: 0, scale: 1, guidePosition: 38, guideAngle: 0, guideSpacing: 12 });
+    if (!pageStates.has(index)) pageStates.set(index, { rotation: 0, scale: 1, brightness: 1, contrast: 1, guidePosition: 38, guideAngle: 0, guideSpacing: 12 });
     return pageStates.get(index);
   }
 
@@ -119,6 +121,7 @@
     ));
     updateGuideDisplay();
     updateScaleDisplay();
+    updateImageAdjustmentDisplay();
   }
 
   if (!catalog) {
@@ -439,6 +442,7 @@
       currentImage = index;
       continuousView.querySelectorAll(".selected-sequence-image").forEach((page) => page.classList.remove("selected-sequence-image"));
       figure.classList.add("selected-sequence-image");
+      updateImageAdjustmentDisplay();
       position.textContent = `Selected image ${number.format(index + 1)} of ${number.format(currentRecords.length)} · will become the left facing image`;
     });
     if (record.type === "image") {
@@ -451,6 +455,8 @@
       const state = pageState(index);
       pageImage.dataset.rotation = String(state.rotation);
       pageImage.dataset.imageZoom = String(state.scale);
+      pageImage.dataset.imageBrightness = String(state.brightness);
+      pageImage.dataset.imageContrast = String(state.contrast);
       applyImageTransform(pageImage);
       figure.append(pageImage);
     } else {
@@ -675,6 +681,32 @@
     facingScale.textContent = `${Math.round(pageState(selectedFacingIndex()).scale * 100)}%`;
   }
 
+  function updateImageAdjustmentDisplay() {
+    const state = pageState(selectedGuideIndex());
+    brightnessValue.textContent = `${Math.round(state.brightness * 100)}%`;
+    contrastValue.textContent = `${Math.round(state.contrast * 100)}%`;
+  }
+
+  function adjustSelectedImage(property, delta = 0, reset = false) {
+    const index = selectedGuideIndex();
+    const state = pageState(index);
+    if (reset) {
+      state.brightness = 1;
+      state.contrast = 1;
+    } else {
+      state[property] = Math.max(.5, Math.min(2, Math.round((state[property] + delta) * 100) / 100));
+    }
+    const targets = viewMode === "single"
+      ? [image]
+      : [...continuousView.querySelectorAll(`[data-page-index="${index}"] img`)];
+    targets.forEach((target) => {
+      target.dataset.imageBrightness = String(state.brightness);
+      target.dataset.imageContrast = String(state.contrast);
+      applyImageTransform(target);
+    });
+    updateImageAdjustmentDisplay();
+  }
+
   function renderFacingSeries(targetIndex = currentImage) {
     facingSelectionLocked = true;
     continuousView.replaceChildren();
@@ -838,6 +870,7 @@
     const zoom = Number(item.dataset.imageZoom || 1);
     const rotation = Number(item.dataset.rotation || 0);
     item.style.transform = `translate(${panX}px, ${panY}px) scale(${zoom}) rotate(${rotation}deg)`;
+    item.style.filter = `brightness(${Number(item.dataset.imageBrightness || 1)}) contrast(${Number(item.dataset.imageContrast || 1)})`;
   }
 
   function rotateVisibleImages(delta, reset = false) {
@@ -965,6 +998,8 @@
       const state = pageState(currentImage);
       image.dataset.rotation = String(state.rotation);
       image.dataset.imageZoom = String(state.scale);
+      image.dataset.imageBrightness = String(state.brightness);
+      image.dataset.imageContrast = String(state.contrast);
       applyImageTransform(image);
     } else {
       image.removeAttribute("src");
@@ -980,6 +1015,7 @@
     previous.disabled = currentImage === 0;
     next.disabled = currentImage === currentRecords.length - 1;
     if (viewMode === "single") renderLineGuides();
+    updateImageAdjustmentDisplay();
   }
 
   $("#archiveStats").innerHTML = [["Collections", catalog.stats.collections], ["Unique images", catalog.stats.uniqueImages], ["Duplicates collapsed", catalog.stats.exactDuplicates]]
@@ -1033,6 +1069,11 @@
   $("#guideRotateRight").addEventListener("click", () => { const state = pageState(selectedGuideIndex()); state.guideAngle = Math.min(8, state.guideAngle + .5); updateGuideDisplay(); });
   $("#guideReset").addEventListener("click", () => { const state = pageState(selectedGuideIndex()); state.guideAngle = 0; state.guidePosition = 38; updateGuideDisplay(); });
   imageTools.addEventListener("click", (event) => { if (event.target.dataset.rotateReset !== undefined) rotateVisibleImages(0, true); else if (event.target.dataset.rotate) rotateVisibleImages(Number(event.target.dataset.rotate)); });
+  $("#brightnessDown").addEventListener("click", () => adjustSelectedImage("brightness", -.05));
+  $("#brightnessUp").addEventListener("click", () => adjustSelectedImage("brightness", .05));
+  $("#contrastDown").addEventListener("click", () => adjustSelectedImage("contrast", -.05));
+  $("#contrastUp").addEventListener("click", () => adjustSelectedImage("contrast", .05));
+  $("#imageAdjustmentsReset").addEventListener("click", () => adjustSelectedImage("brightness", 0, true));
   jumpFirstPage.addEventListener("click", () => scrollContinuousToPage(0));
   jumpLastPage.addEventListener("click", () => scrollContinuousToPage(currentRecords.length - 1, "end"));
   enableDragPan(stage);

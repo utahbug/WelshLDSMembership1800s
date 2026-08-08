@@ -394,6 +394,16 @@ button, input { font: inherit; }
 .image-tools summary::-webkit-details-marker { display: none; }
 .image-tools > div { position: absolute; z-index: 8; top: 100%; display: flex; padding: 6px; background: var(--panel); border: 1px solid var(--line); box-shadow: 0 8px 18px #0003; }
 .image-tools button { white-space: nowrap; }
+.image-adjustments { position: relative; font-family: Arial, sans-serif; }
+.image-adjustments summary { width: 34px; height: 32px; display: grid; place-items: center; padding: 0; color: var(--green-dark); border: 1px solid var(--line); border-radius: 4px; background: var(--panel); cursor: pointer; list-style: none; }
+.image-adjustments summary::-webkit-details-marker { display: none; }
+.image-adjustments summary svg { width: 19px; height: 19px; fill: none; stroke: currentColor; stroke-width: 1.6; stroke-linecap: round; stroke-linejoin: round; }
+.image-adjustments > div { position: absolute; z-index: 12; top: calc(100% + 5px); left: 0; display: grid; gap: 7px; width: max-content; padding: 8px; border: 1px solid var(--line); border-radius: 4px; background: var(--panel); box-shadow: 0 10px 24px #0003; }
+.image-adjustments:not([open]) > div { display: none; }
+.adjustment-row { display: grid; grid-template-columns: 72px 30px 48px 30px; align-items: center; gap: 3px; font-size: .83rem; }
+.adjustment-row button { width: 30px; height: 28px; padding: 0; }
+.adjustment-row output { text-align: center; font-variant-numeric: tabular-nums; }
+.adjustment-reset { justify-self: end; padding: 4px 8px; font-size: .8rem; }
 .ledger-guide { transform: translateY(-50%) rotate(var(--guide-angle, 0deg)); transform-origin: center; }
 .ledger-guide::before { top: 50%; }
 .ledger-guide::after { top: calc(50% - 5px); left: auto; right: 3px; width: 10px; height: 10px; border: 2px solid white; border-radius: 50%; background: #d4212f; box-shadow: 0 1px 3px #0008; }
