@@ -166,11 +166,16 @@ const enhancementCache = fs.existsSync(enhancementCachePath)
   : {};
 
 function enhancementFromHistogram(histogram, total) {
+  const nearBlackShare = histogram.slice(0, 24).reduce((sum, count) => sum + count, 0) / total;
+  const weightedHistogram = nearBlackShare >= .3
+    ? Array.from(histogram, (count, tone) => count * (tone < 12 ? .02 : tone < 24 ? .08 : tone < 40 ? .3 : 1))
+    : histogram;
+  const weightedTotal = weightedHistogram.reduce((sum, count) => sum + count, 0);
   const percentile = (fraction) => {
-    const threshold = total * fraction;
+    const threshold = weightedTotal * fraction;
     let seen = 0;
-    for (let tone = 0; tone < histogram.length; tone += 1) {
-      seen += histogram[tone];
+    for (let tone = 0; tone < weightedHistogram.length; tone += 1) {
+      seen += weightedHistogram[tone];
       if (seen >= threshold) return tone;
     }
     return 255;
@@ -178,11 +183,13 @@ function enhancementFromHistogram(histogram, total) {
   const low = percentile(.02);
   const high = percentile(.98);
   const midpoint = Math.max(1, (low + high) / 2);
-  const contrast = Math.max(.75, Math.min(2, 220 / Math.max(12, high - low)));
-  const brightness = Math.max(.65, Math.min(1.75, (132 - 127.5 * (1 - contrast)) / (contrast * midpoint)));
+  const contrastCeiling = nearBlackShare >= .3 ? 1.15 : 1.3;
+  const contrast = Math.max(.9, Math.min(contrastCeiling, 200 / Math.max(20, high - low)));
+  const brightness = Math.max(.8, Math.min(1.3, (135 - 127.5 * (1 - contrast)) / (contrast * midpoint)));
   return {
     low,
     high,
+    darkBackgroundAdjusted: nearBlackShare >= .3,
     brightness: Math.round(brightness * 20) / 20,
     contrast: Math.round(contrast * 20) / 20,
   };
@@ -191,7 +198,7 @@ function enhancementFromHistogram(histogram, total) {
 async function analyzeImage(candidate) {
   const stat = fs.statSync(candidate.file);
   const cached = enhancementCache[candidate.file];
-  if (cached?.size === stat.size && cached?.mtimeMs === stat.mtimeMs) return cached.enhancement;
+  if (cached?.algorithmVersion === 3 && cached?.size === stat.size && cached?.mtimeMs === stat.mtimeMs) return cached.enhancement;
   const { data } = await sharp(candidate.file)
     .resize({ width: 256, height: 256, fit: "inside", withoutEnlargement: true })
     .removeAlpha()
@@ -201,7 +208,7 @@ async function analyzeImage(candidate) {
   const histogram = new Uint32Array(256);
   for (const tone of data) histogram[tone] += 1;
   const enhancement = enhancementFromHistogram(histogram, data.length);
-  enhancementCache[candidate.file] = { size: stat.size, mtimeMs: stat.mtimeMs, enhancement };
+  enhancementCache[candidate.file] = { algorithmVersion: 3, size: stat.size, mtimeMs: stat.mtimeMs, enhancement };
   return enhancement;
 }
 
