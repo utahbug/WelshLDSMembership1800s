@@ -541,7 +541,10 @@
     const swapped = swappedSpreads.has(key);
     swapFacingPages.disabled = natural.some((index) => index == null);
     swapFacingPages.classList.toggle("active", swapped);
-    swapFacingPages.textContent = swapped ? "Left/right swapped" : "Swap left/right";
+    swapFacingPages.textContent = "⇄";
+    swapFacingPages.setAttribute("aria-label", "Swap left/right");
+    swapFacingPages.setAttribute("aria-pressed", String(swapped));
+    swapFacingPages.title = swapped ? "Left/right swapped; activate to restore" : "Swap left/right";
   }
 
   function activateFacingSpread(spread, side = activeFacingSide) {
