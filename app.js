@@ -75,12 +75,14 @@
   let currentCollection = null;
   let currentRecords = [];
   let currentImage = 0;
+  let selectedImageIndex = null;
   let currentCategory = "All collections";
   let browseMode = "branches";
   let viewMode = "index";
   let currentBranchName = "";
   let activeFacingSide = 0;
   let renderedFacingIndexes = [0, 1];
+  let facingPairOffset = 0;
   let lazyObserver = null;
   let pagePositionObserver = null;
   let resizingSidebar = false;
@@ -102,6 +104,7 @@
     activeFacingSide = Number(side) === 1 && renderedFacingIndexes[1] != null ? 1 : 0;
     guideTarget.value = String(activeFacingSide);
     rotationTarget.value = activeFacingSide ? "right" : "left";
+    selectedImageIndex = selectedFacingIndex();
     activePageIndicator.querySelector("span").textContent = `${activeFacingSide ? "Right" : "Left"} page ${selectedFacingIndex() + 1}`;
     const activeSpread = continuousView.querySelector(".active-facing-spread");
     continuousView.querySelectorAll(".scroll-page").forEach((page) => page.classList.toggle(
@@ -365,6 +368,14 @@
     figure.className = "scroll-page";
     figure.id = `page-${index + 1}`;
     figure.dataset.pageIndex = String(index);
+    figure.addEventListener("click", (event) => {
+      if (viewMode !== "continuous" || event.target.closest("a, button")) return;
+      selectedImageIndex = index;
+      currentImage = index;
+      continuousView.querySelectorAll(".selected-sequence-image").forEach((page) => page.classList.remove("selected-sequence-image"));
+      figure.classList.add("selected-sequence-image");
+      position.textContent = `Selected image ${number.format(index + 1)} of ${number.format(currentRecords.length)} · will become the left facing image`;
+    });
     if (record.type === "image") {
       const pageImage = document.createElement("img");
       pageImage.dataset.src = recordUrl(record);
@@ -410,6 +421,7 @@
     continuousView.replaceChildren();
     continuousView.classList.remove("facing-current");
     currentRecords.forEach((record, index) => continuousView.append(makeRecordFigure(record, index)));
+    if (selectedImageIndex != null) continuousView.querySelector(`[data-page-index="${selectedImageIndex}"]`)?.classList.add("selected-sequence-image");
     startLazyLoading();
     requestAnimationFrame(() => {
       scrollContinuousToPage(targetIndex, "start", "auto");
@@ -450,7 +462,9 @@
   }
 
   function facingIndexes(index = currentImage) {
-    const first = Math.floor(Math.max(0, index) / 2) * 2;
+    const bounded = Math.max(0, index);
+    if (facingPairOffset === 1 && bounded === 0) return [0, null];
+    const first = facingPairOffset + Math.floor((Math.max(facingPairOffset, bounded) - facingPairOffset) / 2) * 2;
     return [first, first + 1 < currentRecords.length ? first + 1 : null];
   }
 
@@ -561,7 +575,7 @@
   function renderFacingSeries(targetIndex = currentImage) {
     continuousView.replaceChildren();
     continuousView.classList.add("facing-current");
-    for (let first = 0; first < currentRecords.length; first += 2) {
+    for (let first = 0; first < currentRecords.length; first += first === 0 && facingPairOffset === 1 ? 1 : 2) {
       const naturalIndexes = facingIndexes(first);
       const spreadKey = naturalIndexes.map((index) => index ?? "blank").join("-");
       const indexes = swappedSpreads.has(spreadKey) ? [...naturalIndexes].reverse() : naturalIndexes;
@@ -605,8 +619,9 @@
   }
 
   function setView(mode) {
-    if (viewMode === "continuous" && mode !== "continuous") syncCurrentPageFromScroll();
-    const savedPage = currentImage;
+    const previousMode = viewMode;
+    if (previousMode === "continuous" && mode !== "continuous" && selectedImageIndex == null) syncCurrentPageFromScroll();
+    const savedPage = previousMode === "continuous" && selectedImageIndex != null ? selectedImageIndex : currentImage;
     if (mode !== "continuous") pagePositionObserver?.disconnect();
     viewMode = mode;
     $(".view-toolbar").querySelectorAll("[data-view]").forEach((button) => button.classList.toggle("active", button.dataset.view === mode));
@@ -630,6 +645,7 @@
     if (!facing) facingTools.open = false;
     if (mode === "continuous") renderScrollable(savedPage);
     if (facing) {
+      if (previousMode !== "facing") facingPairOffset = savedPage % 2;
       fitFacingSpread();
       renderFacingSeries(savedPage);
     }
@@ -757,6 +773,7 @@
     currentCollection = collection;
     currentRecords = visibleRecords(collection);
     currentImage = 0;
+    selectedImageIndex = null;
     pageStates.clear();
     swappedSpreads.clear();
     welcome.hidden = true;
@@ -785,6 +802,7 @@
   function showImage(index) {
     if (!currentRecords.length) return;
     currentImage = Math.max(0, Math.min(index, currentRecords.length - 1));
+    selectedImageIndex = currentImage;
     const record = currentRecords[currentImage];
     const isImage = record.type === "image";
     image.hidden = !isImage;
