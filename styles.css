@@ -135,6 +135,7 @@ button, input { font: inherit; }
 .viewer-intro { margin-bottom: 8px; }
 .viewer-heading { display: flex; justify-content: space-between; align-items: end; gap: 18px; margin-bottom: 8px; }
 .viewer-breadcrumbs { display: flex; flex-wrap: wrap; align-items: center; gap: 4px 6px; margin: 0 0 6px; color: var(--muted); font: .7rem/1.35 Arial, sans-serif; }
+#branchResourceBreadcrumbs:not([hidden]) { margin-top: calc(14px - clamp(22px, 4vw, 54px)); }
 .viewer-breadcrumbs[hidden], .back-to-resources[hidden] { display: none; }
 .viewer-breadcrumbs a { color: var(--muted); text-decoration: none; }
 .viewer-breadcrumbs a:hover, .viewer-breadcrumbs a:focus-visible { color: var(--green-dark); text-decoration: underline; }
