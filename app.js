@@ -66,6 +66,7 @@
   const enhanceStatus = $("#enhanceStatus");
   const rotationTarget = $("#rotationTarget");
   const backToResources = $("#backToResources");
+  const viewerBreadcrumbs = $("#viewerBreadcrumbs");
   const viewContext = $("#viewContext");
   const number = new Intl.NumberFormat("en-US");
   const minutesCdByCall = new Map(Object.entries({
@@ -327,6 +328,7 @@
     currentBranchName = name;
     directoryPanel.hidden = true;
     backToResources.hidden = true;
+    viewerBreadcrumbs.hidden = true;
     [...branchList.children].forEach((button) => button.classList.toggle("active", button === selectedButton));
     welcome.hidden = true;
     viewer.hidden = true;
@@ -1055,8 +1057,10 @@
     resourcePanel.hidden = true;
     if (!keepResources) resourcePanel.classList.remove("compact");
     $(".viewer").classList.add("record-open");
+    viewerBreadcrumbs.hidden = !keepResources;
     backToResources.hidden = !keepResources;
-    backToResources.textContent = keepResources ? `← Back to ${currentBranchName} resources` : "← Back to branch resources";
+    backToResources.textContent = keepResources ? `${currentBranchName} resources` : "Branch resources";
+    backToResources.href = keepResources ? `?branch=${encodeURIComponent(currentBranchName)}` : "./";
     viewer.hidden = false;
     title.textContent = collectionHeading(collection);
     viewContext.innerHTML = keepResources
@@ -1169,8 +1173,10 @@
   enableDragPan(continuousView);
   enableImageWheelZoom(stage);
   enableImageWheelZoom(continuousView);
-  backToResources.addEventListener("click", () => {
+  backToResources.addEventListener("click", (event) => {
+    event.preventDefault();
     viewer.hidden = true;
+    viewerBreadcrumbs.hidden = true;
     resourcePanel.hidden = false;
     resourcePanel.open = true;
     $(".viewer").classList.remove("record-open");
