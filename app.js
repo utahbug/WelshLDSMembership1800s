@@ -142,6 +142,14 @@
     return String(value ?? "").replace(/,(?=\S)/g, ", ");
   }
 
+  function collectionReference(collection = currentCollection) {
+    return displayTitle(collection?.name).match(/\b(?:LR|CR)\s*\d+(?:\s+\d+)?\b/i)?.[0].replace(/\s+/g, "") || "Source reference not identified";
+  }
+
+  function collectionHeading(collection) {
+    return displayTitle(collection?.name).replace(/\s*,?\s*\b(?:LR|CR)\s*\d+(?:\s+\d+)?\b/gi, "").replace(/(\b\d{4})-(\d{4}\b)/g, "$1–$2").replace(/\s*,\s*$/, "").trim();
+  }
+
   function editDistance(left, right) {
     if (!left) return right.length;
     if (!right) return left.length;
@@ -494,7 +502,7 @@
     if (!page) return;
     currentImage = boundedIndex;
     page.scrollIntoView({ behavior, block, inline: "nearest" });
-    position.textContent = `Page ${number.format(currentImage + 1)} of ${number.format(currentRecords.length)} · full-resolution source`;
+    position.textContent = `Page ${number.format(currentImage + 1)} of ${number.format(currentRecords.length)} · ${collectionReference()}`;
   }
 
   function startPagePositionTracking() {
@@ -517,7 +525,7 @@
       return pageDistance < nearestDistance ? page : nearest;
     });
     currentImage = Number(nearestPage.dataset.pageIndex);
-    position.textContent = `Page ${number.format(currentImage + 1)} of ${number.format(currentRecords.length)} · full-resolution source`;
+    position.textContent = `Page ${number.format(currentImage + 1)} of ${number.format(currentRecords.length)} · ${collectionReference()}`;
   }
 
   function facingIndexes(index = currentImage) {
@@ -533,7 +541,7 @@
 
   function updateFacingPosition(indexes) {
     const shown = indexes.filter((index) => index != null).map((index) => index + 1).sort((a, b) => a - b);
-    position.textContent = `Images ${shown.join("–")} of ${number.format(currentRecords.length)} · sequence pairing`;
+    position.textContent = `Images ${shown.join("–")} of ${number.format(currentRecords.length)} · ${collectionReference()}`;
     previous.disabled = shown[0] <= 1;
     next.disabled = shown[shown.length - 1] >= currentRecords.length;
     const natural = facingIndexes(shown[0] - 1);
@@ -930,14 +938,14 @@
     backToResources.hidden = !keepResources;
     backToResources.textContent = keepResources ? `← Back to ${currentBranchName} resources` : "← Back to branch resources";
     viewer.hidden = false;
-    title.textContent = displayTitle(collection.name);
+    title.textContent = collectionHeading(collection);
     viewContext.innerHTML = keepResources
       ? `<strong>Branch: ${currentBranchName}</strong><small>${displayTitle(collection.name)}</small>`
       : `<strong>${displayTitle(collection.name)}</strong>`;
     buildPageIndex();
     setView(initialView);
     resourceList.querySelectorAll(".resource-card").forEach((button) => button.classList.toggle("active", button.dataset.collectionId === collection.id));
-    position.textContent = `${number.format(currentRecords.length)} available item${currentRecords.length === 1 ? "" : "s"} · full resolution loads on demand`;
+    position.textContent = `${number.format(currentRecords.length)} available item${currentRecords.length === 1 ? "" : "s"} · ${collectionReference(collection)}`;
     renderCollections();
     sidebar.classList.remove("open");
     menu.setAttribute("aria-expanded", "false");
@@ -971,7 +979,7 @@
       if (inline) documentFrame.src = recordUrl(record); else documentFrame.removeAttribute("src");
     }
     caption.textContent = record.name;
-    position.textContent = `Page ${number.format(currentImage + 1)} of ${number.format(currentRecords.length)} · full-resolution source`;
+    position.textContent = `Page ${number.format(currentImage + 1)} of ${number.format(currentRecords.length)} · ${collectionReference()}`;
     previous.disabled = currentImage === 0;
     next.disabled = currentImage === currentRecords.length - 1;
     if (viewMode === "single") renderLineGuides();
