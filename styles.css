@@ -400,8 +400,7 @@ button, input { font: inherit; }
 .image-adjustments summary svg { width: 19px; height: 19px; fill: none; stroke: currentColor; stroke-width: 1.6; stroke-linecap: round; stroke-linejoin: round; }
 .image-adjustments > div { position: absolute; z-index: 12; top: calc(100% + 5px); left: 0; display: grid; gap: 8px; width: 230px; padding: 10px; border: 1px solid var(--line); border-radius: 4px; background: var(--panel); box-shadow: 0 10px 24px #0003; }
 .image-adjustments:not([open]) > div { display: none; }
-.enhance-heading { color: var(--green-dark); font-size: .9rem; }
-.auto-enhance { width: 100%; padding: 7px 10px; color: white; border-color: var(--green-dark); background: var(--green-dark); font-weight: 700; }
+.auto-enhance { width: 100%; padding: 7px 10px; color: white; border-color: var(--green-dark); border-radius: 8px; background: var(--green-dark); font-weight: 700; }
 .adjustment-slider { display: grid; grid-template-columns: 68px 1fr 42px; align-items: center; gap: 5px; font-size: .8rem; }
 .adjustment-slider input { min-width: 0; accent-color: var(--green-dark); }
 .adjustment-slider output { text-align: right; font-variant-numeric: tabular-nums; }
