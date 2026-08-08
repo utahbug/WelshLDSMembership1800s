@@ -54,7 +54,9 @@
   const lineGuideTool = $("#lineGuideTool");
   const guideControls = $("#guideControls");
   const guideAngleOutput = $("#guideAngle");
+  const guideTarget = $("#guideTarget");
   const imageTools = $("#imageTools");
+  const rotationTarget = $("#rotationTarget");
   const backToResources = $("#backToResources");
   const viewContext = $("#viewContext");
   const number = new Intl.NumberFormat("en-US");
@@ -82,8 +84,8 @@
   let panEnabled = false;
   let lineGuidesEnabled = false;
   const lineGuidePositions = [38, 38];
-  let lineGuideAngle = 0;
-  let lineGuideSpacing = 12;
+  const lineGuideAngles = [0, 0];
+  const lineGuideSpacings = [12, 12];
   const imageRotations = new Map();
   const swappedSpreads = new Set();
 
@@ -431,8 +433,8 @@
     guide.className = "ledger-guide";
     guide.dataset.side = String(side);
     guide.style.top = `${lineGuidePositions[side]}%`;
-    guide.style.setProperty("--guide-angle", `${lineGuideAngle}deg`);
-    guide.style.setProperty("--guide-spacing", `${lineGuideSpacing / 2}px`);
+    guide.style.setProperty("--guide-angle", `${lineGuideAngles[side]}deg`);
+    guide.style.setProperty("--guide-spacing", `${lineGuideSpacings[side] / 2}px`);
     guide.setAttribute("aria-label", `Adjust ${side === 0 ? "left" : "right"} ledger row guide`);
     guide.title = "Drag this line up or down";
     guide.addEventListener("pointerdown", (event) => {
@@ -456,16 +458,23 @@
         guide.style.top = `${lineGuidePositions[side]}%`;
         event.preventDefault();
       }
-      if (["[", "]"].includes(event.key)) { lineGuideAngle = Math.max(-8, Math.min(8, lineGuideAngle + (event.key === "[" ? -.5 : .5))); updateGuideDisplay(); event.preventDefault(); }
+      if (["[", "]"].includes(event.key)) {
+        lineGuideAngles[side] = Math.max(-8, Math.min(8, lineGuideAngles[side] + (event.key === "[" ? -.5 : .5)));
+        guideTarget.value = String(side);
+        updateGuideDisplay();
+        event.preventDefault();
+      }
     });
     return guide;
   }
 
   function updateGuideDisplay() {
-    guideAngleOutput.textContent = `${lineGuideAngle.toFixed(1).replace(".0", "")}°`;
+    const selected = Number(guideTarget.value || 0);
+    guideAngleOutput.textContent = `${lineGuideAngles[selected].toFixed(1).replace(".0", "")}°`;
     continuousView.querySelectorAll(".ledger-guide").forEach((guide) => {
-      guide.style.setProperty("--guide-angle", `${lineGuideAngle}deg`);
-      guide.style.setProperty("--guide-spacing", `${lineGuideSpacing / 2}px`);
+      const side = Number(guide.dataset.side || 0);
+      guide.style.setProperty("--guide-angle", `${lineGuideAngles[side]}deg`);
+      guide.style.setProperty("--guide-spacing", `${lineGuideSpacings[side] / 2}px`);
     });
   }
 
@@ -569,9 +578,13 @@
   }
 
   function rotateVisibleImages(delta, reset = false) {
-    const targets = viewMode === "single" ? [image] : [...continuousView.querySelectorAll("img")].filter((item) => {
+    let targets = viewMode === "single" ? [image] : [...continuousView.querySelectorAll("img")].filter((item) => {
       const box = item.getBoundingClientRect(); return box.bottom > 0 && box.top < innerHeight;
     });
+    if (viewMode === "facing" && rotationTarget.value !== "both") {
+      const spreadImages = [...continuousView.querySelectorAll(".page-spread > * img")];
+      targets = rotationTarget.value === "right" ? spreadImages.slice(1, 2) : spreadImages.slice(0, 1);
+    }
     targets.forEach((item) => { const index = Number(item.closest("[data-page-index]")?.dataset.pageIndex ?? currentImage); const angle = reset ? 0 : Math.max(-10, Math.min(10, Number(item.dataset.rotation || imageRotations.get(index) || 0) + delta)); item.dataset.rotation = String(angle); imageRotations.set(index, angle); applyImageTransform(item); });
   }
 
@@ -739,11 +752,12 @@
     guideControls.hidden = !lineGuidesEnabled;
     renderFacingPair();
   });
-  $("#guideRotateLeft").addEventListener("click", () => { lineGuideAngle = Math.max(-8, lineGuideAngle - .5); updateGuideDisplay(); });
-  $("#guideRotateRight").addEventListener("click", () => { lineGuideAngle = Math.min(8, lineGuideAngle + .5); updateGuideDisplay(); });
-  $("#guideNarrow").addEventListener("click", () => { lineGuideSpacing = Math.max(2, lineGuideSpacing - 2); updateGuideDisplay(); });
-  $("#guideWiden").addEventListener("click", () => { lineGuideSpacing = Math.min(80, lineGuideSpacing + 2); updateGuideDisplay(); });
-  $("#guideReset").addEventListener("click", () => { lineGuideAngle = 0; lineGuideSpacing = 12; lineGuidePositions[0] = 38; lineGuidePositions[1] = 38; renderFacingPair(); updateGuideDisplay(); });
+  guideTarget.addEventListener("change", updateGuideDisplay);
+  $("#guideRotateLeft").addEventListener("click", () => { const side = Number(guideTarget.value || 0); lineGuideAngles[side] = Math.max(-8, lineGuideAngles[side] - .5); updateGuideDisplay(); });
+  $("#guideRotateRight").addEventListener("click", () => { const side = Number(guideTarget.value || 0); lineGuideAngles[side] = Math.min(8, lineGuideAngles[side] + .5); updateGuideDisplay(); });
+  $("#guideNarrow").addEventListener("click", () => { const side = Number(guideTarget.value || 0); lineGuideSpacings[side] = Math.max(2, lineGuideSpacings[side] - 2); updateGuideDisplay(); });
+  $("#guideWiden").addEventListener("click", () => { const side = Number(guideTarget.value || 0); lineGuideSpacings[side] = Math.min(80, lineGuideSpacings[side] + 2); updateGuideDisplay(); });
+  $("#guideReset").addEventListener("click", () => { const side = Number(guideTarget.value || 0); lineGuideAngles[side] = 0; lineGuideSpacings[side] = 12; lineGuidePositions[side] = 38; renderFacingPair(); updateGuideDisplay(); });
   imageTools.addEventListener("click", (event) => { if (event.target.dataset.rotateReset !== undefined) rotateVisibleImages(0, true); else if (event.target.dataset.rotate) rotateVisibleImages(Number(event.target.dataset.rotate)); });
   jumpFirstPage.addEventListener("click", () => scrollContinuousToPage(0));
   jumpLastPage.addEventListener("click", () => scrollContinuousToPage(currentRecords.length - 1, "end"));

@@ -139,7 +139,12 @@ const exactSeen = new Map();
 const retained = [];
 const duplicates = [];
 for (const candidate of candidates.sort((a, b) => a.priority - b.priority || natural.compare(a.file, b.file))) {
-  const identity = candidate.hash ? `${candidate.category}:${candidate.size}:${candidate.hash}` : `unique:${candidate.file}`;
+  // Collapse repeated files only within the same named collection. Identical
+  // scans can legitimately describe more than one branch or record group;
+  // removing them globally made those collections disappear from the catalog.
+  const identity = candidate.hash
+    ? `${candidate.collectionKey}:${candidate.size}:${candidate.hash}`
+    : `unique:${candidate.file}`;
   const original = exactSeen.get(identity);
   if (original) {
     duplicates.push({
