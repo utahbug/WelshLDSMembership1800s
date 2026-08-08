@@ -69,6 +69,8 @@
   const backToResources = $("#backToResources");
   const viewerBreadcrumbs = $("#viewerBreadcrumbs");
   const breadcrumbCurrentPage = $("#breadcrumbCurrentPage");
+  const branchResourceBreadcrumbs = $("#branchResourceBreadcrumbs");
+  const branchBreadcrumbName = $("#branchBreadcrumbName");
   const viewContext = $("#viewContext");
   const number = new Intl.NumberFormat("en-US");
   const minutesCdByCall = new Map(Object.entries({
@@ -337,6 +339,8 @@
     directoryPanel.hidden = true;
     backToResources.hidden = true;
     viewerBreadcrumbs.hidden = true;
+    branchBreadcrumbName.textContent = name;
+    branchResourceBreadcrumbs.hidden = false;
     [...branchList.children].forEach((button) => button.classList.toggle("active", button === selectedButton));
     welcome.hidden = true;
     viewer.hidden = true;
@@ -1083,6 +1087,7 @@
     swappedSpreads.clear();
     welcome.hidden = true;
     resourcePanel.hidden = true;
+    branchResourceBreadcrumbs.hidden = true;
     if (!keepResources) resourcePanel.classList.remove("compact");
     $(".viewer").classList.add("record-open");
     viewerBreadcrumbs.hidden = !keepResources;
