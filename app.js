@@ -1060,7 +1060,7 @@
     viewer.hidden = false;
     title.textContent = collectionHeading(collection);
     viewContext.innerHTML = keepResources
-      ? `<strong>Branch: ${currentBranchName}</strong><small>${displayTitle(collection.name)}</small>`
+      ? `<small>${displayTitle(collection.name)}</small>`
       : `<strong>${displayTitle(collection.name)}</strong>`;
     buildPageIndex();
     setView(initialView);
