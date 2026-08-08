@@ -581,7 +581,7 @@
     });
   }, { passive: true });
 
-  continuousView.addEventListener("wheel", () => { facingSelectionLocked = false; }, { passive: true });
+  continuousView.addEventListener("wheel", (event) => { if (!event.ctrlKey) facingSelectionLocked = false; }, { passive: true });
   continuousView.addEventListener("touchstart", () => { facingSelectionLocked = false; }, { passive: true });
   window.addEventListener("keydown", (event) => {
     if (viewMode === "facing" && ["ArrowUp", "ArrowDown", "PageUp", "PageDown", "Home", "End", " "].includes(event.key)) facingSelectionLocked = false;
@@ -876,7 +876,7 @@
       }
       target.classList.toggle("image-zoomed", Math.abs(nextZoom - 1) > .01);
       applyImageTransform(target);
-      if (!panEnabled) setPanEnabled(true);
+      if (!panEnabled && viewMode !== "facing") setPanEnabled(true);
     }, { passive: false });
   }
 
