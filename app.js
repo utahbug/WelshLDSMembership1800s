@@ -728,10 +728,41 @@
     continuousView.scrollLeft = 0;
   }
 
+  function captureSimpleViewTransfer(previousMode, nextMode, pageIndex) {
+    if (!([previousMode, nextMode].includes("single") && [previousMode, nextMode].includes("continuous"))) return null;
+    const source = previousMode === "single" ? image : continuousView.querySelector(`[data-page-index="${pageIndex}"] img`);
+    if (!source || source.hidden) return null;
+    const box = source.getBoundingClientRect();
+    if (!box.width || !box.height) return null;
+    const toolbarBottom = Math.max(0, $(".view-toolbar").getBoundingClientRect().bottom);
+    const viewportAnchor = toolbarBottom + (innerHeight - toolbarBottom) / 2;
+    return { width: box.width, relativeY: Math.max(0, Math.min(1, (viewportAnchor - box.top) / box.height)), viewportAnchor };
+  }
+
+  function restoreSimpleViewTransfer(transfer, mode, pageIndex) {
+    if (!transfer) return;
+    const target = mode === "single" ? image : continuousView.querySelector(`[data-page-index="${pageIndex}"] img`);
+    if (!target) return;
+    const restore = () => requestAnimationFrame(() => requestAnimationFrame(() => {
+      if (viewMode !== mode) return;
+      const baseWidth = target.offsetWidth;
+      if (!baseWidth) return;
+      const state = pageState(pageIndex);
+      state.scale = Math.max(.5, Math.min(4, transfer.width / baseWidth));
+      target.dataset.imageZoom = String(state.scale);
+      applyImageTransform(target);
+      const box = target.getBoundingClientRect();
+      window.scrollBy({ top: box.top + box.height * transfer.relativeY - transfer.viewportAnchor, behavior: "auto" });
+    }));
+    if (target.complete && target.naturalWidth) restore();
+    else target.addEventListener("load", restore, { once: true });
+  }
+
   function setView(mode) {
     const previousMode = viewMode;
     if (previousMode === "continuous" && mode !== "continuous" && selectedImageIndex == null) syncCurrentPageFromScroll();
     const savedPage = selectedImageIndex != null ? selectedImageIndex : currentImage;
+    const simpleViewTransfer = captureSimpleViewTransfer(previousMode, mode, savedPage);
     if (mode !== "continuous") pagePositionObserver?.disconnect();
     viewMode = mode;
     $(".view-toolbar").querySelectorAll("[data-view]").forEach((button) => button.classList.toggle("active", button.dataset.view === mode));
@@ -761,6 +792,7 @@
     }
     if (single) showImage(savedPage);
     renderLineGuides();
+    restoreSimpleViewTransfer(simpleViewTransfer, mode, savedPage);
     if (index) openPageIndex();
   }
 
