@@ -497,10 +497,14 @@
     const spreads = [...continuousView.querySelectorAll(".page-spread")];
     if (!spreads.length) return;
     const viewerCenter = window.innerHeight / 2;
-    const nearest = spreads.reduce((best, spread) => {
+    const distanceFromCenter = (spread) => {
       const box = spread.getBoundingClientRect();
-      const bestBox = best.getBoundingClientRect();
-      return Math.abs(box.top + box.height / 2 - viewerCenter) < Math.abs(bestBox.top + bestBox.height / 2 - viewerCenter) ? spread : best;
+      if (viewerCenter < box.top) return box.top - viewerCenter;
+      if (viewerCenter > box.bottom) return viewerCenter - box.bottom;
+      return 0;
+    };
+    const nearest = spreads.reduce((best, spread) => {
+      return distanceFromCenter(spread) < distanceFromCenter(best) ? spread : best;
     });
     if (!nearest.classList.contains("active-facing-spread")) activateFacingSpread(nearest, activeFacingSide);
   }
@@ -595,10 +599,13 @@
     }
     startLazyLoading();
     requestAnimationFrame(() => {
-      const target = continuousView.querySelector(`[data-page-index="${Math.max(0, Math.min(targetIndex, currentRecords.length - 1))}"]`)?.closest(".page-spread") || continuousView.querySelector(".page-spread");
+      const boundedTargetIndex = Math.max(0, Math.min(targetIndex, currentRecords.length - 1));
+      const targetPage = continuousView.querySelector(`[data-page-index="${boundedTargetIndex}"]`);
+      const target = targetPage?.closest(".page-spread") || continuousView.querySelector(".page-spread");
       if (!target) return;
-      activateFacingSpread(target, activeFacingSide);
-      target.scrollIntoView({ block: "start", inline: "nearest", behavior: "auto" });
+      const targetSide = Math.max(0, spreadIndexes(target).indexOf(boundedTargetIndex));
+      activateFacingSpread(target, targetSide);
+      (targetPage || target).scrollIntoView({ block: "center", inline: "center", behavior: "auto" });
       startFacingPositionTracking();
     });
   }
@@ -621,7 +628,7 @@
   function setView(mode) {
     const previousMode = viewMode;
     if (previousMode === "continuous" && mode !== "continuous" && selectedImageIndex == null) syncCurrentPageFromScroll();
-    const savedPage = previousMode === "continuous" && selectedImageIndex != null ? selectedImageIndex : currentImage;
+    const savedPage = selectedImageIndex != null ? selectedImageIndex : currentImage;
     if (mode !== "continuous") pagePositionObserver?.disconnect();
     viewMode = mode;
     $(".view-toolbar").querySelectorAll("[data-view]").forEach((button) => button.classList.toggle("active", button.dataset.view === mode));
@@ -649,7 +656,7 @@
       fitFacingSpread();
       renderFacingSeries(savedPage);
     }
-    if (single) showImage(currentImage);
+    if (single) showImage(savedPage);
   }
 
   function navigatePages(direction) {
