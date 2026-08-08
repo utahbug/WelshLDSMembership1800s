@@ -103,7 +103,11 @@
     guideTarget.value = String(activeFacingSide);
     rotationTarget.value = activeFacingSide ? "right" : "left";
     activePageIndicator.querySelector("span").textContent = `${activeFacingSide ? "Right" : "Left"} page ${selectedFacingIndex() + 1}`;
-    continuousView.querySelectorAll(".scroll-page").forEach((page) => page.classList.toggle("active-facing-page", Number(page.dataset.facingSide) === activeFacingSide));
+    const activeSpread = continuousView.querySelector(".active-facing-spread");
+    continuousView.querySelectorAll(".scroll-page").forEach((page) => page.classList.toggle(
+      "active-facing-page",
+      page.closest(".page-spread") === activeSpread && Number(page.dataset.facingSide) === activeFacingSide,
+    ));
     updateGuideDisplay();
     updateScaleDisplay();
   }
@@ -366,6 +370,7 @@
       pageImage.dataset.src = recordUrl(record);
       pageImage.alt = `${currentCollection.name}, page ${index + 1}`;
       pageImage.decoding = "async";
+      pageImage.loading = "lazy";
       pageImage.draggable = false;
       const state = pageState(index);
       pageImage.dataset.rotation = String(state.rotation);
@@ -380,7 +385,7 @@
       figure.append(link);
     }
     const label = document.createElement("figcaption");
-    label.textContent = `Page ${index + 1} · ${record.name}`;
+    label.textContent = `Image sequence ${index + 1} · ${record.name}`;
     figure.append(label);
     return figure;
   }
@@ -444,8 +449,54 @@
     position.textContent = `Page ${number.format(currentImage + 1)} of ${number.format(currentRecords.length)} · full-resolution source`;
   }
 
-  function facingIndexes() {
-    return [currentImage, currentImage + 1 < currentRecords.length ? currentImage + 1 : null];
+  function facingIndexes(index = currentImage) {
+    const first = Math.floor(Math.max(0, index) / 2) * 2;
+    return [first, first + 1 < currentRecords.length ? first + 1 : null];
+  }
+
+  function spreadIndexes(spread) {
+    return [spread.dataset.leftIndex, spread.dataset.rightIndex].map((value) => value === "" ? null : Number(value));
+  }
+
+  function updateFacingPosition(indexes) {
+    const shown = indexes.filter((index) => index != null).map((index) => index + 1).sort((a, b) => a - b);
+    position.textContent = `Images ${shown.join("–")} of ${number.format(currentRecords.length)} · sequence pairing`;
+    previous.disabled = shown[0] <= 1;
+    next.disabled = shown[shown.length - 1] >= currentRecords.length;
+    const natural = facingIndexes(shown[0] - 1);
+    const key = natural.map((index) => index ?? "blank").join("-");
+    const swapped = swappedSpreads.has(key);
+    swapFacingPages.disabled = natural.some((index) => index == null);
+    swapFacingPages.classList.toggle("active", swapped);
+    swapFacingPages.textContent = swapped ? "Left/right swapped" : "Swap left/right";
+  }
+
+  function activateFacingSpread(spread, side = activeFacingSide) {
+    continuousView.querySelectorAll(".page-spread").forEach((item) => item.classList.toggle("active-facing-spread", item === spread));
+    renderedFacingIndexes = spreadIndexes(spread);
+    currentImage = Math.min(...renderedFacingIndexes.filter((index) => index != null));
+    selectFacingSide(side);
+    updateFacingPosition(renderedFacingIndexes);
+  }
+
+  function syncFacingSpreadFromScroll() {
+    const spreads = [...continuousView.querySelectorAll(".page-spread")];
+    if (!spreads.length) return;
+    const viewerCenter = window.innerHeight / 2;
+    const nearest = spreads.reduce((best, spread) => {
+      const box = spread.getBoundingClientRect();
+      const bestBox = best.getBoundingClientRect();
+      return Math.abs(box.top + box.height / 2 - viewerCenter) < Math.abs(bestBox.top + bestBox.height / 2 - viewerCenter) ? spread : best;
+    });
+    if (!nearest.classList.contains("active-facing-spread")) activateFacingSpread(nearest, activeFacingSide);
+  }
+
+  function startFacingPositionTracking() {
+    pagePositionObserver?.disconnect();
+    pagePositionObserver = new IntersectionObserver((entries) => {
+      if (entries.some((entry) => entry.isIntersecting)) syncFacingSpreadFromScroll();
+    }, { root: null, rootMargin: "-35% 0px -35% 0px", threshold: 0 });
+    continuousView.querySelectorAll(".page-spread").forEach((spread) => pagePositionObserver.observe(spread));
   }
 
   function makeLineGuide(pageIndex, side) {
@@ -507,36 +558,35 @@
     facingScale.textContent = `${Math.round(pageState(selectedFacingIndex()).scale * 100)}%`;
   }
 
-  function renderFacingPair() {
+  function renderFacingSeries(targetIndex = currentImage) {
     continuousView.replaceChildren();
     continuousView.classList.add("facing-current");
-    const spread = document.createElement("section");
-    spread.className = "page-spread";
-    const naturalIndexes = facingIndexes();
-    const spreadKey = naturalIndexes.map((index) => index ?? "blank").join("-");
-    const swapped = swappedSpreads.has(spreadKey);
-    const indexes = swapped ? [...naturalIndexes].reverse() : naturalIndexes;
-    renderedFacingIndexes = indexes;
-    swapFacingPages.classList.toggle("active", swapped);
-    swapFacingPages.textContent = swapped ? "Left/right swapped" : "Swap left/right";
-    indexes.forEach((index, side) => {
-      if (index == null) spread.append(Object.assign(document.createElement("div"), { className: "blank-page", ariaHidden: "true" }));
-      else {
+    for (let first = 0; first < currentRecords.length; first += 2) {
+      const naturalIndexes = facingIndexes(first);
+      const spreadKey = naturalIndexes.map((index) => index ?? "blank").join("-");
+      const indexes = swappedSpreads.has(spreadKey) ? [...naturalIndexes].reverse() : naturalIndexes;
+      const spread = document.createElement("section");
+      spread.className = `page-spread${indexes.some((index) => index == null) ? " single-page-spread" : ""}`;
+      spread.dataset.leftIndex = indexes[0] == null ? "" : String(indexes[0]);
+      spread.dataset.rightIndex = indexes[1] == null ? "" : String(indexes[1]);
+      indexes.forEach((index, side) => {
+        if (index == null) return;
         const page = makeRecordFigure(currentRecords[index], index);
         page.dataset.facingSide = String(side);
-        page.addEventListener("pointerdown", () => selectFacingSide(side));
+        page.addEventListener("pointerdown", () => activateFacingSpread(spread, side));
         if (lineGuidesEnabled) page.append(makeLineGuide(index, side));
         spread.append(page);
-      }
-    });
-    continuousView.append(spread);
-    selectFacingSide(activeFacingSide);
-    const shown = indexes.filter((index) => index != null).map((index) => index + 1).sort((a, b) => a - b);
-    position.textContent = `Pages ${shown.join("–")} of ${number.format(currentRecords.length)} · full-resolution sources`;
-    previous.disabled = shown[0] <= 1;
-    next.disabled = shown[shown.length - 1] >= currentRecords.length;
+      });
+      continuousView.append(spread);
+    }
     startLazyLoading();
-    continuousView.scrollLeft = 0;
+    requestAnimationFrame(() => {
+      const target = continuousView.querySelector(`[data-page-index="${Math.max(0, Math.min(targetIndex, currentRecords.length - 1))}"]`)?.closest(".page-spread") || continuousView.querySelector(".page-spread");
+      if (!target) return;
+      activateFacingSpread(target, activeFacingSide);
+      target.scrollIntoView({ block: "start", inline: "nearest", behavior: "auto" });
+      startFacingPositionTracking();
+    });
   }
 
   function setFacingZoom(delta, reset = false) {
@@ -581,15 +631,19 @@
     if (mode === "continuous") renderScrollable(savedPage);
     if (facing) {
       fitFacingSpread();
-      renderFacingPair();
+      renderFacingSeries(savedPage);
     }
     if (single) showImage(currentImage);
   }
 
   function navigatePages(direction) {
     if (viewMode === "facing") {
-      currentImage = Math.max(0, Math.min(currentImage + direction * 2, currentRecords.length - 1));
-      renderFacingPair();
+      const targetIndex = Math.max(0, Math.min(Math.floor(currentImage / 2) * 2 + direction * 2, currentRecords.length - 1));
+      const spread = continuousView.querySelector(`[data-page-index="${targetIndex}"]`)?.closest(".page-spread");
+      if (spread) {
+        activateFacingSpread(spread, activeFacingSide);
+        spread.scrollIntoView({ block: "start", inline: "nearest", behavior: "smooth" });
+      }
       return;
     }
     showImage(currentImage + direction);
@@ -787,7 +841,7 @@
     const spreadKey = indexes.map((index) => index ?? "blank").join("-");
     if (swappedSpreads.has(spreadKey)) swappedSpreads.delete(spreadKey);
     else swappedSpreads.add(spreadKey);
-    renderFacingPair();
+    renderFacingSeries(currentImage);
   });
   panTool.addEventListener("click", () => setPanEnabled(!panEnabled));
   resetPan.addEventListener("click", resetPannedImages);
@@ -796,7 +850,7 @@
     lineGuideTool.classList.toggle("active", lineGuidesEnabled);
     lineGuideTool.setAttribute("aria-pressed", String(lineGuidesEnabled));
     guideControls.hidden = !lineGuidesEnabled;
-    renderFacingPair();
+    renderFacingSeries(currentImage);
   });
   guideTarget.addEventListener("change", () => selectFacingSide(guideTarget.value));
   rotationTarget.addEventListener("change", () => selectFacingSide(rotationTarget.value === "right" ? 1 : 0));
