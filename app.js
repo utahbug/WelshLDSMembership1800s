@@ -782,8 +782,8 @@
     const index = mode === "index";
     stage.hidden = !single;
     continuousView.hidden = single || index;
-    previous.hidden = !(single || facing);
-    next.hidden = !(single || facing);
+    previous.hidden = !single;
+    next.hidden = !single;
     panTool.hidden = !(single || facing || mode === "continuous");
     lineGuideTool.hidden = index;
     activePageIndicator.hidden = !facing;
