@@ -24,7 +24,7 @@
     {
       "id": "conference-minutes",
       "label": "Welsh conference-minute transcriptions",
-      "path": "C:\\path\\to\\Conference Minutes\\TRANSCRIPTIONS",
+      "path": "C:\\path\\to\\LDSWelshMembers\\records\\transcriptions",
       "priority": 1,
       "category": "LDS conference and district minutes",
       "includeRootFiles": true

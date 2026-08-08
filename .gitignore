@@ -10,4 +10,5 @@ outputs/branch-registry/*.inspect.ndjson
 tmp/
 _github_upload/
 records/source-cds/**
-records/transcriptions/**
+records/transcriptions/*
+!records/transcriptions/*.pdf

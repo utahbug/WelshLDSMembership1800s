@@ -15,16 +15,22 @@ const publicCatalog = {
   title: local.title,
   sources: local.sources,
   stats: local.stats,
-  collections: local.collections.map((collection) => ({
-    id: collection.id,
-    name: collection.name,
-    aliases: collection.aliases || [],
-    category: collection.category,
-    sources: collection.sources || [],
-    availability: { local: true, portable: true, online: Boolean(collection.publicStorage) },
-    publicStorage: collection.publicStorage || null,
-    images: collection.images.map((item) => ({ name: item.name, extension: item.extension, type: item.type, source: item.source, url: "", serveUrl: "" })),
-  })),
+  collections: local.collections.map((collection) => {
+    const publishedTranscriptions = (collection.sources || []).includes("conference-minutes");
+    const publicStorage = publishedTranscriptions
+      ? { provider: "github-pages", baseUrl: "records/transcriptions/" }
+      : collection.publicStorage || null;
+    return {
+      id: collection.id,
+      name: collection.name,
+      aliases: collection.aliases || [],
+      category: collection.category,
+      sources: collection.sources || [],
+      availability: { local: true, portable: true, online: Boolean(publicStorage) },
+      publicStorage,
+      images: collection.images.map((item) => ({ name: item.name, extension: item.extension, type: item.type, source: item.source, url: "", serveUrl: "" })),
+    };
+  }),
 };
 fs.writeFileSync(output, `window.WELSH_RECORD_CATALOG = ${JSON.stringify(publicCatalog)};\n`, "utf8");
 console.log(`Wrote metadata for ${publicCatalog.collections.length} collections to ${output}`);
