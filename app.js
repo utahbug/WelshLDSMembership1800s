@@ -580,7 +580,16 @@
     const nearest = spreads.reduce((best, spread) => {
       return distanceFromCenter(spread) < distanceFromCenter(best) ? spread : best;
     });
-    if (!nearest.classList.contains("active-facing-spread")) activateFacingSpread(nearest, activeFacingSide);
+    if (!nearest.classList.contains("active-facing-spread")) {
+      if (lineGuidesEnabled) {
+        lineGuidesEnabled = false;
+        lineGuideTool.classList.remove("active");
+        lineGuideTool.setAttribute("aria-pressed", "false");
+        guideControls.hidden = true;
+        renderLineGuides();
+      }
+      activateFacingSpread(nearest, activeFacingSide);
+    }
   }
 
   function startFacingPositionTracking() {
