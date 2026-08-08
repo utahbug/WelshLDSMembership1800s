@@ -423,7 +423,6 @@
     continuousView.classList.remove("facing-current");
     currentRecords.forEach((record, index) => continuousView.append(makeRecordFigure(record, index)));
     if (selectedImageIndex != null) continuousView.querySelector(`[data-page-index="${selectedImageIndex}"]`)?.classList.add("selected-sequence-image");
-    startLazyLoading();
     requestAnimationFrame(() => {
       scrollContinuousToPage(targetIndex, "start", "auto");
       startPagePositionTracking();
@@ -616,10 +615,18 @@
         if (!facingSelectionLocked || viewMode !== "facing" || selectedImageIndex !== boundedTargetIndex) return;
         activateFacingSpread(target, targetSide);
         (targetPage || target).scrollIntoView({ block: "center", inline: "center", behavior: "auto" });
+        requestAnimationFrame(() => {
+          if (!facingSelectionLocked || viewMode !== "facing" || selectedImageIndex !== boundedTargetIndex) return;
+          const pageBox = (targetPage || target).getBoundingClientRect();
+          const toolbarBottom = Math.max(0, $(".view-toolbar").getBoundingClientRect().bottom);
+          const visibleCenter = toolbarBottom + (window.innerHeight - toolbarBottom) / 2;
+          window.scrollBy({ top: pageBox.top + pageBox.height / 2 - visibleCenter, behavior: "auto" });
+        });
       };
-      centerSelectedPage();
       const targetImage = targetPage?.querySelector("img");
-      if (targetImage && !targetImage.complete) targetImage.addEventListener("load", () => requestAnimationFrame(centerSelectedPage), { once: true });
+      if (targetImage) targetImage.addEventListener("load", () => requestAnimationFrame(() => requestAnimationFrame(centerSelectedPage)), { once: true });
+      startLazyLoading();
+      centerSelectedPage();
       startFacingPositionTracking();
     });
   }
