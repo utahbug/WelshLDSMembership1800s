@@ -57,7 +57,6 @@
   const lineGuideTool = $("#lineGuideTool");
   const guideControls = $("#guideControls");
   const guideAngleOutput = $("#guideAngle");
-  const guideTarget = $("#guideTarget");
   const activePageIndicator = $("#activePageIndicator");
   const imageTools = $("#imageTools");
   const rotationTarget = $("#rotationTarget");
@@ -110,7 +109,6 @@
 
   function selectFacingSide(side) {
     activeFacingSide = Number(side) === 1 && renderedFacingIndexes[1] != null ? 1 : 0;
-    guideTarget.value = String(activeFacingSide);
     rotationTarget.value = activeFacingSide ? "right" : "left";
     selectedImageIndex = selectedFacingIndex();
     activePageIndicator.querySelector("span").textContent = `${activeFacingSide ? "Right" : "Left"} page ${selectedFacingIndex() + 1}`;
@@ -789,7 +787,6 @@
     activePageIndicator.hidden = !facing;
     rotationTarget.hidden = !facing;
     guideControls.hidden = index || !lineGuidesEnabled;
-    guideTarget.hidden = !facing;
     jumpFirstPage.hidden = mode !== "continuous";
     jumpLastPage.hidden = mode !== "continuous";
     setPanEnabled(false);
@@ -1031,7 +1028,6 @@
     guideControls.hidden = !lineGuidesEnabled;
     renderLineGuides();
   });
-  guideTarget.addEventListener("change", () => selectFacingSide(guideTarget.value));
   rotationTarget.addEventListener("change", () => selectFacingSide(rotationTarget.value === "right" ? 1 : 0));
   $("#guideRotateLeft").addEventListener("click", () => { const state = pageState(selectedGuideIndex()); state.guideAngle = Math.max(-8, state.guideAngle - .5); updateGuideDisplay(); });
   $("#guideRotateRight").addEventListener("click", () => { const state = pageState(selectedGuideIndex()); state.guideAngle = Math.min(8, state.guideAngle + .5); updateGuideDisplay(); });
