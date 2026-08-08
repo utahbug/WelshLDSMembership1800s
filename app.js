@@ -61,6 +61,9 @@
   const imageTools = $("#imageTools");
   const brightnessValue = $("#brightnessValue");
   const contrastValue = $("#contrastValue");
+  const brightnessSlider = $("#brightnessSlider");
+  const contrastSlider = $("#contrastSlider");
+  const enhanceStatus = $("#enhanceStatus");
   const rotationTarget = $("#rotationTarget");
   const backToResources = $("#backToResources");
   const viewContext = $("#viewContext");
@@ -692,28 +695,90 @@
 
   function updateImageAdjustmentDisplay() {
     const state = pageState(selectedGuideIndex());
-    brightnessValue.textContent = `${Math.round(state.brightness * 100)}%`;
-    contrastValue.textContent = `${Math.round(state.contrast * 100)}%`;
+    const brightness = Math.round(state.brightness * 100);
+    const contrast = Math.round(state.contrast * 100);
+    brightnessSlider.value = String(brightness);
+    contrastSlider.value = String(contrast);
+    brightnessValue.textContent = `${brightness}%`;
+    contrastValue.textContent = `${contrast}%`;
+    enhanceStatus.textContent = "";
   }
 
-  function adjustSelectedImage(property, delta = 0, reset = false) {
+  function selectedAdjustmentTargets(index = selectedGuideIndex()) {
+    return viewMode === "single"
+      ? [image]
+      : [...continuousView.querySelectorAll(`[data-page-index="${index}"] img`)];
+  }
+
+  function applySelectedImageAdjustments(index = selectedGuideIndex()) {
+    const state = pageState(index);
+    selectedAdjustmentTargets(index).forEach((target) => {
+      target.dataset.imageBrightness = String(state.brightness);
+      target.dataset.imageContrast = String(state.contrast);
+      applyImageTransform(target);
+    });
+    updateImageAdjustmentDisplay();
+  }
+
+  function adjustSelectedImage(property, value, reset = false) {
     const index = selectedGuideIndex();
     const state = pageState(index);
     if (reset) {
       state.brightness = 1;
       state.contrast = 1;
     } else {
-      state[property] = Math.max(.5, Math.min(2, Math.round((state[property] + delta) * 100) / 100));
+      state[property] = Math.max(.5, Math.min(2, Math.round(value * 100) / 100));
     }
-    const targets = viewMode === "single"
-      ? [image]
-      : [...continuousView.querySelectorAll(`[data-page-index="${index}"] img`)];
-    targets.forEach((target) => {
-      target.dataset.imageBrightness = String(state.brightness);
-      target.dataset.imageContrast = String(state.contrast);
-      applyImageTransform(target);
-    });
-    updateImageAdjustmentDisplay();
+    applySelectedImageAdjustments(index);
+  }
+
+  async function autoEnhanceSelectedImage() {
+    const index = selectedGuideIndex();
+    const target = selectedAdjustmentTargets(index)[0];
+    if (!target) return;
+    enhanceStatus.textContent = "Analyzing…";
+    if (!target.complete || !target.naturalWidth) {
+      await new Promise((resolve) => target.addEventListener("load", resolve, { once: true }));
+    }
+    const longestSide = 256;
+    const ratio = Math.min(1, longestSide / Math.max(target.naturalWidth, target.naturalHeight));
+    const canvas = document.createElement("canvas");
+    canvas.width = Math.max(1, Math.round(target.naturalWidth * ratio));
+    canvas.height = Math.max(1, Math.round(target.naturalHeight * ratio));
+    const context = canvas.getContext("2d", { willReadFrequently: true });
+    try {
+      context.drawImage(target, 0, 0, canvas.width, canvas.height);
+      const pixels = context.getImageData(0, 0, canvas.width, canvas.height).data;
+      const histogram = new Uint32Array(256);
+      let total = 0;
+      for (let offset = 0; offset < pixels.length; offset += 4) {
+        if (pixels[offset + 3] < 16) continue;
+        const luminance = Math.round(.2126 * pixels[offset] + .7152 * pixels[offset + 1] + .0722 * pixels[offset + 2]);
+        histogram[luminance] += 1;
+        total += 1;
+      }
+      const percentile = (fraction) => {
+        const threshold = total * fraction;
+        let seen = 0;
+        for (let tone = 0; tone < histogram.length; tone += 1) {
+          seen += histogram[tone];
+          if (seen >= threshold) return tone;
+        }
+        return 255;
+      };
+      const low = percentile(.02);
+      const high = percentile(.98);
+      const midpoint = Math.max(1, (low + high) / 2);
+      const contrast = Math.max(.75, Math.min(2, 220 / Math.max(12, high - low)));
+      const brightness = Math.max(.65, Math.min(1.75, (132 - 127.5 * (1 - contrast)) / (contrast * midpoint)));
+      const state = pageState(index);
+      state.brightness = Math.round(brightness * 20) / 20;
+      state.contrast = Math.round(contrast * 20) / 20;
+      applySelectedImageAdjustments(index);
+      enhanceStatus.textContent = `Enhanced from tones ${low}–${high}`;
+    } catch (error) {
+      enhanceStatus.textContent = "This image cannot be analyzed in the current edition.";
+    }
   }
 
   function renderFacingSeries(targetIndex = currentImage) {
@@ -1078,10 +1143,9 @@
   $("#guideRotateRight").addEventListener("click", () => { const state = pageState(selectedGuideIndex()); state.guideAngle = Math.min(8, state.guideAngle + .5); updateGuideDisplay(); });
   $("#guideReset").addEventListener("click", () => { const state = pageState(selectedGuideIndex()); state.guideAngle = 0; state.guidePosition = 38; updateGuideDisplay(); });
   imageTools.addEventListener("click", (event) => { if (event.target.dataset.rotateReset !== undefined) rotateVisibleImages(0, true); else if (event.target.dataset.rotate) rotateVisibleImages(Number(event.target.dataset.rotate)); });
-  $("#brightnessDown").addEventListener("click", () => adjustSelectedImage("brightness", -.05));
-  $("#brightnessUp").addEventListener("click", () => adjustSelectedImage("brightness", .05));
-  $("#contrastDown").addEventListener("click", () => adjustSelectedImage("contrast", -.05));
-  $("#contrastUp").addEventListener("click", () => adjustSelectedImage("contrast", .05));
+  $("#autoEnhance").addEventListener("click", autoEnhanceSelectedImage);
+  brightnessSlider.addEventListener("input", () => adjustSelectedImage("brightness", Number(brightnessSlider.value) / 100));
+  contrastSlider.addEventListener("input", () => adjustSelectedImage("contrast", Number(contrastSlider.value) / 100));
   $("#imageAdjustmentsReset").addEventListener("click", () => adjustSelectedImage("brightness", 0, true));
   jumpFirstPage.addEventListener("click", () => scrollContinuousToPage(0));
   jumpLastPage.addEventListener("click", () => scrollContinuousToPage(currentRecords.length - 1, "end"));
