@@ -83,6 +83,7 @@
   let activeFacingSide = 0;
   let renderedFacingIndexes = [0, 1];
   let facingPairOffset = 0;
+  let facingSelectionLocked = false;
   let lazyObserver = null;
   let pagePositionObserver = null;
   let resizingSidebar = false;
@@ -512,10 +513,16 @@
   function startFacingPositionTracking() {
     pagePositionObserver?.disconnect();
     pagePositionObserver = new IntersectionObserver((entries) => {
-      if (entries.some((entry) => entry.isIntersecting)) syncFacingSpreadFromScroll();
+      if (!facingSelectionLocked && entries.some((entry) => entry.isIntersecting)) syncFacingSpreadFromScroll();
     }, { root: null, rootMargin: "-35% 0px -35% 0px", threshold: 0 });
     continuousView.querySelectorAll(".page-spread").forEach((spread) => pagePositionObserver.observe(spread));
   }
+
+  continuousView.addEventListener("wheel", () => { facingSelectionLocked = false; }, { passive: true });
+  continuousView.addEventListener("touchstart", () => { facingSelectionLocked = false; }, { passive: true });
+  window.addEventListener("keydown", (event) => {
+    if (viewMode === "facing" && ["ArrowUp", "ArrowDown", "PageUp", "PageDown", "Home", "End", " "].includes(event.key)) facingSelectionLocked = false;
+  });
 
   function makeLineGuide(pageIndex, side) {
     const state = pageState(pageIndex);
@@ -577,6 +584,7 @@
   }
 
   function renderFacingSeries(targetIndex = currentImage) {
+    facingSelectionLocked = true;
     continuousView.replaceChildren();
     continuousView.classList.add("facing-current");
     for (let first = 0; first < currentRecords.length; first += first === 0 && facingPairOffset === 1 ? 1 : 2) {
@@ -604,8 +612,14 @@
       const target = targetPage?.closest(".page-spread") || continuousView.querySelector(".page-spread");
       if (!target) return;
       const targetSide = Math.max(0, spreadIndexes(target).indexOf(boundedTargetIndex));
-      activateFacingSpread(target, targetSide);
-      (targetPage || target).scrollIntoView({ block: "center", inline: "center", behavior: "auto" });
+      const centerSelectedPage = () => {
+        if (!facingSelectionLocked || viewMode !== "facing" || selectedImageIndex !== boundedTargetIndex) return;
+        activateFacingSpread(target, targetSide);
+        (targetPage || target).scrollIntoView({ block: "center", inline: "center", behavior: "auto" });
+      };
+      centerSelectedPage();
+      const targetImage = targetPage?.querySelector("img");
+      if (targetImage && !targetImage.complete) targetImage.addEventListener("load", () => requestAnimationFrame(centerSelectedPage), { once: true });
       startFacingPositionTracking();
     });
   }
