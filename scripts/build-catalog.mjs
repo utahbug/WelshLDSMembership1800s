@@ -248,6 +248,9 @@ for (const image of retained) {
   collection.sources.add(image.sourceId);
   collection.images.push({
     name: image.name,
+    archiveRelativePath: image.sourceId === "original-cds" && image.type === "image"
+      ? image.relativeSourcePath.split(path.sep).join("/")
+      : null,
     url: pathToFileURL(image.file).href,
     serveUrl: `/archive/${encodeURIComponent(image.sourceId)}/${image.relativeSourcePath.split(path.sep).map(encodeURIComponent).join("/")}`,
     source: image.sourceId,

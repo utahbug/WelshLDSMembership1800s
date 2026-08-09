@@ -144,8 +144,30 @@
   }
 
   function recordUrl(record) {
-    if (catalog.edition === "public" && currentCollection?.publicStorage?.baseUrl) return `${currentCollection.publicStorage.baseUrl}${encodeURIComponent(record.name)}`;
+    if (catalog.edition === "public" && currentCollection?.publicStorage?.baseUrl) {
+      if (currentCollection.publicStorage.provider === "internet-archive") {
+        if (!record.archiveRelativePath) {
+          console.error("Archive.org path missing for catalog record", { collection: currentCollection.name, record: record.name });
+          return "";
+        }
+        const encodedPath = record.archiveRelativePath
+          .replaceAll("\\", "/")
+          .split("/")
+          .map((segment) => encodeURIComponent(segment))
+          .join("/");
+        return `${currentCollection.publicStorage.baseUrl}${encodedPath}`;
+      }
+      return `${currentCollection.publicStorage.baseUrl}${encodeURIComponent(record.name)}`;
+    }
     return location.protocol === "http:" || location.protocol === "https:" ? record.serveUrl : record.url;
+  }
+
+  function prepareRecordImage(image, record) {
+    if (catalog.edition === "public" && currentCollection?.publicStorage?.provider === "internet-archive" && record.archiveRelativePath) {
+      image.crossOrigin = "anonymous";
+    } else {
+      image.removeAttribute("crossorigin");
+    }
   }
 
   function normalized(value) {
@@ -395,6 +417,7 @@
       button.setAttribute("aria-label", `Open ${record.type === "image" ? "image" : "document"} ${index + 1}: ${record.name}`);
       if (record.type === "image") {
         const thumbnail = document.createElement("img");
+        prepareRecordImage(thumbnail, record);
         thumbnail.src = recordUrl(record);
         thumbnail.alt = "";
         thumbnail.loading = "lazy";
@@ -464,6 +487,7 @@
     });
     if (record.type === "image") {
       const pageImage = document.createElement("img");
+      prepareRecordImage(pageImage, record);
       pageImage.dataset.src = recordUrl(record);
       pageImage.alt = `${currentCollection.name}, page ${index + 1}`;
       pageImage.decoding = "async";
@@ -1122,6 +1146,7 @@
     image.hidden = !isImage;
     documentPreview.hidden = isImage;
     if (isImage) {
+      prepareRecordImage(image, record);
       image.src = recordUrl(record);
       image.alt = `${currentCollection.name}, record image ${currentImage + 1}`;
       const state = pageState(currentImage);

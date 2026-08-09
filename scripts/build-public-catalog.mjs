@@ -9,6 +9,11 @@ if (!fs.existsSync(input)) throw new Error("Run build-catalog.mjs before buildin
 const context = { window: {} };
 vm.runInNewContext(fs.readFileSync(input, "utf8"), context);
 const local = context.window.WELSH_RECORD_CATALOG;
+const archiveStorage = {
+  provider: "internet-archive",
+  identifier: "ldswelshmembership",
+  baseUrl: "https://archive.org/download/ldswelshmembership/",
+};
 const publicCatalog = {
   edition: "public",
   generatedAt: local.generatedAt,
@@ -17,7 +22,10 @@ const publicCatalog = {
   stats: local.stats,
   collections: local.collections.map((collection) => {
     const publishedTranscriptions = (collection.sources || []).includes("conference-minutes");
-    const publicStorage = publishedTranscriptions
+    const archivedMembershipImages = collection.images.some((item) => item.type === "image" && item.archiveRelativePath);
+    const publicStorage = archivedMembershipImages
+      ? archiveStorage
+      : publishedTranscriptions
       ? { provider: "github-pages", baseUrl: "records/transcriptions/" }
       : collection.publicStorage || null;
     return {
@@ -28,7 +36,16 @@ const publicCatalog = {
       sources: collection.sources || [],
       availability: { local: true, portable: true, online: Boolean(publicStorage) },
       publicStorage,
-      images: collection.images.map((item) => ({ name: item.name, extension: item.extension, type: item.type, source: item.source, enhancement: item.enhancement, url: "", serveUrl: "" })),
+      images: collection.images.map((item) => ({
+        name: item.name,
+        extension: item.extension,
+        type: item.type,
+        source: item.source,
+        enhancement: item.enhancement,
+        archiveRelativePath: item.archiveRelativePath || null,
+        url: "",
+        serveUrl: "",
+      })),
     };
   }),
 };
