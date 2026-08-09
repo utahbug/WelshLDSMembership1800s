@@ -99,6 +99,14 @@ button, input { font: inherit; }
   cursor: pointer;
   font: 700 .72rem Arial, sans-serif;
 }
+
+.site-disclaimer {
+  margin: 32px clamp(18px, 4vw, 52px) 20px;
+  padding-top: 14px;
+  color: var(--muted);
+  border-top: 1px solid var(--line);
+  font: .72rem/1.5 Arial, sans-serif;
+}
 .branch-page-picker:hover, .branch-page-picker:focus-visible { border-color: var(--green); background: #eee5d2; }
 .resource-panel > summary { display: flex; align-items: baseline; gap: 12px; padding: 10px 13px; color: var(--green-dark); border: 1px solid var(--line); background: #eee8da; cursor: pointer; list-style: none; }
 .resource-panel > summary::-webkit-details-marker { display: none; }
