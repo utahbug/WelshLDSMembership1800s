@@ -246,7 +246,7 @@ button, input { font: inherit; }
 .facing-spread-content.spread-adjusted { transition: none; will-change: transform; }
 .spread-mode-toggle { min-width: 0; padding-inline: 8px; font-size: .72rem; }
 .spread-mode-toggle.active { color: #fff; border-color: var(--green-dark); background: var(--green-dark); }
-.spread-reset { width: 34px; padding-inline: 0; }
+.spread-reset { min-width: 0; padding-inline: 8px; font-size: .72rem; }
 .blank-page { min-height: 40vh; border: 1px dashed #ffffff2b; }
 .document-card { min-height: 240px; display: grid; place-items: center; align-content: center; gap: 12px; padding: 30px; color: var(--green-dark); background: var(--panel); text-decoration: none; }
 .document-card span { overflow-wrap: anywhere; }

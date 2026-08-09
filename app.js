@@ -53,7 +53,6 @@
   const spreadModeToggle = $("#spreadModeToggle");
   const resetSpread = $("#resetSpread");
   const panTool = $("#panTool");
-  const resetPan = $("#resetPan");
   const jumpFirstPage = $("#jumpFirstPage");
   const jumpLastPage = $("#jumpLastPage");
   const lineGuideTool = $("#lineGuideTool");
@@ -811,6 +810,9 @@
     state.contrast = 1;
     selectedAdjustmentTargets(index).forEach((target) => {
       target.classList.remove("image-zoomed");
+      target.classList.remove("pan-moved");
+      delete target.dataset.panX;
+      delete target.dataset.panY;
       target.style.removeProperty("transform-origin");
       target.dataset.rotation = "0";
       target.dataset.imageZoom = "1";
@@ -1112,7 +1114,6 @@
     panTool.textContent = enabled ? "↖" : "✋";
     panTool.title = enabled ? "Return to normal pointer" : "Pan image: drag a full-size image left, right, up, or down";
     panTool.setAttribute("aria-label", enabled ? "Turn off image panning" : "Pan image");
-    resetPan.hidden = !enabled;
     stage.classList.toggle("pan-enabled", enabled && viewMode === "single");
     continuousView.classList.toggle("pan-enabled", enabled && ["continuous", "facing"].includes(viewMode));
   }
@@ -1329,7 +1330,6 @@
     renderFacingSeries(selectedBeforeSwap);
   });
   panTool.addEventListener("click", () => setPanEnabled(!panEnabled));
-  resetPan.addEventListener("click", resetPannedImages);
   lineGuideTool.addEventListener("click", () => {
     lineGuidesEnabled = !lineGuidesEnabled;
     lineGuideTool.classList.toggle("active", lineGuidesEnabled);
