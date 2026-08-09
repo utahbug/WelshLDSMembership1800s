@@ -446,3 +446,8 @@ button, input { font: inherit; }
   .search-result { grid-template-columns: 72px 1fr; }
   .search-result small { grid-column: 2; }
 }
+
+/* Keep the record toolbar anchored to the visible viewport after the masthead scrolls away. */
+.workspace:has(.record-viewer:not([hidden])),
+.viewer:has(.record-viewer:not([hidden])) { overflow: visible; }
+.record-viewer .view-toolbar { top: 0; }
