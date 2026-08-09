@@ -70,6 +70,8 @@ const portableFiles = [
   ["index.html", "START_HERE.html"],
   ["app.js", "app.js"],
   ["styles.css", "styles.css"],
+  ["welsh-saints-research.html", "welsh-saints-research.html"],
+  ["welsh-saints-research.js", "welsh-saints-research.js"],
   ["README.md", "PROJECT_README.md"],
   ["TRANSCRIPTION_INVENTORY.md", "TRANSCRIPTION_INVENTORY.md"],
   ["TRANSCRIPTION_STATUS_NOTES.md", "TRANSCRIPTION_STATUS_NOTES.md"],
@@ -82,6 +84,22 @@ for (const [sourceName, targetName] of portableFiles) {
   copyResumable(path.join(projectRoot, sourceName), path.join(destination, targetName));
 }
 
+const privateSourceDir = path.join(projectRoot, "data", "private");
+const privateResearchFiles = [
+  "welsh-saints-index.local.js",
+  "welsh-saints-index.local.json",
+  "welsh-saints-detail-cache.local.json",
+  "welsh-saints-index-report.local.json",
+];
+for (const fileName of privateResearchFiles) {
+  const source = path.join(privateSourceDir, fileName);
+  if (!fs.existsSync(source)) throw new Error(`Missing private Welsh Saints file: ${source}. Run node scripts/build-welsh-saints-index.mjs first.`);
+  copyResumable(source, path.join(destination, "data", "private", fileName));
+}
+const excludedPrivateFiles = fs.readdirSync(privateSourceDir, { withFileTypes: true })
+  .map((entry) => entry.name)
+  .filter((name) => !privateResearchFiles.includes(name));
+
 fs.mkdirSync(path.join(destination, "data"), { recursive: true });
 fs.writeFileSync(
   path.join(destination, "data", "catalog.local.js"),
@@ -93,7 +111,9 @@ const instructions = `WELSH LDS HISTORICAL RECORDS - PORTABLE EDITION
 
 Start by opening START_HERE.html in a web browser.
 
-This drive works offline. It contains a deduplicated working collection, conference-minute transcriptions, recovered research notes, recovery placeholders, and clearly separated non-LDS Merthyr Bishop Records.
+This drive works offline. It contains a deduplicated working collection, conference-minute transcriptions, recovered research notes, recovery placeholders, the private full-text Welsh Saints research index, and clearly separated non-LDS Merthyr Bishop Records.
+
+The Welsh Saints research index can be opened from About & tools or directly at welsh-saints-research.html. Search uses the copied local full-text index and does not require welshsaints.byu.edu. Original-record links still require internet access.
 
 No original source archive was deleted or modified when this edition was built.
 
@@ -116,6 +136,8 @@ const result = {
   skippedExistingFiles: skipped,
   copiedBytes,
   catalogItems: portableCatalog.stats.uniqueItems,
+  privateResearchFiles: privateResearchFiles.map((name) => path.posix.join("data", "private", name)),
+  excludedPrivateFiles,
 };
 fs.writeFileSync(path.join(destination, "PORTABLE_BUILD_REPORT.json"), JSON.stringify(result, null, 2), "utf8");
 console.log(JSON.stringify(result, null, 2));

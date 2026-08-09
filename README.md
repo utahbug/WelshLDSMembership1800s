@@ -61,3 +61,5 @@ node scripts/build-portable-drive.mjs "E:\Welsh LDS Records"
 ```
 
 Replace `E:` with the flash drive's actual letter. The completed package opens through `START_HERE.html` and requires no internet connection, RoboHelp installation, or subscription.
+
+The portable build includes the local Welsh Saints search page and the four allowlisted files needed for its offline full-text index, cache, and build report under `data/private/`. Those generated private files remain excluded from Git and the public GitHub Pages edition. Other files that may later appear in `data/private/` are not copied automatically.
