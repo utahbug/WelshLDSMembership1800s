@@ -50,6 +50,8 @@
   const facingZoomIn = $("#facingZoomIn");
   const facingScale = $("#facingScale");
   const swapFacingPages = $("#swapFacingPages");
+  const spreadModeToggle = $("#spreadModeToggle");
+  const resetSpread = $("#resetSpread");
   const panTool = $("#panTool");
   const resetPan = $("#resetPan");
   const jumpFirstPage = $("#jumpFirstPage");
@@ -101,12 +103,50 @@
   let resizingSidebar = false;
   let panEnabled = false;
   let lineGuidesEnabled = false;
+  let spreadAdjustmentMode = false;
   const pageStates = new Map();
+  const spreadStates = new Map();
   const swappedSpreads = new Set();
 
   function pageState(index) {
     if (!pageStates.has(index)) pageStates.set(index, { rotation: 0, scale: 1, brightness: 1, contrast: 1, guidePosition: 38, guideAngle: 0, guideSpacing: 12 });
     return pageStates.get(index);
+  }
+
+  function spreadState(key) {
+    if (!spreadStates.has(key)) spreadStates.set(key, { scale: 1, panX: 0, panY: 0, originX: 50, originY: 50 });
+    return spreadStates.get(key);
+  }
+
+  function activeFacingSpread() {
+    return continuousView.querySelector(".active-facing-spread")
+      || continuousView.querySelector(`[data-page-index="${selectedImageIndex ?? currentImage}"]`)?.closest(".page-spread")
+      || continuousView.querySelector(".page-spread");
+  }
+
+  function spreadContent(spread = activeFacingSpread()) {
+    return spread?.querySelector(":scope > .facing-spread-content") || null;
+  }
+
+  function applySpreadTransform(content) {
+    if (!content) return;
+    const state = spreadState(content.closest(".page-spread").dataset.spreadKey);
+    content.style.transformOrigin = `${state.originX}% ${state.originY}%`;
+    content.style.transform = `translate(${state.panX}px, ${state.panY}px) scale(${state.scale})`;
+    content.classList.toggle("spread-adjusted", Math.abs(state.scale - 1) > .01 || state.panX !== 0 || state.panY !== 0);
+  }
+
+  function updateSpreadModeDisplay() {
+    spreadModeToggle.classList.toggle("active", spreadAdjustmentMode);
+    spreadModeToggle.setAttribute("aria-pressed", String(spreadAdjustmentMode));
+    spreadModeToggle.title = spreadAdjustmentMode
+      ? "Spread mode active: pan and zoom both pages together"
+      : "Individual-page mode active; activate to pan and zoom both pages together";
+    resetSpread.hidden = viewMode !== "facing" || !spreadAdjustmentMode;
+    const scaleSummary = facingTools.querySelector(".scale-tools summary");
+    const target = spreadAdjustmentMode ? "facing spread" : "selected page";
+    scaleSummary.setAttribute("aria-label", `Zoom/Scale ${target}`);
+    scaleSummary.title = `Zoom/Scale ${target}`;
   }
 
   function closeTemporaryToolPopovers(except = null) {
@@ -606,6 +646,7 @@
     currentImage = Math.min(...renderedFacingIndexes.filter((index) => index != null));
     selectFacingSide(side);
     updateFacingPosition(renderedFacingIndexes);
+    updateSpreadModeDisplay();
   }
 
   function syncFacingSpreadFromScroll() {
@@ -728,7 +769,10 @@
   }
 
   function updateScaleDisplay() {
-    facingScale.textContent = `${Math.round(pageState(selectedFacingIndex()).scale * 100)}%`;
+    const scale = spreadAdjustmentMode && activeFacingSpread()
+      ? spreadState(activeFacingSpread().dataset.spreadKey).scale
+      : pageState(selectedFacingIndex()).scale;
+    facingScale.textContent = `${Math.round(scale * 100)}%`;
   }
 
   function updateImageAdjustmentDisplay() {
@@ -865,15 +909,20 @@
       const indexes = swappedSpreads.has(spreadKey) ? [...naturalIndexes].reverse() : naturalIndexes;
       const spread = document.createElement("section");
       spread.className = `page-spread${indexes.some((index) => index == null) ? " single-page-spread" : ""}`;
+      spread.dataset.spreadKey = spreadKey;
       spread.dataset.leftIndex = indexes[0] == null ? "" : String(indexes[0]);
       spread.dataset.rightIndex = indexes[1] == null ? "" : String(indexes[1]);
+      const content = document.createElement("div");
+      content.className = "facing-spread-content";
       indexes.forEach((index, side) => {
         if (index == null) return;
         const page = makeRecordFigure(currentRecords[index], index);
         page.dataset.facingSide = String(side);
         page.addEventListener("pointerdown", () => activateFacingSpread(spread, side));
-        spread.append(page);
+        content.append(page);
       });
+      spread.append(content);
+      applySpreadTransform(content);
       continuousView.append(spread);
     }
     requestAnimationFrame(() => {
@@ -903,11 +952,34 @@
   }
 
   function setFacingZoom(delta, reset = false) {
+    if (spreadAdjustmentMode) {
+      const spread = activeFacingSpread();
+      if (!spread) return;
+      const state = spreadState(spread.dataset.spreadKey);
+      state.scale = reset ? 1 : Math.max(.5, Math.min(4, Math.round((state.scale + delta) * 100) / 100));
+      if (reset) {
+        state.panX = 0;
+        state.panY = 0;
+        state.originX = 50;
+        state.originY = 50;
+      }
+      applySpreadTransform(spreadContent(spread));
+      updateScaleDisplay();
+      return;
+    }
     const index = selectedFacingIndex();
     const state = pageState(index);
     state.scale = reset ? 1 : Math.max(.5, Math.min(2, Math.round((state.scale + delta) * 100) / 100));
     const target = continuousView.querySelector(`[data-page-index="${index}"] img`);
     if (target) { target.dataset.imageZoom = String(state.scale); applyImageTransform(target); }
+    updateScaleDisplay();
+  }
+
+  function resetActiveSpread() {
+    const spread = activeFacingSpread();
+    if (!spread) return;
+    spreadStates.set(spread.dataset.spreadKey, { scale: 1, panX: 0, panY: 0, originX: 50, originY: 50 });
+    applySpreadTransform(spreadContent(spread));
     updateScaleDisplay();
   }
 
@@ -971,6 +1043,8 @@
     jumpLastPage.hidden = mode !== "continuous";
     setPanEnabled(false);
     facingTools.hidden = !facing;
+    spreadModeToggle.hidden = !facing;
+    resetSpread.hidden = !facing || !spreadAdjustmentMode;
     if (!facing) facingTools.open = false;
     if (mode === "continuous") renderScrollable(savedPage);
     if (facing) {
@@ -982,6 +1056,7 @@
     renderLineGuides();
     restoreSimpleViewTransfer(simpleViewTransfer, mode, savedPage);
     if (index) openPageIndex();
+    updateSpreadModeDisplay();
   }
 
   function navigatePages(direction) {
@@ -1049,15 +1124,19 @@
     let startY = 0;
     let startPanX = 0;
     let startPanY = 0;
+    let panSpreadState = null;
     surface.addEventListener("pointerdown", (event) => {
       if (!panEnabled || event.button !== 0) return;
-      panTarget = event.target.closest("img");
-      if (!panTarget) return;
+      const targetImage = event.target.closest("img");
+      if (!targetImage) return;
+      const targetSpread = viewMode === "facing" && spreadAdjustmentMode ? targetImage.closest(".page-spread") : null;
+      panTarget = targetSpread ? spreadContent(targetSpread) : targetImage;
+      panSpreadState = targetSpread ? spreadState(targetSpread.dataset.spreadKey) : null;
       dragging = true;
       startX = event.clientX;
       startY = event.clientY;
-      startPanX = Number(panTarget.dataset.panX || 0);
-      startPanY = Number(panTarget.dataset.panY || 0);
+      startPanX = panSpreadState?.panX ?? Number(panTarget.dataset.panX || 0);
+      startPanY = panSpreadState?.panY ?? Number(panTarget.dataset.panY || 0);
       surface.classList.add("is-panning");
       surface.setPointerCapture?.(event.pointerId);
       event.preventDefault();
@@ -1066,12 +1145,18 @@
       if (!dragging || !panTarget) return;
       const panX = startPanX + event.clientX - startX;
       const panY = startPanY + event.clientY - startY;
-      panTarget.dataset.panX = String(panX);
-      panTarget.dataset.panY = String(panY);
-      panTarget.classList.add("pan-moved");
-      applyImageTransform(panTarget);
+      if (panSpreadState) {
+        panSpreadState.panX = panX;
+        panSpreadState.panY = panY;
+        applySpreadTransform(panTarget);
+      } else {
+        panTarget.dataset.panX = String(panX);
+        panTarget.dataset.panY = String(panY);
+        panTarget.classList.add("pan-moved");
+        applyImageTransform(panTarget);
+      }
     });
-    const stop = () => { dragging = false; panTarget = null; surface.classList.remove("is-panning"); };
+    const stop = () => { dragging = false; panTarget = null; panSpreadState = null; surface.classList.remove("is-panning"); };
     surface.addEventListener("pointerup", stop);
     surface.addEventListener("pointercancel", stop);
   }
@@ -1082,6 +1167,22 @@
       const target = event.target.closest("img");
       if (!target) return;
       event.preventDefault();
+      if (viewMode === "facing" && spreadAdjustmentMode) {
+        const spread = target.closest(".page-spread");
+        const content = spreadContent(spread);
+        if (!spread || !content) return;
+        const side = Number(target.closest("[data-facing-side]")?.dataset.facingSide || 0);
+        activateFacingSpread(spread, side);
+        const state = spreadState(spread.dataset.spreadKey);
+        const nextScale = Math.max(.5, Math.min(4, state.scale * (event.deltaY < 0 ? 1.12 : .89)));
+        const box = content.getBoundingClientRect();
+        state.originX = Math.max(0, Math.min(100, ((event.clientX - box.left) / box.width) * 100));
+        state.originY = Math.max(0, Math.min(100, ((event.clientY - box.top) / box.height) * 100));
+        state.scale = nextScale;
+        applySpreadTransform(content);
+        updateScaleDisplay();
+        return;
+      }
       const currentZoom = Number(target.dataset.imageZoom || 1);
       const nextZoom = Math.max(.5, Math.min(4, currentZoom * (event.deltaY < 0 ? 1.12 : .89)));
       const box = target.getBoundingClientRect();
@@ -1108,6 +1209,8 @@
     currentImage = 0;
     selectedImageIndex = null;
     pageStates.clear();
+    spreadStates.clear();
+    spreadAdjustmentMode = false;
     swappedSpreads.clear();
     welcome.hidden = true;
     resourcePanel.hidden = true;
@@ -1211,6 +1314,12 @@
   facingZoomOut.addEventListener("click", () => setFacingZoom(-.05));
   facingZoomIn.addEventListener("click", () => setFacingZoom(.05));
   facingZoomFit.addEventListener("click", () => setFacingZoom(0, true));
+  spreadModeToggle.addEventListener("click", () => {
+    spreadAdjustmentMode = !spreadAdjustmentMode;
+    updateSpreadModeDisplay();
+    updateScaleDisplay();
+  });
+  resetSpread.addEventListener("click", resetActiveSpread);
   swapFacingPages.addEventListener("click", () => {
     const selectedBeforeSwap = selectedFacingIndex();
     const indexes = facingIndexes();
