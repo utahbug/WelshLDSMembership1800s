@@ -36,7 +36,7 @@ let copiedBytes = 0;
 
 function portableRelativePath(item) {
   const archiveParts = item.serveUrl.split("/").filter(Boolean).slice(1).map(decodeURIComponent);
-  return path.join("records", ...archiveParts);
+  return path.join("resources", ...archiveParts);
 }
 
 function copyResumable(source, target) {

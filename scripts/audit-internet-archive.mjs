@@ -3,7 +3,7 @@ import fs from "node:fs";
 import path from "node:path";
 
 const root = path.resolve(import.meta.dirname, "..");
-const localRoot = path.join(root, "records", "source-cds");
+const localRoot = path.join(root, "resources", "source-cds");
 const metadataPath = process.argv[2] || path.join(process.env.TEMP || process.env.TMP || root, "ldswelshmembership-metadata.json");
 const outputDir = path.join(root, "outputs", "internet-archive-reconciliation");
 const imageExtensions = new Set([".jpg", ".jpeg", ".png"]);
@@ -231,9 +231,9 @@ const summary = {
   archiveIdentifier: metadata.metadata?.identifier,
   metadataEndpoint: "https://archive.org/metadata/ldswelshmembership",
   downloadRoot: "https://archive.org/download/ldswelshmembership/",
-  localRoot: "records/source-cds",
+  localRoot: "resources/source-cds",
   rules: {
-    localImages: "JPEG/JPG/PNG under records/source-cds, excluding the viewer's t/ta/color/focus thumbnail suffixes.",
+    localImages: "JPEG/JPG/PNG under resources/source-cds, excluding the viewer's t/ta/color/focus thumbnail suffixes.",
     remoteImages: "Internet Archive metadata entries with source=original and format JPEG or PNG; generated derivatives and __ia_thumb.jpg are excluded.",
     pathNormalization: "Backslashes converted to forward slashes only. Case, spelling, punctuation, and folder names are otherwise preserved.",
     exactMatch: "Same normalized relative path, size, MD5, and SHA-1 (when supplied remotely).",

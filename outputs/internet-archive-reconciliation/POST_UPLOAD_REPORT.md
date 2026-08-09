@@ -20,7 +20,7 @@ Final settled reconciliation results:
 
 The upload contains four confidently mapped original transcription PDFs and twenty lossless page-level derivatives from the approved compound sources. Every derived PDF was reopened, its page count verified, and every page content-stream SHA-256 compared with the corresponding source page before upload. Remote MD5 values match all 24 approved local PDFs.
 
-The original compound PDFs remain unchanged locally in `records/transcriptions/` for provenance.
+The original compound PDFs remain unchanged locally in `resources/transcriptions/` for provenance.
 
 ## Deferred source
 

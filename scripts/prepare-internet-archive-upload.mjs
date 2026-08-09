@@ -4,7 +4,7 @@ import path from "node:path";
 
 const root = path.resolve(import.meta.dirname, "..");
 const auditPath = path.join(root, "outputs", "internet-archive-reconciliation", "reconciliation.json");
-const transcriptionRoot = path.join(root, "records", "transcriptions");
+const transcriptionRoot = path.join(root, "resources", "transcriptions");
 const metadataPath = process.argv[2] || path.join(process.env.TEMP || process.env.TMP || root, "ldswelshmembership-metadata.json");
 const outputDir = path.join(root, "outputs", "internet-archive-upload-plan");
 
@@ -48,7 +48,7 @@ const missingImages = audit.files
   .map((item) => ({
     type: "membership-image",
     mapping_status: "ready",
-    local_path: `records/source-cds/${item.local_path}`,
+    local_path: `resources/source-cds/${item.local_path}`,
     remote_path: item.local_path,
     branch_folder: item.local_branch,
     size: item.local_size,
@@ -127,7 +127,7 @@ const pdfRows = pdfMappings.map((mapping) => {
   return {
     type: "transcription-pdf",
     mapping_status: mapping.status,
-    local_path: `records/transcriptions/${mapping.name}`,
+    local_path: `resources/transcriptions/${mapping.name}`,
     remote_path: remotePath,
     branch_folder: mapping.primaryFolder,
     pages: mapping.pages,

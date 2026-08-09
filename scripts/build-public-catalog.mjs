@@ -26,7 +26,7 @@ const publicCatalog = {
     const publicStorage = archivedMembershipImages
       ? archiveStorage
       : publishedTranscriptions
-      ? { provider: "github-pages", baseUrl: "records/transcriptions/" }
+      ? { provider: "github-pages", baseUrl: "resources/transcriptions/" }
       : collection.publicStorage || null;
     return {
       id: collection.id,

@@ -30,7 +30,7 @@
     {
       "type": "transcription-pdf",
       "mapping_status": "ready",
-      "local_path": "records/transcriptions/A - CDs 35-39 (1 of 2) - Typed Transcripts.pdf",
+      "local_path": "resources/transcriptions/A - CDs 35-39 (1 of 2) - Typed Transcripts.pdf",
       "remote_path": "35-Cardiff,1851-1867,Donations,LR141622/Transcriptions/A - CDs 35-39 (1 of 2) - Typed Transcripts.pdf",
       "branch_folder": "35-Cardiff,1851-1867,Donations,LR141622",
       "pages": 86,
@@ -46,7 +46,7 @@
     {
       "type": "transcription-pdf",
       "mapping_status": "ready",
-      "local_path": "records/transcriptions/A - CDs 35-39 (2 of 2) - Typed Transcripts.pdf",
+      "local_path": "resources/transcriptions/A - CDs 35-39 (2 of 2) - Typed Transcripts.pdf",
       "remote_path": "38-Glamorgan East Conference,1853-1863,LR1761621/Transcriptions/A - CDs 35-39 (2 of 2) - Typed Transcripts.pdf",
       "branch_folder": "38-Glamorgan East Conference,1853-1863,LR1761621",
       "pages": 116,
@@ -62,7 +62,7 @@
     {
       "type": "transcription-pdf",
       "mapping_status": "ready",
-      "local_path": "records/transcriptions/A - CDs 39 - Typed Transcripts.pdf",
+      "local_path": "resources/transcriptions/A - CDs 39 - Typed Transcripts.pdf",
       "remote_path": "26-Ebbro Vale,1847-1864,LR98467/Transcriptions/A - CDs 39 - Typed Transcripts.pdf",
       "branch_folder": "26-Ebbro Vale,1847-1864,LR98467",
       "pages": 44,
@@ -78,7 +78,7 @@
     {
       "type": "transcription-pdf",
       "mapping_status": "ready",
-      "local_path": "records/transcriptions/A - CDs 40-43 (1 of 2) - Typed Transcripts.pdf",
+      "local_path": "resources/transcriptions/A - CDs 40-43 (1 of 2) - Typed Transcripts.pdf",
       "remote_path": "38-Glamorgan East Conference,1853-1863,LR1761621/Transcriptions/A - CDs 40-43 (1 of 2) - Typed Transcripts.pdf",
       "branch_folder": "38-Glamorgan East Conference,1853-1863,LR1761621",
       "pages": 80,
@@ -94,7 +94,7 @@
     {
       "type": "transcription-pdf",
       "mapping_status": "needs-review-compound-pdf",
-      "local_path": "records/transcriptions/A - CDs 40-43 (2 of 2) - Typed Transcripts.pdf",
+      "local_path": "resources/transcriptions/A - CDs 40-43 (2 of 2) - Typed Transcripts.pdf",
       "remote_path": "38-Glamorgan East Conference,1853-1863,LR1761621/Transcriptions/A - CDs 40-43 (2 of 2) - Typed Transcripts.pdf",
       "branch_folder": "38-Glamorgan East Conference,1853-1863,LR1761621",
       "pages": 155,
@@ -110,7 +110,7 @@
     {
       "type": "transcription-pdf",
       "mapping_status": "needs-review-compound-pdf",
-      "local_path": "records/transcriptions/A - CDs 44-59 - Typed Transcripts.pdf",
+      "local_path": "resources/transcriptions/A - CDs 44-59 - Typed Transcripts.pdf",
       "remote_path": "Stepaside/Transcriptions/A - CDs 44-59 - Typed Transcripts.pdf",
       "branch_folder": "Stepaside",
       "pages": 120,
@@ -126,7 +126,7 @@
     {
       "type": "transcription-pdf",
       "mapping_status": "needs-review-compound-pdf",
-      "local_path": "records/transcriptions/A - CDs 60-62 - Typed Transcripts.pdf",
+      "local_path": "resources/transcriptions/A - CDs 60-62 - Typed Transcripts.pdf",
       "remote_path": "Welsh District/Transcriptions/A - CDs 60-62 - Typed Transcripts.pdf",
       "branch_folder": "Welsh District",
       "pages": 176,

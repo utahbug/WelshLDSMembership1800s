@@ -8,7 +8,7 @@ from pypdf import PdfReader, PdfWriter
 
 ROOT = Path(__file__).resolve().parents[1]
 PLAN = ROOT / "outputs" / "internet-archive-split-plan" / "proposed-splits.csv"
-SOURCE_DIR = ROOT / "records" / "transcriptions"
+SOURCE_DIR = ROOT / "resources" / "transcriptions"
 OUTPUT_DIR = ROOT / "output" / "pdf" / "internet-archive-transcriptions"
 MANIFEST = ROOT / "outputs" / "internet-archive-split-plan" / "approved-split-manifest.csv"
 

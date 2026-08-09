@@ -2,7 +2,7 @@
 
 No PDFs have been split or uploaded. Page numbers below are PDF page numbers, counted from 1.
 
-Every proposed output will be created by copying complete source PDF page objects with `pypdf`. The process will not OCR, rasterize, recompress, rewrite, or alter page content. The three original compound PDFs remain unchanged in `records/transcriptions/` as provenance sources. `INDEX.csv` will record both the original source filename and its source page range for every derived PDF.
+Every proposed output will be created by copying complete source PDF page objects with `pypdf`. The process will not OCR, rasterize, recompress, rewrite, or alter page content. The three original compound PDFs remain unchanged in `resources/transcriptions/` as provenance sources. `INDEX.csv` will record both the original source filename and its source page range for every derived PDF.
 
 ## A - CDs 40-43 (2 of 2) - Typed Transcripts.pdf
 

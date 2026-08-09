@@ -1,11 +1,11 @@
 {
-  "generatedAt": "2026-08-09T04:48:38.886Z",
+  "generatedAt": "2026-08-09T19:30:33.062Z",
   "archiveIdentifier": "ldswelshmembership",
   "metadataEndpoint": "https://archive.org/metadata/ldswelshmembership",
   "downloadRoot": "https://archive.org/download/ldswelshmembership/",
-  "localRoot": "records/source-cds",
+  "localRoot": "resources/source-cds",
   "rules": {
-    "localImages": "JPEG/JPG/PNG under records/source-cds, excluding the viewer's t/ta/color/focus thumbnail suffixes.",
+    "localImages": "JPEG/JPG/PNG under resources/source-cds, excluding the viewer's t/ta/color/focus thumbnail suffixes.",
     "remoteImages": "Internet Archive metadata entries with source=original and format JPEG or PNG; generated derivatives and __ia_thumb.jpg are excluded.",
     "pathNormalization": "Backslashes converted to forward slashes only. Case, spelling, punctuation, and folder names are otherwise preserved.",
     "exactMatch": "Same normalized relative path, size, MD5, and SHA-1 (when supplied remotely)."
