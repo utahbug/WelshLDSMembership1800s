@@ -46,6 +46,10 @@ The first public starter emphasizes the branch registry. Conference transcriptio
 
 Machine-specific catalog files and absolute archive paths are excluded from Git. The source archives remain authoritative and untouched.
 
+### Private Welsh Saints research index
+
+Run `node scripts/build-welsh-saints-index.mjs` to create or refresh the local searchable index of public Welsh Saints Project listings. Open `welsh-saints-research.html` from the local viewer or use **About & tools → Welsh Saints research index (local)**. The generated files are stored under `data/private/`, are excluded from Git, and retain each Welsh Saints source ID and original public URL. The indexer does not access administrator-only pages or copy linked source documents.
+
 The public social card uses a 2019 photograph supplied by the project owner of a historic Ffestiniog family home. The photograph is cropped and captioned for sharing without altering the building or landscape.
 
 ## Build a portable flash-drive edition

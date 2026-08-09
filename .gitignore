@@ -1,6 +1,7 @@
 data/catalog.local.js
 data/catalog-report.local.json
 data/image-enhancements.local.json
+data/private/
 sources.local.json
 .DS_Store
 Thumbs.db
