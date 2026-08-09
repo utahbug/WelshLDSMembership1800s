@@ -1,0 +1,12 @@
+{
+  "approved_objects": 2374,
+  "images": 2347,
+  "transcription_pdfs": 24,
+  "archive_index_files": 3,
+  "approved_objects_present": 2374,
+  "approved_objects_missing": 0,
+  "checksum_conflicts": 0,
+  "post_upload_image_exact_path_checksum_matches": 5484,
+  "post_upload_incomplete_folders": 0,
+  "viewer_source_changed": false
+}

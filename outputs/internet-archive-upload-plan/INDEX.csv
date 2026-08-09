@@ -1,42 +1,50 @@
-branch,years,lr_reference,intended_image_count,transcription_pdf_count,archive_path,transcription_paths,transcription_mapping_status
-Dinas,1848-1879,LR1827,66,0,"1-Dinas,1848-1879,LR1827/",,none mapped
-Castell Nedd,1879-1884,LR1967,112,0,"2-Castell Nedd,1879-1884,LR1967/",,none mapped
-Alltwen,1849-1859,LR2257,27,0,"3-Alltwen,1849-1859,LR2257/",,none mapped
-Brynmawr,1848-1868,LR2157,93,0,"10-Brynmawr,1848-1868,LR2157/",,none mapped
-Llanelli,1847-1868,LR117577,138,0,"11-Llanelli,1847-1868,LR117577/",,none mapped
-Cefn Coed-y-Cymmer,1847-1864,LR1767,109,0,"12-Cefn Coed-y-Cymmer,1847-1864,LR1767/",,none mapped
-Bryntroedgam,1847-1860,LR1297,44,0,"13-Bryntroedgam,1847-1860,LR1297/",,none mapped
-Llansawel,1849-1855,LR2217,28,0,"14-Llansawel,1849-1855,LR2217/",,none mapped
-Llanfabon,1847-1869,LR1687,61,0,"15-Llanfabon_1847-1869,LR1687/",,none mapped
-Treboth,1844-1880,LR2287,57,0,"16-Treboth,1844-1880,LR2287/",,none mapped
-Pen-y-cae,1844-1866,LR2307,127,0,"17-Pen-y-cae,1844-1866,LR2307/",,none mapped
-Llansawel,1850-1889,LR117597,111,0,"18-Llansawel,1850-1889,LR117597/",,none mapped
-Cwm Celyn,1851-1883,LR1957,78,0,"19-Cwm Celyn,1851-1883,LR1957/",,none mapped
-Rhymney,1850-1887,LR124517,299,0,"20-Rhymney,1850-1887,LR124517/",,none mapped
-Cardiff,1847-1876,LR14167,310,0,"21-Cardiff,1847-1876,LR14167/",,none mapped
-Llandebie,1849-1886,LR1137,45,0,"22-Llandebie,1849-1886,LR1137/",,none mapped
-Haverfordwest,1847-1853,LR1134321,154,0,"23-Haverfordwest,1847-1853,LR1134321/",,none mapped
-Nantyglo,1846-1867,LR1747,161,0,"24-Nantyglo,1846-1867,LR1747/",,none mapped
-Abersychan,1849-1898,LR104687,153,0,"25-Abersychan,1849-1898,LR104687/",,none mapped
-Ebbro Vale,1847-1864,LR98467,76,1,"26-Ebbro Vale,1847-1864,LR98467/","26-Ebbro Vale,1847-1864,LR98467/Transcriptions/A - CDs 39 - Typed Transcripts.pdf",ready
-Dowlais,1851-1872,LR1287,118,0,"27-Dowlais,1851-1872,LR1287/",,none mapped
-Newport,1848-1857; 1863-1866,LR60717,138,0,"28-Newport,1848-1857_1863-1866,LR60717/",,none mapped
-Merthyr Tydfil,1843-1857; 1861-1896,LR54507,443,0,"29-Merthyr Tydfil,1843-1857_1861-1896,LR54507/",,none mapped
-Treforis,1853-1868,LR128867,52,0,"30-Treforis,1853-1868,LR128867/",,none mapped
-Cog,1848-1876,LR1097,68,0,"31-Cog,1848-1876,LR1097/",,none mapped
-Swansea,1872-1879,LR88637,45,0,"32-Swansea,1872-1879,LR88637/",,none mapped
-Twynyrodyn,1852-1892,LR1657,123,0,"33-Twynyrodyn,1852-1892,LR1657/",,none mapped
-Llanelltyd,1850-1882,LR1727,121,0,"34-Llanelltyd,1850-1882,LR1727/",,none mapped
-Cardiff,1851-1867,LR141622,89,1,"35-Cardiff,1851-1867,Donations,LR141622/","35-Cardiff,1851-1867,Donations,LR141622/Transcriptions/A - CDs 35-39 (1 of 2) - Typed Transcripts.pdf",ready
-Pen-Y-Darran,1843-1844,LR122087,4,0,"36-Pen-Y-Darran,1843-1844,Baptisms,LR122087/",,none mapped
-Cardiff Confererence,1857-1869,LR241210,352,0,"37-Cardiff Confererence,1857-1869,LR241210/",,none mapped
-Glamorgan East Conference,1853-1863,LR1761621,298,3,"38-Glamorgan East Conference,1853-1863,LR1761621/","38-Glamorgan East Conference,1853-1863,LR1761621/Transcriptions/A - CDs 35-39 (2 of 2) - Typed Transcripts.pdf | 38-Glamorgan East Conference,1853-1863,LR1761621/Transcriptions/A - CDs 40-43 (1 of 2) - Typed Transcripts.pdf | 38-Glamorgan East Conference,1853-1863,LR1761621/Transcriptions/A - CDs 40-43 (2 of 2) - Typed Transcripts.pdf",ready | needs-review-compound-pdf
-Cardiff,1851-1867,LR141622,310,0,"Cardiff (1851-1867) - Donations, Expenditures, Minutes, Records/",,none mapped
-Ffestiniog,not yet identified,not yet identified,97,0,Ffestiniog membership record/,,none mapped
-Gymner / Cymmer,1852-1857; 1863,LR1115222,280,0,"Gymner (1852-1857, 1863) - Minutes/",,none mapped
-Merthyr Tydfil,1849-1857; 1861-1896,LR54507,443,0,"Merthr Tydfil (1849-1857, 1861-1896)/",,none mapped
-Pontypool / Abersychan,1857-1889,LR708611,124,0,Pontypool (and minutes from Abersychan) -2/,,none mapped
-Stepaside,1858-1860,LR1272711,0,1,Stepaside/,Stepaside/Transcriptions/A - CDs 44-59 - Typed Transcripts.pdf,needs-review-compound-pdf
-Tredegar District,1879-1882,LR1240410,7,0,Tredegar District (1879-1882) - Confidential Minutes/,,none mapped
-Welsh District,1849-1911,LR1001111,0,1,Welsh District/,Welsh District/Transcriptions/A - CDs 60-62 - Typed Transcripts.pdf,needs-review-compound-pdf
-Ystrad,1902-1910,LR1314511,123,0,Ystrad (1902-1910) - General Minutes/,,none mapped
+branch,years,lr_reference,intended_image_count,transcription_pdf_count,archive_path,transcription_paths,transcription_mapping_status,transcription_source_files,transcription_source_pages
+Dinas,1848-1879,LR1827,66,0,"1-Dinas,1848-1879,LR1827/",,none mapped,,
+Castell Nedd,1879-1884,LR1967,112,0,"2-Castell Nedd,1879-1884,LR1967/",,none mapped,,
+Alltwen,1849-1859,LR2257,27,0,"3-Alltwen,1849-1859,LR2257/",,none mapped,,
+Brynmawr,1848-1868,LR2157,93,0,"10-Brynmawr,1848-1868,LR2157/",,none mapped,,
+Llanelli,1847-1868,LR117577,138,3,"11-Llanelli,1847-1868,LR117577/","11-Llanelli,1847-1868,LR117577/Transcriptions/Llanelli General Minutes, 1855-1861 - Catalog and Transcription Status.pdf; 11-Llanelli,1847-1868,LR117577/Transcriptions/Llanelli Confidential Minutes, 1881-1882 - Catalog and Transcription Status.pdf; 11-Llanelli,1847-1868,LR117577/Transcriptions/Llanelli General Minutes, 1855-1861 - Catalog and Transcription Status - Source CDs 44-59.pdf",approved,A - CDs 40-43 (2 of 2) - Typed Transcripts.pdf; A - CDs 44-59 - Typed Transcripts.pdf; A - CDs 44-59 - Typed Transcripts.pdf,A - CDs 40-43 (2 of 2) - Typed Transcripts.pdf: 104; A - CDs 44-59 - Typed Transcripts.pdf: 85; A - CDs 44-59 - Typed Transcripts.pdf: 86
+Cefn Coed-y-Cymmer,1847-1864,LR1767,109,0,"12-Cefn Coed-y-Cymmer,1847-1864,LR1767/",,none mapped,,
+Bryntroedgam,1847-1860,LR1297,44,0,"13-Bryntroedgam,1847-1860,LR1297/",,none mapped,,
+Llansawel,1849-1855,LR2217,28,0,"14-Llansawel,1849-1855,LR2217/",,none mapped,,
+Llanfabon,1847-1869,LR1687,61,0,"15-Llanfabon_1847-1869,LR1687/",,none mapped,,
+Treboth,1844-1880,LR2287,57,0,"16-Treboth,1844-1880,LR2287/",,none mapped,,
+Pen-y-cae,1844-1866,LR2307,127,0,"17-Pen-y-cae,1844-1866,LR2307/",,none mapped,,
+Llansawel,1850-1889,LR117597,111,1,"18-Llansawel,1850-1889,LR117597/","18-Llansawel,1850-1889,LR117597/Transcriptions/Llansawel General Minutes, 1852-1854 - Catalog and Transcription Status.pdf",approved,A - CDs 44-59 - Typed Transcripts.pdf,A - CDs 44-59 - Typed Transcripts.pdf: 82
+Cwm Celyn,1851-1883,LR1957,78,0,"19-Cwm Celyn,1851-1883,LR1957/",,none mapped,,
+Rhymney,1850-1887,LR124517,299,0,"20-Rhymney,1850-1887,LR124517/",,none mapped,,
+Cardiff,1847-1876,LR14167,310,0,"21-Cardiff,1847-1876,LR14167/",,none mapped,,
+Llandebie,1849-1886,LR1137,45,0,"22-Llandebie,1849-1886,LR1137/",,none mapped,,
+Haverfordwest,1847-1853,LR1134321,154,1,"23-Haverfordwest,1847-1853,LR1134321/","23-Haverfordwest,1847-1853,LR1134321/Transcriptions/Haverfordwest General Minutes, 1852-1854 - Catalog and Transcription Status.pdf",approved,A - CDs 44-59 - Typed Transcripts.pdf,A - CDs 44-59 - Typed Transcripts.pdf: 107
+Nantyglo,1846-1867,LR1747,161,0,"24-Nantyglo,1846-1867,LR1747/",,none mapped,,
+Abersychan,1849-1898,LR104687,153,0,"25-Abersychan,1849-1898,LR104687/",,none mapped,,
+Ebbro Vale,1847-1864,LR98467,76,1,"26-Ebbro Vale,1847-1864,LR98467/","26-Ebbro Vale,1847-1864,LR98467/Transcriptions/A - CDs 39 - Typed Transcripts.pdf",approved,A - CDs 39 - Typed Transcripts.pdf,A - CDs 39 - Typed Transcripts.pdf: 1-44
+Dowlais,1851-1872,LR1287,118,0,"27-Dowlais,1851-1872,LR1287/",,none mapped,,
+Newport,1848-1857; 1863-1866,LR60717,138,0,"28-Newport,1848-1857_1863-1866,LR60717/",,none mapped,,
+Merthyr Tydfil,1843-1857; 1861-1896,LR54507,443,0,"29-Merthyr Tydfil,1843-1857_1861-1896,LR54507/",,none mapped,,
+Treforis,1853-1868,LR128867,52,0,"30-Treforis,1853-1868,LR128867/",,none mapped,,
+Cog,1848-1876,LR1097,68,0,"31-Cog,1848-1876,LR1097/",,none mapped,,
+Swansea,1872-1879,LR88637,45,0,"32-Swansea,1872-1879,LR88637/",,none mapped,,
+Twynyrodyn,1852-1892,LR1657,123,0,"33-Twynyrodyn,1852-1892,LR1657/",,none mapped,,
+Llanelltyd,1850-1882,LR1727,121,0,"34-Llanelltyd,1850-1882,LR1727/",,none mapped,,
+Cardiff,1851-1867,LR141622,89,1,"35-Cardiff,1851-1867,Donations,LR141622/","35-Cardiff,1851-1867,Donations,LR141622/Transcriptions/A - CDs 35-39 (1 of 2) - Typed Transcripts.pdf",approved,A - CDs 35-39 (1 of 2) - Typed Transcripts.pdf,A - CDs 35-39 (1 of 2) - Typed Transcripts.pdf: 1-86
+Pen-Y-Darran,1843-1844,LR122087,4,0,"36-Pen-Y-Darran,1843-1844,Baptisms,LR122087/",,none mapped,,
+Cardiff Confererence,1857-1869,LR241210,352,0,"37-Cardiff Confererence,1857-1869,LR241210/",,none mapped,,
+Glamorgan East Conference,1853-1863,LR1761621,298,3,"38-Glamorgan East Conference,1853-1863,LR1761621/","38-Glamorgan East Conference,1853-1863,LR1761621/Transcriptions/A - CDs 35-39 (2 of 2) - Typed Transcripts.pdf; 38-Glamorgan East Conference,1853-1863,LR1761621/Transcriptions/A - CDs 40-43 (1 of 2) - Typed Transcripts.pdf; 38-Glamorgan East Conference,1853-1863,LR1761621/Transcriptions/East Glamorgan Conference Minutes, 1851-1852 - Source CDs 40-43 Part 2.pdf",approved,A - CDs 35-39 (2 of 2) - Typed Transcripts.pdf; A - CDs 40-43 (1 of 2) - Typed Transcripts.pdf; A - CDs 40-43 (2 of 2) - Typed Transcripts.pdf,A - CDs 35-39 (2 of 2) - Typed Transcripts.pdf: 1-116; A - CDs 40-43 (1 of 2) - Typed Transcripts.pdf: 1-80; A - CDs 40-43 (2 of 2) - Typed Transcripts.pdf: 1-82
+Cardiff,1851-1867,LR141622,310,0,"Cardiff (1851-1867) - Donations, Expenditures, Minutes, Records/",,none mapped,,
+Ffestiniog,not yet identified,not yet identified,97,0,Ffestiniog membership record/,,none mapped,,
+Gymner / Cymmer,1852-1857; 1863,LR1115222,280,1,"Gymner (1852-1857, 1863) - Minutes/","Gymner (1852-1857, 1863) - Minutes/Transcriptions/Gymmer-Cymmer Minutes, 1852-1857 and 1863 - Source CDs 44-59.pdf",approved,A - CDs 44-59 - Typed Transcripts.pdf,A - CDs 44-59 - Typed Transcripts.pdf: 108-120
+Merthyr Tydfil,1849-1857; 1861-1896,LR54507,443,0,"Merthr Tydfil (1849-1857, 1861-1896)/",,none mapped,,
+Pontypool / Abersychan,1857-1889,LR708611,124,0,Pontypool (and minutes from Abersychan) -2/,,none mapped,,
+Tredegar District,1879-1882,LR1240410,7,1,Tredegar District (1879-1882) - Confidential Minutes/,"Tredegar District (1879-1882) - Confidential Minutes/Transcriptions/Tredegar District Confidential Minutes, 1879-1882 - Source CDs 44-59.pdf",approved,A - CDs 44-59 - Typed Transcripts.pdf,A - CDs 44-59 - Typed Transcripts.pdf: 47-79
+Ystrad,1902-1910,LR1314511,123,1,Ystrad (1902-1910) - General Minutes/,"Ystrad (1902-1910) - General Minutes/Transcriptions/Ystrad General Minutes, 1902-1910 - Catalog and Transcription Status.pdf",approved,A - CDs 44-59 - Typed Transcripts.pdf,A - CDs 44-59 - Typed Transcripts.pdf: 80
+Western Glamorgan Conference,1851-1870,LR1761721,0,1,"Western Glamorgan Conference,1851-1870,LR1761721/","Western Glamorgan Conference,1851-1870,LR1761721/Transcriptions/Western Glamorgan Conference Minutes, 1851-1870 - Source CDs 40-43 Part 2.pdf",approved,A - CDs 40-43 (2 of 2) - Typed Transcripts.pdf,A - CDs 40-43 (2 of 2) - Typed Transcripts.pdf: 83-103
+Welsh District,1849-1911,LR1001111,0,1,"Welsh District,1849-1911,LR1001111/","Welsh District,1849-1911,LR1001111/Transcriptions/Welsh District General Minutes, 1898-1911 - Source CDs 40-43 Part 2.pdf",approved,A - CDs 40-43 (2 of 2) - Typed Transcripts.pdf,A - CDs 40-43 (2 of 2) - Typed Transcripts.pdf: 105-155
+Stepaside,1858-1860,LR1272711,0,1,"Stepaside,1858-1860,LR1272711/","Stepaside,1858-1860,LR1272711/Transcriptions/Stepaside General Minutes, 1858-1860 - Source CDs 44-59.pdf",approved,A - CDs 44-59 - Typed Transcripts.pdf,A - CDs 44-59 - Typed Transcripts.pdf: 2-33
+Neath,1882-1883,LR1201521,0,1,"Neath,1882-1883,Primary Minutes,LR1201521/","Neath,1882-1883,Primary Minutes,LR1201521/Transcriptions/Neath Primary Minutes, 1882-1883 - Catalog and Transcription Status.pdf",approved,A - CDs 44-59 - Typed Transcripts.pdf,A - CDs 44-59 - Typed Transcripts.pdf: 34
+"Swansea,Confidential Minutes",1877-1881,LR886310,0,1,"Swansea,Confidential Minutes,1877-1881,LR886310/","Swansea,Confidential Minutes,1877-1881,LR886310/Transcriptions/Swansea Confidential Minutes, 1877-1881 - Source CDs 44-59.pdf",approved,A - CDs 44-59 - Typed Transcripts.pdf,A - CDs 44-59 - Typed Transcripts.pdf: 35-45
+Welsh Conference,1884-1001,LR1001123,0,1,"Welsh Conference,1884,LR1001123/","Welsh Conference,1884,LR1001123/Transcriptions/Welsh Conference Minutes, 1884 - Catalog and Transcription Status.pdf",approved,A - CDs 44-59 - Typed Transcripts.pdf,A - CDs 44-59 - Typed Transcripts.pdf: 46
+Pen Paren,1854-1855,LR1219911,0,1,"Pen Paren,1854-1855,LR1219911/","Pen Paren,1854-1855,LR1219911/Transcriptions/Pen Paren General Minutes, 1854-1855 - Catalog and Transcription Status.pdf",approved,A - CDs 44-59 - Typed Transcripts.pdf,A - CDs 44-59 - Typed Transcripts.pdf: 81
+Georgetown,1850-1851,LR1128011,0,2,"Georgetown,1850-1851,LR1128011/","Georgetown,1850-1851,LR1128011/Transcriptions/Georgetown General Minutes, 1850-1851 - Catalog and Transcription Status.pdf; Georgetown,1850-1851,LR1128011/Transcriptions/Georgetown Historical Record, 1851 - Catalog and Transcription Status.pdf",approved,A - CDs 44-59 - Typed Transcripts.pdf; A - CDs 44-59 - Typed Transcripts.pdf,A - CDs 44-59 - Typed Transcripts.pdf: 83; A - CDs 44-59 - Typed Transcripts.pdf: 84
+Sutton Mountain,1853-1855,LR1277011,0,1,"Sutton Mountain,1853-1855,LR1277011/","Sutton Mountain,1853-1855,LR1277011/Transcriptions/Sutton Mountain General Minutes, 1853-1855 - Catalog and Transcription Status.pdf",approved,A - CDs 44-59 - Typed Transcripts.pdf,A - CDs 44-59 - Typed Transcripts.pdf: 87
+Tredegar District,1883-1885,LR1240421,0,1,"Tredegar District,1883-1885,LR1240421/","Tredegar District,1883-1885,LR1240421/Transcriptions/Tredegar District Council Minutes, 1883-1885 - Source CDs 44-59.pdf",approved,A - CDs 44-59 - Typed Transcripts.pdf,A - CDs 44-59 - Typed Transcripts.pdf: 88-106

@@ -1,40 +1,40 @@
 branch,local_images,remote_original_images,exact_path_checksum_matches,present_by_checksum,checksum_or_size_mismatches,missing_remote,remote_only,status
 "1-Dinas,1848-1879,LR1827",66,66,66,66,0,0,0,complete
-"2-Castell Nedd,1879-1884,LR1967",112,100,100,100,0,12,0,incomplete
+"2-Castell Nedd,1879-1884,LR1967",112,112,112,112,0,0,0,complete
 "3-Alltwen,1849-1859,LR2257",27,30,27,27,0,0,3,complete
 "10-Brynmawr,1848-1868,LR2157",93,93,93,93,0,0,0,complete
-"11-Llanelli,1847-1868,LR117577",138,100,100,100,0,38,0,incomplete
-"12-Cefn Coed-y-Cymmer,1847-1864,LR1767",109,100,100,100,0,9,0,incomplete
+"11-Llanelli,1847-1868,LR117577",138,138,138,138,0,0,0,complete
+"12-Cefn Coed-y-Cymmer,1847-1864,LR1767",109,109,109,109,0,0,0,complete
 "13-Bryntroedgam,1847-1860,LR1297",44,44,44,44,0,0,0,complete
 "14-Llansawel,1849-1855,LR2217",28,28,28,28,0,0,0,complete
 "15-Llanfabon_1847-1869,LR1687",61,64,61,61,0,0,3,complete
 "16-Treboth,1844-1880,LR2287",57,60,57,57,0,0,3,complete
-"17-Pen-y-cae,1844-1866,LR2307",127,100,100,100,0,27,0,incomplete
-"18-Llansawel,1850-1889,LR117597",111,100,100,100,0,11,0,incomplete
+"17-Pen-y-cae,1844-1866,LR2307",127,127,127,127,0,0,0,complete
+"18-Llansawel,1850-1889,LR117597",111,111,111,111,0,0,0,complete
 "19-Cwm Celyn,1851-1883,LR1957",78,78,78,78,0,0,0,complete
-"20-Rhymney,1850-1887,LR124517",299,100,100,100,0,199,0,incomplete
-"21-Cardiff,1847-1876,LR14167",310,100,100,100,0,210,0,incomplete
+"20-Rhymney,1850-1887,LR124517",299,299,299,299,0,0,0,complete
+"21-Cardiff,1847-1876,LR14167",310,310,310,310,0,0,0,complete
 "22-Llandebie,1849-1886,LR1137",45,45,45,45,0,0,0,complete
-"23-Haverfordwest,1847-1853,LR1134321",154,100,100,100,0,54,0,incomplete
-"24-Nantyglo,1846-1867,LR1747",161,100,100,100,0,61,0,incomplete
-"25-Abersychan,1849-1898,LR104687",153,100,100,100,0,53,0,incomplete
+"23-Haverfordwest,1847-1853,LR1134321",154,154,154,154,0,0,0,complete
+"24-Nantyglo,1846-1867,LR1747",161,161,161,161,0,0,0,complete
+"25-Abersychan,1849-1898,LR104687",153,153,153,153,0,0,0,complete
 "26-Ebbro Vale,1847-1864,LR98467",76,76,76,76,0,0,0,complete
-"27-Dowlais,1851-1872,LR1287",118,100,100,100,0,18,0,incomplete
-"28-Newport,1848-1857_1863-1866,LR60717",138,100,100,100,0,38,0,incomplete
-"29-Merthyr Tydfil,1843-1857_1861-1896,LR54507",443,100,100,100,0,343,0,incomplete
+"27-Dowlais,1851-1872,LR1287",118,118,118,118,0,0,0,complete
+"28-Newport,1848-1857_1863-1866,LR60717",138,138,138,138,0,0,0,complete
+"29-Merthyr Tydfil,1843-1857_1861-1896,LR54507",443,443,443,443,0,0,0,complete
 "30-Treforis,1853-1868,LR128867",52,52,52,52,0,0,0,complete
 "31-Cog,1848-1876,LR1097",68,68,68,68,0,0,0,complete
 "32-Swansea,1872-1879,LR88637",45,48,45,45,0,0,3,complete
-"33-Twynyrodyn,1852-1892,LR1657",123,100,100,100,0,23,0,incomplete
-"34-Llanelltyd,1850-1882,LR1727",121,100,100,100,0,21,0,incomplete
+"33-Twynyrodyn,1852-1892,LR1657",123,123,123,123,0,0,0,complete
+"34-Llanelltyd,1850-1882,LR1727",121,121,121,121,0,0,0,complete
 "35-Cardiff,1851-1867,Donations,LR141622",89,89,89,89,0,0,0,complete
 "36-Pen-Y-Darran,1843-1844,Baptisms,LR122087",4,4,4,4,0,0,0,complete
-"37-Cardiff Confererence,1857-1869,LR241210",352,100,100,100,0,252,0,incomplete
-"38-Glamorgan East Conference,1853-1863,LR1761621",298,100,100,100,0,198,0,incomplete
-"Cardiff (1851-1867) - Donations, Expenditures, Minutes, Records",310,100,100,100,0,210,0,incomplete
+"37-Cardiff Confererence,1857-1869,LR241210",352,352,352,352,0,0,0,complete
+"38-Glamorgan East Conference,1853-1863,LR1761621",298,298,298,298,0,0,0,complete
+"Cardiff (1851-1867) - Donations, Expenditures, Minutes, Records",310,310,310,310,0,0,0,complete
 Ffestiniog membership record,97,97,97,97,0,0,0,complete
-"Gymner (1852-1857, 1863) - Minutes",280,100,100,100,0,180,0,incomplete
-"Merthr Tydfil (1849-1857, 1861-1896)",443,100,100,100,0,343,0,incomplete
-Pontypool (and minutes from Abersychan) -2,124,100,100,100,0,24,0,incomplete
+"Gymner (1852-1857, 1863) - Minutes",280,280,280,280,0,0,0,complete
+"Merthr Tydfil (1849-1857, 1861-1896)",443,443,443,443,0,0,0,complete
+Pontypool (and minutes from Abersychan) -2,124,124,124,124,0,0,0,complete
 Tredegar District (1879-1882) - Confidential Minutes,7,7,7,7,0,0,0,complete
-Ystrad (1902-1910) - General Minutes,123,100,100,100,0,23,0,incomplete
+Ystrad (1902-1910) - General Minutes,123,123,123,123,0,0,0,complete
