@@ -209,6 +209,54 @@
     }
   }
 
+  function prepareImageLoadFeedback(image, retry) {
+    image._welshImageRetry = retry;
+    if (image.dataset.loadFeedbackReady) return;
+    image.dataset.loadFeedbackReady = "true";
+    const status = document.createElement("span");
+    status.className = "image-load-status";
+    status.setAttribute("role", "status");
+    const message = document.createElement("span");
+    const retryButton = document.createElement("button");
+    retryButton.type = "button";
+    retryButton.textContent = "Retry";
+    retryButton.hidden = true;
+    retryButton.addEventListener("click", () => image._welshImageRetry?.());
+    status.append(message, retryButton);
+    image.insertAdjacentElement("afterend", status);
+    image.addEventListener("load", () => {
+      image.parentElement?.classList.remove("image-loading", "image-load-error");
+      status.hidden = true;
+    });
+    image.addEventListener("error", () => {
+      image.parentElement?.classList.remove("image-loading");
+      image.parentElement?.classList.add("image-load-error");
+      message.textContent = "Image could not be loaded.";
+      retryButton.hidden = false;
+      status.hidden = false;
+    });
+  }
+
+  function loadRecordImage(image, source, retry = () => loadRecordImage(image, source)) {
+    prepareImageLoadFeedback(image, retry);
+    const status = image.parentElement?.querySelector(":scope > .image-load-status");
+    const message = status?.querySelector("span");
+    const retryButton = status?.querySelector("button");
+    image.parentElement?.classList.remove("image-load-error");
+    image.parentElement?.classList.add("image-loading");
+    if (message) message.textContent = "Loading image…";
+    if (retryButton) retryButton.hidden = true;
+    if (status) status.hidden = false;
+    if (!source) {
+      image.parentElement?.classList.remove("image-loading");
+      image.parentElement?.classList.add("image-load-error");
+      if (message) message.textContent = "Image path is unavailable.";
+      if (retryButton) retryButton.hidden = false;
+      return;
+    }
+    image.src = source;
+  }
+
   function normalized(value) {
     return String(value ?? "").normalize("NFD").replace(/[\u0300-\u036f]/g, "").toLowerCase()
       .replace(/\bff/g, "f").replace(/[^a-z0-9]/g, "");
@@ -539,6 +587,7 @@
       pageImage.dataset.imageContrast = String(state.contrast);
       applyImageTransform(pageImage);
       figure.append(pageImage);
+      prepareImageLoadFeedback(pageImage, () => loadRecordImage(pageImage, recordUrl(record)));
     } else {
       const link = document.createElement("a");
       link.className = "document-card";
@@ -556,12 +605,12 @@
     lazyObserver?.disconnect();
     const pending = continuousView.querySelectorAll("img[data-src]");
     if (!("IntersectionObserver" in window)) {
-      pending.forEach((item) => { item.src = item.dataset.src; delete item.dataset.src; });
+      pending.forEach((item) => { loadRecordImage(item, item.dataset.src); delete item.dataset.src; });
       return;
     }
     lazyObserver = new IntersectionObserver((entries, observer) => entries.forEach((entry) => {
       if (!entry.isIntersecting) return;
-      entry.target.src = entry.target.dataset.src;
+      loadRecordImage(entry.target, entry.target.dataset.src);
       delete entry.target.dataset.src;
       observer.unobserve(entry.target);
     }), { rootMargin: "1200px 0px" });
@@ -1051,6 +1100,7 @@
     if (mode === "continuous") renderScrollable(savedPage);
     if (facing) {
       if (previousMode !== "facing") facingPairOffset = savedPage % 2;
+      if (selectedImageIndex == null) selectedImageIndex = savedPage;
       fitFacingSpread();
       renderFacingSeries(savedPage);
     }
@@ -1251,7 +1301,7 @@
     documentPreview.hidden = isImage;
     if (isImage) {
       prepareRecordImage(image, record);
-      image.src = recordUrl(record);
+      loadRecordImage(image, recordUrl(record), () => showImage(currentImage));
       image.alt = `${currentCollection.name}, record image ${currentImage + 1}`;
       const state = pageState(currentImage);
       image.dataset.rotation = String(state.rotation);
@@ -1261,6 +1311,9 @@
       applyImageTransform(image);
     } else {
       image.removeAttribute("src");
+      stage.classList.remove("image-loading", "image-load-error");
+      const loadStatus = stage.querySelector(":scope > .image-load-status");
+      if (loadStatus) loadStatus.hidden = true;
       documentType.textContent = `${record.extension.replace(".", "").toUpperCase()} document`;
       documentName.textContent = record.name;
       documentLink.href = recordUrl(record);
