@@ -18,7 +18,7 @@
       return;
     }
     const words = query.split(/\s+/).filter(Boolean);
-    const matches = index.records.filter((record) => (!type.value || record.type === type.value) && words.every((word) => normalize([record.title, record.summary, record.cells?.join(" "), record.categories?.join(" "), record.matchedBranches?.join(" "), record.sourceId].join(" ")).includes(word))).slice(0, 250);
+    const matches = index.records.filter((record) => (!type.value || record.type === type.value) && words.every((word) => normalize([record.title, record.summary, record.detailText, record.cells?.join(" "), record.categories?.join(" "), record.matchedBranches?.join(" "), record.sourceId].join(" ")).includes(word))).slice(0, 250);
     summary.textContent = `${matches.length}${matches.length === 250 ? "+" : ""} result${matches.length === 1 ? "" : "s"} · local index contains ${index.counts.total.toLocaleString()} public-listing records · updated ${new Date(index.generatedAt).toLocaleDateString()}`;
     results.replaceChildren(...matches.map((record) => {
       const item = document.createElement("article"); item.className = "research-result";

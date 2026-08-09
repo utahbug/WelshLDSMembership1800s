@@ -48,7 +48,7 @@ Machine-specific catalog files and absolute archive paths are excluded from Git.
 
 ### Private Welsh Saints research index
 
-Run `node scripts/build-welsh-saints-index.mjs` to create or refresh the local searchable index of public Welsh Saints Project listings. Open `welsh-saints-research.html` from the local viewer or use **About & tools → Welsh Saints research index (local)**. The generated files are stored under `data/private/`, are excluded from Git, and retain each Welsh Saints source ID and original public URL. The indexer does not access administrator-only pages or copy linked source documents.
+Run `node scripts/build-welsh-saints-index.mjs` to create or refresh the local searchable index of Welsh Saints Project public listings and substantive public detail-page text. Open `welsh-saints-research.html` from the local viewer or use **About & tools → Welsh Saints research index (local)**. The generated index, resumable detail-page cache, and build report are stored under `data/private/`, are excluded from Git, and retain each Welsh Saints source ID and original public URL. The indexer does not access administrator-only pages or copy linked source documents. Use `node scripts/build-welsh-saints-index.mjs --details-from-existing` to refresh detail text from the preserved local 7,234-record catalog without recrawling the listing pages.
 
 The public social card uses a 2019 photograph supplied by the project owner of a historic Ffestiniog family home. The photograph is cropped and captioned for sharing without altering the building or landscape.
 
