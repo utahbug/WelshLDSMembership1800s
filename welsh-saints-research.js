@@ -12,6 +12,11 @@
   const escapeHtml = (value) => String(value || "").replace(/[&<>"']/g, (character) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" })[character]);
   function render() {
     const query = normalize(search.value.trim());
+    if (!query) {
+      summary.textContent = `Local index contains ${index.counts.total.toLocaleString()} public-listing records · updated ${new Date(index.generatedAt).toLocaleDateString()}`;
+      results.innerHTML = "<p>Enter a name, place, branch, voyage, or resource title.</p>";
+      return;
+    }
     const words = query.split(/\s+/).filter(Boolean);
     const matches = index.records.filter((record) => (!type.value || record.type === type.value) && words.every((word) => normalize([record.title, record.summary, record.cells?.join(" "), record.categories?.join(" "), record.matchedBranches?.join(" "), record.sourceId].join(" ")).includes(word))).slice(0, 250);
     summary.textContent = `${matches.length}${matches.length === 250 ? "+" : ""} result${matches.length === 1 ? "" : "s"} · local index contains ${index.counts.total.toLocaleString()} public-listing records · updated ${new Date(index.generatedAt).toLocaleDateString()}`;
