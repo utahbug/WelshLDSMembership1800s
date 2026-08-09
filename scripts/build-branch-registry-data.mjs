@@ -65,7 +65,8 @@ const aliases = new Map(Object.entries({
   "ffestiniog": "Ffestiniog", "festiniog": "Ffestiniog",
   "gwernllwyn": "Dowlais", "dowlais": "Dowlais",
   "llanelly": "Llanelli", "llanelli": "Llanelli",
-  "llanelltud": "Llanelltyd", "llanelltyd": "Llanelltyd",
+  "llanellyd": "Llanelltyd", "llanelltud": "Llanelltyd", "llanelltyd": "Llanelltyd",
+  "cwm saerbren": "Cwm Saerbren", "cwmsaerbren": "Cwm Saerbren",
   "merthr tydfil": "Merthyr Tydfil", "merthry tydfil": "Merthyr Tydfil", "merthyr tydfil": "Merthyr Tydfil", "merthyr tudful": "Merthyr Tydfil",
   "nanty glo": "Nantyglo", "nantyglo": "Nantyglo",
   "pen y cae": "Pen-y-cae",
@@ -73,6 +74,7 @@ const aliases = new Map(Object.entries({
   "gymmer": "Cymmer",
   "treboth": "Treboeth", "treboeth": "Treboeth",
   "treforis": "Treforest", "treforest": "Treforest",
+  "treorky": "Treorchy", "treorchy": "Treorchy",
   "twynyrodyn": "Twyn-yr-Odyn", "twyn yr odyn": "Twyn-yr-Odyn",
   "twyn carno": "Twyncarno", "twyncarno": "Twyncarno",
 }));
@@ -95,13 +97,14 @@ function canonical(raw) {
 function years(text) { return [...text.matchAll(/\b(1[6789]\d{2}|20\d{2})\b/g)].map((match) => Number(match[1])); }
 
 const evidence = [];
-function addEvidence(rawName, source, dateText = "", reference = "", sourceUrl = "", localPath = "") {
+function addEvidence(rawName, source, dateText = "", reference = "", sourceUrl = "", localPath = "", provenance = null) {
   const crossReference = baseName(rawName).match(/^(.+?)\s*\(see\s+(.+?)\)$/i);
   evidence.push({
     rawName, canonicalName: canonical(rawName),
     relatedBranch: crossReference ? canonical(crossReference[2]) : "",
     relationshipNote: crossReference ? `See ${crossReference[2].trim()} — possible rename, merger, transfer, or cross-reference; verify before classifying.` : "",
     source, dateText, reference, sourceUrl, localPath,
+    ...(provenance ? { provenance } : {}),
   });
 }
 
@@ -125,6 +128,33 @@ for (const [name, dateText, reference] of meetingChecklist) {
 // The surviving book title uses the anglicized single-F spelling. Preserve it
 // as a visible historical variant of the Welsh double-F place name.
 addEvidence("Festiniog", "Local membership record images", "", "Ffestiniog membership record book integrated into local archive; surviving title uses Festiniog; 94 unique viewer images");
+
+// Structural labels in the Llanelltyd volume identify three record groups.
+// Internal page numbers are transcribed from the source label and are not
+// assumed to be the same as viewer image sequence numbers.
+const llanelltydStructuralSource = {
+  collectionTitle: "Llanelltyd, 1850-1882, LR1727",
+  filename: "LR-1175710_v1574_M_00003.jpg",
+  viewerSequence: 3,
+  collectionBranch: "Llanelltyd",
+  lrContext: "Enclosing Llanelltyd collection: LR 172 7",
+};
+addEvidence("Llanellyd", "Historical structural image", "", "", "", "", {
+  ...llanelltydStructuralSource,
+  internalPage: 1,
+  note: "Historical spelling written on the volume index.",
+});
+addEvidence("Cwmsaerbren", "Historical structural image", "", "LR 11150 (separate catalog reference; images not connected to this site)", "", "", {
+  ...llanelltydStructuralSource,
+  internalPage: 6,
+  separateReference: "LR 11150",
+  note: "Branch name attested inside the Llanelltyd volume. LR 11150 remains a separate catalog reference; no corresponding images are currently connected.",
+});
+addEvidence("Treorky", "Historical structural image", "", "", "", "", {
+  ...llanelltydStructuralSource,
+  internalPage: 25,
+  note: "Historical spelling of Treorchy written on the volume index; not associated with Troedyrhiw.",
+});
 
 if (notesSource) {
   const branchesPath = path.join(notesSource.path, "Branches");
@@ -151,6 +181,7 @@ const registry = [...grouped.entries()].map(([canonicalName, entries]) => {
   if (familySearch && localCd) comparisonStatus = "Matched: FamilySearch and local CD";
   else if (familySearch && !localCd) comparisonStatus = "FamilySearch only / locate local record";
   else if (!familySearch && localCd) comparisonStatus = "Local CD only / verify with FamilySearch";
+  else if (entries.some((entry) => entry.source === "Historical structural image")) comparisonStatus = "Historical source attestation; dedicated record collection not yet identified";
   const entityType = /conference/i.test(canonicalName) ? "Conference" : "Branch";
   return {
     canonicalName, entityType, variants: variants.join("; "),
@@ -162,6 +193,10 @@ const registry = [...grouped.entries()].map(([canonicalName, entries]) => {
     relationshipNotes: [...new Set(entries.map((entry) => entry.relationshipNote).filter(Boolean))].join("; "),
     notes: comparisonStatus.includes("only") ? "Needs human review; absence from one source is not proof the branch or record was absent." : "",
     sourceUrls: [...new Set(entries.map((entry) => entry.sourceUrl).filter(Boolean))].join("; "),
+    nameSources: entries.filter((entry) => entry.provenance).map((entry) => ({
+      sourceName: baseName(entry.rawName),
+      ...entry.provenance,
+    })),
   };
 }).sort((a, b) => a.canonicalName.localeCompare(b.canonicalName, "en", { sensitivity: "base" }));
 
@@ -170,7 +205,7 @@ const output = { generatedAt: new Date().toISOString(), registry, evidence };
 fs.writeFileSync(path.join(root, "data", "branch-registry.json"), JSON.stringify(output, null, 2), "utf8");
 fs.writeFileSync(path.join(root, "data", "branch-registry.js"), `window.WELSH_BRANCH_REGISTRY = ${JSON.stringify(output)};\n`, "utf8");
 
-function csvCell(value) { const text = value == null ? "" : String(value); return `"${text.replaceAll('"', '""')}"`; }
+function csvCell(value) { const text = value == null ? "" : typeof value === "object" ? JSON.stringify(value) : String(value); return `"${text.replaceAll('"', '""')}"`; }
 const headers = Object.keys(registry[0]);
 const csv = [headers.map(csvCell).join(","), ...registry.map((row) => headers.map((header) => csvCell(row[header])).join(","))].join("\r\n");
 fs.writeFileSync(path.join(root, "BRANCH_REGISTRY.csv"), `${csv}\r\n`, "utf8");

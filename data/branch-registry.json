@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-08-06T07:12:42.220Z",
+  "generatedAt": "2026-08-09T13:39:24.960Z",
   "registry": [
     {
       "canonicalName": "Abersychan",
@@ -15,7 +15,8 @@
       "relatedBranches": "",
       "relationshipNotes": "",
       "notes": "Needs human review; absence from one source is not proof the branch or record was absent.",
-      "sourceUrls": ""
+      "sourceUrls": "",
+      "nameSources": []
     },
     {
       "canonicalName": "Abertawe",
@@ -31,7 +32,8 @@
       "relatedBranches": "Swansea",
       "relationshipNotes": "See Swansea — possible rename, merger, transfer, or cross-reference; verify before classifying.",
       "notes": "Needs human review; absence from one source is not proof the branch or record was absent.",
-      "sourceUrls": ""
+      "sourceUrls": "",
+      "nameSources": []
     },
     {
       "canonicalName": "Abertillery",
@@ -47,7 +49,8 @@
       "relatedBranches": "",
       "relationshipNotes": "",
       "notes": "Needs human review; absence from one source is not proof the branch or record was absent.",
-      "sourceUrls": ""
+      "sourceUrls": "",
+      "nameSources": []
     },
     {
       "canonicalName": "Alltwen",
@@ -63,7 +66,8 @@
       "relatedBranches": "",
       "relationshipNotes": "",
       "notes": "Needs human review; absence from one source is not proof the branch or record was absent.",
-      "sourceUrls": ""
+      "sourceUrls": "",
+      "nameSources": []
     },
     {
       "canonicalName": "Brechfa",
@@ -79,7 +83,8 @@
       "relatedBranches": "",
       "relationshipNotes": "",
       "notes": "Needs human review; absence from one source is not proof the branch or record was absent.",
-      "sourceUrls": ""
+      "sourceUrls": "",
+      "nameSources": []
     },
     {
       "canonicalName": "Brynmawr",
@@ -95,7 +100,8 @@
       "relatedBranches": "",
       "relationshipNotes": "",
       "notes": "Needs human review; absence from one source is not proof the branch or record was absent.",
-      "sourceUrls": ""
+      "sourceUrls": "",
+      "nameSources": []
     },
     {
       "canonicalName": "Bryntroedgam",
@@ -111,7 +117,8 @@
       "relatedBranches": "",
       "relationshipNotes": "",
       "notes": "Needs human review; absence from one source is not proof the branch or record was absent.",
-      "sourceUrls": ""
+      "sourceUrls": "",
+      "nameSources": []
     },
     {
       "canonicalName": "Cardiff",
@@ -127,7 +134,8 @@
       "relatedBranches": "",
       "relationshipNotes": "",
       "notes": "",
-      "sourceUrls": "https://www.familysearch.org/search/catalog/results?query=film_number%3A104168"
+      "sourceUrls": "https://www.familysearch.org/search/catalog/results?query=film_number%3A104168",
+      "nameSources": []
     },
     {
       "canonicalName": "Castell Nedd (Neath)",
@@ -143,7 +151,8 @@
       "relatedBranches": "",
       "relationshipNotes": "",
       "notes": "Needs human review; absence from one source is not proof the branch or record was absent.",
-      "sourceUrls": ""
+      "sourceUrls": "",
+      "nameSources": []
     },
     {
       "canonicalName": "Cefn Coed-y-Cymmer",
@@ -159,7 +168,8 @@
       "relatedBranches": "",
       "relationshipNotes": "",
       "notes": "",
-      "sourceUrls": "https://www.familysearch.org/search/catalog/results?query=film_number%3A104168"
+      "sourceUrls": "https://www.familysearch.org/search/catalog/results?query=film_number%3A104168",
+      "nameSources": []
     },
     {
       "canonicalName": "Coalbrookvale",
@@ -175,7 +185,8 @@
       "relatedBranches": "",
       "relationshipNotes": "",
       "notes": "Needs human review; absence from one source is not proof the branch or record was absent.",
-      "sourceUrls": "https://www.familysearch.org/search/catalog/results?query=film_number%3A104168"
+      "sourceUrls": "https://www.familysearch.org/search/catalog/results?query=film_number%3A104168",
+      "nameSources": []
     },
     {
       "canonicalName": "Cogan",
@@ -191,7 +202,8 @@
       "relatedBranches": "",
       "relationshipNotes": "",
       "notes": "",
-      "sourceUrls": "https://www.familysearch.org/search/catalog/results?query=film_number%3A104168"
+      "sourceUrls": "https://www.familysearch.org/search/catalog/results?query=film_number%3A104168",
+      "nameSources": []
     },
     {
       "canonicalName": "Crumlin",
@@ -207,7 +219,8 @@
       "relatedBranches": "",
       "relationshipNotes": "",
       "notes": "Needs human review; absence from one source is not proof the branch or record was absent.",
-      "sourceUrls": "https://www.familysearch.org/search/catalog/results?query=film_number%3A104168"
+      "sourceUrls": "https://www.familysearch.org/search/catalog/results?query=film_number%3A104168",
+      "nameSources": []
     },
     {
       "canonicalName": "Cuffern Mountain",
@@ -223,7 +236,8 @@
       "relatedBranches": "",
       "relationshipNotes": "",
       "notes": "",
-      "sourceUrls": "https://www.familysearch.org/search/catalog/results?query=film_number%3A104168"
+      "sourceUrls": "https://www.familysearch.org/search/catalog/results?query=film_number%3A104168",
+      "nameSources": []
     },
     {
       "canonicalName": "Cwm Celyn",
@@ -239,7 +253,37 @@
       "relatedBranches": "",
       "relationshipNotes": "",
       "notes": "Needs human review; absence from one source is not proof the branch or record was absent.",
-      "sourceUrls": ""
+      "sourceUrls": "",
+      "nameSources": []
+    },
+    {
+      "canonicalName": "Cwm Saerbren",
+      "entityType": "Branch",
+      "variants": "Cwmsaerbren",
+      "earliestYear": null,
+      "latestYear": null,
+      "localCd": false,
+      "localNote": false,
+      "familySearch": false,
+      "comparisonStatus": "Historical source attestation; dedicated record collection not yet identified",
+      "filmAndCallNumbers": "LR 11150 (separate catalog reference; images not connected to this site)",
+      "relatedBranches": "",
+      "relationshipNotes": "",
+      "notes": "",
+      "sourceUrls": "",
+      "nameSources": [
+        {
+          "sourceName": "Cwmsaerbren",
+          "collectionTitle": "Llanelltyd, 1850-1882, LR1727",
+          "filename": "LR-1175710_v1574_M_00003.jpg",
+          "viewerSequence": 3,
+          "collectionBranch": "Llanelltyd",
+          "lrContext": "Enclosing Llanelltyd collection: LR 172 7",
+          "internalPage": 6,
+          "separateReference": "LR 11150",
+          "note": "Branch name attested inside the Llanelltyd volume. LR 11150 remains a separate catalog reference; no corresponding images are currently connected."
+        }
+      ]
     },
     {
       "canonicalName": "Cwmbran",
@@ -255,7 +299,8 @@
       "relatedBranches": "",
       "relationshipNotes": "",
       "notes": "Needs human review; absence from one source is not proof the branch or record was absent.",
-      "sourceUrls": "https://www.familysearch.org/search/catalog/results?query=film_number%3A104168"
+      "sourceUrls": "https://www.familysearch.org/search/catalog/results?query=film_number%3A104168",
+      "nameSources": []
     },
     {
       "canonicalName": "Cwmcillyn",
@@ -271,7 +316,8 @@
       "relatedBranches": "",
       "relationshipNotes": "",
       "notes": "Needs human review; absence from one source is not proof the branch or record was absent.",
-      "sourceUrls": "https://www.familysearch.org/search/catalog/results?query=film_number%3A104168"
+      "sourceUrls": "https://www.familysearch.org/search/catalog/results?query=film_number%3A104168",
+      "nameSources": []
     },
     {
       "canonicalName": "Cwmtillery",
@@ -287,7 +333,8 @@
       "relatedBranches": "",
       "relationshipNotes": "",
       "notes": "Needs human review; absence from one source is not proof the branch or record was absent.",
-      "sourceUrls": ""
+      "sourceUrls": "",
+      "nameSources": []
     },
     {
       "canonicalName": "Cymmer",
@@ -303,7 +350,8 @@
       "relatedBranches": "",
       "relationshipNotes": "",
       "notes": "Needs human review; absence from one source is not proof the branch or record was absent.",
-      "sourceUrls": ""
+      "sourceUrls": "",
+      "nameSources": []
     },
     {
       "canonicalName": "Dinas",
@@ -319,7 +367,8 @@
       "relatedBranches": "",
       "relationshipNotes": "",
       "notes": "Needs human review; absence from one source is not proof the branch or record was absent.",
-      "sourceUrls": ""
+      "sourceUrls": "",
+      "nameSources": []
     },
     {
       "canonicalName": "Dowlais",
@@ -335,7 +384,8 @@
       "relatedBranches": "",
       "relationshipNotes": "",
       "notes": "Needs human review; absence from one source is not proof the branch or record was absent.",
-      "sourceUrls": ""
+      "sourceUrls": "",
+      "nameSources": []
     },
     {
       "canonicalName": "Ebbw Vale",
@@ -351,7 +401,8 @@
       "relatedBranches": "",
       "relationshipNotes": "",
       "notes": "Needs human review; absence from one source is not proof the branch or record was absent.",
-      "sourceUrls": ""
+      "sourceUrls": "",
+      "nameSources": []
     },
     {
       "canonicalName": "Ffestiniog",
@@ -367,7 +418,8 @@
       "relatedBranches": "",
       "relationshipNotes": "",
       "notes": "Needs human review; absence from one source is not proof the branch or record was absent.",
-      "sourceUrls": ""
+      "sourceUrls": "",
+      "nameSources": []
     },
     {
       "canonicalName": "Georgetown",
@@ -383,7 +435,8 @@
       "relatedBranches": "",
       "relationshipNotes": "",
       "notes": "Needs human review; absence from one source is not proof the branch or record was absent.",
-      "sourceUrls": ""
+      "sourceUrls": "",
+      "nameSources": []
     },
     {
       "canonicalName": "Gilwern",
@@ -399,7 +452,8 @@
       "relatedBranches": "",
       "relationshipNotes": "",
       "notes": "Needs human review; absence from one source is not proof the branch or record was absent.",
-      "sourceUrls": ""
+      "sourceUrls": "",
+      "nameSources": []
     },
     {
       "canonicalName": "Haverfordwest",
@@ -415,7 +469,8 @@
       "relatedBranches": "",
       "relationshipNotes": "",
       "notes": "Needs human review; absence from one source is not proof the branch or record was absent.",
-      "sourceUrls": ""
+      "sourceUrls": "",
+      "nameSources": []
     },
     {
       "canonicalName": "Llandebie",
@@ -431,7 +486,8 @@
       "relatedBranches": "",
       "relationshipNotes": "",
       "notes": "Needs human review; absence from one source is not proof the branch or record was absent.",
-      "sourceUrls": ""
+      "sourceUrls": "",
+      "nameSources": []
     },
     {
       "canonicalName": "Llanelli",
@@ -447,12 +503,13 @@
       "relatedBranches": "",
       "relationshipNotes": "",
       "notes": "Needs human review; absence from one source is not proof the branch or record was absent.",
-      "sourceUrls": ""
+      "sourceUrls": "",
+      "nameSources": []
     },
     {
       "canonicalName": "Llanelltyd",
       "entityType": "Branch",
-      "variants": "Llanelltud",
+      "variants": "Llanellyd; Llanelltud",
       "earliestYear": 1850,
       "latestYear": 1882,
       "localCd": true,
@@ -463,7 +520,19 @@
       "relatedBranches": "",
       "relationshipNotes": "",
       "notes": "",
-      "sourceUrls": "https://www.familysearch.org/search/catalog/results?query=film_number%3A104168"
+      "sourceUrls": "https://www.familysearch.org/search/catalog/results?query=film_number%3A104168",
+      "nameSources": [
+        {
+          "sourceName": "Llanellyd",
+          "collectionTitle": "Llanelltyd, 1850-1882, LR1727",
+          "filename": "LR-1175710_v1574_M_00003.jpg",
+          "viewerSequence": 3,
+          "collectionBranch": "Llanelltyd",
+          "lrContext": "Enclosing Llanelltyd collection: LR 172 7",
+          "internalPage": 1,
+          "note": "Historical spelling written on the volume index."
+        }
+      ]
     },
     {
       "canonicalName": "Llanelly 2",
@@ -479,7 +548,8 @@
       "relatedBranches": "",
       "relationshipNotes": "",
       "notes": "Needs human review; absence from one source is not proof the branch or record was absent.",
-      "sourceUrls": ""
+      "sourceUrls": "",
+      "nameSources": []
     },
     {
       "canonicalName": "Llanfabon",
@@ -495,7 +565,8 @@
       "relatedBranches": "",
       "relationshipNotes": "",
       "notes": "Needs human review; absence from one source is not proof the branch or record was absent.",
-      "sourceUrls": ""
+      "sourceUrls": "",
+      "nameSources": []
     },
     {
       "canonicalName": "Llansawel",
@@ -511,7 +582,8 @@
       "relatedBranches": "",
       "relationshipNotes": "",
       "notes": "Needs human review; absence from one source is not proof the branch or record was absent.",
-      "sourceUrls": "https://www.familysearch.org/search/catalog/209087"
+      "sourceUrls": "https://www.familysearch.org/search/catalog/209087",
+      "nameSources": []
     },
     {
       "canonicalName": "Llansawel (Carmarthenshire)",
@@ -527,7 +599,8 @@
       "relatedBranches": "",
       "relationshipNotes": "",
       "notes": "Needs human review; absence from one source is not proof the branch or record was absent.",
-      "sourceUrls": ""
+      "sourceUrls": "",
+      "nameSources": []
     },
     {
       "canonicalName": "Llansawel (Glamorgan)",
@@ -543,7 +616,8 @@
       "relatedBranches": "",
       "relationshipNotes": "",
       "notes": "Needs human review; absence from one source is not proof the branch or record was absent.",
-      "sourceUrls": ""
+      "sourceUrls": "",
+      "nameSources": []
     },
     {
       "canonicalName": "Machen",
@@ -559,7 +633,8 @@
       "relatedBranches": "",
       "relationshipNotes": "",
       "notes": "Needs human review; absence from one source is not proof the branch or record was absent.",
-      "sourceUrls": ""
+      "sourceUrls": "",
+      "nameSources": []
     },
     {
       "canonicalName": "Merthyr Tydfil",
@@ -575,7 +650,8 @@
       "relatedBranches": "",
       "relationshipNotes": "",
       "notes": "Needs human review; absence from one source is not proof the branch or record was absent.",
-      "sourceUrls": ""
+      "sourceUrls": "",
+      "nameSources": []
     },
     {
       "canonicalName": "Morriston",
@@ -591,7 +667,8 @@
       "relatedBranches": "",
       "relationshipNotes": "",
       "notes": "Needs human review; absence from one source is not proof the branch or record was absent.",
-      "sourceUrls": "https://www.familysearch.org/search/catalog/results?query=film_number%3A104172"
+      "sourceUrls": "https://www.familysearch.org/search/catalog/results?query=film_number%3A104172",
+      "nameSources": []
     },
     {
       "canonicalName": "Nantyglo",
@@ -607,7 +684,8 @@
       "relatedBranches": "",
       "relationshipNotes": "",
       "notes": "Needs human review; absence from one source is not proof the branch or record was absent.",
-      "sourceUrls": ""
+      "sourceUrls": "",
+      "nameSources": []
     },
     {
       "canonicalName": "Newport",
@@ -623,7 +701,8 @@
       "relatedBranches": "",
       "relationshipNotes": "",
       "notes": "Needs human review; absence from one source is not proof the branch or record was absent.",
-      "sourceUrls": ""
+      "sourceUrls": "",
+      "nameSources": []
     },
     {
       "canonicalName": "Pen-y-cae",
@@ -639,7 +718,8 @@
       "relatedBranches": "",
       "relationshipNotes": "",
       "notes": "Needs human review; absence from one source is not proof the branch or record was absent.",
-      "sourceUrls": ""
+      "sourceUrls": "",
+      "nameSources": []
     },
     {
       "canonicalName": "Pen-y-Darran",
@@ -655,7 +735,8 @@
       "relatedBranches": "",
       "relationshipNotes": "",
       "notes": "Needs human review; absence from one source is not proof the branch or record was absent.",
-      "sourceUrls": ""
+      "sourceUrls": "",
+      "nameSources": []
     },
     {
       "canonicalName": "Pontlanfraith",
@@ -671,7 +752,8 @@
       "relatedBranches": "",
       "relationshipNotes": "",
       "notes": "Needs human review; absence from one source is not proof the branch or record was absent.",
-      "sourceUrls": ""
+      "sourceUrls": "",
+      "nameSources": []
     },
     {
       "canonicalName": "Pontypool",
@@ -687,7 +769,8 @@
       "relatedBranches": "",
       "relationshipNotes": "",
       "notes": "Needs human review; absence from one source is not proof the branch or record was absent.",
-      "sourceUrls": ""
+      "sourceUrls": "",
+      "nameSources": []
     },
     {
       "canonicalName": "Pontypridd",
@@ -703,7 +786,8 @@
       "relatedBranches": "",
       "relationshipNotes": "",
       "notes": "Needs human review; absence from one source is not proof the branch or record was absent.",
-      "sourceUrls": ""
+      "sourceUrls": "",
+      "nameSources": []
     },
     {
       "canonicalName": "Rhymney",
@@ -719,7 +803,8 @@
       "relatedBranches": "",
       "relationshipNotes": "",
       "notes": "Needs human review; absence from one source is not proof the branch or record was absent.",
-      "sourceUrls": ""
+      "sourceUrls": "",
+      "nameSources": []
     },
     {
       "canonicalName": "Rhymney English",
@@ -735,7 +820,8 @@
       "relatedBranches": "",
       "relationshipNotes": "",
       "notes": "Needs human review; absence from one source is not proof the branch or record was absent.",
-      "sourceUrls": "https://www.familysearch.org/search/catalog/results?query=film_number%3A104172"
+      "sourceUrls": "https://www.familysearch.org/search/catalog/results?query=film_number%3A104172",
+      "nameSources": []
     },
     {
       "canonicalName": "Stepaside",
@@ -751,7 +837,8 @@
       "relatedBranches": "",
       "relationshipNotes": "",
       "notes": "Needs human review; absence from one source is not proof the branch or record was absent.",
-      "sourceUrls": ""
+      "sourceUrls": "",
+      "nameSources": []
     },
     {
       "canonicalName": "Sutton Mountain",
@@ -767,7 +854,8 @@
       "relatedBranches": "",
       "relationshipNotes": "",
       "notes": "Needs human review; absence from one source is not proof the branch or record was absent.",
-      "sourceUrls": "https://www.familysearch.org/search/catalog/results?query=film_number%3A104171"
+      "sourceUrls": "https://www.familysearch.org/search/catalog/results?query=film_number%3A104171",
+      "nameSources": []
     },
     {
       "canonicalName": "Swansea",
@@ -783,7 +871,8 @@
       "relatedBranches": "",
       "relationshipNotes": "",
       "notes": "Needs human review; absence from one source is not proof the branch or record was absent.",
-      "sourceUrls": ""
+      "sourceUrls": "",
+      "nameSources": []
     },
     {
       "canonicalName": "Treboeth",
@@ -799,7 +888,8 @@
       "relatedBranches": "",
       "relationshipNotes": "",
       "notes": "",
-      "sourceUrls": "https://www.familysearch.org/search/catalog/results?query=film_number%3A104172"
+      "sourceUrls": "https://www.familysearch.org/search/catalog/results?query=film_number%3A104172",
+      "nameSources": []
     },
     {
       "canonicalName": "Tredegar",
@@ -815,7 +905,8 @@
       "relatedBranches": "",
       "relationshipNotes": "",
       "notes": "",
-      "sourceUrls": "https://www.familysearch.org/search/catalog/results?query=film_number%3A104172"
+      "sourceUrls": "https://www.familysearch.org/search/catalog/results?query=film_number%3A104172",
+      "nameSources": []
     },
     {
       "canonicalName": "Treforest",
@@ -831,12 +922,13 @@
       "relatedBranches": "",
       "relationshipNotes": "",
       "notes": "",
-      "sourceUrls": "https://www.familysearch.org/search/catalog/results?query=film_number%3A104172"
+      "sourceUrls": "https://www.familysearch.org/search/catalog/results?query=film_number%3A104172",
+      "nameSources": []
     },
     {
       "canonicalName": "Treorchy",
       "entityType": "Branch",
-      "variants": "",
+      "variants": "Treorky",
       "earliestYear": 1875,
       "latestYear": 1882,
       "localCd": false,
@@ -847,7 +939,19 @@
       "relatedBranches": "",
       "relationshipNotes": "",
       "notes": "Needs human review; absence from one source is not proof the branch or record was absent.",
-      "sourceUrls": "https://www.familysearch.org/search/catalog/results?query=film_number%3A104168; https://www.familysearch.org/search/catalog/results?query=film_number%3A104172"
+      "sourceUrls": "https://www.familysearch.org/search/catalog/results?query=film_number%3A104168; https://www.familysearch.org/search/catalog/results?query=film_number%3A104172",
+      "nameSources": [
+        {
+          "sourceName": "Treorky",
+          "collectionTitle": "Llanelltyd, 1850-1882, LR1727",
+          "filename": "LR-1175710_v1574_M_00003.jpg",
+          "viewerSequence": 3,
+          "collectionBranch": "Llanelltyd",
+          "lrContext": "Enclosing Llanelltyd collection: LR 172 7",
+          "internalPage": 25,
+          "note": "Historical spelling of Treorchy written on the volume index; not associated with Troedyrhiw."
+        }
+      ]
     },
     {
       "canonicalName": "Trinant",
@@ -863,7 +967,8 @@
       "relatedBranches": "",
       "relationshipNotes": "",
       "notes": "Needs human review; absence from one source is not proof the branch or record was absent.",
-      "sourceUrls": "https://www.familysearch.org/search/catalog/results?query=film_number%3A104172"
+      "sourceUrls": "https://www.familysearch.org/search/catalog/results?query=film_number%3A104172",
+      "nameSources": []
     },
     {
       "canonicalName": "Twyn-yr-Odyn",
@@ -879,7 +984,8 @@
       "relatedBranches": "",
       "relationshipNotes": "",
       "notes": "",
-      "sourceUrls": "https://www.familysearch.org/search/catalog/results?query=film_number%3A104172"
+      "sourceUrls": "https://www.familysearch.org/search/catalog/results?query=film_number%3A104172",
+      "nameSources": []
     },
     {
       "canonicalName": "Twyncarno",
@@ -895,7 +1001,8 @@
       "relatedBranches": "",
       "relationshipNotes": "",
       "notes": "Needs human review; absence from one source is not proof the branch or record was absent.",
-      "sourceUrls": "https://www.familysearch.org/search/catalog/results?query=film_number%3A104172"
+      "sourceUrls": "https://www.familysearch.org/search/catalog/results?query=film_number%3A104172",
+      "nameSources": []
     },
     {
       "canonicalName": "Welsh Conference",
@@ -911,7 +1018,8 @@
       "relatedBranches": "",
       "relationshipNotes": "",
       "notes": "Needs human review; absence from one source is not proof the branch or record was absent.",
-      "sourceUrls": "https://www.familysearch.org/search/catalog/results?query=film_number%3A104172"
+      "sourceUrls": "https://www.familysearch.org/search/catalog/results?query=film_number%3A104172",
+      "nameSources": []
     },
     {
       "canonicalName": "Ystrad",
@@ -927,7 +1035,8 @@
       "relatedBranches": "",
       "relationshipNotes": "",
       "notes": "Needs human review; absence from one source is not proof the branch or record was absent.",
-      "sourceUrls": "https://www.familysearch.org/search/catalog/results?query=film_number%3A104172"
+      "sourceUrls": "https://www.familysearch.org/search/catalog/results?query=film_number%3A104172",
+      "nameSources": []
     }
   ],
   "evidence": [
@@ -1381,6 +1490,67 @@
       "reference": "Ffestiniog membership record book integrated into local archive; surviving title uses Festiniog; 94 unique viewer images",
       "sourceUrl": "",
       "localPath": ""
+    },
+    {
+      "rawName": "Llanellyd",
+      "canonicalName": "Llanelltyd",
+      "relatedBranch": "",
+      "relationshipNote": "",
+      "source": "Historical structural image",
+      "dateText": "",
+      "reference": "",
+      "sourceUrl": "",
+      "localPath": "",
+      "provenance": {
+        "collectionTitle": "Llanelltyd, 1850-1882, LR1727",
+        "filename": "LR-1175710_v1574_M_00003.jpg",
+        "viewerSequence": 3,
+        "collectionBranch": "Llanelltyd",
+        "lrContext": "Enclosing Llanelltyd collection: LR 172 7",
+        "internalPage": 1,
+        "note": "Historical spelling written on the volume index."
+      }
+    },
+    {
+      "rawName": "Cwmsaerbren",
+      "canonicalName": "Cwm Saerbren",
+      "relatedBranch": "",
+      "relationshipNote": "",
+      "source": "Historical structural image",
+      "dateText": "",
+      "reference": "LR 11150 (separate catalog reference; images not connected to this site)",
+      "sourceUrl": "",
+      "localPath": "",
+      "provenance": {
+        "collectionTitle": "Llanelltyd, 1850-1882, LR1727",
+        "filename": "LR-1175710_v1574_M_00003.jpg",
+        "viewerSequence": 3,
+        "collectionBranch": "Llanelltyd",
+        "lrContext": "Enclosing Llanelltyd collection: LR 172 7",
+        "internalPage": 6,
+        "separateReference": "LR 11150",
+        "note": "Branch name attested inside the Llanelltyd volume. LR 11150 remains a separate catalog reference; no corresponding images are currently connected."
+      }
+    },
+    {
+      "rawName": "Treorky",
+      "canonicalName": "Treorchy",
+      "relatedBranch": "",
+      "relationshipNote": "",
+      "source": "Historical structural image",
+      "dateText": "",
+      "reference": "",
+      "sourceUrl": "",
+      "localPath": "",
+      "provenance": {
+        "collectionTitle": "Llanelltyd, 1850-1882, LR1727",
+        "filename": "LR-1175710_v1574_M_00003.jpg",
+        "viewerSequence": 3,
+        "collectionBranch": "Llanelltyd",
+        "lrContext": "Enclosing Llanelltyd collection: LR 172 7",
+        "internalPage": 25,
+        "note": "Historical spelling of Treorchy written on the volume index; not associated with Troedyrhiw."
+      }
     },
     {
       "rawName": "Abersycan (1887-1889)",
