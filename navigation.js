@@ -52,6 +52,18 @@
     const groups = [{ title: "", test: (card) => /membership records/i.test(card.textContent), primary: true }, { title: "Transcriptions and translations", test: (card) => /transcription|translation/i.test(card.textContent) }, { title: "Minutes and other record collections", test: (card) => /minutes/i.test(card.textContent) }, { title: "Related PDFs and research material", test: () => true }];
     const used = new Set();
     const grouped = groups.map((group) => ({ ...group, cards: cards.filter((card) => !used.has(card) && group.test(card)).filter((card) => { used.add(card); return true; }) }));
+    const membershipCollections = related(name).filter((collection) => resourceKindForNavigation(collection) === "membership");
+    if (membershipCollections.length === 1) {
+      const collection = membershipCollections[0];
+      const title = displayTitle(collection.name).replace(/,\s*(?:LR|CR)\s*\d+.*$/i, "").replace(/(\d{4})-(\d{4})\s+(?=\d{4}-\d{4})/g, "$1–$2; ").replace(/(\d{4})-(\d{4})/g, "$1–$2");
+      const d = detailsFor(name);
+      const reference = String(d?.filmAndCallNumbers || "").match(/\b((?:LR|CR)\s*\d+)(?:\s+\d+)?/i)?.[1]?.replace(/\s+/g, "") || "";
+      const imageCount = (collection.images || []).filter((item) => item.type === "image").length;
+      const cd = String(d?.filmAndCallNumbers || "").match(/\bCD\s*(\d+)/i)?.[1];
+      $("#branchTitle").textContent = title;
+      $("#branchHeadingDetails").textContent = [reference, `${imageCount} images`, cd ? `Source CD ${cd}` : ""].filter(Boolean).join(" · ");
+      $("#branchHeadingDetails").hidden = false;
+    }
     const fragment = document.createDocumentFragment();
     grouped.filter((group) => group.cards.length).forEach((group) => { const section = document.createElement("section"); section.className = `resource-group${group.primary ? " primary-resource-group" : ""}`; if (group.title) section.innerHTML = `<h3>${group.title}</h3>`; const grid = document.createElement("div"); grid.className = "resource-grid"; grid.append(...group.cards); section.append(grid); fragment.append(section); });
     if (grouped.slice(1).every((group) => !group.cards.length)) { const empty = document.createElement("p"); empty.className = "resource-empty resource-empty-combined"; empty.textContent = "No transcriptions, minutes, or related research material are currently linked."; fragment.append(empty); }
@@ -61,10 +73,11 @@
       const link = source.collectionBranch ? ` <a href="?branch=${encodeURIComponent(source.collectionBranch)}" data-source-branch="${source.collectionBranch}">Open ${source.collectionBranch} resources</a>` : "";
       return `<li><strong>${source.collectionTitle}</strong><br><span>${location}</span>${source.note ? `<br><span>${source.note}</span>` : ""}${link}</li>`;
     }).join("");
-    info.innerHTML = `${nameSources ? `<h3>Sources for branch name</h3><ul class="branch-name-sources">${nameSources}</ul>` : ""}<h3>Source coverage</h3><p>${[d?.filmAndCallNumbers, d?.comparisonStatus, d?.localNote].filter(Boolean).join(" · ") || "Detailed source coverage has not yet been entered."}</p><h3>Alternate names and branch relationships</h3><p>${[d?.variants, d?.relatedBranches].filter(Boolean).join(" · ") || "No alternate names or relationships have yet been recorded."}</p><h3>Registry and technical details</h3><p><a href="branch-registry.html">Consult the branch coverage matrix</a></p><h3>Work remaining</h3><p>${cards.length ? "Review source coverage, transcription status, and discrepancies." : "Locate and connect records for this identified branch."}</p>`;
+    info.innerHTML = `${nameSources ? `<h3>Sources for branch name</h3><ul class="branch-name-sources">${nameSources}</ul>` : ""}<h3>Sources and Evidence</h3><p>${[d?.filmAndCallNumbers, d?.comparisonStatus, d?.localNote].filter(Boolean).join(" · ") || "Detailed source coverage has not yet been entered."}</p><h3>Alternate names and branch relationships</h3><p>${[d?.variants, d?.relatedBranches].filter(Boolean).join(" · ") || "No alternate names or relationships have yet been recorded."}</p><h3>Registry and technical details</h3><p><a href="branch-registry.html">Consult the branch coverage matrix</a></p><h3>Work remaining</h3><p>${cards.length ? "Review source coverage, transcription status, and discrepancies." : "Locate and connect records for this identified branch."}</p>`;
     info.querySelectorAll("[data-source-branch]").forEach((link) => link.addEventListener("click", (event) => { event.preventDefault(); routeBranch(link.dataset.sourceBranch); }));
     fragment.append(info); list.replaceChildren(fragment);
   }
+  function resourceKindForNavigation(collection) { return (collection.images || []).some((item) => item.type === "image") ? "membership" : "other"; }
   function openSearch() { directory.hidden = false; branchPagePicker.hidden = true; $("#branchResourceBreadcrumbs").hidden = true; $("#resourcePanel").hidden = true; $("#recordViewer").hidden = true; document.querySelector(".site-menu")?.removeAttribute("open"); directory.scrollIntoView({ block: "start" }); requestAnimationFrame(() => search.focus()); }
   function syncSearch() { directory.hidden = false; $("#branchResourceBreadcrumbs").hidden = true; $("#resourcePanel").hidden = true; $("#recordViewer").hidden = true; searchCatalog(search.value.trim()); }
   branchPagePicker.addEventListener("click", () => openPicker(branchPagePicker)); $("#closeBranchPicker").addEventListener("click", () => closePicker()); $("#pickerBackdrop").addEventListener("click", () => closePicker());
