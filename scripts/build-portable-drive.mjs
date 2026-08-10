@@ -110,6 +110,9 @@ const privateResearchFiles = [
   "typed-branch-evidence-candidates.local.json",
   "typed-branch-record-index-report.local.json",
   "people-index.local.js",
+  "people-index.local.json",
+  "people-index-source.csv",
+  "people-index-report.local.json",
 ];
 for (const fileName of privateResearchFiles) {
   const source = path.join(privateSourceDir, fileName);

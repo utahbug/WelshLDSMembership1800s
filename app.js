@@ -1299,10 +1299,11 @@
 
   window.WELSH_OPEN_COLLECTION = openCollection;
 
-  window.WELSH_OPEN_INDEXED_RECORD = ({ branch, collectionId, imageSequence, view = "single" }) => {
+  window.WELSH_OPEN_INDEXED_RECORD = ({ branch, collectionId, imageSequence, imageFilename, view = "single" }) => {
     const collection = catalog.collections.find((item) => item.id === collectionId);
-    const imageIndex = Number(imageSequence) - 1;
-    if (!branch || !collection || !Number.isInteger(imageIndex) || imageIndex < 0 || imageIndex >= visibleRecords(collection).length) return false;
+    const records = collection ? visibleRecords(collection) : [];
+    const imageIndex = imageFilename ? records.findIndex((record) => record.name === imageFilename) : Number(imageSequence) - 1;
+    if (!branch || !collection || !Number.isInteger(imageIndex) || imageIndex < 0 || imageIndex >= records.length) return false;
     openBranch(branch);
     openCollection(collection, { keepResources: true, initialView: ["single", "continuous", "facing"].includes(view) ? view : "single", initialImage: imageIndex });
     return true;

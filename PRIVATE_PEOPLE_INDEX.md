@@ -1,21 +1,44 @@
 # Private people-name index
 
-The people-name index is a private/local finding aid. The historical membership-register image remains the authority.
+The people-name index is a private/local finding aid. The original membership-register image remains the authority.
 
-## Storage and public exclusion
+## Private files
 
-The working data is stored at `data/private/people-index.local.js`. The entire `data/private/` directory is excluded by `.gitignore`, so the name database is not committed to or served by GitHub Pages. The tracked search code activates only when the catalog explicitly identifies the edition as `local` or `portable`; the public edition neither displays the local menu link nor requests the private database.
+- Human-edited source: `data/private/people-index-source.csv`
+- Generated browser index: `data/private/people-index.local.js`
+- Generated JSON copy: `data/private/people-index.local.json`
+- Validation report: `data/private/people-index-report.local.json`
 
-The portable builder copies the private index and the people-search interface into the finished portable folder.
+The entire `data/private/` directory is excluded by `.gitignore`. GitHub Pages receives none of these files. The tracked search page activates only when the catalog explicitly says the edition is `local` or `portable`; the public edition neither shows the local People Search menu item nor requests the private index.
 
-## Adding one occurrence
+## 1. Add one person
 
-Add one object to the `records` array in `data/private/people-index.local.js`. Keep every occurrence separate, even when two names appear to describe the same person. Required fields are `nameAsWritten`, `normalizedName`, and `branch`. Optional fields include `aliases`, `baptismDate`, `residence`, `year`, `date`, `entryNumber`, `collectionId`, `imageSequence`, `imageIdentifier`, `pageNumber`, `notes`, and `verified`.
+Open `data/private/people-index-source.csv` in Excel or a text editor and add one row. Keep `nameAsWritten` exactly as it appears in the historical record. Separate multiple aliases with `|`. Do not add a normalized name; the builder creates it.
 
-Use the exact spelling from the register for `nameAsWritten`. Use `normalizedName` only for searching. Set `verified` to `true` only after checking the source image. `imageSequence` is one-based. When both `collectionId` and a verified `imageSequence` are supplied, the result displays **Open record** and deep-links to that image. Without a reliable image reference, it links only to the branch resources page and says that the exact image is not yet linked.
+Use `occurrenceType` = `member` for the person whose membership row is being indexed. Use `associated` for missionaries, officiators, or other people merely named in that row. Keep separate occurrences as separate rows, even when names look alike.
 
-## Adding another branch
+Blank baptism dates, residences, entry numbers, and image references are allowed. Never guess an image reference.
 
-Add separate occurrence objects for that branch. No branch-specific search setup is needed: all records are searched together, and branch is always presented as a result field.
+## 2. Rebuild the private index
 
-The canonical project branch is `Ffestiniog`. The original book spelling `Festiniog` is retained in `sourceBranchAsWritten` and may be included as a branch alias, but must not replace the canonical folder, key, or URL.
+From the project folder, run:
+
+```powershell
+node scripts/build-people-index.mjs
+```
+
+The builder normalizes searchable names, maps known historical branch spellings to canonical branches, checks occurrence types and dates, warns about unknown branches and likely duplicates, and regenerates the three private output files.
+
+## 3. Add another branch
+
+Enter the canonical branch in `branch`. If the source uses a different spelling, preserve it in `sourceBranchSpelling`. For example, use canonical `Ffestiniog` and source spelling `Festiniog`. Known variants entered in the branch column are mapped to their canonical branch; an unrecognized branch produces a warning.
+
+## 4. Verify an image link later
+
+Enter either a one-based viewer sequence in `imageRef` or the exact existing filename in `imageFilename`, then set `verified` to `true` only after checking the source image. Rebuild the index. A verified, resolvable reference displays **Open record**; otherwise the result links to branch resources and says that the exact image is not yet linked.
+
+After rebuilding, refresh the portable edition with:
+
+```powershell
+node scripts/build-portable-drive.mjs "C:\Users\kenro\Documents\LDSWelshMembers-Portable"
+```
