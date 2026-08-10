@@ -65,6 +65,14 @@
       $("#branchHeadingDetails").textContent = [reference, `${imageCount} images`, cd ? `Source CD ${cd}` : ""].filter(Boolean).join(" · ");
       $("#branchHeadingDetails").hidden = false;
     }
+    if (name === "Merthyr Tydfil" && grouped[0].cards.length === 1) {
+      const card = grouped[0].cards[0];
+      card.classList.add("merthyr-membership-card");
+      card.innerHTML = `<span class="resource-kind">Membership Records</span><strong>Merthyr Tydfil</strong><small class="resource-years">1843-1857, 1861-1896</small><small>443 items</small><span class="resource-provenance"><span>Source: LR54507, CD 29</span><span>Years identified: 1843-1896</span></span>`;
+      $("#branchHeadingYears").hidden = true;
+      $("#branchHeadingDetails").hidden = true;
+      $("#branchMeta").hidden = true;
+    }
     const fragment = document.createDocumentFragment();
     grouped.filter((group) => group.cards.length).forEach((group) => { const section = document.createElement("section"); section.className = `resource-group${group.primary ? " primary-resource-group" : ""}`; if (group.title) section.innerHTML = `<h3>${group.title}</h3>`; const grid = document.createElement("div"); grid.className = "resource-grid"; grid.append(...group.cards); section.append(grid); fragment.append(section); });
     if (grouped.slice(1).every((group) => !group.cards.length)) { const empty = document.createElement("p"); empty.className = "resource-empty resource-empty-combined"; empty.textContent = "No transcriptions, minutes, or related research material are currently linked."; fragment.append(empty); }

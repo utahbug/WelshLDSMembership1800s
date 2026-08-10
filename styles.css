@@ -135,6 +135,8 @@ button, input { font: inherit; }
 .resource-card strong { font-size: 1.08rem; font-weight: 500; }
 .resource-card small { color: var(--muted); font: .76rem Arial, sans-serif; }
 .resource-provenance { margin-top: 5px; padding-top: 7px; color: #755615; border-top: 1px solid #dfd2b4; font: 700 .7rem/1.35 Arial, sans-serif; }
+.merthyr-membership-card .resource-years { margin-top: -2px; color: var(--ink); font-size: .82rem; }
+.merthyr-membership-card .resource-provenance { display: grid; gap: 3px; }
 .resource-card.active .resource-provenance { color: #f0dfb4; border-top-color: #ffffff33; }
 .resource-kind { color: var(--green); font: 700 .7rem Arial, sans-serif; letter-spacing: .08em; text-transform: uppercase; }
 .empty-resource { grid-column: 1 / -1; }

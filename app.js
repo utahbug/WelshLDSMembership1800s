@@ -463,6 +463,7 @@
     const details = branchDetails(name);
     branchTitle.textContent = name;
     branchHeadingYears.textContent = yearLabel(details) || "Years not yet identified";
+    branchHeadingYears.hidden = false;
     const branchReference = String(details?.filmAndCallNumbers || "").match(/\b((?:LR|CR)\s*\d+)(?:\s+\d+)?/i)?.[1]?.replace(/\s+/g, "") || "";
     branchHeadingDetails.textContent = branchReference;
     branchHeadingDetails.hidden = !branchReference;
