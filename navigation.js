@@ -49,7 +49,7 @@
   }
   function organizeResources(name) {
     const list = $("#resourceList"); if (!list) return; const cards = [...list.querySelectorAll(".resource-card")];
-    const groups = [{ title: "", test: (card) => /record images/i.test(card.textContent), primary: true }, { title: "Transcriptions and translations", test: (card) => /transcription|translation/i.test(card.textContent) }, { title: "Minutes and other record collections", test: (card) => /minutes/i.test(card.textContent) }, { title: "Related PDFs and research material", test: () => true }];
+    const groups = [{ title: "", test: (card) => /membership records/i.test(card.textContent), primary: true }, { title: "Transcriptions and translations", test: (card) => /transcription|translation/i.test(card.textContent) }, { title: "Minutes and other record collections", test: (card) => /minutes/i.test(card.textContent) }, { title: "Related PDFs and research material", test: () => true }];
     const used = new Set();
     const grouped = groups.map((group) => ({ ...group, cards: cards.filter((card) => !used.has(card) && group.test(card)).filter((card) => { used.add(card); return true; }) }));
     const fragment = document.createDocumentFragment();

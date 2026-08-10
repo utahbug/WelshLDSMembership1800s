@@ -323,7 +323,7 @@
     const documents = records.length - images;
     if (/transcription/i.test(collection.category) || records.some((record) => /transcript/i.test(record.name))) return "Transcription";
     if (/minute|conference/i.test(collection.category + collection.name)) return "Minutes";
-    if (images) return "Record images";
+    if (images) return "Membership Records";
     if (documents) return "Documents";
     return "Resource";
   }
@@ -383,7 +383,7 @@
         && visibleRecords(collection).length
         && !nonBranchLabels.has(collection.name.toLowerCase()))
       .sort((a, b) => {
-        const kindDifference = (resourceKind(a.collection) === "Record images" ? 0 : 1) - (resourceKind(b.collection) === "Record images" ? 0 : 1);
+        const kindDifference = (resourceKind(a.collection) === "Membership Records" ? 0 : 1) - (resourceKind(b.collection) === "Membership Records" ? 0 : 1);
         return kindDifference || a.score - b.score || a.collection.name.localeCompare(b.collection.name);
       })
       .map(({ collection }) => collection);
@@ -474,7 +474,7 @@
     const matches = relatedCollections(name);
     if (!matches.length || (matches.length === 1 && matches[0].id === "public-branch-registry")) {
       viewer.hidden = true;
-      resourceList.innerHTML = `<div class="empty-resource"><strong>Branch recorded</strong><p>Record images for this branch are not yet included in the online starter. Its name and evidence remain available in the branch registry.</p><a href="branch-registry.html">Open branch registry</a></div>`;
+      resourceList.innerHTML = `<div class="empty-resource"><strong>Branch recorded</strong><p>Membership records for this branch are not yet included in the online starter. Its name and evidence remain available in the branch registry.</p><a href="branch-registry.html">Open branch registry</a></div>`;
     } else {
       resourceList.replaceChildren(...matches.map((collection) => {
         const records = visibleRecords(collection);
@@ -1278,7 +1278,7 @@
     backToResources.textContent = keepResources ? `${currentBranchName} Resources` : "Branch Resources";
     backToResources.href = keepResources ? `?branch=${encodeURIComponent(currentBranchName)}` : "./";
     const kind = resourceKind(collection);
-    breadcrumbCurrentPage.textContent = kind === "Record images" ? "Membership Record" : kind;
+    breadcrumbCurrentPage.textContent = kind === "Membership Records" ? "Membership Record" : kind;
     viewer.hidden = false;
     title.textContent = collectionHeading(collection);
     viewContext.innerHTML = keepResources
