@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-08-09T19:34:19.742Z",
+  "generatedAt": "2026-08-10T00:57:06.719Z",
   "registry": [
     {
       "canonicalName": "Abersychan",
@@ -641,7 +641,7 @@
       "entityType": "Branch",
       "variants": "",
       "earliestYear": 1843,
-      "latestYear": 1943,
+      "latestYear": 1896,
       "localCd": true,
       "localNote": true,
       "familySearch": false,
@@ -1991,17 +1991,6 @@
       "reference": "Wales2Utah research note",
       "sourceUrl": "",
       "localPath": "C:\\Users\\kenro\\Desktop\\HOME\\RH\\RH_OUTPUT\\Wales2Utah_RawBranches\\LDS\\Branches\\Merthyr_Tydfil_(1861-1896).htm"
-    },
-    {
-      "rawName": "Merthyr Tydfil (1932-1943)",
-      "canonicalName": "Merthyr Tydfil",
-      "relatedBranch": "",
-      "relationshipNote": "",
-      "source": "Recovered RoboHelp branch note",
-      "dateText": "1932-1943",
-      "reference": "Wales2Utah research note",
-      "sourceUrl": "",
-      "localPath": "C:\\Users\\kenro\\Desktop\\HOME\\RH\\RH_OUTPUT\\Wales2Utah_RawBranches\\LDS\\Branches\\Merthyr_Tydfil_(1932-1943).htm"
     },
     {
       "rawName": "Merthyr Tydfil (Early to 1847)",

@@ -160,6 +160,10 @@ if (notesSource) {
   const branchesPath = path.join(notesSource.path, "Branches");
   for (const entry of fs.readdirSync(branchesPath, { withFileTypes: true })) {
     if (!entry.isFile() || !/\.html?$/i.test(entry.name) || /^(INTRO|First_Missionaries|Mixed_)/i.test(entry.name)) continue;
+    // This empty draft placeholder is not evidence for the date coverage shown
+    // on the Merthyr Tydfil branch page. Preserve the source file outside the
+    // registry so it can be reviewed and placed separately later.
+    if (entry.name === "Merthyr_Tydfil_(1932-1943).htm") continue;
     const rawName = entry.name.replace(/\.html?$/i, "").replaceAll("_", " ");
     addEvidence(rawName, "Recovered RoboHelp branch note", years(rawName).join("-"), "Wales2Utah research note", "", path.join(branchesPath, entry.name));
   }
