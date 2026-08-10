@@ -49,8 +49,12 @@
   }
   function organizeResources(name) {
     const list = $("#resourceList"); if (!list) return; const cards = [...list.querySelectorAll(".resource-card")];
-    const groups = [{ title: "Membership images", test: (card) => /record images/i.test(card.textContent) }, { title: "Transcriptions and translations", test: (card) => /transcription|translation/i.test(card.textContent) }, { title: "Minutes and other record collections", test: (card) => /minutes/i.test(card.textContent) }, { title: "Related PDFs and research material", test: () => true }];
-    const used = new Set(); const fragment = document.createDocumentFragment(); groups.forEach((group) => { const section = document.createElement("section"); section.className = "resource-group"; section.innerHTML = `<h3>${group.title}</h3>`; const grid = document.createElement("div"); grid.className = "resource-grid"; cards.filter((card) => !used.has(card) && group.test(card)).forEach((card) => { used.add(card); grid.append(card); }); if (!grid.children.length) grid.innerHTML = `<p class="resource-empty">No resources in this category have yet been connected to ${name}.</p>`; section.append(grid); fragment.append(section); });
+    const groups = [{ title: "", test: (card) => /record images/i.test(card.textContent), primary: true }, { title: "Transcriptions and translations", test: (card) => /transcription|translation/i.test(card.textContent) }, { title: "Minutes and other record collections", test: (card) => /minutes/i.test(card.textContent) }, { title: "Related PDFs and research material", test: () => true }];
+    const used = new Set();
+    const grouped = groups.map((group) => ({ ...group, cards: cards.filter((card) => !used.has(card) && group.test(card)).filter((card) => { used.add(card); return true; }) }));
+    const fragment = document.createDocumentFragment();
+    grouped.filter((group) => group.cards.length).forEach((group) => { const section = document.createElement("section"); section.className = `resource-group${group.primary ? " primary-resource-group" : ""}`; if (group.title) section.innerHTML = `<h3>${group.title}</h3>`; const grid = document.createElement("div"); grid.className = "resource-grid"; grid.append(...group.cards); section.append(grid); fragment.append(section); });
+    if (grouped.slice(1).every((group) => !group.cards.length)) { const empty = document.createElement("p"); empty.className = "resource-empty resource-empty-combined"; empty.textContent = "No transcriptions, minutes, or related research material are currently linked."; fragment.append(empty); }
     const d = detailsFor(name); const info = document.createElement("section"); info.className = "branch-information";
     const nameSources = (d?.nameSources || []).map((source) => {
       const location = [source.filename, `viewer sequence ${source.viewerSequence}`, source.internalPage ? `internal page ${source.internalPage}` : "", source.lrContext].filter(Boolean).join(" · ");

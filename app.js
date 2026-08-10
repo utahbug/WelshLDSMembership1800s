@@ -16,6 +16,8 @@
   const resourcePanel = $("#resourcePanel");
   const resourceList = $("#resourceList");
   const branchTitle = $("#branchTitle");
+  const branchHeadingYears = $("#branchHeadingYears");
+  const branchHeadingReference = $("#branchHeadingReference");
   const branchMeta = $("#branchMeta");
   const viewer = $("#recordViewer");
   const title = $("#collectionTitle");
@@ -454,12 +456,15 @@
     welcome.hidden = true;
     viewer.hidden = true;
     resourcePanel.hidden = false;
-    resourcePanel.open = true;
     resourcePanel.classList.remove("compact");
     $(".viewer").classList.remove("record-open");
     window.scrollTo({ top: 0, behavior: "auto" });
     branchTitle.textContent = name;
     const details = branchDetails(name);
+    branchHeadingYears.textContent = yearLabel(details) || "Years not yet identified";
+    const branchReference = String(details?.filmAndCallNumbers || "").match(/\b(?:LR|CR)\s*[\d ]+/i)?.[0]?.replace(/\s+/g, "") || "";
+    branchHeadingReference.textContent = branchReference;
+    branchHeadingReference.hidden = !branchReference;
     const facts = [];
     if (yearLabel(details)) facts.push(`<span><strong>Years found:</strong> ${yearLabel(details)}</span>`);
     if (details?.variants) facts.push(`<span><strong>Known variants:</strong> ${details.variants}</span>`);
@@ -1411,7 +1416,6 @@
     viewer.hidden = true;
     viewerBreadcrumbs.hidden = true;
     resourcePanel.hidden = false;
-    resourcePanel.open = true;
     $(".viewer").classList.remove("record-open");
     window.scrollTo({ top: 0, behavior: "smooth" });
   });
