@@ -90,7 +90,7 @@ button, input { font: inherit; }
 .archive-stats dd { margin: 5px 0 0; font-size: 1.55rem; color: var(--green-dark); }
 
 .resource-panel { width: min(1050px, 100%); margin: 0; }
-.branch-resource-heading { margin: 0 0 12px; text-align: right; }
+.branch-resource-heading { margin: 0 0 12px; text-align: left; }
 .branch-resource-heading h2 { margin: 0; color: var(--green-dark); font-size: clamp(1.5rem, 3vw, 2rem); font-weight: 600; }
 .branch-resource-heading p { margin: 3px 0 0; color: var(--muted); font: .82rem/1.3 Arial, sans-serif; }
 .branch-resource-heading p[hidden] { display: none; }
