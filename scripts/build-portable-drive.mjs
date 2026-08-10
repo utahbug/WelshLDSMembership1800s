@@ -84,12 +84,27 @@ for (const [sourceName, targetName] of portableFiles) {
   copyResumable(path.join(projectRoot, sourceName), path.join(destination, targetName));
 }
 
+const typedPdfSourceDir = path.join(projectRoot, "resources", "transcriptions");
+const typedPdfFiles = fs.readdirSync(typedPdfSourceDir)
+  .filter((name) => /Typed Transcripts\.pdf$/i.test(name))
+  .sort((a, b) => a.localeCompare(b, "en", { numeric: true, sensitivity: "base" }));
+for (const fileName of typedPdfFiles) {
+  copyResumable(
+    path.join(typedPdfSourceDir, fileName),
+    path.join(destination, "resources", "transcriptions", fileName),
+  );
+}
+
 const privateSourceDir = path.join(projectRoot, "data", "private");
 const privateResearchFiles = [
   "welsh-saints-index.local.js",
   "welsh-saints-index.local.json",
   "welsh-saints-detail-cache.local.json",
   "welsh-saints-index-report.local.json",
+  "typed-branch-record-index.local.js",
+  "typed-branch-record-index.local.json",
+  "typed-branch-evidence-candidates.local.json",
+  "typed-branch-record-index-report.local.json",
 ];
 for (const fileName of privateResearchFiles) {
   const source = path.join(privateSourceDir, fileName);
@@ -111,9 +126,9 @@ const instructions = `WELSH LDS HISTORICAL RECORDS - PORTABLE EDITION
 
 Start by opening START_HERE.html in a web browser.
 
-This drive works offline. It contains a deduplicated working collection, conference-minute transcriptions, recovered research notes, recovery placeholders, the private full-text Welsh Saints research index, and clearly separated non-LDS Merthyr Bishop Records.
+This drive works offline. It contains a deduplicated working collection, conference-minute transcriptions, recovered research notes, recovery placeholders, the private full-text Welsh Saints and typed branch-record PDF indexes, and clearly separated non-LDS Merthyr Bishop Records.
 
-The Welsh Saints research index can be opened from About & tools or directly at welsh-saints-research.html. Search uses the copied local full-text index and does not require welshsaints.byu.edu. Original-record links still require internet access.
+The private local research index can be opened from About & tools or directly at welsh-saints-research.html. Welsh Saints search uses copied local data and does not require welshsaints.byu.edu; its original-record links still require internet access. Typed branch-record results open the copied local source PDF at the indexed page and work offline.
 
 No original source archive was deleted or modified when this edition was built.
 
@@ -137,6 +152,7 @@ const result = {
   copiedBytes,
   catalogItems: portableCatalog.stats.uniqueItems,
   privateResearchFiles: privateResearchFiles.map((name) => path.posix.join("data", "private", name)),
+  typedBranchRecordPdfs: typedPdfFiles.map((name) => path.posix.join("resources", "transcriptions", name)),
   excludedPrivateFiles,
 };
 fs.writeFileSync(path.join(destination, "PORTABLE_BUILD_REPORT.json"), JSON.stringify(result, null, 2), "utf8");
