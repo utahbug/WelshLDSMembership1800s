@@ -414,6 +414,8 @@ button, input { font: inherit; }
 .primary-resource-group { margin-top: 14px; }
 .branch-information { margin-top: 30px; padding: 22px; border: 1px solid var(--line); background: var(--panel); }
 .branch-information p { color: var(--muted); line-height: 1.5; }
+.source-evidence-list { margin: 0 0 20px; padding-left: 18px; color: var(--muted); font: .82rem/1.55 Arial, sans-serif; }
+.source-evidence-list li { padding-left: 3px; }
 .alignment-tools { position: relative; display: inline-flex; }
 .guide-controls { display: inline-flex; align-items: center; gap: 3px; }
 .guide-controls.compact-popover-controls { position: absolute; z-index: 12; top: calc(100% + 5px); left: 0; width: max-content; padding: 6px; border: 1px solid var(--line); background: var(--panel); box-shadow: 0 10px 24px #0003; }

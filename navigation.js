@@ -68,7 +68,7 @@
     if (name === "Merthyr Tydfil" && grouped[0].cards.length === 1) {
       const card = grouped[0].cards[0];
       card.classList.add("merthyr-membership-card");
-      card.innerHTML = `<span class="resource-kind">Membership Records</span><strong>Merthyr Tydfil</strong><small class="resource-years">1843-1857, 1861-1896</small><small>443 items</small><span class="resource-provenance"><span>Source: LR54507, CD 29</span><span>Years identified: 1843-1896</span></span>`;
+      card.innerHTML = `<span class="resource-kind">Membership Records</span><strong>Merthyr Tydfil</strong><small class="resource-years">1843-1857, 1861-1896</small><small>443 items</small>`;
       $("#branchHeadingYears").hidden = true;
       $("#branchHeadingDetails").hidden = true;
       $("#branchMeta").hidden = true;
@@ -82,7 +82,8 @@
       const link = source.collectionBranch ? ` <a href="?branch=${encodeURIComponent(source.collectionBranch)}" data-source-branch="${source.collectionBranch}">Open ${source.collectionBranch} resources</a>` : "";
       return `<li><strong>${source.collectionTitle}</strong><br><span>${location}</span>${source.note ? `<br><span>${source.note}</span>` : ""}${link}</li>`;
     }).join("");
-    info.innerHTML = `${nameSources ? `<h3>Sources for branch name</h3><ul class="branch-name-sources">${nameSources}</ul>` : ""}<h3>Sources and Evidence</h3><p>${[d?.filmAndCallNumbers, d?.comparisonStatus, d?.localNote].filter(Boolean).join(" · ") || "Detailed source coverage has not yet been entered."}</p><h3>Alternate names and branch relationships</h3><p>${[d?.variants, d?.relatedBranches].filter(Boolean).join(" · ") || "No alternate names or relationships have yet been recorded."}</p><h3>Registry and technical details</h3><p><a href="branch-registry.html">Consult the branch coverage matrix</a></p><h3>Work remaining</h3><p>${cards.length ? "Review source coverage, transcription status, and discrepancies." : "Locate and connect records for this identified branch."}</p>`;
+    const sourceEvidence = name === "Merthyr Tydfil" ? `<ul class="source-evidence-list"><li>Source: LR54507, CD 29</li><li>Years identified: 1843-1896</li></ul>` : `<p>${[d?.filmAndCallNumbers, d?.comparisonStatus, d?.localNote].filter(Boolean).join(" · ") || "Detailed source coverage has not yet been entered."}</p>`;
+    info.innerHTML = `${nameSources ? `<h3>Sources for branch name</h3><ul class="branch-name-sources">${nameSources}</ul>` : ""}<h3>Sources and Evidence</h3>${sourceEvidence}<h3>Alternate names and branch relationships</h3><p>${[d?.variants, d?.relatedBranches].filter(Boolean).join(" · ") || "No alternate names or relationships have yet been recorded."}</p><h3>Registry and technical details</h3><p><a href="branch-registry.html">Consult the branch coverage matrix</a></p><h3>Work remaining</h3><p>${cards.length ? "Review source coverage, transcription status, and discrepancies." : "Locate and connect records for this identified branch."}</p>`;
     info.querySelectorAll("[data-source-branch]").forEach((link) => link.addEventListener("click", (event) => { event.preventDefault(); routeBranch(link.dataset.sourceBranch); }));
     fragment.append(info); list.replaceChildren(fragment);
   }
