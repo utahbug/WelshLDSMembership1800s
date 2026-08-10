@@ -60,7 +60,8 @@
       const reference = String(d?.filmAndCallNumbers || "").match(/\b((?:LR|CR)\s*\d+)(?:\s+\d+)?/i)?.[1]?.replace(/\s+/g, "") || "";
       const imageCount = (collection.images || []).filter((item) => item.type === "image").length;
       const cd = String(d?.filmAndCallNumbers || "").match(/\bCD\s*(\d+)/i)?.[1];
-      $("#branchTitle").textContent = title;
+      $("#branchTitle").textContent = name;
+      $("#branchHeadingYears").textContent = title.replace(new RegExp(`^${name.replace(/[.*+?^${}()|[\]\\]/g, "\\$&")}\\s*,?\\s*`, "i"), "");
       $("#branchHeadingDetails").textContent = [reference, `${imageCount} images`, cd ? `Source CD ${cd}` : ""].filter(Boolean).join(" · ");
       $("#branchHeadingDetails").hidden = false;
     }

@@ -16,6 +16,7 @@
   const resourcePanel = $("#resourcePanel");
   const resourceList = $("#resourceList");
   const branchTitle = $("#branchTitle");
+  const branchHeadingYears = $("#branchHeadingYears");
   const branchHeadingDetails = $("#branchHeadingDetails");
   const branchMeta = $("#branchMeta");
   const viewer = $("#recordViewer");
@@ -460,7 +461,8 @@
     window.scrollTo({ top: 0, behavior: "auto" });
     branchTitle.textContent = name;
     const details = branchDetails(name);
-    branchTitle.textContent = `${name}, ${yearLabel(details) || "Years not yet identified"}`;
+    branchTitle.textContent = name;
+    branchHeadingYears.textContent = yearLabel(details) || "Years not yet identified";
     const branchReference = String(details?.filmAndCallNumbers || "").match(/\b((?:LR|CR)\s*\d+)(?:\s+\d+)?/i)?.[1]?.replace(/\s+/g, "") || "";
     branchHeadingDetails.textContent = branchReference;
     branchHeadingDetails.hidden = !branchReference;
