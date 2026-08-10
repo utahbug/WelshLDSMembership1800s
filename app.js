@@ -1261,11 +1261,12 @@
   }
 
   function openCollection(collection, options = {}) {
-    const { keepResources = false, initialView = "index" } = options;
+    const { keepResources = false, initialView = "index", initialImage = null } = options;
     currentCollection = collection;
     currentRecords = visibleRecords(collection);
-    currentImage = 0;
-    selectedImageIndex = null;
+    const hasInitialImage = initialImage != null && Number.isFinite(Number(initialImage));
+    currentImage = hasInitialImage ? Math.max(0, Math.min(Number(initialImage), currentRecords.length - 1)) : 0;
+    selectedImageIndex = hasInitialImage ? currentImage : null;
     pageStates.clear();
     spreadStates.clear();
     spreadAdjustmentMode = false;
@@ -1297,6 +1298,15 @@
   }
 
   window.WELSH_OPEN_COLLECTION = openCollection;
+
+  window.WELSH_OPEN_INDEXED_RECORD = ({ branch, collectionId, imageSequence, view = "single" }) => {
+    const collection = catalog.collections.find((item) => item.id === collectionId);
+    const imageIndex = Number(imageSequence) - 1;
+    if (!branch || !collection || !Number.isInteger(imageIndex) || imageIndex < 0 || imageIndex >= visibleRecords(collection).length) return false;
+    openBranch(branch);
+    openCollection(collection, { keepResources: true, initialView: ["single", "continuous", "facing"].includes(view) ? view : "single", initialImage: imageIndex });
+    return true;
+  };
 
   function showImage(index) {
     if (!currentRecords.length) return;

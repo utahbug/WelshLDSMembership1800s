@@ -94,7 +94,7 @@
   search.addEventListener("input", syncSearch); headerSearchButton.addEventListener("click", openSearch); menuSearchButton.addEventListener("click", openSearch);
   document.addEventListener("keydown", (event) => { if (event.key === "Escape" && !picker.hidden) closePicker(); if (!picker.hidden && ["ArrowDown", "ArrowUp"].includes(event.key)) { const buttons = [...pickerList.querySelectorAll("button")]; const index = buttons.indexOf(document.activeElement); buttons[Math.max(0, Math.min(buttons.length - 1, index + (event.key === "ArrowDown" ? 1 : -1)))]?.focus(); event.preventDefault(); } });
   window.addEventListener("popstate", () => { const branch = new URLSearchParams(location.search).get("branch"); if (branch) routeBranch(branch, false); else showAllBranches(false); });
-  function start() { renderDirectory(); const branch = new URLSearchParams(location.search).get("branch"); if (branch && names().includes(branch)) routeBranch(branch, false); }
+  function start() { renderDirectory(); const parameters = new URLSearchParams(location.search); const branch = parameters.get("branch"); if (branch && names().includes(branch)) routeBranch(branch, false); const imageSequence = Number(parameters.get("image")); const collectionId = parameters.get("collection"); if (branch && collectionId && Number.isInteger(imageSequence) && imageSequence > 0) window.WELSH_OPEN_INDEXED_RECORD?.({ branch, collectionId, imageSequence, view: parameters.get("view") || "single" }); }
   if (registry.length) start();
   else fetch("data/branch-registry.json").then((response) => response.json()).then((data) => { registry = data.registry || []; start(); }).catch(() => { count.textContent = "Branch registry could not be loaded."; });
 })();

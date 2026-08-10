@@ -72,6 +72,10 @@ const portableFiles = [
   ["styles.css", "styles.css"],
   ["welsh-saints-research.html", "welsh-saints-research.html"],
   ["welsh-saints-research.js", "welsh-saints-research.js"],
+  ["people-search.html", "people-search.html"],
+  ["people-search.js", "people-search.js"],
+  ["local-private-features.js", "local-private-features.js"],
+  ["PRIVATE_PEOPLE_INDEX.md", "PRIVATE_PEOPLE_INDEX.md"],
   ["README.md", "PROJECT_README.md"],
   ["TRANSCRIPTION_INVENTORY.md", "TRANSCRIPTION_INVENTORY.md"],
   ["TRANSCRIPTION_STATUS_NOTES.md", "TRANSCRIPTION_STATUS_NOTES.md"],
@@ -105,6 +109,7 @@ const privateResearchFiles = [
   "typed-branch-record-index.local.json",
   "typed-branch-evidence-candidates.local.json",
   "typed-branch-record-index-report.local.json",
+  "people-index.local.js",
 ];
 for (const fileName of privateResearchFiles) {
   const source = path.join(privateSourceDir, fileName);
