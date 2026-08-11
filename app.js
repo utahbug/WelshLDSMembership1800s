@@ -271,7 +271,8 @@
   const collectionBranchAssignments = new Map([
     ["Cog,1848-1876,LR1097", new Set(["Cogan"])],
     ["Llanelli,1847-1868,LR117577", new Set(["Llanelli"])],
-    ["Llanelltyd,1850-1882,LR1727", new Set(["Llanelltyd", "Treorchy"])],
+    ["Llanelltyd,1850-1882,LR1727", new Set(["Treorchy"])],
+    ["Llanelltyd,1850-1857,LR1727", new Set(["Llanelltyd"])],
     ["Cwm Saerbren,1858-1874,LR1727", new Set(["Cwm Saerbren"])],
     ["Nantyglo,1846-1867,LR1747", new Set(["Nantyglo"])],
     ["Coalbrookvale,1856-1867,LR1747", new Set(["Coalbrookvale"])],
@@ -284,6 +285,7 @@
     ["Llanfabon 1847-1869,LR1687", "Llanfabon Branch Record of Members, 1847-1869"],
     ["Llanelli,1847-1868,LR117577", "Llanelly Branch Record of Members, 1847-1868"],
     ["Llanelltyd,1850-1882,LR1727", "Compound volume: Llanelltyd, Cwm Saerbren, and Treorky, 1850-1882"],
+    ["Llanelltyd,1850-1857,LR1727", "Llanelltyd Branch Record of Members, 1850-1857"],
     ["Cwm Saerbren,1858-1874,LR1727", "Cwm Saerbren Branch Record of Members, 1858-1874"],
     ["Coalbrookvale,1856-1867,LR1747", "Coal Brook Vale / Blaina records, 1856-1867"],
     ["Haverfordwest,1847-1853,LR1134321", "Haverfordwest Volume 1: Members and Historical Record, 1847-1853"],
@@ -294,6 +296,7 @@
   const collectionProvenanceOverrides = new Map([
     ["Llanfabon 1847-1869,LR1687", "CD 15 / project LR1687 / photographed historical-library identifier 871 / 60 images"],
     ["Cwm Saerbren,1858-1874,LR1727", "CD 34 / LR 172 7 compound section / internal pages 6-24 / 38 images"],
+    ["Llanelltyd,1850-1857,LR1727", "CD 34 / LR 172 7 compound section / internal pages 1-5 / 10 images"],
     ["Coalbrookvale,1856-1867,LR1747", "CD 24 / LR 174 7 compound section / 83 images / membership registers 00080-00137"],
     ["Haverfordwest,1847-1853,LR1134321", "CD 23 / photographed CR 11343 11 V.1 / project source LR1134321 / 153 historical images"],
     ["Haverfordwest,1852-1860,CR1134311-v2", "CD 58 / photographed CR 11343 11 V.2 / retained filename prefix LR1134311 / 119 historical images"],
@@ -309,6 +312,7 @@
   function collectionReference(collection = currentCollection) {
     if (collection?.name === "Llanelli,1847-1868,LR117577") return "Source label 1577 · filename identifier LR12451 7 unresolved";
     if (collection?.name === "Llanelltyd,1850-1882,LR1727") return "LR1727 · compound volume";
+    if (collection?.name === "Llanelltyd,1850-1857,LR1727") return "LR1727 · Llanelltyd section";
     if (collection?.name === "Llanelly-production") return "CR11757 10 · CR11757 11 · manuscript 1576";
     return displayTitle(collection?.name).match(/\b(?:LR|CR)\s*\d+(?:\s+\d+)?\b/i)?.[0].replace(/\s+/g, "") || "Source reference not identified";
   }
@@ -435,7 +439,7 @@
     ["Cefn Coed-y-Cymmer", "Original membership register on written pages 1–24; a separately numbered/reformation-style membership register on written pages 25–37; narrative material on written pages 43–44; and a separately headed Blessings of Children register on written pages 45–48."],
     ["Britonferry", "Briton Ferry section, pages 43–46: children blessed, a rebaptized-members register, and Welsh narrative/branch record, 1850–1853."],
     ["Llanelli", "The 138-image CD 11 membership volume is internally labeled Llanelly Branch, 1847-1868, and source number 1577. Its retained filenames carry the conflicting prefix LR 12451 7; this identifier conflict remains explicitly unresolved. The separate Llanelly-production holding remains assigned only to Llanelli, but requires its planned review of unusual plain-paper material, the formal Llanelly Branch Record of Members 1847-1879 (source label 1578 / CR 11757 10), and Council/minutes material including 1881-1882 / CR 11757 before any indexing."],
-    ["Llanelltyd", "Compound CD 34 / LR 172 7 physical volume: Llanelltyd begins at internal page 1, Cwm Saerbren at page 6, and Treorky at page 25."],
+    ["Llanelltyd", "Record of Members, 1850-1857, internal pages 1-5 of the compound CD 34 / LR 172 7 physical volume. Cwm Saerbren begins at page 6 and Treorky at page 25."],
     ["Cwm Saerbren", "Membership register 1858-1874, internal pages 6-24 of the compound CD 34 / LR 172 7 volume. The enclosing physical volume spans 1850-1882. The separate LR 11150 reference remains unconnected."],
     ["Coalbrookvale", "Coal Brook Vale was organized on 3 March 1856 from Nantyglo, Blaenau and Cwm Celyn. The compound CD 24 / LR 174 7 volume preserves two Coal Brook Vale / Blaina membership sequences (images 00080-00137), followed by special registers, statistics and narrative material through 1867."],
     ["Llanfabon", "CD 15 preserves 60 authoritative images: an original membership sequence (entries 1-87), a separate Reformation sequence (entries 1-72), and substantial Welsh historical narrative on written pages 19-28. The photographed source label separately shows identifier 871; its relationship to project reference LR1687 is not established."],
@@ -539,7 +543,7 @@
     branchHeadingYears.hidden = false;
     let branchReference = String(details?.filmAndCallNumbers || "").match(/\b((?:LR|CR)\s*\d+(?:\s+\d+)?)/i)?.[1]?.replace(/\s+/g, "") || "";
     if (name === "Llanelli") branchReference = "Source label 1577 · identifier conflict under review";
-    if (name === "Llanelltyd") branchReference = "CD 34 · LR1727 compound volume";
+    if (name === "Llanelltyd") branchReference = "CD 34 · LR1727 · internal pages 1-5";
     if (name === "Haverfordwest") branchReference = "CR 11343 11 V.1 · V.2";
     branchHeadingDetails.textContent = branchReference;
     branchHeadingDetails.hidden = !branchReference;

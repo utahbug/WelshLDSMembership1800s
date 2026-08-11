@@ -276,6 +276,13 @@ const collections = [...collectionMap.values()]
 // its files. The virtual collection reuses the exact local and Archive paths.
 const llanelltydCompound = collections.find((collection) => collection.name === "Llanelltyd,1850-1882,LR1727");
 if (llanelltydCompound) {
+  const llanelltydImages = llanelltydCompound.images.filter((record) => {
+    const match = record.name.match(/_M_(\d{5})\.jpg$/i);
+    const sequence = match ? Number(match[1]) : NaN;
+    return sequence >= 26 && sequence <= 35;
+  });
+  if (llanelltydImages.length !== 10) throw new Error(`Expected 10 Llanelltyd section images; found ${llanelltydImages.length}.`);
+  collections.push({ id:"virtual-llanelltyd-lr1727", name:"Llanelltyd,1850-1857,LR1727", category:llanelltydCompound.category, aliases:["Llanellyd,1850-1857,LR1727"], sources:[...llanelltydCompound.sources], availability:{local:true,portable:true,online:false}, publicStorage:null, virtualSourceCollection:llanelltydCompound.id, images:llanelltydImages });
   const sectionImages = llanelltydCompound.images.filter((record) => {
     const match = record.name.match(/_M_(\d{5})\.jpg$/i);
     const sequence = match ? Number(match[1]) : NaN;

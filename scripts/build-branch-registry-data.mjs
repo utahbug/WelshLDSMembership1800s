@@ -208,6 +208,13 @@ addEvidence("Llanellyd", "Historical structural image", "", "CD 34; LR 172 7 com
   internalPage: 1,
   note: "Historical spelling written on the volume index.",
 });
+addEvidence("Llanelltyd", "Recovered full-resolution compound source", "1850-1857", "CD 34; LR 172 7 compound section; internal pages 1-5; 10 authoritative images", "", "", {
+  ...llanelltydStructuralSource,
+  filename: "LR-1175710_v1574_M_00026.jpg",
+  viewerSequence: 1,
+  internalPage: 1,
+  note: "The source label dates the Llanelltyd Record of Members 1850-1857. The virtual collection stops at image 00035; image 00036 begins Cwm Saerbren.",
+});
 addEvidence("Cwmsaerbren", "Historical structural image", "1858-1874", "CD 34; LR 172 7 compound section; 38 authoritative images; LR 11150 separate catalog reference not connected", "", "", {
   ...llanelltydStructuralSource,
   internalPage: 6,
@@ -263,15 +270,15 @@ const registry = [...grouped.entries()].map(([canonicalName, entries]) => {
   else if (entries.some((entry) => entry.source === "Historical structural image")) comparisonStatus = "Historical source attestation; dedicated record collection not yet identified";
   if (["Brechfa", "Brynmawr", "Bryntroedgam", "Cogan", "Cefn Coed-y-Cymmer", "Cuffern Mountain", "Dinas", "Ebbw Vale", "Haverfordwest", "Llanfabon"].includes(canonicalName)) comparisonStatus = "Verified local source collection";
   if (canonicalName === "Coalbrookvale") comparisonStatus = "Verified compound local source section";
-  if (canonicalName === "Llanelltyd") comparisonStatus = "Verified compound local source collection";
+  if (canonicalName === "Llanelltyd") comparisonStatus = "Verified compound local source section";
   if (canonicalName === "Cwm Saerbren") comparisonStatus = "Verified compound local source section; dedicated LR 11150 images not connected";
   if (canonicalName === "Treorchy") comparisonStatus = "Compound local source section located";
   if (canonicalName === "Pendoylon") comparisonStatus = "Historical source attestation; local image collection not yet located";
   const entityType = /conference/i.test(canonicalName) ? "Conference" : "Branch";
   return {
     canonicalName, entityType, variants: variants.join("; "),
-    earliestYear: allYears.length ? Math.min(...allYears) : null,
-    latestYear: allYears.length ? Math.max(...allYears) : null,
+    earliestYear: canonicalName === "Llanelltyd" ? 1850 : (allYears.length ? Math.min(...allYears) : null),
+    latestYear: canonicalName === "Llanelltyd" ? 1857 : (allYears.length ? Math.max(...allYears) : null),
     localCd, localNote, familySearch, comparisonStatus,
     filmAndCallNumbers: canonicalName === "Brechfa"
       ? "CD 4; LR 11000 7; 62 authoritative full-resolution images"
@@ -295,6 +302,8 @@ const registry = [...grouped.entries()].map(([canonicalName, entries]) => {
       ? "CD 15; project LR1687; historical/library identifier 871 preserved separately; 60 authoritative full-resolution images"
       : canonicalName === "Cwm Saerbren"
       ? "CD 34; LR 172 7 compound section; internal pages 6-24; 38 authoritative full-resolution images; LR 11150 separate reference not connected"
+      : canonicalName === "Llanelltyd"
+      ? "CD 34; LR 172 7 compound section; internal pages 1-5; 10 authoritative full-resolution images; section dated 1850-1857"
       : canonicalName === "Coalbrookvale"
       ? "CD 24; LR 174 7 compound section; 83 authoritative full-resolution images; membership registers 00080-00137"
       : [...new Set(entries.map((entry) => entry.reference).filter(Boolean))].join("; "),

@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-08-11T19:02:56.556Z",
+  "generatedAt": "2026-08-11T23:37:35.168Z",
   "registry": [
     {
       "canonicalName": "Abersychan",
@@ -568,12 +568,12 @@
       "entityType": "Branch",
       "variants": "Llanellyd; Llanelltud",
       "earliestYear": 1850,
-      "latestYear": 1882,
+      "latestYear": 1857,
       "localCd": true,
       "localNote": true,
       "familySearch": true,
-      "comparisonStatus": "Verified compound local source collection",
-      "filmAndCallNumbers": "CD 34; LR 172 7; CD 34; LR 172 7 compound volume; Wales2Utah research note; Film 104168 Item 13",
+      "comparisonStatus": "Verified compound local source section",
+      "filmAndCallNumbers": "CD 34; LR 172 7 compound section; internal pages 1-5; 10 authoritative full-resolution images; section dated 1850-1857",
       "relatedBranches": "",
       "relationshipNotes": "",
       "notes": "",
@@ -588,6 +588,16 @@
           "lrContext": "Enclosing Llanelltyd collection: LR 172 7",
           "internalPage": 1,
           "note": "Historical spelling written on the volume index."
+        },
+        {
+          "sourceName": "Llanelltyd",
+          "collectionTitle": "Llanelltyd, 1850-1882, LR1727",
+          "filename": "LR-1175710_v1574_M_00026.jpg",
+          "viewerSequence": 1,
+          "collectionBranch": "Llanelltyd",
+          "lrContext": "Enclosing Llanelltyd collection: LR 172 7",
+          "internalPage": 1,
+          "note": "The source label dates the Llanelltyd Record of Members 1850-1857. The virtual collection stops at image 00035; image 00036 begins Cwm Saerbren."
         }
       ]
     },
@@ -1826,6 +1836,26 @@
         "lrContext": "Enclosing Llanelltyd collection: LR 172 7",
         "internalPage": 1,
         "note": "Historical spelling written on the volume index."
+      }
+    },
+    {
+      "rawName": "Llanelltyd",
+      "canonicalName": "Llanelltyd",
+      "relatedBranch": "",
+      "relationshipNote": "",
+      "source": "Recovered full-resolution compound source",
+      "dateText": "1850-1857",
+      "reference": "CD 34; LR 172 7 compound section; internal pages 1-5; 10 authoritative images",
+      "sourceUrl": "",
+      "localPath": "",
+      "provenance": {
+        "collectionTitle": "Llanelltyd, 1850-1882, LR1727",
+        "filename": "LR-1175710_v1574_M_00026.jpg",
+        "viewerSequence": 1,
+        "collectionBranch": "Llanelltyd",
+        "lrContext": "Enclosing Llanelltyd collection: LR 172 7",
+        "internalPage": 1,
+        "note": "The source label dates the Llanelltyd Record of Members 1850-1857. The virtual collection stops at image 00035; image 00036 begins Cwm Saerbren."
       }
     },
     {
