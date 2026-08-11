@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-08-11T18:23:04.627Z",
+  "generatedAt": "2026-08-11T19:02:56.556Z",
   "registry": [
     {
       "canonicalName": "Abersychan",
@@ -804,6 +804,31 @@
       "notes": "Needs human review; absence from one source is not proof the branch or record was absent.",
       "sourceUrls": "",
       "nameSources": []
+    },
+    {
+      "canonicalName": "Pendoylon",
+      "entityType": "Branch",
+      "variants": "Pendoylan",
+      "earliestYear": 1851,
+      "latestYear": 1886,
+      "localCd": false,
+      "localNote": false,
+      "familySearch": false,
+      "comparisonStatus": "Historical source attestation; local image collection not yet located",
+      "filmAndCallNumbers": "DGS 106248102; indexing images 195-239; WALES (Country), Part 5; Historical/source spelling in typed Cardiff conference records",
+      "relatedBranches": "",
+      "relationshipNotes": "",
+      "notes": "",
+      "sourceUrls": "",
+      "nameSources": [
+        {
+          "sourceName": "Pendoylon",
+          "collectionTitle": "Wales Record of Members - List of Branches (2022 indexing project)",
+          "filename": "Wales Indexing Branch List.pdf",
+          "collectionBranch": "Pendoylon",
+          "note": "The map identifies Pendoylon Branch, 1851-1886, as images 195-239. No matching local/original image collection was located during the 2026-08-11 recovery audit."
+        }
+      ]
     },
     {
       "canonicalName": "Pontlanfraith",
@@ -1754,6 +1779,34 @@
         "lrContext": "Photographed identifiers CR 11343 11 V.1 and CR 11343 11 V.2; project folder/filename forms LR1134321 and LR1134311 are retained separately.",
         "note": "Volume 1 contains member records 1847-1853 and historical material. Volume 2 contains historical record 1852-1854 and a separate member register 1857-1860. The exact catalog relationship among CR/LR forms is not normalized beyond the photographed evidence."
       }
+    },
+    {
+      "rawName": "Pendoylon",
+      "canonicalName": "Pendoylon",
+      "relatedBranch": "",
+      "relationshipNote": "",
+      "source": "2022 Wales indexing-project branch map",
+      "dateText": "1851-1886",
+      "reference": "DGS 106248102; indexing images 195-239; WALES (Country), Part 5",
+      "sourceUrl": "",
+      "localPath": "",
+      "provenance": {
+        "collectionTitle": "Wales Record of Members - List of Branches (2022 indexing project)",
+        "filename": "Wales Indexing Branch List.pdf",
+        "collectionBranch": "Pendoylon",
+        "note": "The map identifies Pendoylon Branch, 1851-1886, as images 195-239. No matching local/original image collection was located during the 2026-08-11 recovery audit."
+      }
+    },
+    {
+      "rawName": "Pendoylan",
+      "canonicalName": "Pendoylon",
+      "relatedBranch": "",
+      "relationshipNote": "",
+      "source": "Ron Dennis typed conference material",
+      "dateText": "",
+      "reference": "Historical/source spelling in typed Cardiff conference records",
+      "sourceUrl": "",
+      "localPath": ""
     },
     {
       "rawName": "Llanellyd",

@@ -75,6 +75,7 @@ const aliases = new Map(Object.entries({
   "nanty glo": "Nantyglo", "nantyglo": "Nantyglo",
   "pen y cae": "Pen-y-cae",
   "pen y darran": "Pen-y-Darran", "penydarran": "Pen-y-Darran",
+  "pendoylan": "Pendoylon", "pendoylon": "Pendoylon",
   "gymmer": "Cymmer",
   "treboth": "Treboeth", "treboeth": "Treboeth",
   "treforis": "Treforest", "treforest": "Treforest",
@@ -179,6 +180,19 @@ addEvidence("Haverfordwest", "Recovered full-resolution local sources", "1847-18
   note: "Volume 1 contains member records 1847-1853 and historical material. Volume 2 contains historical record 1852-1854 and a separate member register 1857-1860. The exact catalog relationship among CR/LR forms is not normalized beyond the photographed evidence.",
 });
 
+// The 2022 indexing-project branch map establishes Pendoylon as a distinct
+// branch source unit, but no corresponding local image collection has yet
+// been recovered. Ron Dennis's typed conference material uses Pendoylan;
+// preserve that spelling as an alias without treating the conference text as
+// a substitute membership register.
+addEvidence("Pendoylon", "2022 Wales indexing-project branch map", "1851-1886", "DGS 106248102; indexing images 195-239; WALES (Country), Part 5", "", "", {
+  collectionTitle: "Wales Record of Members - List of Branches (2022 indexing project)",
+  filename: "Wales Indexing Branch List.pdf",
+  collectionBranch: "Pendoylon",
+  note: "The map identifies Pendoylon Branch, 1851-1886, as images 195-239. No matching local/original image collection was located during the 2026-08-11 recovery audit.",
+});
+addEvidence("Pendoylan", "Ron Dennis typed conference material", "", "Historical/source spelling in typed Cardiff conference records");
+
 // Structural labels in the Llanelltyd volume identify three record groups.
 // Internal page numbers are transcribed from the source label and are not
 // assumed to be the same as viewer image sequence numbers.
@@ -252,6 +266,7 @@ const registry = [...grouped.entries()].map(([canonicalName, entries]) => {
   if (canonicalName === "Llanelltyd") comparisonStatus = "Verified compound local source collection";
   if (canonicalName === "Cwm Saerbren") comparisonStatus = "Verified compound local source section; dedicated LR 11150 images not connected";
   if (canonicalName === "Treorchy") comparisonStatus = "Compound local source section located";
+  if (canonicalName === "Pendoylon") comparisonStatus = "Historical source attestation; local image collection not yet located";
   const entityType = /conference/i.test(canonicalName) ? "Conference" : "Branch";
   return {
     canonicalName, entityType, variants: variants.join("; "),
