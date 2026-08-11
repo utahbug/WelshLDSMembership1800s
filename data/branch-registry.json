@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-08-11T14:56:59.348Z",
+  "generatedAt": "2026-08-11T15:20:56.076Z",
   "registry": [
     {
       "canonicalName": "Abersychan",
@@ -123,17 +123,17 @@
     {
       "canonicalName": "Bryntroedgam",
       "entityType": "Branch",
-      "variants": "",
+      "variants": "Bryn",
       "earliestYear": 1847,
       "latestYear": 1860,
       "localCd": true,
       "localNote": false,
       "familySearch": false,
-      "comparisonStatus": "Local CD only / verify with FamilySearch",
-      "filmAndCallNumbers": "CD 13; LR 129 7",
+      "comparisonStatus": "Verified local source collection",
+      "filmAndCallNumbers": "CD 13; LR 129 7; 44 authoritative full-resolution images; source heading Bryn Branch / Canghen y Bryn",
       "relatedBranches": "",
       "relationshipNotes": "",
-      "notes": "Needs human review; absence from one source is not proof the branch or record was absent.",
+      "notes": "",
       "sourceUrls": "",
       "nameSources": []
     },
@@ -1500,6 +1500,17 @@
       "source": "Recovered full-resolution local source",
       "dateText": "1848-1868",
       "reference": "CD 10; LR 215 7; 93 authoritative images",
+      "sourceUrl": "",
+      "localPath": "C:\\Users\\kenro\\Documents\\Codex\\LDSWelshMembers\\resources\\source-cds"
+    },
+    {
+      "rawName": "Bryn",
+      "canonicalName": "Bryntroedgam",
+      "relatedBranch": "",
+      "relationshipNote": "",
+      "source": "Recovered full-resolution local source",
+      "dateText": "1847-1860",
+      "reference": "CD 13; LR 129 7; 44 authoritative images; source heading Bryn Branch / Canghen y Bryn",
       "sourceUrl": "",
       "localPath": "C:\\Users\\kenro\\Documents\\Codex\\LDSWelshMembers\\resources\\source-cds"
     },
