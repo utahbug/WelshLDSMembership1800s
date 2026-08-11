@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-08-11T07:06:24.991Z",
+  "generatedAt": "2026-08-11T08:22:41.216Z",
   "registry": [
     {
       "canonicalName": "Abersychan",
@@ -214,8 +214,8 @@
       "localCd": true,
       "localNote": true,
       "familySearch": true,
-      "comparisonStatus": "Matched: FamilySearch and local CD",
-      "filmAndCallNumbers": "CD 31; LR 109 7; Wales2Utah research note; Film 104168 Item 9",
+      "comparisonStatus": "Verified local source collection",
+      "filmAndCallNumbers": "CD 31; LR 109 7; 68 authoritative full-resolution images; source heading Cog",
       "relatedBranches": "",
       "relationshipNotes": "",
       "notes": "",
@@ -1471,6 +1471,17 @@
       "source": "Original CD contents description",
       "dateText": "1848-1868",
       "reference": "Historical/source name for Brynmawr",
+      "sourceUrl": "",
+      "localPath": "C:\\Users\\kenro\\Documents\\Codex\\LDSWelshMembers\\resources\\source-cds"
+    },
+    {
+      "rawName": "Cog",
+      "canonicalName": "Cogan",
+      "relatedBranch": "",
+      "relationshipNote": "",
+      "source": "Recovered full-resolution local source",
+      "dateText": "1848-1876",
+      "reference": "CD 31; LR 109 7; 68 authoritative images; historical/source name for Cogan",
       "sourceUrl": "",
       "localPath": "C:\\Users\\kenro\\Documents\\Codex\\LDSWelshMembers\\resources\\source-cds"
     },

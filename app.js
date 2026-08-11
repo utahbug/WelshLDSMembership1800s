@@ -269,6 +269,7 @@
   }
 
   const collectionBranchAssignments = new Map([
+    ["Cog,1848-1876,LR1097", new Set(["Cogan"])],
     ["Llanelli,1847-1868,LR117577", new Set(["Llanelli"])],
     ["Llanelltyd,1850-1882,LR1727", new Set(["Llanelltyd", "Cwm Saerbren", "Treorchy"])],
     ["Llanelly-production", new Set(["Llanelli"])],
