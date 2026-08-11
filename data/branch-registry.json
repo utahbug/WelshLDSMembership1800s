@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-08-11T17:10:36.271Z",
+  "generatedAt": "2026-08-11T18:23:04.627Z",
   "registry": [
     {
       "canonicalName": "Abersychan",
@@ -497,17 +497,27 @@
       "entityType": "Branch",
       "variants": "",
       "earliestYear": 1847,
-      "latestYear": 1853,
+      "latestYear": 1860,
       "localCd": true,
       "localNote": true,
       "familySearch": false,
-      "comparisonStatus": "Local CD only / verify with FamilySearch",
-      "filmAndCallNumbers": "CD 23; LR 11343 21; Wales2Utah research note",
+      "comparisonStatus": "Verified local source collection",
+      "filmAndCallNumbers": "CD 23 / CR 11343 11 V.1; CD 58 / CR 11343 11 V.2; 272 authoritative historical images; membership registers 1847-1853 and 1857-1860",
       "relatedBranches": "",
       "relationshipNotes": "",
-      "notes": "Needs human review; absence from one source is not proof the branch or record was absent.",
+      "notes": "",
       "sourceUrls": "",
-      "nameSources": []
+      "nameSources": [
+        {
+          "sourceName": "Haverfordwest",
+          "collectionTitle": "Haverfordwest Branch volumes 1 and 2, 1847-1860",
+          "filename": "LR-1134321_v1_M_00001.jpg",
+          "viewerSequence": 1,
+          "collectionBranch": "Haverfordwest",
+          "lrContext": "Photographed identifiers CR 11343 11 V.1 and CR 11343 11 V.2; project folder/filename forms LR1134321 and LR1134311 are retained separately.",
+          "note": "Volume 1 contains member records 1847-1853 and historical material. Volume 2 contains historical record 1852-1854 and a separate member register 1857-1860. The exact catalog relationship among CR/LR forms is not normalized beyond the photographed evidence."
+        }
+      ]
     },
     {
       "canonicalName": "Llandebie",
@@ -1345,8 +1355,8 @@
       "relatedBranch": "",
       "relationshipNote": "",
       "source": "2007 CD branch index",
-      "dateText": "1847-1853",
-      "reference": "CD 23; LR 11343 21",
+      "dateText": "1847-1860",
+      "reference": "CD 23; 58; CR 11343 11 V.1; CR 11343 11 V.2",
       "sourceUrl": "",
       "localPath": "C:\\Users\\kenro\\Documents\\Codex\\LDSWelshMembers\\resources\\source-cds"
     },
@@ -1724,6 +1734,25 @@
         "collectionBranch": "Llanfabon",
         "lrContext": "Project reference LR1687; photographed source label separately shows 871.",
         "note": "The relationship between historical/library identifier 871 and project LR1687 is not established. The volume contains an original register, a separate Reformation register, and Welsh historical narrative on written pages 19-28."
+      }
+    },
+    {
+      "rawName": "Haverfordwest",
+      "canonicalName": "Haverfordwest",
+      "relatedBranch": "",
+      "relationshipNote": "",
+      "source": "Recovered full-resolution local sources",
+      "dateText": "1847-1860",
+      "reference": "CD 23 / CR 11343 11 V.1; CD 58 / CR 11343 11 V.2; 272 authoritative historical images",
+      "sourceUrl": "",
+      "localPath": "C:\\Users\\kenro\\Documents\\Codex\\LDSWelshMembers\\resources\\source-cds",
+      "provenance": {
+        "collectionTitle": "Haverfordwest Branch volumes 1 and 2, 1847-1860",
+        "filename": "LR-1134321_v1_M_00001.jpg",
+        "viewerSequence": 1,
+        "collectionBranch": "Haverfordwest",
+        "lrContext": "Photographed identifiers CR 11343 11 V.1 and CR 11343 11 V.2; project folder/filename forms LR1134321 and LR1134311 are retained separately.",
+        "note": "Volume 1 contains member records 1847-1853 and historical material. Volume 2 contains historical record 1852-1854 and a separate member register 1857-1860. The exact catalog relationship among CR/LR forms is not normalized beyond the photographed evidence."
       }
     },
     {
