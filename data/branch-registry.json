@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-08-11T08:22:41.216Z",
+  "generatedAt": "2026-08-11T08:44:48.305Z",
   "registry": [
     {
       "canonicalName": "Abersychan",
@@ -180,8 +180,8 @@
       "localCd": true,
       "localNote": true,
       "familySearch": true,
-      "comparisonStatus": "Matched: FamilySearch and local CD",
-      "filmAndCallNumbers": "CD 12; LR 176 7; Wales2Utah research note; Film 104168 Item 7",
+      "comparisonStatus": "Verified local source collection",
+      "filmAndCallNumbers": "CD 12; LR 176 7; 109 authoritative full-resolution images; source forms Cefncoed-y-Cymar and Cefncoedycymer",
       "relatedBranches": "",
       "relationshipNotes": "",
       "notes": "",
@@ -1482,6 +1482,17 @@
       "source": "Recovered full-resolution local source",
       "dateText": "1848-1876",
       "reference": "CD 31; LR 109 7; 68 authoritative images; historical/source name for Cogan",
+      "sourceUrl": "",
+      "localPath": "C:\\Users\\kenro\\Documents\\Codex\\LDSWelshMembers\\resources\\source-cds"
+    },
+    {
+      "rawName": "Cefncoed-y-Cymar",
+      "canonicalName": "Cefn Coed-y-Cymmer",
+      "relatedBranch": "",
+      "relationshipNote": "",
+      "source": "Recovered full-resolution local source",
+      "dateText": "1847-1864",
+      "reference": "CD 12; LR 176 7; 109 authoritative images; historical/source spelling for Cefn Coed-y-Cymmer",
       "sourceUrl": "",
       "localPath": "C:\\Users\\kenro\\Documents\\Codex\\LDSWelshMembers\\resources\\source-cds"
     },
