@@ -268,11 +268,37 @@
     return String(value ?? "").replace(/,(?=\S)/g, ", ");
   }
 
+  const collectionBranchAssignments = new Map([
+    ["Llanelli,1847-1868,LR117577", new Set(["Llanelli"])],
+    ["Llanelltyd,1850-1882,LR1727", new Set(["Llanelltyd", "Cwm Saerbren", "Treorchy"])],
+    ["Llanelly-production", new Set(["Llanelli"])],
+  ]);
+
+  const collectionDisplayNames = new Map([
+    ["Llanelli,1847-1868,LR117577", "Llanelly Branch Record of Members, 1847-1868"],
+    ["Llanelltyd,1850-1882,LR1727", "Compound volume: Llanelltyd, Cwm Saerbren, and Treorky, 1850-1882"],
+    ["Llanelly-production", "Llanelly-production source holding (review required)"],
+  ]);
+
+  const collectionProvenanceOverrides = new Map([
+    ["Llanelli,1847-1868,LR117577", "CD 11 · source label 1577 · recovered folder LR 11757 7 · image filename prefix LR 12451 7 (unresolved)"],
+    ["Llanelltyd,1850-1882,LR1727", "CD 34 · LR 172 7 · internal starts: Llanelltyd page 1; Cwm Saerbren page 6; Treorky page 25"],
+    ["Llanelly-production", "319 images · CR 11757 10 / source label 1578; CR 11757 11 / source label 1576; translation manuscript · boundaries unresolved"],
+  ]);
+
+  function collectionDisplayName(collection) {
+    return collectionDisplayNames.get(collection?.name) || displayTitle(collection?.name);
+  }
+
   function collectionReference(collection = currentCollection) {
+    if (collection?.name === "Llanelli,1847-1868,LR117577") return "Source label 1577 · filename identifier LR12451 7 unresolved";
+    if (collection?.name === "Llanelltyd,1850-1882,LR1727") return "LR1727 · compound volume";
+    if (collection?.name === "Llanelly-production") return "CR11757 10 · CR11757 11 · manuscript 1576";
     return displayTitle(collection?.name).match(/\b(?:LR|CR)\s*\d+(?:\s+\d+)?\b/i)?.[0].replace(/\s+/g, "") || "Source reference not identified";
   }
 
   function collectionHeading(collection) {
+    if (collectionDisplayNames.has(collection?.name)) return collectionDisplayName(collection).replace(/(\b\d{4})-(\d{4}\b)/g, "$1–$2");
     return displayTitle(collection?.name).replace(/\s*,?\s*\b(?:LR|CR)\s*\d+(?:\s+\d+)?\b/gi, "").replace(/(\b\d{4})-(\d{4}\b)/g, "$1–$2").replace(/\s*,\s*$/, "").trim();
   }
 
@@ -318,6 +344,8 @@
   }
 
   function resourceKind(collection) {
+    if (collection.name === "Llanelltyd,1850-1882,LR1727") return "Compound branch volume";
+    if (collection.name === "Llanelly-production") return "Mixed historical source holding";
     const records = visibleRecords(collection);
     const images = records.filter((record) => record.type === "image").length;
     const documents = records.length - images;
@@ -338,6 +366,8 @@
   }
 
   function resourceProvenance(collection) {
+    const override = collectionProvenanceOverrides.get(collection.name);
+    if (override) return override;
     const leadingCd = collection.name.match(/^(\d{1,2})\s*[-–]/)?.[1];
     if (leadingCd) {
       const pdfRange = transcriptionPdfRange(leadingCd);
@@ -382,13 +412,22 @@
     ["Brechfa", "Welsh branch historical narrative; main membership register 1846–1856; separately numbered later baptism/member register 1857–1868; later historical notes through 1875 are preserved in the same LR110007 volume."],
     ["Brynmawr", "Membership register 1848–1868, including a separately headed Reformation register and a later independently numbered membership sequence; Blessings of Children begin on written page 58, deaths on written page 63, with narrative material preserved separately."],
     ["Britonferry", "Briton Ferry section, pages 43–46: children blessed, a rebaptized-members register, and Welsh narrative/branch record, 1850–1853."],
+    ["Llanelli", "The 138-image CD 11 membership volume is internally labeled Llanelly Branch, 1847-1868, and source number 1577. Its retained filenames carry the conflicting prefix LR 12451 7; this identifier conflict remains explicitly unresolved. The separate Llanelly-production holding remains assigned only to Llanelli, but requires its planned review of unusual plain-paper material, the formal Llanelly Branch Record of Members 1847-1879 (source label 1578 / CR 11757 10), and Council/minutes material including 1881-1882 / CR 11757 before any indexing."],
+    ["Llanelltyd", "Compound CD 34 / LR 172 7 physical volume: Llanelltyd begins at internal page 1, Cwm Saerbren at page 6, and Treorky at page 25."],
+    ["Cwm Saerbren", "Attested as a distinct section beginning at internal page 6 of the compound CD 34 / LR 172 7 volume. The separate LR 11150 reference remains unconnected."],
+    ["Treorchy", "Historical source spelling Treorky identifies a distinct section beginning at internal page 25 of the compound CD 34 / LR 172 7 volume; a photographed label also identifies Treorky Branch Minutes, 1874."],
+    ["Llanelly 2", "Temporary unresolved legacy holding label. Its RoboHelp topic is an empty draft. A separate 104-page convenience PDF labeled Llanelly 2 contains Wales/British Mission continued material, so the label is retained pending source-structure review; no active collection is assigned to it."],
     ["Stepaside", "Membership records 1848–1857; historical record and minutes 1858–1860."],
     ["Sutton Mountain", "Membership register 1853–1859; historical record and branch minutes 1853–1855."],
   ]);
 
   function relatedCollections(name) {
-    return catalog.collections.map((collection) => ({ collection, score: collectionScore(collection, name) }))
+    return catalog.collections.map((collection) => ({
+      collection,
+      score: collectionBranchAssignments.get(collection.name)?.has(name) ? 0 : collectionScore(collection, name),
+    }))
       .filter(({ collection, score }) => Number.isFinite(score)
+        && (!collectionBranchAssignments.has(collection.name) || collectionBranchAssignments.get(collection.name).has(name))
         && visibleRecords(collection).length
         && !nonBranchLabels.has(collection.name.toLowerCase()))
       .sort((a, b) => {
@@ -473,7 +512,9 @@
     branchTitle.textContent = name;
     branchHeadingYears.textContent = yearLabel(details) || "Years not yet identified";
     branchHeadingYears.hidden = false;
-    const branchReference = String(details?.filmAndCallNumbers || "").match(/\b((?:LR|CR)\s*\d+(?:\s+\d+)?)/i)?.[1]?.replace(/\s+/g, "") || "";
+    let branchReference = String(details?.filmAndCallNumbers || "").match(/\b((?:LR|CR)\s*\d+(?:\s+\d+)?)/i)?.[1]?.replace(/\s+/g, "") || "";
+    if (name === "Llanelli") branchReference = "Source label 1577 · identifier conflict under review";
+    if (name === "Llanelltyd") branchReference = "CD 34 · LR1727 compound volume";
     branchHeadingDetails.textContent = branchReference;
     branchHeadingDetails.hidden = !branchReference;
     const facts = [];
@@ -494,7 +535,7 @@
         button.type = "button";
         button.className = "resource-card";
         button.dataset.collectionId = collection.id;
-        button.innerHTML = `<span class="resource-kind">${resourceKind(collection)}</span><strong>${displayTitle(collection.name)}</strong><small>${number.format(records.length)} item${records.length === 1 ? "" : "s"}</small><span class="resource-provenance">${resourceProvenance(collection)}</span>`;
+        button.innerHTML = `<span class="resource-kind">${resourceKind(collection)}</span><strong>${collectionDisplayName(collection)}</strong><small>${number.format(records.length)} item${records.length === 1 ? "" : "s"}</small><span class="resource-provenance">${resourceProvenance(collection)}</span>`;
         const online = catalog.edition !== "public" || (collection.availability?.online && collection.publicStorage);
         if (online) button.addEventListener("click", () => openCollection(collection, { keepResources: true, initialView: records.some((record) => record.type === "image") ? "continuous" : "index" }));
         else {

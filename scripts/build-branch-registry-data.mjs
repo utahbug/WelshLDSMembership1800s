@@ -151,21 +151,32 @@ const llanelltydStructuralSource = {
   collectionBranch: "Llanelltyd",
   lrContext: "Enclosing Llanelltyd collection: LR 172 7",
 };
-addEvidence("Llanellyd", "Historical structural image", "", "", "", "", {
+addEvidence("Llanellyd", "Historical structural image", "", "CD 34; LR 172 7 compound volume", "", "", {
   ...llanelltydStructuralSource,
   internalPage: 1,
   note: "Historical spelling written on the volume index.",
 });
-addEvidence("Cwmsaerbren", "Historical structural image", "", "LR 11150 (separate catalog reference; images not connected to this site)", "", "", {
+addEvidence("Cwmsaerbren", "Historical structural image", "", "CD 34; LR 172 7 compound section; LR 11150 separate catalog reference not connected", "", "", {
   ...llanelltydStructuralSource,
   internalPage: 6,
   separateReference: "LR 11150",
   note: "Branch name attested inside the Llanelltyd volume. LR 11150 remains a separate catalog reference; no corresponding images are currently connected.",
 });
-addEvidence("Treorky", "Historical structural image", "", "", "", "", {
+addEvidence("Treorky", "Historical structural image", "", "CD 34; LR 172 7 compound section", "", "", {
   ...llanelltydStructuralSource,
   internalPage: 25,
   note: "Historical spelling of Treorchy written on the volume index; not associated with Troedyrhiw.",
+});
+
+// Keep the three identifiers preserved rather than silently normalizing the
+// CD-folder/catalog label over the conflicting image filename prefix.
+addEvidence("Llanelli", "Recovered CD 11 source labels", "1847-1868", "CD 11; source label 1577; recovered folder LR 11757 7; filename prefix LR 12451 7 (unresolved conflict)", "", originalSource?.path ?? "", {
+  collectionTitle: "Llanelly Branch Record of Members, 1847-1868",
+  filename: "LR 12451 7_00001.jpg",
+  viewerSequence: 1,
+  collectionBranch: "Llanelli",
+  lrContext: "Internal source labels say 1577; recovered CD folder says LR 11757 7; all 138 retained filenames say LR 12451 7.",
+  note: "The 138-image run is one continuous physical volume and is not checksum-duplicated from the Rhymney collection. The filename/catalog identifier conflict remains unresolved.",
 });
 
 if (notesSource) {
@@ -190,7 +201,7 @@ const grouped = Map.groupBy(evidence, (item) => item.canonicalName);
 const registry = [...grouped.entries()].map(([canonicalName, entries]) => {
   const allYears = entries.flatMap((entry) => years(`${entry.rawName} ${entry.dateText}`));
   const variants = [...new Set(entries.map((entry) => baseName(entry.rawName)).filter((name) => name !== canonicalName))];
-  const localCd = entries.some((entry) => ["2007 CD branch index", "2007 meeting transcription checklist"].includes(entry.source));
+  const localCd = entries.some((entry) => ["2007 CD branch index", "2007 meeting transcription checklist", "Historical structural image"].includes(entry.source));
   const localNote = entries.some((entry) => entry.source === "Recovered RoboHelp branch note");
   const familySearch = entries.some((entry) => entry.source === "FamilySearch catalog");
   let comparisonStatus = "Research note only";
@@ -199,6 +210,9 @@ const registry = [...grouped.entries()].map(([canonicalName, entries]) => {
   else if (!familySearch && localCd) comparisonStatus = "Local CD only / verify with FamilySearch";
   else if (entries.some((entry) => entry.source === "Historical structural image")) comparisonStatus = "Historical source attestation; dedicated record collection not yet identified";
   if (["Brechfa", "Brynmawr"].includes(canonicalName)) comparisonStatus = "Verified local source collection";
+  if (canonicalName === "Llanelltyd") comparisonStatus = "Verified compound local source collection";
+  if (canonicalName === "Cwm Saerbren") comparisonStatus = "Compound local source section located; dedicated LR 11150 images not connected";
+  if (canonicalName === "Treorchy") comparisonStatus = "Compound local source section located";
   const entityType = /conference/i.test(canonicalName) ? "Conference" : "Branch";
   return {
     canonicalName, entityType, variants: variants.join("; "),

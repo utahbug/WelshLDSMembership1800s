@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-08-11T06:37:20.408Z",
+  "generatedAt": "2026-08-11T07:06:24.991Z",
   "registry": [
     {
       "canonicalName": "Abersychan",
@@ -279,11 +279,11 @@
       "variants": "Cwmsaerbren",
       "earliestYear": null,
       "latestYear": null,
-      "localCd": false,
+      "localCd": true,
       "localNote": false,
       "familySearch": false,
-      "comparisonStatus": "Historical source attestation; dedicated record collection not yet identified",
-      "filmAndCallNumbers": "LR 11150 (separate catalog reference; images not connected to this site)",
+      "comparisonStatus": "Compound local source section located; dedicated LR 11150 images not connected",
+      "filmAndCallNumbers": "CD 34; LR 172 7 compound section; LR 11150 separate catalog reference not connected",
       "relatedBranches": "",
       "relationshipNotes": "",
       "notes": "",
@@ -516,12 +516,22 @@
       "localNote": true,
       "familySearch": false,
       "comparisonStatus": "Local CD only / verify with FamilySearch",
-      "filmAndCallNumbers": "CD 11; LR 11757 7; Wales2Utah research note",
+      "filmAndCallNumbers": "CD 11; LR 11757 7; CD 11; source label 1577; recovered folder LR 11757 7; filename prefix LR 12451 7 (unresolved conflict); Wales2Utah research note",
       "relatedBranches": "",
       "relationshipNotes": "",
       "notes": "Needs human review; absence from one source is not proof the branch or record was absent.",
       "sourceUrls": "",
-      "nameSources": []
+      "nameSources": [
+        {
+          "sourceName": "Llanelli",
+          "collectionTitle": "Llanelly Branch Record of Members, 1847-1868",
+          "filename": "LR 12451 7_00001.jpg",
+          "viewerSequence": 1,
+          "collectionBranch": "Llanelli",
+          "lrContext": "Internal source labels say 1577; recovered CD folder says LR 11757 7; all 138 retained filenames say LR 12451 7.",
+          "note": "The 138-image run is one continuous physical volume and is not checksum-duplicated from the Rhymney collection. The filename/catalog identifier conflict remains unresolved."
+        }
+      ]
     },
     {
       "canonicalName": "Llanelltyd",
@@ -532,8 +542,8 @@
       "localCd": true,
       "localNote": true,
       "familySearch": true,
-      "comparisonStatus": "Matched: FamilySearch and local CD",
-      "filmAndCallNumbers": "CD 34; LR 172 7; Wales2Utah research note; Film 104168 Item 13",
+      "comparisonStatus": "Verified compound local source collection",
+      "filmAndCallNumbers": "CD 34; LR 172 7; CD 34; LR 172 7 compound volume; Wales2Utah research note; Film 104168 Item 13",
       "relatedBranches": "",
       "relationshipNotes": "",
       "notes": "",
@@ -948,14 +958,14 @@
       "variants": "Treorky",
       "earliestYear": 1875,
       "latestYear": 1882,
-      "localCd": false,
+      "localCd": true,
       "localNote": false,
       "familySearch": true,
-      "comparisonStatus": "FamilySearch only / locate local record",
-      "filmAndCallNumbers": "Film 104168 Item 13; Film 104172 Item 6",
+      "comparisonStatus": "Compound local source section located",
+      "filmAndCallNumbers": "CD 34; LR 172 7 compound section; Film 104168 Item 13; Film 104172 Item 6",
       "relatedBranches": "",
       "relationshipNotes": "",
-      "notes": "Needs human review; absence from one source is not proof the branch or record was absent.",
+      "notes": "",
       "sourceUrls": "https://www.familysearch.org/search/catalog/results?query=film_number%3A104168; https://www.familysearch.org/search/catalog/results?query=film_number%3A104172",
       "nameSources": [
         {
@@ -1581,7 +1591,7 @@
       "relationshipNote": "",
       "source": "Historical structural image",
       "dateText": "",
-      "reference": "",
+      "reference": "CD 34; LR 172 7 compound volume",
       "sourceUrl": "",
       "localPath": "",
       "provenance": {
@@ -1601,7 +1611,7 @@
       "relationshipNote": "",
       "source": "Historical structural image",
       "dateText": "",
-      "reference": "LR 11150 (separate catalog reference; images not connected to this site)",
+      "reference": "CD 34; LR 172 7 compound section; LR 11150 separate catalog reference not connected",
       "sourceUrl": "",
       "localPath": "",
       "provenance": {
@@ -1622,7 +1632,7 @@
       "relationshipNote": "",
       "source": "Historical structural image",
       "dateText": "",
-      "reference": "",
+      "reference": "CD 34; LR 172 7 compound section",
       "sourceUrl": "",
       "localPath": "",
       "provenance": {
@@ -1633,6 +1643,25 @@
         "lrContext": "Enclosing Llanelltyd collection: LR 172 7",
         "internalPage": 25,
         "note": "Historical spelling of Treorchy written on the volume index; not associated with Troedyrhiw."
+      }
+    },
+    {
+      "rawName": "Llanelli",
+      "canonicalName": "Llanelli",
+      "relatedBranch": "",
+      "relationshipNote": "",
+      "source": "Recovered CD 11 source labels",
+      "dateText": "1847-1868",
+      "reference": "CD 11; source label 1577; recovered folder LR 11757 7; filename prefix LR 12451 7 (unresolved conflict)",
+      "sourceUrl": "",
+      "localPath": "C:\\Users\\kenro\\Documents\\Codex\\LDSWelshMembers\\resources\\source-cds",
+      "provenance": {
+        "collectionTitle": "Llanelly Branch Record of Members, 1847-1868",
+        "filename": "LR 12451 7_00001.jpg",
+        "viewerSequence": 1,
+        "collectionBranch": "Llanelli",
+        "lrContext": "Internal source labels say 1577; recovered CD folder says LR 11757 7; all 138 retained filenames say LR 12451 7.",
+        "note": "The 138-image run is one continuous physical volume and is not checksum-duplicated from the Rhymney collection. The filename/catalog identifier conflict remains unresolved."
       }
     },
     {
