@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-08-11T09:29:30.301Z",
+  "generatedAt": "2026-08-11T14:14:36.983Z",
   "registry": [
     {
       "canonicalName": "Abersychan",
@@ -379,13 +379,23 @@
       "localCd": true,
       "localNote": true,
       "familySearch": false,
-      "comparisonStatus": "Local CD only / verify with FamilySearch",
-      "filmAndCallNumbers": "CD 1; LR 182 7; Wales2Utah research note",
+      "comparisonStatus": "Verified local source collection",
+      "filmAndCallNumbers": "CD 1; LR 182 7; source image/catalog prefix 1555; 66 authoritative full-resolution images; cover states 1848-1878",
       "relatedBranches": "",
       "relationshipNotes": "",
-      "notes": "Needs human review; absence from one source is not proof the branch or record was absent.",
+      "notes": "",
       "sourceUrls": "",
-      "nameSources": []
+      "nameSources": [
+        {
+          "sourceName": "Dinas",
+          "collectionTitle": "Dinas Branch Record of Members, 1848-1878",
+          "filename": "1555__M_00001.jpg",
+          "viewerSequence": 1,
+          "collectionBranch": "Dinas",
+          "lrContext": "Project/recovered-folder reference LR 182 7; retained source-image prefix 1555.",
+          "note": "The cover says 1848-1878 while the inherited project/indexing range says 1848-1879. No inspected membership entry or annotation establishes 1879. Introductory Welsh narrative ends with apparent Cymer Branch wording and is preserved as possible branch evidence."
+        }
+      ]
     },
     {
       "canonicalName": "Dowlais",
@@ -1462,6 +1472,25 @@
       "reference": "CD 6; LR 198 7; 83 authoritative historical images",
       "sourceUrl": "",
       "localPath": "C:\\Users\\kenro\\Documents\\Codex\\LDSWelshMembers\\resources\\source-cds"
+    },
+    {
+      "rawName": "Dinas",
+      "canonicalName": "Dinas",
+      "relatedBranch": "",
+      "relationshipNote": "",
+      "source": "Recovered full-resolution local source",
+      "dateText": "1848-1878",
+      "reference": "CD 1; LR 182 7; source image/catalog prefix 1555; 66 authoritative images",
+      "sourceUrl": "",
+      "localPath": "C:\\Users\\kenro\\Documents\\Codex\\LDSWelshMembers\\resources\\source-cds",
+      "provenance": {
+        "collectionTitle": "Dinas Branch Record of Members, 1848-1878",
+        "filename": "1555__M_00001.jpg",
+        "viewerSequence": 1,
+        "collectionBranch": "Dinas",
+        "lrContext": "Project/recovered-folder reference LR 182 7; retained source-image prefix 1555.",
+        "note": "The cover says 1848-1878 while the inherited project/indexing range says 1848-1879. No inspected membership entry or annotation establishes 1879. Introductory Welsh narrative ends with apparent Cymer Branch wording and is preserved as possible branch evidence."
+      }
     },
     {
       "rawName": "Brynmawr",
