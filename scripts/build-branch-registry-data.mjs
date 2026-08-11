@@ -65,6 +65,7 @@ const aliases = new Map(Object.entries({
   "cwn tillery": "Cwmtillery", "cwmtillery": "Cwmtillery",
   "ebbrow vale": "Ebbw Vale", "ebbro vale": "Ebbw Vale", "ebbw vale": "Ebbw Vale",
   "ffestiniog": "Ffestiniog", "festiniog": "Ffestiniog",
+  "brynmawr": "Brynmawr", "gwaen helygen": "Brynmawr",
   "gwernllwyn": "Dowlais", "dowlais": "Dowlais",
   "llanelly": "Llanelli", "llanelli": "Llanelli",
   "llanellyd": "Llanelltyd", "llanelltud": "Llanelltyd", "llanelltyd": "Llanelltyd",
@@ -113,6 +114,8 @@ function addEvidence(rawName, source, dateText = "", reference = "", sourceUrl =
 for (const [name, dateText, callNumber, cd] of cdIndex) addEvidence(name, "2007 CD branch index", dateText, `CD ${cd}; ${callNumber}`, "", originalSource?.path ?? "");
 
 addEvidence("Brechfa", "Recovered full-resolution local source", "1846-1875", "CD 4; LR 11000 7; 62 authoritative images", "", originalSource?.path ?? "");
+addEvidence("Brynmawr", "Recovered full-resolution local source", "1848-1868", "CD 10; LR 215 7; 93 authoritative images", "", originalSource?.path ?? "");
+addEvidence("Gwaen Helygen", "Original CD contents description", "1848-1868", "Historical/source name for Brynmawr", "", originalSource?.path ?? "");
 
 // Preserve the source/indexing-map spelling without creating a duplicate branch.
 addEvidence("Altwen", "Local LR2257 membership register", "1849-1859", "LR 225 7; historical/source spelling of Alltwen", "", originalSource?.path ?? "");
@@ -195,7 +198,7 @@ const registry = [...grouped.entries()].map(([canonicalName, entries]) => {
   else if (familySearch && !localCd) comparisonStatus = "FamilySearch only / locate local record";
   else if (!familySearch && localCd) comparisonStatus = "Local CD only / verify with FamilySearch";
   else if (entries.some((entry) => entry.source === "Historical structural image")) comparisonStatus = "Historical source attestation; dedicated record collection not yet identified";
-  if (canonicalName === "Brechfa") comparisonStatus = "Verified local source collection";
+  if (["Brechfa", "Brynmawr"].includes(canonicalName)) comparisonStatus = "Verified local source collection";
   const entityType = /conference/i.test(canonicalName) ? "Conference" : "Branch";
   return {
     canonicalName, entityType, variants: variants.join("; "),
@@ -204,6 +207,8 @@ const registry = [...grouped.entries()].map(([canonicalName, entries]) => {
     localCd, localNote, familySearch, comparisonStatus,
     filmAndCallNumbers: canonicalName === "Brechfa"
       ? "CD 4; LR 11000 7; 62 authoritative full-resolution images"
+      : canonicalName === "Brynmawr"
+      ? "CD 10; LR 215 7; 93 authoritative full-resolution images"
       : [...new Set(entries.map((entry) => entry.reference).filter(Boolean))].join("; "),
     relatedBranches: [...new Set(entries.map((entry) => entry.relatedBranch).filter(Boolean))].join("; "),
     relationshipNotes: [...new Set(entries.map((entry) => entry.relationshipNote).filter(Boolean))].join("; "),
