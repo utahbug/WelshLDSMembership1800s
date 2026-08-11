@@ -286,6 +286,18 @@ if (llanelltydCompound) {
   collections.sort((a,b)=>natural.compare(a.name,b.name));
 }
 
+const nantygloCompound = collections.find((collection) => collection.name === "Nantyglo,1846-1867,LR1747");
+if (nantygloCompound) {
+  const sectionImages = nantygloCompound.images.filter((record) => {
+    const match = record.name.match(/_M_(\d{5})\.jpg$/i);
+    const sequence = match ? Number(match[1]) : NaN;
+    return sequence >= 78 && sequence <= 161;
+  });
+  if (sectionImages.length !== 83) throw new Error(`Expected 83 Coalbrookvale section images; found ${sectionImages.length}.`);
+  collections.push({ id:"virtual-coalbrookvale-lr1747", name:"Coalbrookvale,1856-1867,LR1747", category:nantygloCompound.category, aliases:["Coal Brook Vale,1856-1867,LR1747","Coal Brock Vale,1856-1867,LR1747","Blaina,1856-1867,LR1747"], sources:[...nantygloCompound.sources], availability:{local:true,portable:true,online:false}, publicStorage:null, virtualSourceCollection:nantygloCompound.id, images:sectionImages });
+  collections.sort((a,b)=>natural.compare(a.name,b.name));
+}
+
 const catalog = {
   edition: "local",
   generatedAt: new Date().toISOString(),

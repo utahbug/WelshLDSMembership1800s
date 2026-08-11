@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-08-11T16:00:28.045Z",
+  "generatedAt": "2026-08-11T16:47:12.706Z",
   "registry": [
     {
       "canonicalName": "Abersychan",
@@ -191,19 +191,29 @@
     {
       "canonicalName": "Coalbrookvale",
       "entityType": "Branch",
-      "variants": "Coal Brock Vale; Coalbrook Vale",
+      "variants": "Coal Brook Vale; Coal Brock Vale; Coalbrook Vale",
       "earliestYear": 1856,
       "latestYear": 1867,
-      "localCd": false,
+      "localCd": true,
       "localNote": true,
       "familySearch": true,
-      "comparisonStatus": "FamilySearch only / locate local record",
-      "filmAndCallNumbers": "Wales2Utah research note; Film 104168 Item 8",
-      "relatedBranches": "",
-      "relationshipNotes": "",
-      "notes": "Needs human review; absence from one source is not proof the branch or record was absent.",
+      "comparisonStatus": "Verified compound local source section",
+      "filmAndCallNumbers": "CD 24; LR 174 7 compound section; 83 authoritative full-resolution images; membership registers 00080-00137",
+      "relatedBranches": "Blaina; Nantyglo; Cwm Celyn",
+      "relationshipNotes": "The source records organization of Coal Brook Vale on 3 March 1856 after disorganization/reorganization involving Nantyglo, Blaenau and Cwm Celyn. Blaina appears throughout the membership registers as the branch/locality heading; the evidence is preserved without creating a duplicate branch.",
+      "notes": "",
       "sourceUrls": "https://www.familysearch.org/search/catalog/results?query=film_number%3A104168",
-      "nameSources": []
+      "nameSources": [
+        {
+          "sourceName": "Coal Brook Vale",
+          "collectionTitle": "Coal Brook Vale / Blaina records, 1856-1867",
+          "filename": "LR-1175710_v1590_M_00078.jpg",
+          "viewerSequence": 1,
+          "collectionBranch": "Coalbrookvale",
+          "lrContext": "CD 24 / LR 174 7 compound volume",
+          "note": "Image 00078 records organization of Coal Brook Vale on 3 March 1856 from Nantyglo, Blaenau and Cwm Celyn; images 00080-00137 contain two membership sequences under Coal Brook Vale / Blaina headings."
+        }
+      ]
     },
     {
       "canonicalName": "Cogan",
@@ -1667,6 +1677,25 @@
       "reference": "Ffestiniog membership record book integrated into local archive; surviving title uses Festiniog; 94 unique viewer images",
       "sourceUrl": "",
       "localPath": ""
+    },
+    {
+      "rawName": "Coal Brook Vale",
+      "canonicalName": "Coalbrookvale",
+      "relatedBranch": "",
+      "relationshipNote": "",
+      "source": "Recovered full-resolution compound source",
+      "dateText": "1856-1867",
+      "reference": "CD 24; LR 174 7 compound section; 83 authoritative images; membership registers 00080-00137",
+      "sourceUrl": "",
+      "localPath": "C:\\Users\\kenro\\Documents\\Codex\\LDSWelshMembers\\resources\\source-cds",
+      "provenance": {
+        "collectionTitle": "Coal Brook Vale / Blaina records, 1856-1867",
+        "filename": "LR-1175710_v1590_M_00078.jpg",
+        "viewerSequence": 1,
+        "collectionBranch": "Coalbrookvale",
+        "lrContext": "CD 24 / LR 174 7 compound volume",
+        "note": "Image 00078 records organization of Coal Brook Vale on 3 March 1856 from Nantyglo, Blaenau and Cwm Celyn; images 00080-00137 contain two membership sequences under Coal Brook Vale / Blaina headings."
+      }
     },
     {
       "rawName": "Llanellyd",
