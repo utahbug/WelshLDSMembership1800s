@@ -9,6 +9,9 @@ The top-level folders preserve historical branch, conference, district, or recor
 FILE NAMES AND ORDER
 Original image filenames and branch-relative paths are preserved. Image order must be taken from the full relative path and the project's catalog; bare filenames are not unique across all branches. INDEX.csv lists the branch/year/reference summary and proposed transcription associations.
 
+STEPASIDE LR1272711
+The recovered physical volume contains membership-register sections dated 1848-1857 and historical record/minutes material dated 1858-1860, together with financial, statistical, blank, and structural leaves. Its 107 full-resolution images are preserved in Stepaside,1848-1860,LR1272711/images/. The approved typed minutes PDF remains under its descriptive Stepaside,1858-1860,LR1272711/Transcriptions/ path.
+
 TRANSCRIPTIONS AND TRANSLATIONS
 Approved transcription PDFs are stored beneath the applicable record-group folder in a Transcriptions subfolder. INDEX.csv records each uploaded PDF's Archive path, original compound source filename, and source PDF page range. Original compound source PDFs remain unchanged in the local project for provenance. A - CDs 60-62 - Typed Transcripts.pdf is deferred because pages 28-30 contain mixed Welsh District and Pontypool material with a boundary inside PDF page 30. DEFERRED_TRANSCRIPTIONS.csv documents deferred and locally retained sources. No separate Translations folder is used because the source material combines transcription, translation, and status information.
 

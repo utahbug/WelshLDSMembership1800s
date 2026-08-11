@@ -377,6 +377,10 @@
       : String(item.earliestYear);
   }
 
+  const branchSourceStructure = new Map([
+    ["Stepaside", "Membership records 1848–1857; historical record and minutes 1858–1860."],
+  ]);
+
   function relatedCollections(name) {
     return catalog.collections.map((collection) => ({ collection, score: collectionScore(collection, name) }))
       .filter(({ collection, score }) => Number.isFinite(score)
@@ -469,6 +473,7 @@
     branchHeadingDetails.hidden = !branchReference;
     const facts = [];
     if (yearLabel(details)) facts.push(`<span><strong>Years found:</strong> ${yearLabel(details)}</span>`);
+    if (branchSourceStructure.has(name)) facts.push(`<span><strong>Source structure:</strong> ${branchSourceStructure.get(name)}</span>`);
     if (details?.variants) facts.push(`<span><strong>Known variants:</strong> ${details.variants}</span>`);
     if (details?.relatedBranches) facts.push(`<span><strong>Related branch:</strong> ${details.relatedBranches}</span>`);
     branchMeta.innerHTML = facts.join("");
