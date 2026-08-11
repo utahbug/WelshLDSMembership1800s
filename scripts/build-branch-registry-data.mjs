@@ -114,6 +114,7 @@ function addEvidence(rawName, source, dateText = "", reference = "", sourceUrl =
 for (const [name, dateText, callNumber, cd] of cdIndex) addEvidence(name, "2007 CD branch index", dateText, `CD ${cd}; ${callNumber}`, "", originalSource?.path ?? "");
 
 addEvidence("Brechfa", "Recovered full-resolution local source", "1846-1875", "CD 4; LR 11000 7; 62 authoritative images", "", originalSource?.path ?? "");
+addEvidence("Cuffern Mountain", "Recovered full-resolution local source", "1849-1876", "CD 6; LR 198 7; 83 authoritative historical images", "", originalSource?.path ?? "");
 addEvidence("Brynmawr", "Recovered full-resolution local source", "1848-1868", "CD 10; LR 215 7; 93 authoritative images", "", originalSource?.path ?? "");
 addEvidence("Gwaen Helygen", "Original CD contents description", "1848-1868", "Historical/source name for Brynmawr", "", originalSource?.path ?? "");
 addEvidence("Cog", "Recovered full-resolution local source", "1848-1876", "CD 31; LR 109 7; 68 authoritative images; historical/source name for Cogan", "", originalSource?.path ?? "");
@@ -211,7 +212,7 @@ const registry = [...grouped.entries()].map(([canonicalName, entries]) => {
   else if (familySearch && !localCd) comparisonStatus = "FamilySearch only / locate local record";
   else if (!familySearch && localCd) comparisonStatus = "Local CD only / verify with FamilySearch";
   else if (entries.some((entry) => entry.source === "Historical structural image")) comparisonStatus = "Historical source attestation; dedicated record collection not yet identified";
-  if (["Brechfa", "Brynmawr", "Cogan", "Cefn Coed-y-Cymmer"].includes(canonicalName)) comparisonStatus = "Verified local source collection";
+  if (["Brechfa", "Brynmawr", "Cogan", "Cefn Coed-y-Cymmer", "Cuffern Mountain"].includes(canonicalName)) comparisonStatus = "Verified local source collection";
   if (canonicalName === "Llanelltyd") comparisonStatus = "Verified compound local source collection";
   if (canonicalName === "Cwm Saerbren") comparisonStatus = "Compound local source section located; dedicated LR 11150 images not connected";
   if (canonicalName === "Treorchy") comparisonStatus = "Compound local source section located";
@@ -229,6 +230,8 @@ const registry = [...grouped.entries()].map(([canonicalName, entries]) => {
       ? "CD 31; LR 109 7; 68 authoritative full-resolution images; source heading Cog"
       : canonicalName === "Cefn Coed-y-Cymmer"
       ? "CD 12; LR 176 7; 109 authoritative full-resolution images; source forms Cefncoed-y-Cymar and Cefncoedycymer"
+      : canonicalName === "Cuffern Mountain"
+      ? "CD 6; LR 198 7; 83 authoritative historical images"
       : [...new Set(entries.map((entry) => entry.reference).filter(Boolean))].join("; "),
     relatedBranches: [...new Set(entries.map((entry) => entry.relatedBranch).filter(Boolean))].join("; "),
     relationshipNotes: [...new Set(entries.map((entry) => entry.relationshipNote).filter(Boolean))].join("; "),
