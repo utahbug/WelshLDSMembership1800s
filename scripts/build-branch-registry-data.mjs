@@ -170,11 +170,11 @@ addEvidence("Llanellyd", "Historical structural image", "", "CD 34; LR 172 7 com
   internalPage: 1,
   note: "Historical spelling written on the volume index.",
 });
-addEvidence("Cwmsaerbren", "Historical structural image", "", "CD 34; LR 172 7 compound section; LR 11150 separate catalog reference not connected", "", "", {
+addEvidence("Cwmsaerbren", "Historical structural image", "1858-1874", "CD 34; LR 172 7 compound section; 38 authoritative images; LR 11150 separate catalog reference not connected", "", "", {
   ...llanelltydStructuralSource,
   internalPage: 6,
   separateReference: "LR 11150",
-  note: "Branch name attested inside the Llanelltyd volume. LR 11150 remains a separate catalog reference; no corresponding images are currently connected.",
+  note: "Internal source label dates the Cwm Saerbren record of members 1858-1874. The enclosing physical volume spans 1850-1882. LR 11150 remains a separate catalog reference; no corresponding images are currently connected.",
 });
 addEvidence("Treorky", "Historical structural image", "", "CD 34; LR 172 7 compound section", "", "", {
   ...llanelltydStructuralSource,
@@ -225,7 +225,7 @@ const registry = [...grouped.entries()].map(([canonicalName, entries]) => {
   else if (entries.some((entry) => entry.source === "Historical structural image")) comparisonStatus = "Historical source attestation; dedicated record collection not yet identified";
   if (["Brechfa", "Brynmawr", "Bryntroedgam", "Cogan", "Cefn Coed-y-Cymmer", "Cuffern Mountain", "Dinas", "Ebbw Vale"].includes(canonicalName)) comparisonStatus = "Verified local source collection";
   if (canonicalName === "Llanelltyd") comparisonStatus = "Verified compound local source collection";
-  if (canonicalName === "Cwm Saerbren") comparisonStatus = "Compound local source section located; dedicated LR 11150 images not connected";
+  if (canonicalName === "Cwm Saerbren") comparisonStatus = "Verified compound local source section; dedicated LR 11150 images not connected";
   if (canonicalName === "Treorchy") comparisonStatus = "Compound local source section located";
   const entityType = /conference/i.test(canonicalName) ? "Conference" : "Branch";
   return {
@@ -249,6 +249,8 @@ const registry = [...grouped.entries()].map(([canonicalName, entries]) => {
       ? "CD 1; LR 182 7; source image/catalog prefix 1555; 66 authoritative full-resolution images; cover states 1848-1878"
       : canonicalName === "Ebbw Vale"
       ? "CD 26; LR 9846 7; 76 authoritative full-resolution images; source heading Ebbro Vale"
+      : canonicalName === "Cwm Saerbren"
+      ? "CD 34; LR 172 7 compound section; internal pages 6-24; 38 authoritative full-resolution images; LR 11150 separate reference not connected"
       : [...new Set(entries.map((entry) => entry.reference).filter(Boolean))].join("; "),
     relatedBranches: [...new Set(entries.map((entry) => entry.relatedBranch).filter(Boolean))].join("; "),
     relationshipNotes: [...new Set(entries.map((entry) => entry.relationshipNote).filter(Boolean))].join("; "),

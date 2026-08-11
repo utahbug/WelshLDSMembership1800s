@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-08-11T15:20:56.076Z",
+  "generatedAt": "2026-08-11T16:00:28.045Z",
   "registry": [
     {
       "canonicalName": "Abersychan",
@@ -277,13 +277,13 @@
       "canonicalName": "Cwm Saerbren",
       "entityType": "Branch",
       "variants": "Cwmsaerbren",
-      "earliestYear": null,
-      "latestYear": null,
+      "earliestYear": 1858,
+      "latestYear": 1874,
       "localCd": true,
       "localNote": false,
       "familySearch": false,
-      "comparisonStatus": "Compound local source section located; dedicated LR 11150 images not connected",
-      "filmAndCallNumbers": "CD 34; LR 172 7 compound section; LR 11150 separate catalog reference not connected",
+      "comparisonStatus": "Verified compound local source section; dedicated LR 11150 images not connected",
+      "filmAndCallNumbers": "CD 34; LR 172 7 compound section; internal pages 6-24; 38 authoritative full-resolution images; LR 11150 separate reference not connected",
       "relatedBranches": "",
       "relationshipNotes": "",
       "notes": "",
@@ -298,7 +298,7 @@
           "lrContext": "Enclosing Llanelltyd collection: LR 172 7",
           "internalPage": 6,
           "separateReference": "LR 11150",
-          "note": "Branch name attested inside the Llanelltyd volume. LR 11150 remains a separate catalog reference; no corresponding images are currently connected."
+          "note": "Internal source label dates the Cwm Saerbren record of members 1858-1874. The enclosing physical volume spans 1850-1882. LR 11150 remains a separate catalog reference; no corresponding images are currently connected."
         }
       ]
     },
@@ -1694,8 +1694,8 @@
       "relatedBranch": "",
       "relationshipNote": "",
       "source": "Historical structural image",
-      "dateText": "",
-      "reference": "CD 34; LR 172 7 compound section; LR 11150 separate catalog reference not connected",
+      "dateText": "1858-1874",
+      "reference": "CD 34; LR 172 7 compound section; 38 authoritative images; LR 11150 separate catalog reference not connected",
       "sourceUrl": "",
       "localPath": "",
       "provenance": {
@@ -1706,7 +1706,7 @@
         "lrContext": "Enclosing Llanelltyd collection: LR 172 7",
         "internalPage": 6,
         "separateReference": "LR 11150",
-        "note": "Branch name attested inside the Llanelltyd volume. LR 11150 remains a separate catalog reference; no corresponding images are currently connected."
+        "note": "Internal source label dates the Cwm Saerbren record of members 1858-1874. The enclosing physical volume spans 1850-1882. LR 11150 remains a separate catalog reference; no corresponding images are currently connected."
       }
     },
     {

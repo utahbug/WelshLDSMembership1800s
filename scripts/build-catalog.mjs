@@ -272,6 +272,20 @@ const collections = [...collectionMap.values()]
   .filter((collection) => collection.images.length)
   .sort((a, b) => natural.compare(a.name, b.name));
 
+// Expose an independently headed section of a compound volume without copying
+// its files. The virtual collection reuses the exact local and Archive paths.
+const llanelltydCompound = collections.find((collection) => collection.name === "Llanelltyd,1850-1882,LR1727");
+if (llanelltydCompound) {
+  const sectionImages = llanelltydCompound.images.filter((record) => {
+    const match = record.name.match(/_M_(\d{5})\.jpg$/i);
+    const sequence = match ? Number(match[1]) : NaN;
+    return sequence >= 36 && sequence <= 73;
+  });
+  if (sectionImages.length !== 38) throw new Error(`Expected 38 Cwm Saerbren section images; found ${sectionImages.length}.`);
+  collections.push({ id:"virtual-cwm-saerbren-lr1727", name:"Cwm Saerbren,1858-1874,LR1727", category:llanelltydCompound.category, aliases:["Cwmsaerbren,1858-1874,LR1727"], sources:[...llanelltydCompound.sources], availability:{local:true,portable:true,online:false}, publicStorage:null, virtualSourceCollection:llanelltydCompound.id, images:sectionImages });
+  collections.sort((a,b)=>natural.compare(a.name,b.name));
+}
+
 const catalog = {
   edition: "local",
   generatedAt: new Date().toISOString(),

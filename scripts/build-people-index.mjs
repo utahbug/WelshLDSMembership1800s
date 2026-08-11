@@ -56,8 +56,32 @@ branchLookup.set(normalize("Festiniog"), "Ffestiniog");
 let catalog = null;
 const catalogPath = path.join(root, "data", "catalog.local.js");
 if (fs.existsSync(catalogPath)) { const context = { window: {} }; vm.runInNewContext(fs.readFileSync(catalogPath, "utf8"), context); catalog = context.window.WELSH_RECORD_CATALOG; }
-const collectionForBranch = (branch) => {
+// Some physical volumes contain separately identified branch sections. Keep the
+// source collection intact while allowing a branch occurrence to open its exact
+// image inside that compound volume.
+const compoundBranchCollectionNames = new Map([
+  [normalize("Abertillery"), normalize("Cwm Celyn,1851-1883,LR1957")],
+  [normalize("Cogan"), normalize("Cog,1848-1876,LR1097")],
+  [normalize("Ebbw Vale"), normalize("Ebbro Vale,1847-1864,LR98467")],
+  [normalize("Cwm Celyn"), normalize("Cwm Celyn,1851-1883,LR1957")],
+  [normalize("Cwm Saerbren"), normalize("Cwm Saerbren,1858-1874,LR1727")],
+  [normalize("Tredegar"), normalize("Cwm Celyn,1851-1883,LR1957")],
+]);
+const collectionForBranch = (branch, imageFilename = "") => {
+  const compoundCollectionName = compoundBranchCollectionNames.get(normalize(branch));
+  if (compoundCollectionName && imageFilename) {
+    const compoundMatches = (catalog?.collections || []).filter((collection) => normalize(collection.name) === compoundCollectionName && (collection.images || []).some((image) => image.name === imageFilename));
+    if (compoundMatches.length === 1) return compoundMatches[0].id;
+  }
   const matches = (catalog?.collections || []).filter((collection) => normalize(collection.name).includes(normalize(branch)) && (collection.images || []).length);
+  if (imageFilename) {
+    const filenameMatches = matches.filter((collection) => (collection.images || []).some((image) => image.name === imageFilename));
+    if (filenameMatches.length === 1) return filenameMatches[0].id;
+    const lrMatches = filenameMatches.filter((collection) => /\bLR\s*\d/i.test(collection.name));
+    if (lrMatches.length === 1) return lrMatches[0].id;
+    const productionMatches = filenameMatches.filter((collection) => normalize(collection.name) === normalize(`${branch}-production`));
+    if (productionMatches.length === 1) return productionMatches[0].id;
+  }
   return matches.length === 1 ? matches[0].id : "";
 };
 
@@ -88,7 +112,7 @@ for (let rowIndex = 1; rowIndex < parsed.length; rowIndex += 1) {
     imageRef: source.imageRef || null,
     imageFilename: source.imageFilename || null,
     imageSequence,
-    collectionId: (imageSequence || source.imageFilename) ? collectionForBranch(branch) : null,
+    collectionId: (imageSequence || source.imageFilename) ? collectionForBranch(branch, source.imageFilename) : null,
     pageNumber: source.pageNumber || null,
     notes: source.notes || null,
     verified: booleanValue(source.verified, rowNumber, errors),

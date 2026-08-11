@@ -271,17 +271,20 @@
   const collectionBranchAssignments = new Map([
     ["Cog,1848-1876,LR1097", new Set(["Cogan"])],
     ["Llanelli,1847-1868,LR117577", new Set(["Llanelli"])],
-    ["Llanelltyd,1850-1882,LR1727", new Set(["Llanelltyd", "Cwm Saerbren", "Treorchy"])],
+    ["Llanelltyd,1850-1882,LR1727", new Set(["Llanelltyd", "Treorchy"])],
+    ["Cwm Saerbren,1858-1874,LR1727", new Set(["Cwm Saerbren"])],
     ["Llanelly-production", new Set(["Llanelli"])],
   ]);
 
   const collectionDisplayNames = new Map([
     ["Llanelli,1847-1868,LR117577", "Llanelly Branch Record of Members, 1847-1868"],
     ["Llanelltyd,1850-1882,LR1727", "Compound volume: Llanelltyd, Cwm Saerbren, and Treorky, 1850-1882"],
+    ["Cwm Saerbren,1858-1874,LR1727", "Cwm Saerbren Branch Record of Members, 1858-1874"],
     ["Llanelly-production", "Llanelly-production source holding (review required)"],
   ]);
 
   const collectionProvenanceOverrides = new Map([
+    ["Cwm Saerbren,1858-1874,LR1727", "CD 34 / LR 172 7 compound section / internal pages 6-24 / 38 images"],
     ["Llanelli,1847-1868,LR117577", "CD 11 · source label 1577 · recovered folder LR 11757 7 · image filename prefix LR 12451 7 (unresolved)"],
     ["Llanelltyd,1850-1882,LR1727", "CD 34 · LR 172 7 · internal starts: Llanelltyd page 1; Cwm Saerbren page 6; Treorky page 25"],
     ["Llanelly-production", "319 images · CR 11757 10 / source label 1578; CR 11757 11 / source label 1576; translation manuscript · boundaries unresolved"],
@@ -420,7 +423,7 @@
     ["Britonferry", "Briton Ferry section, pages 43–46: children blessed, a rebaptized-members register, and Welsh narrative/branch record, 1850–1853."],
     ["Llanelli", "The 138-image CD 11 membership volume is internally labeled Llanelly Branch, 1847-1868, and source number 1577. Its retained filenames carry the conflicting prefix LR 12451 7; this identifier conflict remains explicitly unresolved. The separate Llanelly-production holding remains assigned only to Llanelli, but requires its planned review of unusual plain-paper material, the formal Llanelly Branch Record of Members 1847-1879 (source label 1578 / CR 11757 10), and Council/minutes material including 1881-1882 / CR 11757 before any indexing."],
     ["Llanelltyd", "Compound CD 34 / LR 172 7 physical volume: Llanelltyd begins at internal page 1, Cwm Saerbren at page 6, and Treorky at page 25."],
-    ["Cwm Saerbren", "Attested as a distinct section beginning at internal page 6 of the compound CD 34 / LR 172 7 volume. The separate LR 11150 reference remains unconnected."],
+    ["Cwm Saerbren", "Membership register 1858-1874, internal pages 6-24 of the compound CD 34 / LR 172 7 volume. The enclosing physical volume spans 1850-1882. The separate LR 11150 reference remains unconnected."],
     ["Treorchy", "Historical source spelling Treorky identifies a distinct section beginning at internal page 25 of the compound CD 34 / LR 172 7 volume; a photographed label also identifies Treorky Branch Minutes, 1874."],
     ["Llanelly 2", "Temporary unresolved legacy holding label. Its RoboHelp topic is an empty draft. A separate 104-page convenience PDF labeled Llanelly 2 contains Wales/British Mission continued material, so the label is retained pending source-structure review; no active collection is assigned to it."],
     ["Stepaside", "Membership records 1848–1857; historical record and minutes 1858–1860."],
