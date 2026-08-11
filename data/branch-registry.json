@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-08-11T23:37:35.168Z",
+  "generatedAt": "2026-08-11T23:52:15.678Z",
   "registry": [
     {
       "canonicalName": "Abersychan",
@@ -524,17 +524,27 @@
       "entityType": "Branch",
       "variants": "",
       "earliestYear": 1849,
-      "latestYear": 1886,
+      "latestYear": 1866,
       "localCd": true,
       "localNote": true,
       "familySearch": false,
-      "comparisonStatus": "Local CD only / verify with FamilySearch",
-      "filmAndCallNumbers": "CD 22; LR 113 7; Wales2Utah research note",
+      "comparisonStatus": "Verified local source collection",
+      "filmAndCallNumbers": "CD 22; project LR 113 7; photographed library identifier 870 preserved separately; 45 authoritative full-resolution images; source dates 1849-1866",
       "relatedBranches": "",
       "relationshipNotes": "",
-      "notes": "Needs human review; absence from one source is not proof the branch or record was absent.",
+      "notes": "",
       "sourceUrls": "",
-      "nameSources": []
+      "nameSources": [
+        {
+          "sourceName": "Llandebie",
+          "collectionTitle": "Llandebie Branch Record of Members, 1849-1866",
+          "filename": "LR-113-7_00002.jpg",
+          "viewerSequence": 2,
+          "collectionBranch": "Llandebie",
+          "lrContext": "Project reference LR 113 7; photographed source label separately shows library number 870.",
+          "note": "The photographed label states Record of Members 1849-1866. The volume contains two independently numbered membership registers, a separate renewal/reformation sequence, opening Welsh historical narrative, and an additional-remarks page."
+        }
+      ]
     },
     {
       "canonicalName": "Llanelli",
@@ -1788,6 +1798,25 @@
         "collectionBranch": "Haverfordwest",
         "lrContext": "Photographed identifiers CR 11343 11 V.1 and CR 11343 11 V.2; project folder/filename forms LR1134321 and LR1134311 are retained separately.",
         "note": "Volume 1 contains member records 1847-1853 and historical material. Volume 2 contains historical record 1852-1854 and a separate member register 1857-1860. The exact catalog relationship among CR/LR forms is not normalized beyond the photographed evidence."
+      }
+    },
+    {
+      "rawName": "Llandebie",
+      "canonicalName": "Llandebie",
+      "relatedBranch": "",
+      "relationshipNote": "",
+      "source": "Recovered full-resolution local source",
+      "dateText": "1849-1866",
+      "reference": "CD 22; project LR 113 7; photographed library identifier 870; 45 authoritative full-resolution images",
+      "sourceUrl": "",
+      "localPath": "C:\\Users\\kenro\\Documents\\Codex\\LDSWelshMembers\\resources\\source-cds",
+      "provenance": {
+        "collectionTitle": "Llandebie Branch Record of Members, 1849-1866",
+        "filename": "LR-113-7_00002.jpg",
+        "viewerSequence": 2,
+        "collectionBranch": "Llandebie",
+        "lrContext": "Project reference LR 113 7; photographed source label separately shows library number 870.",
+        "note": "The photographed label states Record of Members 1849-1866. The volume contains two independently numbered membership registers, a separate renewal/reformation sequence, opening Welsh historical narrative, and an additional-remarks page."
       }
     },
     {

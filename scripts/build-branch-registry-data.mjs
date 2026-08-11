@@ -179,6 +179,14 @@ addEvidence("Haverfordwest", "Recovered full-resolution local sources", "1847-18
   lrContext: "Photographed identifiers CR 11343 11 V.1 and CR 11343 11 V.2; project folder/filename forms LR1134321 and LR1134311 are retained separately.",
   note: "Volume 1 contains member records 1847-1853 and historical material. Volume 2 contains historical record 1852-1854 and a separate member register 1857-1860. The exact catalog relationship among CR/LR forms is not normalized beyond the photographed evidence.",
 });
+addEvidence("Llandebie", "Recovered full-resolution local source", "1849-1866", "CD 22; project LR 113 7; photographed library identifier 870; 45 authoritative full-resolution images", "", originalSource?.path ?? "", {
+  collectionTitle: "Llandebie Branch Record of Members, 1849-1866",
+  filename: "LR-113-7_00002.jpg",
+  viewerSequence: 2,
+  collectionBranch: "Llandebie",
+  lrContext: "Project reference LR 113 7; photographed source label separately shows library number 870.",
+  note: "The photographed label states Record of Members 1849-1866. The volume contains two independently numbered membership registers, a separate renewal/reformation sequence, opening Welsh historical narrative, and an additional-remarks page.",
+});
 
 // The 2022 indexing-project branch map establishes Pendoylon as a distinct
 // branch source unit, but no corresponding local image collection has yet
@@ -268,7 +276,7 @@ const registry = [...grouped.entries()].map(([canonicalName, entries]) => {
   else if (familySearch && !localCd) comparisonStatus = "FamilySearch only / locate local record";
   else if (!familySearch && localCd) comparisonStatus = "Local CD only / verify with FamilySearch";
   else if (entries.some((entry) => entry.source === "Historical structural image")) comparisonStatus = "Historical source attestation; dedicated record collection not yet identified";
-  if (["Brechfa", "Brynmawr", "Bryntroedgam", "Cogan", "Cefn Coed-y-Cymmer", "Cuffern Mountain", "Dinas", "Ebbw Vale", "Haverfordwest", "Llanfabon"].includes(canonicalName)) comparisonStatus = "Verified local source collection";
+  if (["Brechfa", "Brynmawr", "Bryntroedgam", "Cogan", "Cefn Coed-y-Cymmer", "Cuffern Mountain", "Dinas", "Ebbw Vale", "Haverfordwest", "Llandebie", "Llanfabon"].includes(canonicalName)) comparisonStatus = "Verified local source collection";
   if (canonicalName === "Coalbrookvale") comparisonStatus = "Verified compound local source section";
   if (canonicalName === "Llanelltyd") comparisonStatus = "Verified compound local source section";
   if (canonicalName === "Cwm Saerbren") comparisonStatus = "Verified compound local source section; dedicated LR 11150 images not connected";
@@ -277,8 +285,8 @@ const registry = [...grouped.entries()].map(([canonicalName, entries]) => {
   const entityType = /conference/i.test(canonicalName) ? "Conference" : "Branch";
   return {
     canonicalName, entityType, variants: variants.join("; "),
-    earliestYear: canonicalName === "Llanelltyd" ? 1850 : (allYears.length ? Math.min(...allYears) : null),
-    latestYear: canonicalName === "Llanelltyd" ? 1857 : (allYears.length ? Math.max(...allYears) : null),
+    earliestYear: canonicalName === "Llanelltyd" ? 1850 : canonicalName === "Llandebie" ? 1849 : (allYears.length ? Math.min(...allYears) : null),
+    latestYear: canonicalName === "Llanelltyd" ? 1857 : canonicalName === "Llandebie" ? 1866 : (allYears.length ? Math.max(...allYears) : null),
     localCd, localNote, familySearch, comparisonStatus,
     filmAndCallNumbers: canonicalName === "Brechfa"
       ? "CD 4; LR 11000 7; 62 authoritative full-resolution images"
@@ -298,6 +306,8 @@ const registry = [...grouped.entries()].map(([canonicalName, entries]) => {
       ? "CD 26; LR 9846 7; 76 authoritative full-resolution images; source heading Ebbro Vale"
       : canonicalName === "Haverfordwest"
       ? "CD 23 / CR 11343 11 V.1; CD 58 / CR 11343 11 V.2; 272 authoritative historical images; membership registers 1847-1853 and 1857-1860"
+      : canonicalName === "Llandebie"
+      ? "CD 22; project LR 113 7; photographed library identifier 870 preserved separately; 45 authoritative full-resolution images; source dates 1849-1866"
       : canonicalName === "Llanfabon"
       ? "CD 15; project LR1687; historical/library identifier 871 preserved separately; 60 authoritative full-resolution images"
       : canonicalName === "Cwm Saerbren"

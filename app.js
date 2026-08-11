@@ -278,6 +278,7 @@
     ["Coalbrookvale,1856-1867,LR1747", new Set(["Coalbrookvale"])],
     ["Haverfordwest,1847-1853,LR1134321", new Set(["Haverfordwest"])],
     ["Haverfordwest,1852-1860,CR1134311-v2", new Set(["Haverfordwest"])],
+    ["Llandebie,1849-1886,LR1137", new Set(["Llandebie"])],
     ["Llanelly-production", new Set(["Llanelli"])],
   ]);
 
@@ -290,6 +291,7 @@
     ["Coalbrookvale,1856-1867,LR1747", "Coal Brook Vale / Blaina records, 1856-1867"],
     ["Haverfordwest,1847-1853,LR1134321", "Haverfordwest Volume 1: Members and Historical Record, 1847-1853"],
     ["Haverfordwest,1852-1860,CR1134311-v2", "Haverfordwest Volume 2: Historical Record 1852-1854; Members 1857-1860"],
+    ["Llandebie,1849-1886,LR1137", "Llandebie Branch Record of Members, 1849-1866"],
     ["Llanelly-production", "Llanelly-production source holding (review required)"],
   ]);
 
@@ -300,6 +302,7 @@
     ["Coalbrookvale,1856-1867,LR1747", "CD 24 / LR 174 7 compound section / 83 images / membership registers 00080-00137"],
     ["Haverfordwest,1847-1853,LR1134321", "CD 23 / photographed CR 11343 11 V.1 / project source LR1134321 / 153 historical images"],
     ["Haverfordwest,1852-1860,CR1134311-v2", "CD 58 / photographed CR 11343 11 V.2 / retained filename prefix LR1134311 / 119 historical images"],
+    ["Llandebie,1849-1886,LR1137", "CD 22 / project LR 113 7 / photographed library identifier 870 / 45 images"],
     ["Llanelli,1847-1868,LR117577", "CD 11 · source label 1577 · recovered folder LR 11757 7 · image filename prefix LR 12451 7 (unresolved)"],
     ["Llanelltyd,1850-1882,LR1727", "CD 34 · LR 172 7 · internal starts: Llanelltyd page 1; Cwm Saerbren page 6; Treorky page 25"],
     ["Llanelly-production", "319 images · CR 11757 10 / source label 1578; CR 11757 11 / source label 1576; translation manuscript · boundaries unresolved"],
@@ -444,6 +447,7 @@
     ["Coalbrookvale", "Coal Brook Vale was organized on 3 March 1856 from Nantyglo, Blaenau and Cwm Celyn. The compound CD 24 / LR 174 7 volume preserves two Coal Brook Vale / Blaina membership sequences (images 00080-00137), followed by special registers, statistics and narrative material through 1867."],
     ["Llanfabon", "CD 15 preserves 60 authoritative images: an original membership sequence (entries 1-87), a separate Reformation sequence (entries 1-72), and substantial Welsh historical narrative on written pages 19-28. The photographed source label separately shows identifier 871; its relationship to project reference LR1687 is not established."],
     ["Haverfordwest", "Two recovered physical volumes preserve 272 authoritative historical images. Volume 1 (CR 11343 11 V.1) contains the 1847-1853 membership ledger followed by minutes, subscriptions, deaths and historical narrative. Volume 2 (CR 11343 11 V.2) contains historical record 1852-1854 and a separate membership register 1857-1860. Project LR-style folder/filename forms are retained without silently equating them to the photographed CR identifiers."],
+    ["Llandebie", "CD 22 preserves 45 authoritative full-resolution images. The photographed source label dates the Record of Members 1849-1866 and separately shows library number 870; its relationship to project reference LR 113 7 is not normalized. The volume contains an original membership sequence, an independently restarted sequence, a separate renewal/reformation sequence, opening Welsh historical narrative, and an additional-remarks page."],
     ["Treorchy", "Historical source spelling Treorky identifies a distinct section beginning at internal page 25 of the compound CD 34 / LR 172 7 volume; a photographed label also identifies Treorky Branch Minutes, 1874."],
     ["Llanelly 2", "Temporary unresolved legacy holding label. Its RoboHelp topic is an empty draft. A separate 104-page convenience PDF labeled Llanelly 2 contains Wales/British Mission continued material, so the label is retained pending source-structure review; no active collection is assigned to it."],
     ["Stepaside", "Membership records 1848–1857; historical record and minutes 1858–1860."],
@@ -545,6 +549,7 @@
     if (name === "Llanelli") branchReference = "Source label 1577 · identifier conflict under review";
     if (name === "Llanelltyd") branchReference = "CD 34 · LR1727 · internal pages 1-5";
     if (name === "Haverfordwest") branchReference = "CR 11343 11 V.1 · V.2";
+    if (name === "Llandebie") branchReference = "CD 22 · LR1137 · source label 870";
     branchHeadingDetails.textContent = branchReference;
     branchHeadingDetails.hidden = !branchReference;
     const facts = [];
