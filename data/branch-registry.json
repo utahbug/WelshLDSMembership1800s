@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-08-11T05:09:35.791Z",
+  "generatedAt": "2026-08-11T05:24:00.657Z",
   "registry": [
     {
       "canonicalName": "Abersychan",
@@ -55,14 +55,14 @@
     {
       "canonicalName": "Alltwen",
       "entityType": "Branch",
-      "variants": "",
+      "variants": "Altwen",
       "earliestYear": 1849,
       "latestYear": 1859,
       "localCd": true,
       "localNote": true,
       "familySearch": false,
       "comparisonStatus": "Local CD only / verify with FamilySearch",
-      "filmAndCallNumbers": "CD 3; LR 225 7; Wales2Utah research note",
+      "filmAndCallNumbers": "CD 3; LR 225 7; LR 225 7; historical/source spelling of Alltwen; Wales2Utah research note",
       "relatedBranches": "",
       "relationshipNotes": "",
       "notes": "Needs human review; absence from one source is not proof the branch or record was absent.",
@@ -1428,6 +1428,17 @@
       "source": "2007 CD branch index",
       "dateText": "1850-1882",
       "reference": "CD 34; LR 172 7",
+      "sourceUrl": "",
+      "localPath": "C:\\Users\\kenro\\Documents\\Codex\\LDSWelshMembers\\resources\\source-cds"
+    },
+    {
+      "rawName": "Altwen",
+      "canonicalName": "Alltwen",
+      "relatedBranch": "",
+      "relationshipNote": "",
+      "source": "Local LR2257 membership register",
+      "dateText": "1849-1859",
+      "reference": "LR 225 7; historical/source spelling of Alltwen",
       "sourceUrl": "",
       "localPath": "C:\\Users\\kenro\\Documents\\Codex\\LDSWelshMembers\\resources\\source-cds"
     },

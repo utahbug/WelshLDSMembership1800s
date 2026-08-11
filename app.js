@@ -378,6 +378,7 @@
   }
 
   const branchSourceStructure = new Map([
+    ["Alltwen", "Membership register 1849–1859; children-blessed register and a separate rebaptism-of-members sequence are preserved in the same LR2257 volume."],
     ["Britonferry", "Briton Ferry section, pages 43–46: children blessed, a rebaptized-members register, and Welsh narrative/branch record, 1850–1853."],
     ["Stepaside", "Membership records 1848–1857; historical record and minutes 1858–1860."],
     ["Sutton Mountain", "Membership register 1853–1859; historical record and branch minutes 1853–1855."],
@@ -470,7 +471,7 @@
     branchTitle.textContent = name;
     branchHeadingYears.textContent = yearLabel(details) || "Years not yet identified";
     branchHeadingYears.hidden = false;
-    const branchReference = String(details?.filmAndCallNumbers || "").match(/\b((?:LR|CR)\s*\d+)(?:\s+\d+)?/i)?.[1]?.replace(/\s+/g, "") || "";
+    const branchReference = String(details?.filmAndCallNumbers || "").match(/\b((?:LR|CR)\s*\d+(?:\s+\d+)?)/i)?.[1]?.replace(/\s+/g, "") || "";
     branchHeadingDetails.textContent = branchReference;
     branchHeadingDetails.hidden = !branchReference;
     const facts = [];

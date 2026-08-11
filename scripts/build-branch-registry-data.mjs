@@ -53,6 +53,7 @@ const cdIndex = [
 ];
 
 const aliases = new Map(Object.entries({
+  "altwen": "Alltwen", "alltwen": "Alltwen",
   "briton ferry": "Britonferry", "britonferry": "Britonferry",
   "abersycan": "Abersychan", "abersychan": "Abersychan",
   "swansea": "Swansea",
@@ -110,6 +111,9 @@ function addEvidence(rawName, source, dateText = "", reference = "", sourceUrl =
 }
 
 for (const [name, dateText, callNumber, cd] of cdIndex) addEvidence(name, "2007 CD branch index", dateText, `CD ${cd}; ${callNumber}`, "", originalSource?.path ?? "");
+
+// Preserve the source/indexing-map spelling without creating a duplicate branch.
+addEvidence("Altwen", "Local LR2257 membership register", "1849-1859", "LR 225 7; historical/source spelling of Alltwen", "", originalSource?.path ?? "");
 
 // Names appearing in the 2007 meeting-transcription checklist. These are
 // additional local-record evidence, not proof that each was an independent

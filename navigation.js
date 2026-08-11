@@ -57,7 +57,7 @@
       const collection = membershipCollections[0];
       const title = displayTitle(collection.name).replace(/,\s*(?:LR|CR)\s*\d+.*$/i, "").replace(/(\d{4})-(\d{4})\s+(?=\d{4}-\d{4})/g, "$1–$2; ").replace(/(\d{4})-(\d{4})/g, "$1–$2");
       const d = detailsFor(name);
-      const reference = String(d?.filmAndCallNumbers || "").match(/\b((?:LR|CR)\s*\d+)(?:\s+\d+)?/i)?.[1]?.replace(/\s+/g, "") || "";
+      const reference = String(d?.filmAndCallNumbers || "").match(/\b((?:LR|CR)\s*\d+(?:\s+\d+)?)/i)?.[1]?.replace(/\s+/g, "") || "";
       const imageCount = (collection.images || []).filter((item) => item.type === "image").length;
       const cd = String(d?.filmAndCallNumbers || "").match(/\bCD\s*(\d+)/i)?.[1];
       $("#branchTitle").textContent = name;
