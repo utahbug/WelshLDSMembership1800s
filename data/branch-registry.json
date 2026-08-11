@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-08-11T14:14:36.983Z",
+  "generatedAt": "2026-08-11T14:56:59.348Z",
   "registry": [
     {
       "canonicalName": "Abersychan",
@@ -423,11 +423,11 @@
       "localCd": true,
       "localNote": true,
       "familySearch": false,
-      "comparisonStatus": "Local CD only / verify with FamilySearch",
-      "filmAndCallNumbers": "CD 26; LR 9846 7; Wales2Utah research note",
+      "comparisonStatus": "Verified local source collection",
+      "filmAndCallNumbers": "CD 26; LR 9846 7; 76 authoritative full-resolution images; source heading Ebbro Vale",
       "relatedBranches": "",
       "relationshipNotes": "",
-      "notes": "Needs human review; absence from one source is not proof the branch or record was absent.",
+      "notes": "",
       "sourceUrls": "",
       "nameSources": []
     },
@@ -1500,6 +1500,17 @@
       "source": "Recovered full-resolution local source",
       "dateText": "1848-1868",
       "reference": "CD 10; LR 215 7; 93 authoritative images",
+      "sourceUrl": "",
+      "localPath": "C:\\Users\\kenro\\Documents\\Codex\\LDSWelshMembers\\resources\\source-cds"
+    },
+    {
+      "rawName": "Ebbro Vale",
+      "canonicalName": "Ebbw Vale",
+      "relatedBranch": "",
+      "relationshipNote": "",
+      "source": "Recovered full-resolution local source",
+      "dateText": "1847-1864",
+      "reference": "CD 26; LR 9846 7; 76 authoritative images; historical/source spelling for Ebbw Vale",
       "sourceUrl": "",
       "localPath": "C:\\Users\\kenro\\Documents\\Codex\\LDSWelshMembers\\resources\\source-cds"
     },
