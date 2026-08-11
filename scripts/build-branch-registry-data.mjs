@@ -117,6 +117,7 @@ const meetingChecklist = [
   ["Pen-y-Darran", "", "CD 36; two-page baptism list"],
   ["Gymmer", "1852-1857; 1863", "CD 59; meeting transcription checklist"],
   ["Stepaside", "1848-1860", "CD 44; LR 12727 11; membership records 1848-1857; historical record and general minutes 1858-1860"],
+  ["Sutton Mountain", "1853-1859", "CD 56; LR 12770 11; membership register 1853-1859; historical record and branch minutes 1853-1855"],
   ["Swansea", "1852-1854", "CD 61; general minutes"],
   ["Pontypool", "1857-1884", "CD 62; general minutes"],
   ["Abersychan", "1889", "CD 62; general minutes"],

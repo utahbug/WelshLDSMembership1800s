@@ -379,6 +379,7 @@
 
   const branchSourceStructure = new Map([
     ["Stepaside", "Membership records 1848–1857; historical record and minutes 1858–1860."],
+    ["Sutton Mountain", "Membership register 1853–1859; historical record and branch minutes 1853–1855."],
   ]);
 
   function relatedCollections(name) {

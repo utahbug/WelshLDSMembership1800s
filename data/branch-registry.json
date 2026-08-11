@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-08-11T04:19:36.355Z",
+  "generatedAt": "2026-08-11T04:47:24.305Z",
   "registry": [
     {
       "canonicalName": "Abersychan",
@@ -846,14 +846,14 @@
       "variants": "",
       "earliestYear": 1853,
       "latestYear": 1859,
-      "localCd": false,
+      "localCd": true,
       "localNote": false,
       "familySearch": true,
-      "comparisonStatus": "FamilySearch only / locate local record",
-      "filmAndCallNumbers": "Film 104171 item 6",
+      "comparisonStatus": "Matched: FamilySearch and local CD",
+      "filmAndCallNumbers": "CD 56; LR 12770 11; membership register 1853-1859; historical record and branch minutes 1853-1855; Film 104171 item 6",
       "relatedBranches": "",
       "relationshipNotes": "",
-      "notes": "Needs human review; absence from one source is not proof the branch or record was absent.",
+      "notes": "",
       "sourceUrls": "https://www.familysearch.org/search/catalog/results?query=film_number%3A104171",
       "nameSources": []
     },
@@ -1444,6 +1444,17 @@
       "source": "2007 meeting transcription checklist",
       "dateText": "1848-1860",
       "reference": "CD 44; LR 12727 11; membership records 1848-1857; historical record and general minutes 1858-1860",
+      "sourceUrl": "",
+      "localPath": "C:\\Users\\kenro\\Documents\\Codex\\LDSWelshMembers\\resources\\source-cds"
+    },
+    {
+      "rawName": "Sutton Mountain",
+      "canonicalName": "Sutton Mountain",
+      "relatedBranch": "",
+      "relationshipNote": "",
+      "source": "2007 meeting transcription checklist",
+      "dateText": "1853-1859",
+      "reference": "CD 56; LR 12770 11; membership register 1853-1859; historical record and branch minutes 1853-1855",
       "sourceUrl": "",
       "localPath": "C:\\Users\\kenro\\Documents\\Codex\\LDSWelshMembers\\resources\\source-cds"
     },
