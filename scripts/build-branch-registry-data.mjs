@@ -112,6 +112,8 @@ function addEvidence(rawName, source, dateText = "", reference = "", sourceUrl =
 
 for (const [name, dateText, callNumber, cd] of cdIndex) addEvidence(name, "2007 CD branch index", dateText, `CD ${cd}; ${callNumber}`, "", originalSource?.path ?? "");
 
+addEvidence("Brechfa", "Recovered full-resolution local source", "1846-1875", "CD 4; LR 11000 7; 62 authoritative images", "", originalSource?.path ?? "");
+
 // Preserve the source/indexing-map spelling without creating a duplicate branch.
 addEvidence("Altwen", "Local LR2257 membership register", "1849-1859", "LR 225 7; historical/source spelling of Alltwen", "", originalSource?.path ?? "");
 
@@ -193,13 +195,16 @@ const registry = [...grouped.entries()].map(([canonicalName, entries]) => {
   else if (familySearch && !localCd) comparisonStatus = "FamilySearch only / locate local record";
   else if (!familySearch && localCd) comparisonStatus = "Local CD only / verify with FamilySearch";
   else if (entries.some((entry) => entry.source === "Historical structural image")) comparisonStatus = "Historical source attestation; dedicated record collection not yet identified";
+  if (canonicalName === "Brechfa") comparisonStatus = "Verified local source collection";
   const entityType = /conference/i.test(canonicalName) ? "Conference" : "Branch";
   return {
     canonicalName, entityType, variants: variants.join("; "),
     earliestYear: allYears.length ? Math.min(...allYears) : null,
     latestYear: allYears.length ? Math.max(...allYears) : null,
     localCd, localNote, familySearch, comparisonStatus,
-    filmAndCallNumbers: [...new Set(entries.map((entry) => entry.reference).filter(Boolean))].join("; "),
+    filmAndCallNumbers: canonicalName === "Brechfa"
+      ? "CD 4; LR 11000 7; 62 authoritative full-resolution images"
+      : [...new Set(entries.map((entry) => entry.reference).filter(Boolean))].join("; "),
     relatedBranches: [...new Set(entries.map((entry) => entry.relatedBranch).filter(Boolean))].join("; "),
     relationshipNotes: [...new Set(entries.map((entry) => entry.relationshipNote).filter(Boolean))].join("; "),
     notes: comparisonStatus.includes("only") ? "Needs human review; absence from one source is not proof the branch or record was absent." : "",

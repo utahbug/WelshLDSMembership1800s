@@ -379,6 +379,7 @@
 
   const branchSourceStructure = new Map([
     ["Alltwen", "Membership register 1849–1859; children-blessed register and a separate rebaptism-of-members sequence are preserved in the same LR2257 volume."],
+    ["Brechfa", "Welsh branch historical narrative; main membership register 1846–1856; separately numbered later baptism/member register 1857–1868; later historical notes through 1875 are preserved in the same LR110007 volume."],
     ["Britonferry", "Briton Ferry section, pages 43–46: children blessed, a rebaptized-members register, and Welsh narrative/branch record, 1850–1853."],
     ["Stepaside", "Membership records 1848–1857; historical record and minutes 1858–1860."],
     ["Sutton Mountain", "Membership register 1853–1859; historical record and branch minutes 1853–1855."],
