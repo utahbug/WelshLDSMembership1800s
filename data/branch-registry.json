@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-08-11T16:47:12.706Z",
+  "generatedAt": "2026-08-11T17:10:36.271Z",
   "registry": [
     {
       "canonicalName": "Abersychan",
@@ -607,13 +607,23 @@
       "localCd": true,
       "localNote": true,
       "familySearch": false,
-      "comparisonStatus": "Local CD only / verify with FamilySearch",
-      "filmAndCallNumbers": "CD 15; LR 168 7; Wales2Utah research note",
+      "comparisonStatus": "Verified local source collection",
+      "filmAndCallNumbers": "CD 15; project LR1687; historical/library identifier 871 preserved separately; 60 authoritative full-resolution images",
       "relatedBranches": "",
       "relationshipNotes": "",
-      "notes": "Needs human review; absence from one source is not proof the branch or record was absent.",
+      "notes": "",
       "sourceUrls": "",
-      "nameSources": []
+      "nameSources": [
+        {
+          "sourceName": "Llanfabon",
+          "collectionTitle": "Llanfabon Branch Record of Members, 1847-1869",
+          "filename": "871__M_00002.jpg",
+          "viewerSequence": 2,
+          "collectionBranch": "Llanfabon",
+          "lrContext": "Project reference LR1687; photographed source label separately shows 871.",
+          "note": "The relationship between historical/library identifier 871 and project LR1687 is not established. The volume contains an original register, a separate Reformation register, and Welsh historical narrative on written pages 19-28."
+        }
+      ]
     },
     {
       "canonicalName": "Llansawel",
@@ -1248,7 +1258,7 @@
       "relationshipNote": "",
       "source": "2007 CD branch index",
       "dateText": "1847-1869",
-      "reference": "CD 15; LR 168 7",
+      "reference": "CD 15; LR1687",
       "sourceUrl": "",
       "localPath": "C:\\Users\\kenro\\Documents\\Codex\\LDSWelshMembers\\resources\\source-cds"
     },
@@ -1695,6 +1705,25 @@
         "collectionBranch": "Coalbrookvale",
         "lrContext": "CD 24 / LR 174 7 compound volume",
         "note": "Image 00078 records organization of Coal Brook Vale on 3 March 1856 from Nantyglo, Blaenau and Cwm Celyn; images 00080-00137 contain two membership sequences under Coal Brook Vale / Blaina headings."
+      }
+    },
+    {
+      "rawName": "Llanfabon",
+      "canonicalName": "Llanfabon",
+      "relatedBranch": "",
+      "relationshipNote": "",
+      "source": "Recovered full-resolution local source",
+      "dateText": "1847-1869",
+      "reference": "CD 15; project LR1687; historical/library identifier 871; 60 authoritative images",
+      "sourceUrl": "",
+      "localPath": "C:\\Users\\kenro\\Documents\\Codex\\LDSWelshMembers\\resources\\source-cds",
+      "provenance": {
+        "collectionTitle": "Llanfabon Branch Record of Members, 1847-1869",
+        "filename": "871__M_00002.jpg",
+        "viewerSequence": 2,
+        "collectionBranch": "Llanfabon",
+        "lrContext": "Project reference LR1687; photographed source label separately shows 871.",
+        "note": "The relationship between historical/library identifier 871 and project LR1687 is not established. The volume contains an original register, a separate Reformation register, and Welsh historical narrative on written pages 19-28."
       }
     },
     {

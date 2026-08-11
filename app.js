@@ -279,6 +279,7 @@
   ]);
 
   const collectionDisplayNames = new Map([
+    ["Llanfabon 1847-1869,LR1687", "Llanfabon Branch Record of Members, 1847-1869"],
     ["Llanelli,1847-1868,LR117577", "Llanelly Branch Record of Members, 1847-1868"],
     ["Llanelltyd,1850-1882,LR1727", "Compound volume: Llanelltyd, Cwm Saerbren, and Treorky, 1850-1882"],
     ["Cwm Saerbren,1858-1874,LR1727", "Cwm Saerbren Branch Record of Members, 1858-1874"],
@@ -287,6 +288,7 @@
   ]);
 
   const collectionProvenanceOverrides = new Map([
+    ["Llanfabon 1847-1869,LR1687", "CD 15 / project LR1687 / photographed historical-library identifier 871 / 60 images"],
     ["Cwm Saerbren,1858-1874,LR1727", "CD 34 / LR 172 7 compound section / internal pages 6-24 / 38 images"],
     ["Coalbrookvale,1856-1867,LR1747", "CD 24 / LR 174 7 compound section / 83 images / membership registers 00080-00137"],
     ["Llanelli,1847-1868,LR117577", "CD 11 · source label 1577 · recovered folder LR 11757 7 · image filename prefix LR 12451 7 (unresolved)"],
@@ -429,6 +431,7 @@
     ["Llanelltyd", "Compound CD 34 / LR 172 7 physical volume: Llanelltyd begins at internal page 1, Cwm Saerbren at page 6, and Treorky at page 25."],
     ["Cwm Saerbren", "Membership register 1858-1874, internal pages 6-24 of the compound CD 34 / LR 172 7 volume. The enclosing physical volume spans 1850-1882. The separate LR 11150 reference remains unconnected."],
     ["Coalbrookvale", "Coal Brook Vale was organized on 3 March 1856 from Nantyglo, Blaenau and Cwm Celyn. The compound CD 24 / LR 174 7 volume preserves two Coal Brook Vale / Blaina membership sequences (images 00080-00137), followed by special registers, statistics and narrative material through 1867."],
+    ["Llanfabon", "CD 15 preserves 60 authoritative images: an original membership sequence (entries 1-87), a separate Reformation sequence (entries 1-72), and substantial Welsh historical narrative on written pages 19-28. The photographed source label separately shows identifier 871; its relationship to project reference LR1687 is not established."],
     ["Treorchy", "Historical source spelling Treorky identifies a distinct section beginning at internal page 25 of the compound CD 34 / LR 172 7 volume; a photographed label also identifies Treorky Branch Minutes, 1874."],
     ["Llanelly 2", "Temporary unresolved legacy holding label. Its RoboHelp topic is an empty draft. A separate 104-page convenience PDF labeled Llanelly 2 contains Wales/British Mission continued material, so the label is retained pending source-structure review; no active collection is assigned to it."],
     ["Stepaside", "Membership records 1848–1857; historical record and minutes 1858–1860."],

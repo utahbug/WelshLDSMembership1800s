@@ -40,7 +40,7 @@ const cdIndex = [
   ["Cymmer", "1850-1866", "LR 11152 23", "9"], ["Brynmawr", "1848-1868", "LR 215 7", "10"],
   ["Llanelli", "1847-1868", "LR 11757 7", "11"], ["Cefn Coed-y-Cymmer", "1847-1864", "LR 176 7", "12"],
   ["Bryntroedgam", "1847-1860", "LR 129 7", "13"], ["Llansawel (Carmarthenshire)", "1849-1855", "LR 221 7", "14"],
-  ["Llanfabon", "1847-1869", "LR 168 7", "15"], ["Treboeth", "1844-1880", "LR 228 7", "16"],
+  ["Llanfabon", "1847-1869", "LR1687", "15"], ["Treboeth", "1844-1880", "LR 228 7", "16"],
   ["Pen-y-cae", "1844-1866", "LR 230 7", "17"], ["Llansawel (Glamorgan)", "1850-1889", "LR 11759 7", "18"],
   ["Cwm Celyn", "1851-1883", "LR 195 7", "19"], ["Rhymney", "1850-1887", "LR 12451 7", "20"],
   ["Cardiff", "1847-1876", "LR 1416 7", "21"], ["Llandebie", "1849-1886", "LR 113 7", "22"],
@@ -162,6 +162,14 @@ addEvidence("Coal Brook Vale", "Recovered full-resolution compound source", "185
   lrContext: "CD 24 / LR 174 7 compound volume",
   note: "Image 00078 records organization of Coal Brook Vale on 3 March 1856 from Nantyglo, Blaenau and Cwm Celyn; images 00080-00137 contain two membership sequences under Coal Brook Vale / Blaina headings.",
 });
+addEvidence("Llanfabon", "Recovered full-resolution local source", "1847-1869", "CD 15; project LR1687; historical/library identifier 871; 60 authoritative images", "", originalSource?.path ?? "", {
+  collectionTitle: "Llanfabon Branch Record of Members, 1847-1869",
+  filename: "871__M_00002.jpg",
+  viewerSequence: 2,
+  collectionBranch: "Llanfabon",
+  lrContext: "Project reference LR1687; photographed source label separately shows 871.",
+  note: "The relationship between historical/library identifier 871 and project LR1687 is not established. The volume contains an original register, a separate Reformation register, and Welsh historical narrative on written pages 19-28.",
+});
 
 // Structural labels in the Llanelltyd volume identify three record groups.
 // Internal page numbers are transcribed from the source label and are not
@@ -223,7 +231,7 @@ const grouped = Map.groupBy(evidence, (item) => item.canonicalName);
 const registry = [...grouped.entries()].map(([canonicalName, entries]) => {
   const allYears = entries.flatMap((entry) => years(`${entry.rawName} ${entry.dateText}`));
   const variants = [...new Set(entries.map((entry) => baseName(entry.rawName)).filter((name) => name !== canonicalName))];
-  const localCd = entries.some((entry) => ["2007 CD branch index", "2007 meeting transcription checklist", "Historical structural image", "Recovered full-resolution compound source"].includes(entry.source));
+  const localCd = entries.some((entry) => ["2007 CD branch index", "2007 meeting transcription checklist", "Historical structural image", "Recovered full-resolution compound source", "Recovered full-resolution local source"].includes(entry.source));
   const localNote = entries.some((entry) => entry.source === "Recovered RoboHelp branch note");
   const familySearch = entries.some((entry) => entry.source === "FamilySearch catalog");
   let comparisonStatus = "Research note only";
@@ -231,7 +239,7 @@ const registry = [...grouped.entries()].map(([canonicalName, entries]) => {
   else if (familySearch && !localCd) comparisonStatus = "FamilySearch only / locate local record";
   else if (!familySearch && localCd) comparisonStatus = "Local CD only / verify with FamilySearch";
   else if (entries.some((entry) => entry.source === "Historical structural image")) comparisonStatus = "Historical source attestation; dedicated record collection not yet identified";
-  if (["Brechfa", "Brynmawr", "Bryntroedgam", "Cogan", "Cefn Coed-y-Cymmer", "Cuffern Mountain", "Dinas", "Ebbw Vale"].includes(canonicalName)) comparisonStatus = "Verified local source collection";
+  if (["Brechfa", "Brynmawr", "Bryntroedgam", "Cogan", "Cefn Coed-y-Cymmer", "Cuffern Mountain", "Dinas", "Ebbw Vale", "Llanfabon"].includes(canonicalName)) comparisonStatus = "Verified local source collection";
   if (canonicalName === "Coalbrookvale") comparisonStatus = "Verified compound local source section";
   if (canonicalName === "Llanelltyd") comparisonStatus = "Verified compound local source collection";
   if (canonicalName === "Cwm Saerbren") comparisonStatus = "Verified compound local source section; dedicated LR 11150 images not connected";
@@ -258,6 +266,8 @@ const registry = [...grouped.entries()].map(([canonicalName, entries]) => {
       ? "CD 1; LR 182 7; source image/catalog prefix 1555; 66 authoritative full-resolution images; cover states 1848-1878"
       : canonicalName === "Ebbw Vale"
       ? "CD 26; LR 9846 7; 76 authoritative full-resolution images; source heading Ebbro Vale"
+      : canonicalName === "Llanfabon"
+      ? "CD 15; project LR1687; historical/library identifier 871 preserved separately; 60 authoritative full-resolution images"
       : canonicalName === "Cwm Saerbren"
       ? "CD 34; LR 172 7 compound section; internal pages 6-24; 38 authoritative full-resolution images; LR 11150 separate reference not connected"
       : canonicalName === "Coalbrookvale"
