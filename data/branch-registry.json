@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-08-11T04:47:24.305Z",
+  "generatedAt": "2026-08-11T05:09:35.791Z",
   "registry": [
     {
       "canonicalName": "Abersychan",
@@ -80,6 +80,23 @@
       "familySearch": false,
       "comparisonStatus": "Local CD only / verify with FamilySearch",
       "filmAndCallNumbers": "CD 4; LR 11000 7; Wales2Utah research note",
+      "relatedBranches": "",
+      "relationshipNotes": "",
+      "notes": "Needs human review; absence from one source is not proof the branch or record was absent.",
+      "sourceUrls": "",
+      "nameSources": []
+    },
+    {
+      "canonicalName": "Britonferry",
+      "entityType": "Branch",
+      "variants": "Briton Ferry",
+      "earliestYear": 1850,
+      "latestYear": 1853,
+      "localCd": true,
+      "localNote": false,
+      "familySearch": false,
+      "comparisonStatus": "Local CD only / verify with FamilySearch",
+      "filmAndCallNumbers": "LR 11759 7; explicit Briton Ferry section, pages 43-46, in compound Llansawel/Swansea/Briton Ferry volume",
       "relatedBranches": "",
       "relationshipNotes": "",
       "notes": "Needs human review; absence from one source is not proof the branch or record was absent.",
@@ -1411,6 +1428,17 @@
       "source": "2007 CD branch index",
       "dateText": "1850-1882",
       "reference": "CD 34; LR 172 7",
+      "sourceUrl": "",
+      "localPath": "C:\\Users\\kenro\\Documents\\Codex\\LDSWelshMembers\\resources\\source-cds"
+    },
+    {
+      "rawName": "Briton Ferry",
+      "canonicalName": "Britonferry",
+      "relatedBranch": "",
+      "relationshipNote": "",
+      "source": "2007 meeting transcription checklist",
+      "dateText": "1850-1853",
+      "reference": "LR 11759 7; explicit Briton Ferry section, pages 43-46, in compound Llansawel/Swansea/Briton Ferry volume",
       "sourceUrl": "",
       "localPath": "C:\\Users\\kenro\\Documents\\Codex\\LDSWelshMembers\\resources\\source-cds"
     },

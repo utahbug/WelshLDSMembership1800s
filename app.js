@@ -378,6 +378,7 @@
   }
 
   const branchSourceStructure = new Map([
+    ["Britonferry", "Briton Ferry section, pages 43–46: children blessed, a rebaptized-members register, and Welsh narrative/branch record, 1850–1853."],
     ["Stepaside", "Membership records 1848–1857; historical record and minutes 1858–1860."],
     ["Sutton Mountain", "Membership register 1853–1859; historical record and branch minutes 1853–1855."],
   ]);

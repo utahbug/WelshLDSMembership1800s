@@ -53,6 +53,7 @@ const cdIndex = [
 ];
 
 const aliases = new Map(Object.entries({
+  "briton ferry": "Britonferry", "britonferry": "Britonferry",
   "abersycan": "Abersychan", "abersychan": "Abersychan",
   "swansea": "Swansea",
   "castell nedd": "Castell Nedd (Neath)", "neath": "Castell Nedd (Neath)",
@@ -114,6 +115,7 @@ for (const [name, dateText, callNumber, cd] of cdIndex) addEvidence(name, "2007 
 // additional local-record evidence, not proof that each was an independent
 // branch throughout the whole date range.
 const meetingChecklist = [
+  ["Briton Ferry", "1850-1853", "LR 11759 7; explicit Briton Ferry section, pages 43-46, in compound Llansawel/Swansea/Briton Ferry volume"],
   ["Pen-y-Darran", "", "CD 36; two-page baptism list"],
   ["Gymmer", "1852-1857; 1863", "CD 59; meeting transcription checklist"],
   ["Stepaside", "1848-1860", "CD 44; LR 12727 11; membership records 1848-1857; historical record and general minutes 1858-1860"],
