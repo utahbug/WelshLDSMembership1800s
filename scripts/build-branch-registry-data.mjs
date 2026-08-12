@@ -33,7 +33,7 @@ const familySearch104172 = [
 ];
 
 const cdIndex = [
-  ["Dinas", "1848-1879", "LR 182 7", "1"], ["Castell Nedd", "1879-1884", "LR 196 7", "2"],
+  ["Dinas", "1848-1879", "LR 182 7", "1"], ["Castell Nedd", "1849-1884", "LR 196 7", "2"],
   ["Alltwen", "1849-1859", "LR 225 7", "3"], ["Brechfa", "1846-1875", "LR 11000 7", "4"],
   ["Tredegar", "1844-1876", "LR 164 7", "5"], ["Cuffern Mountain", "1849-1876", "LR 198 7", "6"],
   ["Gilwern", "1849-1858", "LR 13987 7", "7"], ["Cwmtillery", "1847-1862", "LR 188 7", "8"],
@@ -57,7 +57,7 @@ const aliases = new Map(Object.entries({
   "briton ferry": "Britonferry", "britonferry": "Britonferry",
   "abersycan": "Abersychan", "abersychan": "Abersychan",
   "swansea": "Swansea",
-  "castell nedd": "Castell Nedd (Neath)", "neath": "Castell Nedd (Neath)",
+  "castell nedd": "Castell Nedd (Neath)", "castellned": "Castell Nedd (Neath)", "neath": "Castell Nedd (Neath)",
   "cefncoedycymer": "Cefn Coed-y-Cymmer", "cefncoed y cymar": "Cefn Coed-y-Cymmer", "cefn coed y cymmer": "Cefn Coed-y-Cymmer",
   "coal brook vale": "Coalbrookvale", "coalbrook vale": "Coalbrookvale", "coal brock vale": "Coalbrookvale", "coalbrookvale": "Coalbrookvale",
   "cog": "Cogan", "cogan": "Cogan",
@@ -187,6 +187,22 @@ addEvidence("Llandebie", "Recovered full-resolution local source", "1849-1866", 
   lrContext: "Project reference LR 113 7; photographed source label separately shows library number 870.",
   note: "The photographed label states Record of Members 1849-1866. The volume contains two independently numbered membership registers, a separate renewal/reformation sequence, opening Welsh historical narrative, and an additional-remarks page.",
 });
+addEvidence("Castell Nedd", "Recovered full-resolution local source", "1849-1884", "CD 2; project LR 196 7; photographed source/library identifier 1544; 112 authoritative full-resolution images", "", originalSource?.path ?? "", {
+  collectionTitle: "Castell Nedd Branch Record of Members, 1849-1884",
+  filename: "1544__M_00002.jpg",
+  viewerSequence: 2,
+  collectionBranch: "Castell Nedd (Neath)",
+  lrContext: "Project/CD reference LR 196 7; photographed source/library identifier 1544.",
+  note: "The library label uses Castell Nedd and dates the Record of Members 1849-1884. The volume contains an original register, an independent rebaptism/renewal register, a later independently numbered register, and Welsh historical narrative.",
+});
+addEvidence("Castellned", "Historical source heading", "1849-1883", "CD 2; photographed source/library identifier 1544", "", originalSource?.path ?? "", {
+  collectionTitle: "Castellned Branch Record of Members, 1849-1883",
+  filename: "1544__M_00001.jpg",
+  viewerSequence: 1,
+  collectionBranch: "Castell Nedd (Neath)",
+  lrContext: "Project/CD reference LR 196 7; photographed source/library identifier 1544.",
+  note: "The cover uses the compact historical spelling Castellned and dates the volume 1849-1883; the adjacent library label uses Castell Nedd and extends the catalog coverage through 1884.",
+});
 
 // The 2022 indexing-project branch map establishes Pendoylon as a distinct
 // branch source unit, but no corresponding local image collection has yet
@@ -276,7 +292,7 @@ const registry = [...grouped.entries()].map(([canonicalName, entries]) => {
   else if (familySearch && !localCd) comparisonStatus = "FamilySearch only / locate local record";
   else if (!familySearch && localCd) comparisonStatus = "Local CD only / verify with FamilySearch";
   else if (entries.some((entry) => entry.source === "Historical structural image")) comparisonStatus = "Historical source attestation; dedicated record collection not yet identified";
-  if (["Brechfa", "Brynmawr", "Bryntroedgam", "Cogan", "Cefn Coed-y-Cymmer", "Cuffern Mountain", "Dinas", "Ebbw Vale", "Haverfordwest", "Llandebie", "Llanfabon"].includes(canonicalName)) comparisonStatus = "Verified local source collection";
+  if (["Brechfa", "Brynmawr", "Bryntroedgam", "Castell Nedd (Neath)", "Cogan", "Cefn Coed-y-Cymmer", "Cuffern Mountain", "Dinas", "Ebbw Vale", "Haverfordwest", "Llandebie", "Llanfabon"].includes(canonicalName)) comparisonStatus = "Verified local source collection";
   if (canonicalName === "Coalbrookvale") comparisonStatus = "Verified compound local source section";
   if (canonicalName === "Llanelltyd") comparisonStatus = "Verified compound local source section";
   if (canonicalName === "Cwm Saerbren") comparisonStatus = "Verified compound local source section; dedicated LR 11150 images not connected";
@@ -285,8 +301,8 @@ const registry = [...grouped.entries()].map(([canonicalName, entries]) => {
   const entityType = /conference/i.test(canonicalName) ? "Conference" : "Branch";
   return {
     canonicalName, entityType, variants: variants.join("; "),
-    earliestYear: canonicalName === "Llanelltyd" ? 1850 : canonicalName === "Llandebie" ? 1849 : (allYears.length ? Math.min(...allYears) : null),
-    latestYear: canonicalName === "Llanelltyd" ? 1857 : canonicalName === "Llandebie" ? 1866 : (allYears.length ? Math.max(...allYears) : null),
+    earliestYear: canonicalName === "Llanelltyd" ? 1850 : canonicalName === "Llandebie" || canonicalName === "Castell Nedd (Neath)" ? 1849 : (allYears.length ? Math.min(...allYears) : null),
+    latestYear: canonicalName === "Llanelltyd" ? 1857 : canonicalName === "Llandebie" ? 1866 : canonicalName === "Castell Nedd (Neath)" ? 1884 : (allYears.length ? Math.max(...allYears) : null),
     localCd, localNote, familySearch, comparisonStatus,
     filmAndCallNumbers: canonicalName === "Brechfa"
       ? "CD 4; LR 11000 7; 62 authoritative full-resolution images"
@@ -308,6 +324,8 @@ const registry = [...grouped.entries()].map(([canonicalName, entries]) => {
       ? "CD 23 / CR 11343 11 V.1; CD 58 / CR 11343 11 V.2; 272 authoritative historical images; membership registers 1847-1853 and 1857-1860"
       : canonicalName === "Llandebie"
       ? "CD 22; project LR 113 7; photographed library identifier 870 preserved separately; 45 authoritative full-resolution images; source dates 1849-1866"
+      : canonicalName === "Castell Nedd (Neath)"
+      ? "CD 2; project LR 196 7; photographed source/library identifier 1544 preserved separately; 112 authoritative full-resolution images; source dates 1849-1884"
       : canonicalName === "Llanfabon"
       ? "CD 15; project LR1687; historical/library identifier 871 preserved separately; 60 authoritative full-resolution images"
       : canonicalName === "Cwm Saerbren"

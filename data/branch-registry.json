@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-08-11T23:52:15.678Z",
+  "generatedAt": "2026-08-12T00:22:56.253Z",
   "registry": [
     {
       "canonicalName": "Abersychan",
@@ -157,19 +157,38 @@
     {
       "canonicalName": "Castell Nedd (Neath)",
       "entityType": "Branch",
-      "variants": "Castell Nedd; Neath",
-      "earliestYear": 1879,
+      "variants": "Castell Nedd; Castellned; Neath",
+      "earliestYear": 1849,
       "latestYear": 1884,
       "localCd": true,
       "localNote": true,
       "familySearch": false,
-      "comparisonStatus": "Local CD only / verify with FamilySearch",
-      "filmAndCallNumbers": "CD 2; LR 196 7; Wales2Utah research note",
+      "comparisonStatus": "Verified local source collection",
+      "filmAndCallNumbers": "CD 2; project LR 196 7; photographed source/library identifier 1544 preserved separately; 112 authoritative full-resolution images; source dates 1849-1884",
       "relatedBranches": "",
       "relationshipNotes": "",
-      "notes": "Needs human review; absence from one source is not proof the branch or record was absent.",
+      "notes": "",
       "sourceUrls": "",
-      "nameSources": []
+      "nameSources": [
+        {
+          "sourceName": "Castell Nedd",
+          "collectionTitle": "Castell Nedd Branch Record of Members, 1849-1884",
+          "filename": "1544__M_00002.jpg",
+          "viewerSequence": 2,
+          "collectionBranch": "Castell Nedd (Neath)",
+          "lrContext": "Project/CD reference LR 196 7; photographed source/library identifier 1544.",
+          "note": "The library label uses Castell Nedd and dates the Record of Members 1849-1884. The volume contains an original register, an independent rebaptism/renewal register, a later independently numbered register, and Welsh historical narrative."
+        },
+        {
+          "sourceName": "Castellned",
+          "collectionTitle": "Castellned Branch Record of Members, 1849-1883",
+          "filename": "1544__M_00001.jpg",
+          "viewerSequence": 1,
+          "collectionBranch": "Castell Nedd (Neath)",
+          "lrContext": "Project/CD reference LR 196 7; photographed source/library identifier 1544.",
+          "note": "The cover uses the compact historical spelling Castellned and dates the volume 1849-1883; the adjacent library label uses Castell Nedd and extends the catalog coverage through 1884."
+        }
+      ]
     },
     {
       "canonicalName": "Cefn Coed-y-Cymmer",
@@ -1169,7 +1188,7 @@
       "relatedBranch": "",
       "relationshipNote": "",
       "source": "2007 CD branch index",
-      "dateText": "1879-1884",
+      "dateText": "1849-1884",
       "reference": "CD 2; LR 196 7",
       "sourceUrl": "",
       "localPath": "C:\\Users\\kenro\\Documents\\Codex\\LDSWelshMembers\\resources\\source-cds"
@@ -1817,6 +1836,44 @@
         "collectionBranch": "Llandebie",
         "lrContext": "Project reference LR 113 7; photographed source label separately shows library number 870.",
         "note": "The photographed label states Record of Members 1849-1866. The volume contains two independently numbered membership registers, a separate renewal/reformation sequence, opening Welsh historical narrative, and an additional-remarks page."
+      }
+    },
+    {
+      "rawName": "Castell Nedd",
+      "canonicalName": "Castell Nedd (Neath)",
+      "relatedBranch": "",
+      "relationshipNote": "",
+      "source": "Recovered full-resolution local source",
+      "dateText": "1849-1884",
+      "reference": "CD 2; project LR 196 7; photographed source/library identifier 1544; 112 authoritative full-resolution images",
+      "sourceUrl": "",
+      "localPath": "C:\\Users\\kenro\\Documents\\Codex\\LDSWelshMembers\\resources\\source-cds",
+      "provenance": {
+        "collectionTitle": "Castell Nedd Branch Record of Members, 1849-1884",
+        "filename": "1544__M_00002.jpg",
+        "viewerSequence": 2,
+        "collectionBranch": "Castell Nedd (Neath)",
+        "lrContext": "Project/CD reference LR 196 7; photographed source/library identifier 1544.",
+        "note": "The library label uses Castell Nedd and dates the Record of Members 1849-1884. The volume contains an original register, an independent rebaptism/renewal register, a later independently numbered register, and Welsh historical narrative."
+      }
+    },
+    {
+      "rawName": "Castellned",
+      "canonicalName": "Castell Nedd (Neath)",
+      "relatedBranch": "",
+      "relationshipNote": "",
+      "source": "Historical source heading",
+      "dateText": "1849-1883",
+      "reference": "CD 2; photographed source/library identifier 1544",
+      "sourceUrl": "",
+      "localPath": "C:\\Users\\kenro\\Documents\\Codex\\LDSWelshMembers\\resources\\source-cds",
+      "provenance": {
+        "collectionTitle": "Castellned Branch Record of Members, 1849-1883",
+        "filename": "1544__M_00001.jpg",
+        "viewerSequence": 1,
+        "collectionBranch": "Castell Nedd (Neath)",
+        "lrContext": "Project/CD reference LR 196 7; photographed source/library identifier 1544.",
+        "note": "The cover uses the compact historical spelling Castellned and dates the volume 1849-1883; the adjacent library label uses Castell Nedd and extends the catalog coverage through 1884."
       }
     },
     {
