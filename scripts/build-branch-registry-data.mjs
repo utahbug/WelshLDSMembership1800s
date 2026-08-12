@@ -56,7 +56,7 @@ const aliases = new Map(Object.entries({
   "altwen": "Alltwen", "alltwen": "Alltwen",
   "briton ferry": "Britonferry", "britonferry": "Britonferry",
   "abersycan": "Abersychan", "abersychan": "Abersychan",
-  "swansea": "Swansea",
+  "abertawe": "Swansea", "swansea": "Swansea",
   "castell nedd": "Castell Nedd (Neath)", "castellned": "Castell Nedd (Neath)", "neath": "Castell Nedd (Neath)",
   "cefncoedycymer": "Cefn Coed-y-Cymmer", "cefncoed y cymar": "Cefn Coed-y-Cymmer", "cefn coed y cymmer": "Cefn Coed-y-Cymmer",
   "coal brook vale": "Coalbrookvale", "coalbrook vale": "Coalbrookvale", "coal brock vale": "Coalbrookvale", "coalbrookvale": "Coalbrookvale",
@@ -155,6 +155,12 @@ for (const [name, dateText, reference] of meetingChecklist) {
 // The surviving book title uses the anglicized single-F spelling. Preserve it
 // as a visible historical variant of the Welsh double-F place name.
 addEvidence("Festiniog", "Local membership record images", "", "Ffestiniog membership record book integrated into local archive; surviving title uses Festiniog; 94 unique viewer images");
+addEvidence("Abertawe", "Recovered Swansea source description and Welsh source heading", "", "Swansea / Abertawe source identity; Swansea Branch LR 8863 10", "", originalSource?.path ?? "", {
+  collectionTitle: "Swansea Branch, England Southwest Mission, Confidential Minutes, 1849-1881",
+  collectionBranch: "Swansea",
+  lrContext: "LR 8863 10; the recovered source description states that the branch was known as Abertawe until 1866.",
+  note: "Abertawe is the Welsh/historical source name for Swansea. A Welsh heading in the source reads 'yn Nghangen Abertawe'. The separate Swansea membership volume is LR 8863 7, library number 1606, Record of Members 1872-1879.",
+});
 addEvidence("Coal Brook Vale", "Recovered full-resolution compound source", "1856-1867", "CD 24; LR 174 7 compound section; 83 authoritative images; membership registers 00080-00137", "", originalSource?.path ?? "", {
   collectionTitle: "Coal Brook Vale / Blaina records, 1856-1867",
   filename: "LR-1175710_v1590_M_00078.jpg",
@@ -306,6 +312,7 @@ const registry = [...grouped.entries()].map(([canonicalName, entries]) => {
   if (canonicalName === "Llanelltyd") comparisonStatus = "Verified compound local source section";
   if (canonicalName === "Cwm Saerbren") comparisonStatus = "Verified compound local source section; dedicated LR 11150 images not connected";
   if (canonicalName === "Treorchy") comparisonStatus = "Verified compound local source section";
+  if (canonicalName === "Swansea") comparisonStatus = "Verified local source identity and collections";
   if (canonicalName === "Pendoylon") comparisonStatus = "Historical source attestation; local image collection not yet located";
   const entityType = /conference/i.test(canonicalName) ? "Conference" : "Branch";
   return {
@@ -348,8 +355,8 @@ const registry = [...grouped.entries()].map(([canonicalName, entries]) => {
       : canonicalName === "Coalbrookvale"
       ? "CD 24; LR 174 7 compound section; 83 authoritative full-resolution images; membership registers 00080-00137"
       : [...new Set(entries.map((entry) => entry.reference).filter(Boolean))].join("; "),
-    relatedBranches: canonicalName === "Coalbrookvale" ? "Blaina; Nantyglo; Cwm Celyn" : [...new Set(entries.map((entry) => entry.relatedBranch).filter(Boolean))].join("; "),
-    relationshipNotes: canonicalName === "Coalbrookvale" ? "The source records organization of Coal Brook Vale on 3 March 1856 after disorganization/reorganization involving Nantyglo, Blaenau and Cwm Celyn. Blaina appears throughout the membership registers as the branch/locality heading; the evidence is preserved without creating a duplicate branch." : [...new Set(entries.map((entry) => entry.relationshipNote).filter(Boolean))].join("; "),
+    relatedBranches: canonicalName === "Coalbrookvale" ? "Blaina; Nantyglo; Cwm Celyn" : canonicalName === "Swansea" ? "" : [...new Set(entries.map((entry) => entry.relatedBranch).filter(Boolean))].join("; "),
+    relationshipNotes: canonicalName === "Coalbrookvale" ? "The source records organization of Coal Brook Vale on 3 March 1856 after disorganization/reorganization involving Nantyglo, Blaenau and Cwm Celyn. Blaina appears throughout the membership registers as the branch/locality heading; the evidence is preserved without creating a duplicate branch." : canonicalName === "Swansea" ? "Abertawe is the Welsh/historical source name for Swansea; the recovered LR 8863 10 description states that the branch was known as Abertawe until 1866." : [...new Set(entries.map((entry) => entry.relationshipNote).filter(Boolean))].join("; "),
     notes: comparisonStatus.includes("only") ? "Needs human review; absence from one source is not proof the branch or record was absent." : "",
     sourceUrls: [...new Set(entries.map((entry) => entry.sourceUrl).filter(Boolean))].join("; "),
     nameSources: entries.filter((entry) => entry.provenance).map((entry) => ({

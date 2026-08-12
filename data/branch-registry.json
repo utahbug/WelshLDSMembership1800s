@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-08-12T02:14:45.413Z",
+  "generatedAt": "2026-08-12T03:40:15.615Z",
   "registry": [
     {
       "canonicalName": "Abersychan",
@@ -14,23 +14,6 @@
       "filmAndCallNumbers": "CD 25; LR 10468 7; CD 62; general minutes; Wales2Utah research note",
       "relatedBranches": "",
       "relationshipNotes": "",
-      "notes": "Needs human review; absence from one source is not proof the branch or record was absent.",
-      "sourceUrls": "",
-      "nameSources": []
-    },
-    {
-      "canonicalName": "Abertawe",
-      "entityType": "Branch",
-      "variants": "Abertawe (see Swansea)",
-      "earliestYear": null,
-      "latestYear": null,
-      "localCd": false,
-      "localNote": true,
-      "familySearch": false,
-      "comparisonStatus": "Research note only",
-      "filmAndCallNumbers": "Wales2Utah research note",
-      "relatedBranches": "Swansea",
-      "relationshipNotes": "See Swansea — possible rename, merger, transfer, or cross-reference; verify before classifying.",
       "notes": "Needs human review; absence from one source is not proof the branch or record was absent.",
       "sourceUrls": "",
       "nameSources": []
@@ -1001,19 +984,27 @@
     {
       "canonicalName": "Swansea",
       "entityType": "Branch",
-      "variants": "",
+      "variants": "Abertawe; Abertawe (see Swansea)",
       "earliestYear": 1852,
       "latestYear": 1879,
       "localCd": true,
-      "localNote": false,
+      "localNote": true,
       "familySearch": false,
-      "comparisonStatus": "Local CD only / verify with FamilySearch",
-      "filmAndCallNumbers": "CD 32; LR 8863 7; CD 61; general minutes",
+      "comparisonStatus": "Verified local source identity and collections",
+      "filmAndCallNumbers": "CD 32; LR 8863 7; CD 61; general minutes; Swansea / Abertawe source identity; Swansea Branch LR 8863 10; Wales2Utah research note",
       "relatedBranches": "",
-      "relationshipNotes": "",
-      "notes": "Needs human review; absence from one source is not proof the branch or record was absent.",
+      "relationshipNotes": "Abertawe is the Welsh/historical source name for Swansea; the recovered LR 8863 10 description states that the branch was known as Abertawe until 1866.",
+      "notes": "",
       "sourceUrls": "",
-      "nameSources": []
+      "nameSources": [
+        {
+          "sourceName": "Abertawe",
+          "collectionTitle": "Swansea Branch, England Southwest Mission, Confidential Minutes, 1849-1881",
+          "collectionBranch": "Swansea",
+          "lrContext": "LR 8863 10; the recovered source description states that the branch was known as Abertawe until 1866.",
+          "note": "Abertawe is the Welsh/historical source name for Swansea. A Welsh heading in the source reads 'yn Nghangen Abertawe'. The separate Swansea membership volume is LR 8863 7, library number 1606, Record of Members 1872-1879."
+        }
+      ]
     },
     {
       "canonicalName": "Treboeth",
@@ -1773,6 +1764,23 @@
       "localPath": ""
     },
     {
+      "rawName": "Abertawe",
+      "canonicalName": "Swansea",
+      "relatedBranch": "",
+      "relationshipNote": "",
+      "source": "Recovered Swansea source description and Welsh source heading",
+      "dateText": "",
+      "reference": "Swansea / Abertawe source identity; Swansea Branch LR 8863 10",
+      "sourceUrl": "",
+      "localPath": "C:\\Users\\kenro\\Documents\\Codex\\LDSWelshMembers\\resources\\source-cds",
+      "provenance": {
+        "collectionTitle": "Swansea Branch, England Southwest Mission, Confidential Minutes, 1849-1881",
+        "collectionBranch": "Swansea",
+        "lrContext": "LR 8863 10; the recovered source description states that the branch was known as Abertawe until 1866.",
+        "note": "Abertawe is the Welsh/historical source name for Swansea. A Welsh heading in the source reads 'yn Nghangen Abertawe'. The separate Swansea membership volume is LR 8863 7, library number 1606, Record of Members 1872-1879."
+      }
+    },
+    {
       "rawName": "Coal Brook Vale",
       "canonicalName": "Coalbrookvale",
       "relatedBranch": "",
@@ -2057,7 +2065,7 @@
     },
     {
       "rawName": "Abertawe (see Swansea)",
-      "canonicalName": "Abertawe",
+      "canonicalName": "Swansea",
       "relatedBranch": "Swansea",
       "relationshipNote": "See Swansea — possible rename, merger, transfer, or cross-reference; verify before classifying.",
       "source": "Recovered RoboHelp branch note",
