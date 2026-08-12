@@ -14,6 +14,10 @@ const archiveStorage = {
   identifier: "ldswelshmembership",
   baseUrl: "https://archive.org/download/ldswelshmembership/",
 };
+// A local archive-relative path is not proof that the file has been published.
+// Keep newly recovered collections offline until their Archive.org upload is
+// separately verified, preventing public viewer links from silently returning 404.
+const unpublishedArchiveCollections = new Set();
 const publicCatalog = {
   edition: "public",
   generatedAt: local.generatedAt,
@@ -22,7 +26,8 @@ const publicCatalog = {
   stats: local.stats,
   collections: local.collections.map((collection) => {
     const publishedTranscriptions = (collection.sources || []).includes("conference-minutes");
-    const archivedMembershipImages = collection.images.some((item) => item.type === "image" && item.archiveRelativePath);
+    const archivedMembershipImages = !unpublishedArchiveCollections.has(collection.name)
+      && collection.images.some((item) => item.type === "image" && item.archiveRelativePath);
     const publicStorage = archivedMembershipImages
       ? archiveStorage
       : publishedTranscriptions

@@ -280,6 +280,7 @@
     ["Haverfordwest,1852-1860,CR1134311-v2", new Set(["Haverfordwest"])],
     ["Llandebie,1849-1886,LR1137", new Set(["Llandebie"])],
     ["Castell Nedd,1879-1884,LR1967", new Set(["Castell Nedd (Neath)"])],
+    ["Rhymney English,1851-1887,LIB1602-direct-FHC", new Set(["Rhymney English"])],
     ["Llanelly-production", new Set(["Llanelli"])],
   ]);
 
@@ -294,6 +295,7 @@
     ["Haverfordwest,1852-1860,CR1134311-v2", "Haverfordwest Volume 2: Historical Record 1852-1854; Members 1857-1860"],
     ["Llandebie,1849-1886,LR1137", "Llandebie Branch Record of Members, 1849-1866"],
     ["Castell Nedd,1879-1884,LR1967", "Castell Nedd Branch Record of Members, 1849-1884"],
+    ["Rhymney English,1851-1887,LIB1602-direct-FHC", "Rhymney English Branch Record of Members, 1851-1887"],
     ["Llanelly-production", "Llanelly-production source holding (review required)"],
   ]);
 
@@ -306,6 +308,7 @@
     ["Haverfordwest,1852-1860,CR1134311-v2", "CD 58 / photographed CR 11343 11 V.2 / retained filename prefix LR1134311 / 119 historical images"],
     ["Llandebie,1849-1886,LR1137", "CD 22 / project LR 113 7 / photographed library identifier 870 / 45 images"],
     ["Castell Nedd,1879-1884,LR1967", "CD 2 / project LR 196 7 / photographed source/library identifier 1544 / 112 images"],
+    ["Rhymney English,1851-1887,LIB1602-direct-FHC", "Direct-FHC microfilm capture / library identifier 1602 / 57 images"],
     ["Llanelli,1847-1868,LR117577", "CD 11 · source label 1577 · recovered folder LR 11757 7 · image filename prefix LR 12451 7 (unresolved)"],
     ["Llanelltyd,1850-1882,LR1727", "CD 34 · LR 172 7 · internal starts: Llanelltyd page 1; Cwm Saerbren page 6; Treorky page 25"],
     ["Llanelly-production", "319 images · CR 11757 10 / source label 1578; CR 11757 11 / source label 1576; translation manuscript · boundaries unresolved"],
@@ -452,6 +455,7 @@
     ["Haverfordwest", "Two recovered physical volumes preserve 272 authoritative historical images. Volume 1 (CR 11343 11 V.1) contains the 1847-1853 membership ledger followed by minutes, subscriptions, deaths and historical narrative. Volume 2 (CR 11343 11 V.2) contains historical record 1852-1854 and a separate membership register 1857-1860. Project LR-style folder/filename forms are retained without silently equating them to the photographed CR identifiers."],
     ["Llandebie", "CD 22 preserves 45 authoritative full-resolution images. The photographed source label dates the Record of Members 1849-1866 and separately shows library number 870; its relationship to project reference LR 113 7 is not normalized. The volume contains an original membership sequence, an independently restarted sequence, a separate renewal/reformation sequence, opening Welsh historical narrative, and an additional-remarks page."],
     ["Castell Nedd (Neath)", "CD 2 preserves 112 authoritative full-resolution images. The cover uses Castellned and dates the Record of Members 1849-1883; the adjacent library label uses Castell Nedd and dates it 1849-1884. Project reference LR 196 7 and photographed source/library identifier 1544 remain separately preserved. The volume contains an original register, an independently numbered rebaptism/renewal register, a later independently restarted register, and Welsh historical narrative."],
+    ["Rhymney English", "A distinct English-language branch source dated 1851-1887 and photographed library identifier 1602. The source contains four independently numbered membership sequences, a separate Rhymney English rebaptism list, English branch history, and an explicit transition to Twyn Carno children-blessed and council material. The latter is preserved but excluded from Rhymney English membership."],
     ["Treorchy", "Historical source spelling Treorky identifies a distinct section beginning at internal page 25 of the compound CD 34 / LR 172 7 volume; a photographed label also identifies Treorky Branch Minutes, 1874."],
     ["Llanelly 2", "Temporary unresolved legacy holding label. Its RoboHelp topic is an empty draft. A separate 104-page convenience PDF labeled Llanelly 2 contains Wales/British Mission continued material, so the label is retained pending source-structure review; no active collection is assigned to it."],
     ["Stepaside", "Membership records 1848–1857; historical record and minutes 1858–1860."],
@@ -555,6 +559,7 @@
     if (name === "Haverfordwest") branchReference = "CR 11343 11 V.1 · V.2";
     if (name === "Llandebie") branchReference = "CD 22 · LR1137 · source label 870";
     if (name === "Castell Nedd (Neath)") branchReference = "CD 2 · LR1967 · source label 1544";
+    if (name === "Rhymney English") branchReference = "Direct-FHC microfilm · source label 1602";
     branchHeadingDetails.textContent = branchReference;
     branchHeadingDetails.hidden = !branchReference;
     const facts = [];

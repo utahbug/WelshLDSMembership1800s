@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-08-12T00:22:56.253Z",
+  "generatedAt": "2026-08-12T01:45:15.820Z",
   "registry": [
     {
       "canonicalName": "Abersychan",
@@ -942,17 +942,27 @@
       "entityType": "Branch",
       "variants": "",
       "earliestYear": 1851,
-      "latestYear": 1883,
+      "latestYear": 1887,
       "localCd": false,
       "localNote": false,
       "familySearch": true,
-      "comparisonStatus": "FamilySearch only / locate local record",
-      "filmAndCallNumbers": "Film 104172 Items 7-8",
+      "comparisonStatus": "Verified direct-FHC microfilm fallback source",
+      "filmAndCallNumbers": "Direct-FHC microfilm capture; photographed library identifier 1602; 57 authoritative images; source dates 1851-1887",
       "relatedBranches": "",
       "relationshipNotes": "",
-      "notes": "Needs human review; absence from one source is not proof the branch or record was absent.",
+      "notes": "",
       "sourceUrls": "https://www.familysearch.org/search/catalog/results?query=film_number%3A104172",
-      "nameSources": []
+      "nameSources": [
+        {
+          "sourceName": "Rhymney English",
+          "collectionTitle": "Rhymney English Branch Record of Members, 1851-1887",
+          "filename": "FHC104171_003_frame-230.jpg",
+          "viewerSequence": 3,
+          "collectionBranch": "Rhymney English",
+          "lrContext": "Photographed Historian's Office/library identifier 1602; local microfilm folder 0,104,171.",
+          "note": "A distinct English-language branch source. No matching recovered CD set was located; the locally created direct-FHC microfilm PDFs are the documented fallback and their embedded JPEGs were recovered losslessly."
+        }
+      ]
     },
     {
       "canonicalName": "Stepaside",
@@ -1874,6 +1884,25 @@
         "collectionBranch": "Castell Nedd (Neath)",
         "lrContext": "Project/CD reference LR 196 7; photographed source/library identifier 1544.",
         "note": "The cover uses the compact historical spelling Castellned and dates the volume 1849-1883; the adjacent library label uses Castell Nedd and extends the catalog coverage through 1884."
+      }
+    },
+    {
+      "rawName": "Rhymney English",
+      "canonicalName": "Rhymney English",
+      "relatedBranch": "",
+      "relationshipNote": "",
+      "source": "Recovered direct-FHC microfilm source",
+      "dateText": "1851-1887",
+      "reference": "Direct-FHC microfilm capture; library identifier 1602; 57 authoritative images",
+      "sourceUrl": "",
+      "localPath": "C:\\Users\\kenro\\Documents\\Codex\\LDSWelshMembers\\resources\\source-cds",
+      "provenance": {
+        "collectionTitle": "Rhymney English Branch Record of Members, 1851-1887",
+        "filename": "FHC104171_003_frame-230.jpg",
+        "viewerSequence": 3,
+        "collectionBranch": "Rhymney English",
+        "lrContext": "Photographed Historian's Office/library identifier 1602; local microfilm folder 0,104,171.",
+        "note": "A distinct English-language branch source. No matching recovered CD set was located; the locally created direct-FHC microfilm PDFs are the documented fallback and their embedded JPEGs were recovered losslessly."
       }
     },
     {

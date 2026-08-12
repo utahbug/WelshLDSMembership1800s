@@ -203,6 +203,14 @@ addEvidence("Castellned", "Historical source heading", "1849-1883", "CD 2; photo
   lrContext: "Project/CD reference LR 196 7; photographed source/library identifier 1544.",
   note: "The cover uses the compact historical spelling Castellned and dates the volume 1849-1883; the adjacent library label uses Castell Nedd and extends the catalog coverage through 1884.",
 });
+addEvidence("Rhymney English", "Recovered direct-FHC microfilm source", "1851-1887", "Direct-FHC microfilm capture; library identifier 1602; 57 authoritative images", "", originalSource?.path ?? "", {
+  collectionTitle: "Rhymney English Branch Record of Members, 1851-1887",
+  filename: "FHC104171_003_frame-230.jpg",
+  viewerSequence: 3,
+  collectionBranch: "Rhymney English",
+  lrContext: "Photographed Historian's Office/library identifier 1602; local microfilm folder 0,104,171.",
+  note: "A distinct English-language branch source. No matching recovered CD set was located; the locally created direct-FHC microfilm PDFs are the documented fallback and their embedded JPEGs were recovered losslessly.",
+});
 
 // The 2022 indexing-project branch map establishes Pendoylon as a distinct
 // branch source unit, but no corresponding local image collection has yet
@@ -293,6 +301,7 @@ const registry = [...grouped.entries()].map(([canonicalName, entries]) => {
   else if (!familySearch && localCd) comparisonStatus = "Local CD only / verify with FamilySearch";
   else if (entries.some((entry) => entry.source === "Historical structural image")) comparisonStatus = "Historical source attestation; dedicated record collection not yet identified";
   if (["Brechfa", "Brynmawr", "Bryntroedgam", "Castell Nedd (Neath)", "Cogan", "Cefn Coed-y-Cymmer", "Cuffern Mountain", "Dinas", "Ebbw Vale", "Haverfordwest", "Llandebie", "Llanfabon"].includes(canonicalName)) comparisonStatus = "Verified local source collection";
+  if (canonicalName === "Rhymney English") comparisonStatus = "Verified direct-FHC microfilm fallback source";
   if (canonicalName === "Coalbrookvale") comparisonStatus = "Verified compound local source section";
   if (canonicalName === "Llanelltyd") comparisonStatus = "Verified compound local source section";
   if (canonicalName === "Cwm Saerbren") comparisonStatus = "Verified compound local source section; dedicated LR 11150 images not connected";
@@ -301,8 +310,8 @@ const registry = [...grouped.entries()].map(([canonicalName, entries]) => {
   const entityType = /conference/i.test(canonicalName) ? "Conference" : "Branch";
   return {
     canonicalName, entityType, variants: variants.join("; "),
-    earliestYear: canonicalName === "Llanelltyd" ? 1850 : canonicalName === "Llandebie" || canonicalName === "Castell Nedd (Neath)" ? 1849 : (allYears.length ? Math.min(...allYears) : null),
-    latestYear: canonicalName === "Llanelltyd" ? 1857 : canonicalName === "Llandebie" ? 1866 : canonicalName === "Castell Nedd (Neath)" ? 1884 : (allYears.length ? Math.max(...allYears) : null),
+    earliestYear: canonicalName === "Llanelltyd" ? 1850 : canonicalName === "Rhymney English" ? 1851 : canonicalName === "Llandebie" || canonicalName === "Castell Nedd (Neath)" ? 1849 : (allYears.length ? Math.min(...allYears) : null),
+    latestYear: canonicalName === "Llanelltyd" ? 1857 : canonicalName === "Rhymney English" ? 1887 : canonicalName === "Llandebie" ? 1866 : canonicalName === "Castell Nedd (Neath)" ? 1884 : (allYears.length ? Math.max(...allYears) : null),
     localCd, localNote, familySearch, comparisonStatus,
     filmAndCallNumbers: canonicalName === "Brechfa"
       ? "CD 4; LR 11000 7; 62 authoritative full-resolution images"
@@ -326,6 +335,8 @@ const registry = [...grouped.entries()].map(([canonicalName, entries]) => {
       ? "CD 22; project LR 113 7; photographed library identifier 870 preserved separately; 45 authoritative full-resolution images; source dates 1849-1866"
       : canonicalName === "Castell Nedd (Neath)"
       ? "CD 2; project LR 196 7; photographed source/library identifier 1544 preserved separately; 112 authoritative full-resolution images; source dates 1849-1884"
+      : canonicalName === "Rhymney English"
+      ? "Direct-FHC microfilm capture; photographed library identifier 1602; 57 authoritative images; source dates 1851-1887"
       : canonicalName === "Llanfabon"
       ? "CD 15; project LR1687; historical/library identifier 871 preserved separately; 60 authoritative full-resolution images"
       : canonicalName === "Cwm Saerbren"

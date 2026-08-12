@@ -8,7 +8,7 @@ import internetarchive
 
 
 ROOT = Path(__file__).resolve().parents[1]
-STAGING = ROOT / "tmp" / "internet-archive-upload-staging"
+DEFAULT_STAGING = ROOT / "tmp" / "internet-archive-upload-staging"
 IDENTIFIER = "ldswelshmembership"
 thread_state = threading.local()
 
@@ -20,10 +20,10 @@ def item_for_thread():
     return thread_state.item
 
 
-def upload(path: Path, delay: float, checksum_skip: bool):
+def upload(path: Path, staging: Path, delay: float, checksum_skip: bool):
     if delay:
         time.sleep(delay)
-    remote = path.relative_to(STAGING).as_posix()
+    remote = path.relative_to(staging).as_posix()
     response = item_for_thread().upload_file(
         path,
         key=remote,
@@ -43,14 +43,16 @@ def main():
     parser.add_argument("--workers", type=int, default=4)
     parser.add_argument("--delay", type=float, default=0)
     parser.add_argument("--force-exact-path", action="store_true")
+    parser.add_argument("--staging", type=Path, default=DEFAULT_STAGING)
     args = parser.parse_args()
-    files = sorted(path for path in STAGING.rglob("*") if path.is_file())
+    staging = args.staging.resolve()
+    files = sorted(path for path in staging.rglob("*") if path.is_file())
     print(f"Uploading {len(files)} files with {args.workers} workers", flush=True)
     completed = 0
     failures = []
     with concurrent.futures.ThreadPoolExecutor(max_workers=args.workers) as executor:
         futures = {
-            executor.submit(upload, path, args.delay, not args.force_exact_path): path
+            executor.submit(upload, path, staging, args.delay, not args.force_exact_path): path
             for path in files
         }
         for future in concurrent.futures.as_completed(futures):
