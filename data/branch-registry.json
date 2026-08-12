@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-08-12T01:45:15.820Z",
+  "generatedAt": "2026-08-12T02:14:45.413Z",
   "registry": [
     {
       "canonicalName": "Abersychan",
@@ -1070,13 +1070,13 @@
       "canonicalName": "Treorchy",
       "entityType": "Branch",
       "variants": "Treorky",
-      "earliestYear": 1875,
+      "earliestYear": 1874,
       "latestYear": 1882,
       "localCd": true,
       "localNote": false,
       "familySearch": true,
-      "comparisonStatus": "Compound local source section located",
-      "filmAndCallNumbers": "CD 34; LR 172 7 compound section; Film 104168 Item 13; Film 104172 Item 6",
+      "comparisonStatus": "Verified compound local source section",
+      "filmAndCallNumbers": "CD 34; LR 172 7 compound logical sections; 68 authoritative full-resolution images; Treorky minutes 1874 and membership register 1875-1882",
       "relatedBranches": "",
       "relationshipNotes": "",
       "notes": "",
@@ -1090,7 +1090,7 @@
           "collectionBranch": "Llanelltyd",
           "lrContext": "Enclosing Llanelltyd collection: LR 172 7",
           "internalPage": 25,
-          "note": "Historical spelling of Treorchy written on the volume index; not associated with Troedyrhiw."
+          "note": "Historical spelling written throughout the compound source. Early minutes appear at images 00006-00025; the member register occupies images 00074-00109; later history and children-blessed material continue at 00112-00116. Not associated with Troedyrhiw."
         }
       ]
     },
@@ -1999,9 +1999,9 @@
       "canonicalName": "Treorchy",
       "relatedBranch": "",
       "relationshipNote": "",
-      "source": "Historical structural image",
-      "dateText": "",
-      "reference": "CD 34; LR 172 7 compound section",
+      "source": "Recovered full-resolution compound source",
+      "dateText": "1874-1882",
+      "reference": "CD 34; LR 172 7 compound sections; 68 virtual images",
       "sourceUrl": "",
       "localPath": "",
       "provenance": {
@@ -2011,7 +2011,7 @@
         "collectionBranch": "Llanelltyd",
         "lrContext": "Enclosing Llanelltyd collection: LR 172 7",
         "internalPage": 25,
-        "note": "Historical spelling of Treorchy written on the volume index; not associated with Troedyrhiw."
+        "note": "Historical spelling written throughout the compound source. Early minutes appear at images 00006-00025; the member register occupies images 00074-00109; later history and children-blessed material continue at 00112-00116. Not associated with Troedyrhiw."
       }
     },
     {

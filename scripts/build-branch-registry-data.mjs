@@ -253,10 +253,10 @@ addEvidence("Cwmsaerbren", "Historical structural image", "1858-1874", "CD 34; L
   separateReference: "LR 11150",
   note: "Internal source label dates the Cwm Saerbren record of members 1858-1874. The enclosing physical volume spans 1850-1882. LR 11150 remains a separate catalog reference; no corresponding images are currently connected.",
 });
-addEvidence("Treorky", "Historical structural image", "", "CD 34; LR 172 7 compound section", "", "", {
+addEvidence("Treorky", "Recovered full-resolution compound source", "1874-1882", "CD 34; LR 172 7 compound sections; 68 virtual images", "", "", {
   ...llanelltydStructuralSource,
   internalPage: 25,
-  note: "Historical spelling of Treorchy written on the volume index; not associated with Troedyrhiw.",
+  note: "Historical spelling written throughout the compound source. Early minutes appear at images 00006-00025; the member register occupies images 00074-00109; later history and children-blessed material continue at 00112-00116. Not associated with Troedyrhiw.",
 });
 
 // Keep the three identifiers preserved rather than silently normalizing the
@@ -305,13 +305,13 @@ const registry = [...grouped.entries()].map(([canonicalName, entries]) => {
   if (canonicalName === "Coalbrookvale") comparisonStatus = "Verified compound local source section";
   if (canonicalName === "Llanelltyd") comparisonStatus = "Verified compound local source section";
   if (canonicalName === "Cwm Saerbren") comparisonStatus = "Verified compound local source section; dedicated LR 11150 images not connected";
-  if (canonicalName === "Treorchy") comparisonStatus = "Compound local source section located";
+  if (canonicalName === "Treorchy") comparisonStatus = "Verified compound local source section";
   if (canonicalName === "Pendoylon") comparisonStatus = "Historical source attestation; local image collection not yet located";
   const entityType = /conference/i.test(canonicalName) ? "Conference" : "Branch";
   return {
     canonicalName, entityType, variants: variants.join("; "),
-    earliestYear: canonicalName === "Llanelltyd" ? 1850 : canonicalName === "Rhymney English" ? 1851 : canonicalName === "Llandebie" || canonicalName === "Castell Nedd (Neath)" ? 1849 : (allYears.length ? Math.min(...allYears) : null),
-    latestYear: canonicalName === "Llanelltyd" ? 1857 : canonicalName === "Rhymney English" ? 1887 : canonicalName === "Llandebie" ? 1866 : canonicalName === "Castell Nedd (Neath)" ? 1884 : (allYears.length ? Math.max(...allYears) : null),
+    earliestYear: canonicalName === "Llanelltyd" ? 1850 : canonicalName === "Treorchy" ? 1874 : canonicalName === "Rhymney English" ? 1851 : canonicalName === "Llandebie" || canonicalName === "Castell Nedd (Neath)" ? 1849 : (allYears.length ? Math.min(...allYears) : null),
+    latestYear: canonicalName === "Llanelltyd" ? 1857 : canonicalName === "Treorchy" ? 1882 : canonicalName === "Rhymney English" ? 1887 : canonicalName === "Llandebie" ? 1866 : canonicalName === "Castell Nedd (Neath)" ? 1884 : (allYears.length ? Math.max(...allYears) : null),
     localCd, localNote, familySearch, comparisonStatus,
     filmAndCallNumbers: canonicalName === "Brechfa"
       ? "CD 4; LR 11000 7; 62 authoritative full-resolution images"
@@ -343,6 +343,8 @@ const registry = [...grouped.entries()].map(([canonicalName, entries]) => {
       ? "CD 34; LR 172 7 compound section; internal pages 6-24; 38 authoritative full-resolution images; LR 11150 separate reference not connected"
       : canonicalName === "Llanelltyd"
       ? "CD 34; LR 172 7 compound section; internal pages 1-5; 10 authoritative full-resolution images; section dated 1850-1857"
+      : canonicalName === "Treorchy"
+      ? "CD 34; LR 172 7 compound logical sections; 68 authoritative full-resolution images; Treorky minutes 1874 and membership register 1875-1882"
       : canonicalName === "Coalbrookvale"
       ? "CD 24; LR 174 7 compound section; 83 authoritative full-resolution images; membership registers 00080-00137"
       : [...new Set(entries.map((entry) => entry.reference).filter(Boolean))].join("; "),

@@ -66,6 +66,7 @@ const compoundBranchCollectionNames = new Map([
   [normalize("Cwm Celyn"), normalize("Cwm Celyn,1851-1883,LR1957")],
   [normalize("Cwm Saerbren"), normalize("Cwm Saerbren,1858-1874,LR1727")],
   [normalize("Llanelltyd"), normalize("Llanelltyd,1850-1857,LR1727")],
+  [normalize("Treorchy"), normalize("Treorchy,1874-1882,LR1727")],
   [normalize("Llandebie"), normalize("Llandebie,1849-1886,LR1137")],
   [normalize("Castell Nedd (Neath)"), normalize("Castell Nedd,1879-1884,LR1967")],
   [normalize("Coalbrookvale"), normalize("Coalbrookvale,1856-1867,LR1747")],

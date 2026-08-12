@@ -271,7 +271,7 @@
   const collectionBranchAssignments = new Map([
     ["Cog,1848-1876,LR1097", new Set(["Cogan"])],
     ["Llanelli,1847-1868,LR117577", new Set(["Llanelli"])],
-    ["Llanelltyd,1850-1882,LR1727", new Set(["Treorchy"])],
+    ["Treorchy,1874-1882,LR1727", new Set(["Treorchy"])],
     ["Llanelltyd,1850-1857,LR1727", new Set(["Llanelltyd"])],
     ["Cwm Saerbren,1858-1874,LR1727", new Set(["Cwm Saerbren"])],
     ["Nantyglo,1846-1867,LR1747", new Set(["Nantyglo"])],
@@ -290,6 +290,7 @@
     ["Llanelltyd,1850-1882,LR1727", "Compound volume: Llanelltyd, Cwm Saerbren, and Treorky, 1850-1882"],
     ["Llanelltyd,1850-1857,LR1727", "Llanelltyd Branch Record of Members, 1850-1857"],
     ["Cwm Saerbren,1858-1874,LR1727", "Cwm Saerbren Branch Record of Members, 1858-1874"],
+    ["Treorchy,1874-1882,LR1727", "Treorky / Treorchy records, 1874-1882"],
     ["Coalbrookvale,1856-1867,LR1747", "Coal Brook Vale / Blaina records, 1856-1867"],
     ["Haverfordwest,1847-1853,LR1134321", "Haverfordwest Volume 1: Members and Historical Record, 1847-1853"],
     ["Haverfordwest,1852-1860,CR1134311-v2", "Haverfordwest Volume 2: Historical Record 1852-1854; Members 1857-1860"],
@@ -302,6 +303,7 @@
   const collectionProvenanceOverrides = new Map([
     ["Llanfabon 1847-1869,LR1687", "CD 15 / project LR1687 / photographed historical-library identifier 871 / 60 images"],
     ["Cwm Saerbren,1858-1874,LR1727", "CD 34 / LR 172 7 compound section / internal pages 6-24 / 38 images"],
+    ["Treorchy,1874-1882,LR1727", "CD 34 / LR 172 7 compound sections / Treorky minutes and member register / 68 images"],
     ["Llanelltyd,1850-1857,LR1727", "CD 34 / LR 172 7 compound section / internal pages 1-5 / 10 images"],
     ["Coalbrookvale,1856-1867,LR1747", "CD 24 / LR 174 7 compound section / 83 images / membership registers 00080-00137"],
     ["Haverfordwest,1847-1853,LR1134321", "CD 23 / photographed CR 11343 11 V.1 / project source LR1134321 / 153 historical images"],
@@ -323,6 +325,7 @@
     if (collection?.name === "Llanelltyd,1850-1882,LR1727") return "LR1727 · compound volume";
     if (collection?.name === "Llanelltyd,1850-1857,LR1727") return "LR1727 · Llanelltyd section";
     if (collection?.name === "Llanelly-production") return "CR11757 10 · CR11757 11 · manuscript 1576";
+    if (collection?.name === "Treorchy,1874-1882,LR1727") return "LR1727 - Treorky / Treorchy sections";
     return displayTitle(collection?.name).match(/\b(?:LR|CR)\s*\d+(?:\s+\d+)?\b/i)?.[0].replace(/\s+/g, "") || "Source reference not identified";
   }
 
@@ -456,7 +459,7 @@
     ["Llandebie", "CD 22 preserves 45 authoritative full-resolution images. The photographed source label dates the Record of Members 1849-1866 and separately shows library number 870; its relationship to project reference LR 113 7 is not normalized. The volume contains an original membership sequence, an independently restarted sequence, a separate renewal/reformation sequence, opening Welsh historical narrative, and an additional-remarks page."],
     ["Castell Nedd (Neath)", "CD 2 preserves 112 authoritative full-resolution images. The cover uses Castellned and dates the Record of Members 1849-1883; the adjacent library label uses Castell Nedd and dates it 1849-1884. Project reference LR 196 7 and photographed source/library identifier 1544 remain separately preserved. The volume contains an original register, an independently numbered rebaptism/renewal register, a later independently restarted register, and Welsh historical narrative."],
     ["Rhymney English", "A distinct English-language branch source dated 1851-1887 and photographed library identifier 1602. The source contains four independently numbered membership sequences, a separate Rhymney English rebaptism list, English branch history, and an explicit transition to Twyn Carno children-blessed and council material. The latter is preserved but excluded from Rhymney English membership."],
-    ["Treorchy", "Historical source spelling Treorky identifies a distinct section beginning at internal page 25 of the compound CD 34 / LR 172 7 volume; a photographed label also identifies Treorky Branch Minutes, 1874."],
+    ["Treorchy", "Historical source spelling Treorky identifies two logical portions of the compound CD 34 / LR 172 7 volume: early minutes/narrative on images 00006-00025 (including Treorky Branch minutes dated 1874), and the member register on images 00074-00105, dated 1875-1882. Later narrative and Blessings of Children are preserved separately through image 00116."],
     ["Llanelly 2", "Temporary unresolved legacy holding label. Its RoboHelp topic is an empty draft. A separate 104-page convenience PDF labeled Llanelly 2 contains Wales/British Mission continued material, so the label is retained pending source-structure review; no active collection is assigned to it."],
     ["Stepaside", "Membership records 1848–1857; historical record and minutes 1858–1860."],
     ["Sutton Mountain", "Membership register 1853–1859; historical record and branch minutes 1853–1855."],

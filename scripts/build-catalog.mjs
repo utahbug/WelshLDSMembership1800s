@@ -290,6 +290,13 @@ if (llanelltydCompound) {
   });
   if (sectionImages.length !== 38) throw new Error(`Expected 38 Cwm Saerbren section images; found ${sectionImages.length}.`);
   collections.push({ id:"virtual-cwm-saerbren-lr1727", name:"Cwm Saerbren,1858-1874,LR1727", category:llanelltydCompound.category, aliases:["Cwmsaerbren,1858-1874,LR1727"], sources:[...llanelltydCompound.sources], availability:{local:true,portable:true,online:false}, publicStorage:null, virtualSourceCollection:llanelltydCompound.id, images:sectionImages });
+  const treorchyImages = llanelltydCompound.images.filter((record) => {
+    const match = record.name.match(/_M_(\d{5})\.jpg$/i);
+    const sequence = match ? Number(match[1]) : NaN;
+    return (sequence >= 6 && sequence <= 25) || (sequence >= 74 && sequence <= 121);
+  });
+  if (treorchyImages.length !== 68) throw new Error(`Expected 68 Treorky/Treorchy images; found ${treorchyImages.length}.`);
+  collections.push({ id:"virtual-treorchy-lr1727", name:"Treorchy,1874-1882,LR1727", category:llanelltydCompound.category, aliases:["Treorky,1874-1882,LR1727"], sources:[...llanelltydCompound.sources], availability:{local:true,portable:true,online:false}, publicStorage:null, virtualSourceCollection:llanelltydCompound.id, images:treorchyImages });
   collections.sort((a,b)=>natural.compare(a.name,b.name));
 }
 
