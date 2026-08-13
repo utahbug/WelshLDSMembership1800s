@@ -165,9 +165,11 @@
     const branchHeader = document.querySelector("#resourcePanel:not([hidden]) .branch-resource-heading");
     if (branchHeader) addAction(branchHeader);
     if (!viewerToolbar && !branchHeader) {
-      const pageTarget = document.querySelector("#peopleApp")
+      const pageTarget = document.querySelector("[data-page-feedback]")
+        || document.querySelector("[data-home-feedback]")
+        || (document.querySelector("#peopleApp")
         ? document.querySelector("#page-bottom")
-        : document.querySelector("main");
+        : document.querySelector("main"));
       addAction(pageTarget);
     }
     installResultActions();

@@ -1,7 +1,7 @@
 {
   "edition": "unlisted-online-research-beta",
-  "generatedAt": "2026-08-13T02:18:37.520Z",
-  "output": "build/research-beta",
+  "generatedAt": "2026-08-13T05:25:34.433Z",
+  "output": "build/research-beta-sync",
   "noIndex": true,
   "memberSearch": {
     "records": 11473,
@@ -661,7 +661,7 @@
     "dataPrivateIncluded": false,
     "privateLeaks": []
   },
-  "files": 43,
+  "files": 48,
   "archiveInventory": {
     "item": "ldswelshmembership",
     "remoteFiles": 6030
