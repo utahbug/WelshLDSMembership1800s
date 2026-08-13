@@ -593,7 +593,8 @@ button, input { font: inherit; }
 .people-result-action { margin-top: 12px !important; }
 .people-open-record { display: inline-flex; align-items: center; min-height: 42px; padding: 7px 12px; border: 1px solid var(--green); border-radius: 4px; background: var(--green); color: #fff; font-weight: 700; text-decoration: none; }
 .people-open-record:hover, .people-open-record:focus-visible { background: var(--green-dark); color: #fff; text-decoration: underline; }
-.people-search-controls { grid-template-columns: minmax(300px, min(48%, 520px)) max-content minmax(160px, 220px); justify-content: start; }
+.people-search-controls { grid-template-columns: minmax(300px, 380px) max-content minmax(160px, 220px); justify-content: start; }
+.people-search-controls #peopleSearch { width: 100%; max-width: 380px; }
 .people-branch-filter { position: relative; min-width: 0; }
 .people-branch-filter summary { min-height: 42px; box-sizing: border-box; display: flex; align-items: center; justify-content: space-between; gap: 8px; padding: 8px 10px; border: 1px solid var(--line); border-radius: 4px; background: var(--panel); cursor: pointer; list-style: none; white-space: nowrap; overflow: hidden; }
 .people-branch-filter summary::-webkit-details-marker { display: none; }
@@ -607,7 +608,7 @@ button, input { font: inherit; }
 .people-branch-choices label { display: flex; grid-column: auto; align-items: center; gap: 8px; padding: 4px 2px; font-weight: 400; cursor: pointer; }
 .people-branch-choices input { min-height: 0; margin: 0; padding: 0; }
 @media (max-width: 620px) { .research-controls { grid-template-columns: 1fr; } .research-controls label { grid-column: auto; } }
-@media (max-width: 820px) { .people-search-controls { grid-template-columns: 1fr; } .people-branch-popover { left: 0; right: auto; width: min(320px, calc(100vw - 48px)); } }
+@media (max-width: 820px) { .people-search-controls { grid-template-columns: 1fr; } .people-search-controls #peopleSearch { width: 100%; max-width: none; } .people-branch-popover { left: 0; right: auto; width: min(320px, calc(100vw - 48px)); } }
 @media (max-width: 620px) { .research-index-page { padding-inline: 16px; } .people-search-workspace { padding: 14px 12px; } .research-result { padding: 14px; } .people-key-facts { display: grid; grid-template-columns: 1fr; } .people-open-record { width: 100%; justify-content: center; box-sizing: border-box; } }
 .standalone-home-link {
   display: inline-flex;
