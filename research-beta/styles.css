@@ -251,25 +251,22 @@ button, input { font: inherit; }
 .research-feedback-link { width: fit-content; margin: 12px 0; padding: 7px 10px; color: var(--green-dark); border: 1px solid var(--line); border-radius: 4px; background: var(--panel); font: 700 .78rem/1.25 Arial, sans-serif; cursor: pointer; }
 .research-feedback-link:hover, .research-feedback-link:focus-visible { color: white; border-color: var(--green); background: var(--green); }
 .view-toolbar .research-feedback-link.compact { flex: 0 1 auto; max-width: 190px; margin: 0; padding: 6px 8px; font-size: .68rem; }
-.research-feedback-dialog { width: min(720px, calc(100% - 24px)); max-height: calc(100vh - 24px); padding: 0; color: var(--ink); border: 1px solid var(--line); border-radius: 6px; background: var(--paper); box-shadow: 0 20px 70px #0008; }
+.research-feedback-dialog { width: min(560px, calc(100% - 24px)); max-height: calc(100vh - 24px); padding: 0; color: var(--ink); border: 1px solid var(--line); border-radius: 6px; background: var(--paper); box-shadow: 0 20px 70px #0008; }
 .research-feedback-dialog::backdrop { background: #10221dcc; }
-.research-feedback-form { padding: clamp(16px, 3vw, 28px); overflow: auto; }
+.research-feedback-form { padding: clamp(14px, 2.5vw, 20px); overflow: auto; }
 .research-feedback-form header { display: flex; align-items: start; justify-content: space-between; gap: 16px; }
 .research-feedback-form h2 { margin: 0; color: var(--green-dark); font: 700 clamp(1.25rem, 4vw, 1.7rem)/1.15 Georgia, serif; }
 .feedback-close { min-width: 42px; min-height: 42px; padding: 4px; font-size: 1.4rem; }
-.feedback-context { display: grid; grid-template-columns: max-content minmax(0, 1fr); gap: 4px 12px; padding: 12px; border-left: 4px solid var(--gold); background: var(--panel); }
+.feedback-context { display: grid; grid-template-columns: max-content minmax(0, 1fr); gap: 3px 10px; max-height: 180px; margin: 12px 0; padding: 10px; overflow: auto; border-left: 4px solid var(--gold); background: var(--panel); font-size: .88rem; }
 .feedback-context div { display: contents; }
 .feedback-context dt { font-weight: 700; }
 .feedback-context dd { margin: 0; overflow-wrap: anywhere; }
-.research-feedback-form label { display: grid; gap: 5px; margin: 12px 0; font-weight: 700; }
-.research-feedback-form label span { color: var(--muted); font-weight: 400; }
-.research-feedback-form input, .research-feedback-form select, .research-feedback-form textarea { width: 100%; min-height: 42px; padding: 8px; color: var(--ink); border: 1px solid #9e9788; border-radius: 3px; background: white; font: inherit; }
-.feedback-contact { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
-.feedback-delivery-note { color: var(--muted); font-size: .86rem; }
 .feedback-actions { display: flex; flex-wrap: wrap; gap: 8px; }
-.feedback-actions button { min-height: 42px; padding: 8px 12px; }
+.feedback-actions button, .feedback-email { display: inline-flex; align-items: center; justify-content: center; min-height: 42px; padding: 8px 12px; border-radius: 3px; font: 700 .88rem/1.2 Arial, sans-serif; }
+.feedback-email { color: white; border: 1px solid var(--green); background: var(--green); text-decoration: none; }
+.feedback-email:hover, .feedback-email:focus-visible { color: white; background: var(--green-dark); }
 #feedbackStatus { min-height: 1.4em; color: var(--green-dark); font-weight: 700; }
-@media (max-width: 520px) { .feedback-context { grid-template-columns: 1fr; }.feedback-context div { display: grid; gap: 1px; }.feedback-contact { grid-template-columns: 1fr; }.view-toolbar .research-feedback-link.compact { max-width: 155px; white-space: normal; } }
+@media (max-width: 520px) { .feedback-context { grid-template-columns: 1fr; max-height: 150px; }.feedback-context div { display: grid; gap: 1px; }.feedback-actions > * { flex: 1 1 auto; }.view-toolbar .research-feedback-link.compact { max-width: 155px; white-space: normal; } }
 .page-index-panel { position: fixed; z-index: 60; inset: 0; }
 .page-index-panel[hidden] { display: none; }
 .page-index-backdrop { position: absolute; inset: 0; width: 100%; border: 0; background: #0009; }

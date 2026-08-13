@@ -4,18 +4,14 @@
   const catalogEdition = window.WELSH_RECORD_CATALOG?.edition;
   const feedbackEnabled = window.WELSH_RESEARCH_BETA === true || isLocalHost || isLocalFile || ["local", "portable"].includes(catalogEdition);
   if (!feedbackEnabled) return;
-  const categories = [
-    "Correction to a name/date/detail",
-    "Missing person or record",
-    "Missing branch or alternate name",
-    "Incorrect branch/source relationship",
-    "Transcription or handwriting issue",
-    "Source/provenance information",
-    "Broken link or viewer problem",
-    "Other research information",
-  ];
+
+  const contactAddress = "KenRoberts@live.com";
   const text = (selector, root = document) => root.querySelector(selector)?.textContent?.trim() || "";
   const clean = (value) => String(value || "").replace(/\s+/g, " ").trim();
+  const meaningful = (value) => {
+    const normalized = clean(value);
+    return normalized && !["—", "-", "n/a", "not available"].includes(normalized.toLowerCase()) ? normalized : "";
+  };
   const query = () => new URLSearchParams(location.search);
   const labeledValue = (root, label) => {
     const item = [...root.querySelectorAll("p")].find((node) => node.querySelector("strong")?.textContent?.trim().toLowerCase() === `${label.toLowerCase()}:`);
@@ -40,11 +36,15 @@
     }
     const parameters = query();
     const viewer = document.querySelector("#recordViewer:not([hidden])");
-    const branch = supplied.branch || parameters.get("branch") || text("#branchHeading") || clean(text("#viewerBranchResourcesLink").replace(/^←\s*/, "").replace(/\s+Branch Resources$/, ""));
+    let viewerBranch = viewer ? clean(text("#viewerBranchResourcesLink").replace(/^←\s*/, "").replace(/\s+Branch Resources$/, "")) : "";
+    if (viewer && ["", "All Branches"].includes(viewerBranch)) viewerBranch = clean(text("#collectionTitle").split(",")[0]);
+    const branch = meaningful(supplied.branch || parameters.get("branch") || viewerBranch || text("#branchHeading"));
     const collection = supplied.collection || (viewer ? text("#collectionTitle") : "");
     const viewerPage = parameters.get("image");
     const pageLine = supplied.page || (viewer ? [viewerPage ? `Page ${viewerPage}` : "", text("#imagePosition")].filter(Boolean).join(" · ") : "");
-    const filename = supplied.filename || (viewer ? text("#recordCaption") : "");
+    const activeImage = viewer?.querySelector("#recordImage, .record-page.active img, .record-page[aria-current='page'] img");
+    const imageSource = activeImage?.currentSrc || activeImage?.src || "";
+    const filename = supplied.filename || (viewer ? text("#recordCaption") || decodeURIComponent(imageSource.split("/").pop()?.split("?")[0] || "") : "");
     const source = supplied.source || (viewer ? text("#viewContext") : "");
     return {
       pageType: supplied.pageType || pageType(),
@@ -63,21 +63,38 @@
 
   const dialog = document.createElement("dialog");
   dialog.className = "research-feedback-dialog";
-  dialog.innerHTML = `<form method="dialog" class="research-feedback-form"><header><div><p class="eyebrow">Research review</p><h2>Report a correction or missing information</h2></div><button type="submit" class="feedback-close" aria-label="Close report form">×</button></header><p>Corrections, additional sources, and evidence about missing or uncertain records are welcome.</p><dl class="feedback-context" id="feedbackContext"></dl><label>Category<select id="feedbackCategory">${categories.map((category) => `<option>${category}</option>`).join("")}</select></label><label>What should be corrected or added?<textarea id="feedbackComments" rows="6" required></textarea></label><label>Evidence/source <span>(optional)</span><textarea id="feedbackEvidence" rows="3" placeholder="Citation, URL, book, document, or research note"></textarea></label><div class="feedback-contact"><label>Your name <span>(optional)</span><input id="feedbackName" autocomplete="name"></label><label>Email/contact <span>(optional; useful only if follow-up is needed)</span><input id="feedbackContact" autocomplete="email"></label></div><p class="feedback-delivery-note">No project delivery address is configured. Copy or download this report, then send it to the project owner through an agreed contact channel.</p><div class="feedback-actions"><button type="button" id="feedbackCopy">Copy report</button><button type="button" id="feedbackDownload">Download report</button><button type="submit">Close</button></div><p id="feedbackStatus" role="status" aria-live="polite"></p></form>`;
+  dialog.innerHTML = `<form method="dialog" class="research-feedback-form"><header><div><p class="eyebrow">Research review</p><h2>Report a correction or missing information</h2></div><button type="submit" class="feedback-close" aria-label="Close report panel">&times;</button></header><p>Corrections, additional sources, and information about missing or uncertain records are welcome.</p><dl class="feedback-context" id="feedbackContext"></dl><div class="feedback-actions"><a class="feedback-email" id="feedbackEmail" href="mailto:${contactAddress}">Email Ken Roberts</a><button type="button" id="feedbackCopy">Copy details</button><button type="submit">Close</button></div><p id="feedbackStatus" role="status" aria-live="polite"></p></form>`;
   document.body.append(dialog);
   let currentContext = {};
 
   function contextEntries(context) {
-    return [["Page/view", context.pageType], ["Branch", context.branch], ["Historical/source spelling", context.sourceSpelling], ["Collection/resource", context.collection], ["Source reference", context.source], ["Viewer page", context.page], ["Image filename", context.filename], ["Subject/result", context.subject], ["Source ID", context.sourceId], ["Original record", context.originalUrl], ["Current URL", context.currentUrl]].filter(([, value]) => value);
+    return [["Page/view", context.pageType], ["Branch", context.branch], ["Historical/source spelling", context.sourceSpelling], ["Collection/resource", context.collection], ["Source reference", context.source], ["Viewer page", context.page], ["Image filename", context.filename], ["Member/result", context.subject], ["Source ID", context.sourceId], ["Original record", context.originalUrl], ["Page URL", context.currentUrl]].map(([label, value]) => [label, meaningful(value)]).filter(([, value]) => value);
+  }
+  function subjectText() {
+    return ["LDS Welsh Records correction", meaningful(currentContext.branch), meaningful(currentContext.subject)].filter(Boolean).join(" — ");
+  }
+  function messageBody() {
+    return [
+      "I would like to report a correction or provide additional information.",
+      "",
+      ...contextEntries(currentContext).map(([label, value]) => `${label}: ${value}`),
+      "",
+      "Correction / additional information:",
+      "",
+      "",
+      "Evidence / source, if available:",
+      "",
+    ].join("\n");
   }
   function reportText() {
-    const entries = contextEntries(currentContext);
-    return [`LDS Welsh Records correction${currentContext.branch ? ` — ${currentContext.branch}` : ""}${currentContext.subject ? ` — ${currentContext.subject}` : ""}`, "", `Category: ${document.querySelector("#feedbackCategory").value}`, "", "What should be corrected or added?", document.querySelector("#feedbackComments").value.trim() || "[Not entered]", "", "Evidence/source:", document.querySelector("#feedbackEvidence").value.trim() || "[Not provided]", "", "Captured project context:", ...entries.map(([label, value]) => `${label}: ${value}`), "", `Researcher name: ${document.querySelector("#feedbackName").value.trim() || "[Not provided]"}`, `Email/contact: ${document.querySelector("#feedbackContact").value.trim() || "[Not provided]"}`].join("\n");
+    return [`Subject: ${subjectText()}`, "", messageBody()].join("\n");
   }
   function openFeedback(trigger) {
     currentContext = contextFromPage(trigger);
-    document.querySelector("#feedbackContext").innerHTML = contextEntries(currentContext).map(([label, value]) => `<div><dt>${label}</dt><dd></dd></div>`).join("");
-    [...document.querySelectorAll("#feedbackContext dd")].forEach((item, index) => { item.textContent = contextEntries(currentContext)[index][1]; });
+    const entries = contextEntries(currentContext);
+    document.querySelector("#feedbackContext").innerHTML = entries.map(([label]) => `<div><dt>${label}</dt><dd></dd></div>`).join("");
+    [...document.querySelectorAll("#feedbackContext dd")].forEach((item, index) => { item.textContent = entries[index][1]; });
+    document.querySelector("#feedbackEmail").href = `mailto:${contactAddress}?subject=${encodeURIComponent(subjectText())}&body=${encodeURIComponent(messageBody())}`;
     document.querySelector("#feedbackStatus").textContent = "";
     dialog.showModal();
   }
@@ -85,19 +102,12 @@
     const report = reportText();
     try {
       await navigator.clipboard.writeText(report);
-      document.querySelector("#feedbackStatus").textContent = "Report copied.";
     } catch {
       const area = document.createElement("textarea"); area.value = report; document.body.append(area); area.select(); document.execCommand("copy"); area.remove();
-      document.querySelector("#feedbackStatus").textContent = "Report copied.";
     }
-  }
-  function downloadReport() {
-    const blob = new Blob([reportText()], { type: "text/plain;charset=utf-8" });
-    const link = document.createElement("a"); link.href = URL.createObjectURL(blob); link.download = `lds-welsh-records-report-${new Date().toISOString().slice(0, 10)}.txt`; link.click(); URL.revokeObjectURL(link.href);
-    document.querySelector("#feedbackStatus").textContent = "Report downloaded.";
+    document.querySelector("#feedbackStatus").textContent = "Details copied.";
   }
   document.querySelector("#feedbackCopy").addEventListener("click", copyReport);
-  document.querySelector("#feedbackDownload").addEventListener("click", downloadReport);
   document.addEventListener("click", (event) => {
     const trigger = event.target.closest("[data-feedback-action]");
     if (!trigger) return;
@@ -120,14 +130,20 @@
     container.append(button);
   }
   function installResultActions() {
-    document.querySelectorAll(".people-result").forEach((result) => addContextAction(result, {
-      pageType: "Member Search result",
-      subject: text("h2", result),
-      branch: labeledValue(result, "Branch"),
-      sourceSpelling: labeledValue(result, "Source branch spelling"),
-      source: labeledValue(result, "Source"),
-      page: labeledValue(result, "Entry"),
-    }));
+    document.querySelectorAll(".people-result").forEach((result) => {
+      const recordLink = result.querySelector(".people-open-record");
+      const recordParameters = recordLink ? new URL(recordLink.href, location.href).searchParams : new URLSearchParams();
+      addContextAction(result, {
+        pageType: "Member Search result",
+        subject: text("h2", result),
+        branch: labeledValue(result, "Branch"),
+        sourceSpelling: labeledValue(result, "Source branch spelling"),
+        source: labeledValue(result, "Source"),
+        collection: recordParameters.get("collection") || "",
+        page: labeledValue(result, "Entry") || (recordParameters.get("image") ? `Image sequence ${recordParameters.get("image")}` : ""),
+        filename: recordParameters.get("imageFilename") || "",
+      });
+    });
     document.querySelectorAll(".welsh-saints-result").forEach((result) => {
       const original = result.querySelector('a[href*="welshsaints"]');
       const body = clean(result.textContent);
