@@ -233,7 +233,7 @@ for (const file of fs.readdirSync(output).filter((name) => name.endsWith(".html"
   html = html.replace(/<p class="home-secondary" data-local-feature hidden><a href="data\/private\/familysearch-comparison\.local\.html">Research comparisons<\/a>[\s\S]*?<\/p>/, "");
   if (file === "people-search.html") html = html
     .replace(/<script src="all-records-discovery\.js[^>]*><\/script>/, '<script>window.ALL_RECORDS_DISCOVERY_BASE="data/discovery/";</script><script src="all-records-discovery.js?v=full-search-beta-20260814"></script>')
-    .replace(/<script src="people-search\.js[^>]*><\/script>/, '<script src="data/beta/people-index.beta.js?v=full-search-beta-20260814"></script><script src="people-search.js?v=full-search-beta-20260814"></script>');
+    .replace(/<script src="people-search\.js[^>]*><\/script>/, '<script src="data/beta/people-index.beta.js?v=member-fields-20260813"></script><script src="people-search.js?v=full-search-beta-20260814"></script>');
   if (file === "welsh-saints-research.html") html = html.replace(/<script src="data\/private\/welsh-saints-index\.local\.js[^>]*><\/script><script src="data\/private\/typed-branch-record-index\.local\.js[^>]*><\/script>/, '<script src="data/beta/welsh-saints-index.beta.js"></script>');
   fs.writeFileSync(target, html);
 }
