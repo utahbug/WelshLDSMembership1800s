@@ -554,6 +554,15 @@ button, input { font: inherit; }
 .research-index-page { max-width: 1120px; margin: 0 auto; padding: 24px; }
 .research-private-note { color: var(--muted); }
 .research-page-description { max-width: 780px; margin: .4rem 0 1rem; color: var(--muted); font-size: 1.05rem; line-height: 1.55; }
+.people-search-page { padding-top: 14px; }
+.people-search-page .search-sticky-nav { margin-bottom: 6px; }
+.people-search-workspace { background: var(--panel); border: 1px solid var(--line); border-radius: 6px; box-shadow: 0 2px 10px rgba(32, 51, 43, .06); padding: clamp(16px, 2.5vw, 24px); }
+.people-search-workspace > h1 { font-size: clamp(1.55rem, 2.5vw, 2rem); margin: 0; }
+.people-search-workspace .research-page-description { margin: .25rem 0 .75rem; }
+.people-search-workspace .research-controls { margin: 10px 0 8px; }
+.people-index-summary { color: #4d514a; font: 600 .92rem/1.45 Arial, sans-serif; margin: 10px 0 2px; }
+.people-search-workspace .people-result-summary:empty { display: none; }
+.site-disclaimer > .research-feedback-link { margin: 10px 0 0; }
 .research-beta-note { max-width: 1120px; margin: 18px auto 0; padding: 0 24px; color: var(--muted); font: 600 .84rem/1.45 Arial, sans-serif; }
 .search-page-masthead { min-height: 80px; padding-block: 8px; }
 .search-page-masthead .eyebrow { display: none; }
@@ -599,7 +608,7 @@ button, input { font: inherit; }
 .people-branch-choices input { min-height: 0; margin: 0; padding: 0; }
 @media (max-width: 620px) { .research-controls { grid-template-columns: 1fr; } .research-controls label { grid-column: auto; } }
 @media (max-width: 820px) { .people-search-controls { grid-template-columns: 1fr; } .people-branch-popover { left: 0; right: auto; width: min(320px, calc(100vw - 48px)); } }
-@media (max-width: 620px) { .research-index-page { padding-inline: 16px; } .research-result { padding: 14px; } .people-key-facts { display: grid; grid-template-columns: 1fr; } .people-open-record { width: 100%; justify-content: center; box-sizing: border-box; } }
+@media (max-width: 620px) { .research-index-page { padding-inline: 16px; } .people-search-workspace { padding: 14px 12px; } .research-result { padding: 14px; } .people-key-facts { display: grid; grid-template-columns: 1fr; } .people-open-record { width: 100%; justify-content: center; box-sizing: border-box; } }
 .standalone-home-link {
   display: inline-flex;
   align-items: center;

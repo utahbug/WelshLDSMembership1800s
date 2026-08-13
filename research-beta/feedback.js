@@ -178,7 +178,12 @@
     if (viewerToolbar) addAction(viewerToolbar, true);
     const branchHeader = document.querySelector("#resourcePanel:not([hidden]) .branch-resource-heading");
     if (branchHeader) addAction(branchHeader);
-    if (!viewerToolbar && !branchHeader) addAction(document.querySelector("main"));
+    if (!viewerToolbar && !branchHeader) {
+      const pageTarget = document.querySelector("#peopleApp")
+        ? document.querySelector("#page-bottom")
+        : document.querySelector("main");
+      addAction(pageTarget);
+    }
     installResultActions();
   };
   install();

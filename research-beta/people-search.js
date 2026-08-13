@@ -64,7 +64,7 @@
       const browseSelectedBranches = rawQuery === "" || rawQuery === "*";
       const query = browseSelectedBranches ? "" : normalize(rawQuery);
       summary.textContent = `Member index contains ${records.length.toLocaleString()} occurrence${records.length === 1 ? "" : "s"} across ${branchCount.toLocaleString()} indexed branch${branchCount === 1 ? "" : "es"}.`;
-      if (!searchStarted) { resultSummary.textContent = "Begin a search to view member records"; results.innerHTML = "<p>Enter a name, branch, date, residence, record number, or source reference to begin searching.</p>"; return; }
+      if (!searchStarted) { resultSummary.textContent = ""; results.replaceChildren(); return; }
       if (browseSelectedBranches && selectedBranches.size === 0) { resultSummary.textContent = "0 matches found"; results.innerHTML = "<p>Enter a person’s name or select one or more branches to browse their indexed members.</p>"; return; }
       const matches = records.filter((record) => selectedBranches.has(record.branch)
         && (!occurrenceType.value || record.occurrenceType === occurrenceType.value)
