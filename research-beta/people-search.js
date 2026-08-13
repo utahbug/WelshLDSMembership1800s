@@ -13,7 +13,8 @@
     if (!index?.privateLocalIndex && !index?.betaPublicIndex) { finishLoading(); unavailable.hidden = false; return; }
     app.hidden = false;
     const search = document.querySelector("#peopleSearch");
-    const occurrenceType = document.querySelector("#peopleOccurrenceType");
+    const occurrenceTypes = [...document.querySelectorAll('input[name="peopleSearchScope"]')];
+    const selectedScope = () => occurrenceTypes.find((control) => control.checked)?.value || "member";
     const branchFilter = document.querySelector("#peopleBranchFilter");
     const branchSummary = document.querySelector("#peopleBranchSummary");
     const branchChoices = document.querySelector("#peopleBranchChoices");
@@ -28,13 +29,15 @@
     const escapeHtml = (value) => String(value || "").replace(/[&<>"']/g, (character) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" })[character]);
     const records = index.records || [];
     const collections = new Map((window.WELSH_RECORD_CATALOG?.collections || []).map((collection) => [collection.id, collection]));
-    const associatedCount = records.filter((record) => record.occurrenceType === "associated").length;
-    if (!associatedCount) occurrenceType.querySelector('option[value="associated"]')?.remove();
     const branches = [...new Set(records.map((record) => record.branch).filter(Boolean))].sort((a, b) => a.localeCompare(b, "en", { sensitivity: "base" }));
     const branchCount = branches.length;
     const selectedBranches = new Set(branches);
     let searchStarted = false;
     let visibleLimit = 50;
+    let historicalRequest = 0;
+    const allRecordsEnabled = Boolean(window.ALL_RECORDS_DISCOVERY?.search);
+    const fullSearchChoice = document.querySelector("[data-full-search-choice]");
+    if (fullSearchChoice && !allRecordsEnabled) fullSearchChoice.remove();
     for (const branch of branches) {
       const label = document.createElement("label");
       const checkbox = document.createElement("input");
@@ -59,21 +62,63 @@
       if (record.verified && record.onlineViewerAvailable !== false && record.collectionId && ((Number.isInteger(record.imageSequence) && record.imageSequence > 0) || record.imageFilename)) return `index.html?${new URLSearchParams({ branch: record.branch, collection: record.collectionId, image: record.imageSequence ? String(record.imageSequence) : "", imageFilename: record.imageFilename || "", view: "single" })}`;
       return `index.html?branch=${encodeURIComponent(record.branch)}`;
     };
-    function render() {
-      const rawQuery = search.value.trim();
-      const browseSelectedBranches = rawQuery === "" || rawQuery === "*";
-      const query = browseSelectedBranches ? "" : normalize(rawQuery);
-      summary.textContent = `Member Search contains ${records.length.toLocaleString()} occurrence${records.length === 1 ? "" : "s"} across ${branchCount.toLocaleString()} searchable branch${branchCount === 1 ? "" : "es"}.`;
-      if (!searchStarted) { resultSummary.textContent = ""; results.replaceChildren(); return; }
-      if (browseSelectedBranches && selectedBranches.size === 0) { resultSummary.textContent = "0 matches found"; results.innerHTML = "<p>Enter a person’s name or select one or more branches to browse their searchable member records.</p>"; return; }
-      const matches = records.filter((record) => selectedBranches.has(record.branch)
-        && (!occurrenceType.value || record.occurrenceType === occurrenceType.value)
-        && searchCore.matches(record, query, collections.get(record.collectionId)));
-      const branchScope = selectedBranches.size === branches.length ? "" : selectedBranches.size === 1 ? ` in ${[...selectedBranches][0]}` : ` in ${selectedBranches.size.toLocaleString()} branches`;
-      const resultNoun = browseSelectedBranches && occurrenceType.value === "member" ? `member${matches.length === 1 ? "" : "s"}` : browseSelectedBranches && occurrenceType.value === "associated" ? "associated people" : `match${matches.length === 1 ? "" : "es"}`;
-      resultSummary.textContent = `${matches.length.toLocaleString()} ${resultNoun} found${branchScope}`;
-      const visibleMatches = matches.slice(0, visibleLimit);
-      results.replaceChildren(...visibleMatches.map((record) => {
+    const historicalLabel = (record) => ({
+      transcription: "Transcription",
+      translation: "Translation",
+      "welsh-saints": "Welsh Saints Project",
+      "ron-dennis-publication": "Ron Dennis publication",
+    })[record.sourceType] || "Historical record";
+    const historicalArticle = (record) => {
+      const article = document.createElement("article"); article.className = "research-result people-result all-records-result";
+      const sourceLink = record.viewerUrl || record.sourceUrl;
+      const branchContext = (record.branches || []).length ? `<p class="people-fact"><strong>Branch/place context:</strong> ${escapeHtml(record.branches.join("; "))}</p>` : "";
+      const alternates = (record.alternateTitles || []).length ? `<p class="people-source-detail"><strong>Also known as:</strong> ${escapeHtml(record.alternateTitles.join("; "))}</p>` : "";
+      const availability = sourceLink ? `<a class="people-source-link" href="${escapeHtml(sourceLink)}"${record.sourceType === "welsh-saints" ? ' target="_blank" rel="noopener noreferrer"' : ""}>${record.viewerUrl ? "Open source" : "View source"}<span class="people-source-link-icon" aria-hidden="true"></span></a>` : `<span class="people-source-status">Source is not publicly available</span>`;
+      article.innerHTML = `<small>${escapeHtml(historicalLabel(record))}</small><h2>${escapeHtml(record.title)}</h2>${record.author ? `<p class="people-source-detail"><strong>Author:</strong> ${escapeHtml(record.author)}</p>` : ""}${record.versionStatus ? `<p class="people-source-detail"><strong>Version:</strong> ${escapeHtml(record.versionStatus)}</p>` : ""}${alternates}<p>${escapeHtml(record.snippet)}</p><div class="people-key-facts"><p class="people-fact"><strong>Location:</strong> ${escapeHtml(record.location)}</p>${branchContext}</div><p class="people-source-detail"><strong>Source:</strong> ${escapeHtml(record.provenance)}</p><p class="people-result-action">${availability}</p>`;
+      return article;
+    };
+    async function renderAllRecords(rawQuery) {
+      const request = ++historicalRequest;
+      const memberMatches = records.filter((record) => selectedBranches.has(record.branch) && record.occurrenceType === "member" && searchCore.matches(record, rawQuery, collections.get(record.collectionId)));
+      resultSummary.textContent = "Searching member and historical records...";
+      results.replaceChildren();
+      try {
+        const historical = await window.ALL_RECORDS_DISCOVERY.search(rawQuery, 250);
+        if (request !== historicalRequest || selectedScope() !== "all-records") return;
+        const memberItems = memberMatches.map((record) => ({ kind: "member", record }));
+        const historicalItems = historical.records.map((record) => ({ kind: "historical", record }));
+        const diverseHistorical = [];
+        const usedTypes = new Set();
+        for (const item of historicalItems) {
+          if (!usedTypes.has(item.record.sourceType) && diverseHistorical.length < 4) {
+            diverseHistorical.push(item); usedTypes.add(item.record.sourceType);
+          }
+        }
+        const diverseIds = new Set(diverseHistorical.map((item) => item.record.id));
+        const combined = memberItems.length
+          ? [...memberItems.slice(0, 6), ...diverseHistorical, ...memberItems.slice(6), ...historicalItems.filter((item) => !diverseIds.has(item.record.id))]
+          : historicalItems;
+        const visible = combined.slice(0, visibleLimit);
+        const makeMemberArticle = (record) => {
+          // Reuse the existing member-only renderer by temporarily rendering the
+          // exact occurrence through the same card construction below.
+          return memberCard(record);
+        };
+        results.replaceChildren(...visible.map((item) => item.kind === "member" ? makeMemberArticle(item.record) : historicalArticle(item.record)));
+        const total = memberMatches.length + historical.totalMatches;
+        resultSummary.textContent = `${total.toLocaleString()} mixed-source result${total === 1 ? "" : "s"} found${historical.records.length < historical.totalMatches ? " (showing the highest-ranked historical matches)" : ""}`;
+        if (combined.length > visible.length) {
+          const more = document.createElement("button"); more.type = "button"; more.className = "people-show-more"; more.textContent = `Show more results (${(combined.length - visible.length).toLocaleString()} remaining)`;
+          more.addEventListener("click", () => { visibleLimit += 50; render(); }); results.append(more);
+        }
+        summary.textContent = `Full search covers ${historical.manifest.counts.allRecords.toLocaleString()} records across member, transcript, Welsh Saints, and Ron Dennis sources.`;
+      } catch (error) {
+        if (request !== historicalRequest) return;
+        resultSummary.textContent = "The local Full search prototype could not be loaded.";
+        results.innerHTML = `<p>${escapeHtml(error.message)}</p>`;
+      }
+    }
+    function memberCard(record) {
         const article = document.createElement("article"); article.className = "research-result people-result";
         const collection = collections.get(record.collectionId);
         const aliases = Array.isArray(record.aliases) ? record.aliases.filter(Boolean) : [];
@@ -84,7 +129,28 @@
         const availabilityTitle = !hasImage && index.betaPublicIndex && record.sourceAvailability === "local-portable-only" ? "Exact source image available in the portable/reviewer edition" : "";
         article.innerHTML = `<small>${record.occurrenceType === "associated" ? "Associated person" : "Member record"}${record.verified ? " · verified" : " · needs image verification"}</small><h2>${escapeHtml(record.nameAsWritten)}</h2><div class="people-key-facts">${facts.join("")}</div>${record.sourceBranchSpelling ? `<p class="people-source-detail"><strong>Source branch spelling:</strong> ${escapeHtml(record.sourceBranchSpelling)}</p>` : ""}${sourceContext ? `<p class="people-source-detail"><strong>Source:</strong> ${escapeHtml(sourceContext)}</p>` : ""}${record.notes ? `<p class="people-source-detail">${escapeHtml(record.notes)}</p>` : ""}<p class="people-result-action"><a class="people-source-link" href="${escapeHtml(recordUrl(record))}"${availabilityTitle ? ` title="${escapeHtml(availabilityTitle)}"` : ""}>${hasImage ? "Open source" : `${escapeHtml(record.branch)} resources`}<span class="people-source-link-icon" aria-hidden="true"></span></a></p>`;
         return article;
-      }));
+    }
+    function render() {
+      const rawQuery = search.value.trim();
+      const scope = selectedScope();
+      if (scope === "all-records") {
+        if (!rawQuery || rawQuery === "*") { summary.textContent = "Full search covers member records and approved historical-text sources."; resultSummary.textContent = ""; results.innerHTML = "<p>Enter a name, place, date, title, or phrase.</p>"; return; }
+        renderAllRecords(rawQuery); return;
+      }
+      historicalRequest += 1;
+      const browseSelectedBranches = rawQuery === "" || rawQuery === "*";
+      const query = browseSelectedBranches ? "" : normalize(rawQuery);
+      summary.textContent = `Member Search contains ${records.length.toLocaleString()} occurrence${records.length === 1 ? "" : "s"} across ${branchCount.toLocaleString()} searchable branch${branchCount === 1 ? "" : "es"}.`;
+      if (!searchStarted) { resultSummary.textContent = ""; results.replaceChildren(); return; }
+      if (browseSelectedBranches && selectedBranches.size === 0) { resultSummary.textContent = "0 matches found"; results.innerHTML = "<p>Enter a person’s name or select one or more branches to browse their searchable member records.</p>"; return; }
+      const matches = records.filter((record) => selectedBranches.has(record.branch)
+        && record.occurrenceType === scope
+        && searchCore.matches(record, query, collections.get(record.collectionId)));
+      const branchScope = selectedBranches.size === branches.length ? "" : selectedBranches.size === 1 ? ` in ${[...selectedBranches][0]}` : ` in ${selectedBranches.size.toLocaleString()} branches`;
+      const resultNoun = browseSelectedBranches && scope === "member" ? `member${matches.length === 1 ? "" : "s"}` : `match${matches.length === 1 ? "" : "es"}`;
+      resultSummary.textContent = `${matches.length.toLocaleString()} ${resultNoun} found${branchScope}`;
+      const visibleMatches = matches.slice(0, visibleLimit);
+      results.replaceChildren(...visibleMatches.map(memberCard));
       if (matches.length > visibleMatches.length) {
         const more = document.createElement("button");
         more.type = "button"; more.className = "people-show-more";
@@ -96,7 +162,7 @@
     }
     document.addEventListener("click", (event) => { if (branchFilter.open && !branchFilter.contains(event.target)) branchFilter.open = false; });
     search.addEventListener("input", () => { searchStarted = true; visibleLimit = 50; render(); });
-    occurrenceType.addEventListener("change", () => { searchStarted = true; visibleLimit = 50; render(); });
+    occurrenceTypes.forEach((control) => control.addEventListener("change", () => { searchStarted = true; visibleLimit = 50; render(); }));
     updateBranchSummary(); render(); finishLoading();
   }
 })();

@@ -6,6 +6,8 @@ const root = path.resolve(import.meta.dirname, "..");
 const output = path.resolve(process.argv[2] || path.join(root, "build/research-beta"));
 const privateDir = path.join(root, "data/private");
 const betaDataDir = path.join(output, "data/beta");
+const discoverySourceDir = path.join(privateDir, "all-records-prototype");
+const discoveryDataDir = path.join(output, "data/discovery");
 
 const readJson = (file) => JSON.parse(fs.readFileSync(file, "utf8"));
 const escapeHtml = (value) => String(value ?? "").replace(/[&<>"']/g, (character) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" })[character]);
@@ -29,6 +31,7 @@ fs.mkdirSync(output, { recursive: true });
 const rootFiles = [
   ".nojekyll", "about.html", "app.js", "branch-registry.html", "feedback.js", "historical-names.html", "index.html",
   "local-private-features.js", "navigation.js", "people-search-core.js", "people-search.html", "people-search.js",
+  "all-records-discovery.js",
   "research-page-nav.css", "site.webmanifest", "styles.css", "welsh-saints-research.html", "welsh-saints-research.js",
   "work-remaining.html", "WelshRecord-CreatingCommit1.jpg",
   "RIGHTS_AND_PROVENANCE.md", "BRANCH_REGISTRY.csv",
@@ -40,9 +43,19 @@ for (const file of ["favicon-beta.svg", "favicon-beta-32.png", "apple-touch-icon
 }
 copy(path.join(root, "research-beta/site.webmanifest"), path.join(output, "site.webmanifest"));
 copy(path.join(root, "outputs/branch-registry/Welsh-LDS-Branch-Registry.xlsx"), path.join(output, "outputs/branch-registry/Welsh-LDS-Branch-Registry.xlsx"));
-for (const file of ["catalog.public.js", "branch-registry.js", "branch-registry.json", "historical-names.js", "historical-names.json"]) {
+for (const file of ["catalog.public.js", "historical-names.js", "historical-names.json"]) {
   copy(path.join(root, "data", file), path.join(output, "data", file));
 }
+const sanitizePublicValue = (value) => {
+  if (Array.isArray(value)) return value.map(sanitizePublicValue);
+  if (!value || typeof value !== "object") return value;
+  return Object.fromEntries(Object.entries(value)
+    .filter(([key]) => !["localPath", "localFile", "localDirectory", "sourcePath"].includes(key))
+    .map(([key, child]) => [key, sanitizePublicValue(child)]));
+};
+const publicBranchRegistry = sanitizePublicValue(readJson(path.join(root, "data/branch-registry.json")));
+fs.writeFileSync(path.join(output, "data/branch-registry.json"), `${JSON.stringify(publicBranchRegistry, null, 2)}\n`);
+fs.writeFileSync(path.join(output, "data/branch-registry.js"), `window.WELSH_BRANCH_REGISTRY = ${JSON.stringify(publicBranchRegistry)};\n`);
 // Typed transcript PDFs and their generated viewer pages are intentionally excluded until publication status is reviewed.
 
 // Generate an allowlisted researcher-review artifact; never copy the private
@@ -144,6 +157,37 @@ const peoplePayload = {
 };
 fs.writeFileSync(path.join(betaDataDir, "people-index.beta.js"), `window.WELSH_PEOPLE_BETA_INDEX = ${JSON.stringify(peoplePayload)};\n`);
 
+// Package the reviewed Full search adapter data without copying authoritative
+// private indexes, source PDFs, complete page prose, or local path metadata.
+const discoveryReport = readJson(path.join(discoverySourceDir, "build-report.json"));
+const expectedDiscoveryCounts = { members: 11473, transcription: 663, welshSaints: 7234, ronDennisPages: 6971, ronDennisSourceRecords: 13, allRecords: 26354 };
+for (const [key, value] of Object.entries(expectedDiscoveryCounts)) {
+  if (discoveryReport.counts?.[key] !== value) throw new Error(`Full search count mismatch for ${key}: ${discoveryReport.counts?.[key]} != ${value}`);
+}
+fs.mkdirSync(discoveryDataDir, { recursive: true });
+for (const file of [...discoveryReport.metadataFiles, ...discoveryReport.termFiles].map((item) => item.file)) copy(path.join(discoverySourceDir, file), path.join(discoveryDataDir, file));
+const discoveryManifest = {
+  schemaVersion: discoveryReport.schemaVersion,
+  researchBeta: true,
+  counts: discoveryReport.counts,
+  termShardCount: discoveryReport.termShardCount,
+  metadataShardSize: discoveryReport.metadataShardSize,
+  metadataFiles: discoveryReport.metadataFiles,
+  termFiles: discoveryReport.termFiles,
+  publicationSources: discoveryReport.bookReports.map(({ title, pages, textPages, sourceType, publicAvailability }) => ({ title, pages, textPages, sourceType, publicAvailability })),
+  transcriptClassification: {
+    sourceTextPages: discoveryReport.transcriptClassification.sourceTextPages,
+    includedInFullSearch: discoveryReport.transcriptClassification.includedInFullSearch,
+    excludedFromFullSearch: discoveryReport.transcriptClassification.excludedFromFullSearch,
+    administrativeProgressPages: 3,
+    structuralCatalogPages: 25,
+    mixedContentReview: discoveryReport.transcriptClassification.mixedContentReview,
+    pagesWithoutUsableEmbeddedText: discoveryReport.transcriptClassification.pagesWithoutUsableEmbeddedText,
+  },
+  rightsNote: discoveryReport.rightsNote,
+};
+fs.writeFileSync(path.join(discoveryDataDir, "manifest.js"), `window.ALL_RECORDS_DISCOVERY_MANIFEST = ${JSON.stringify(discoveryManifest)};\n`);
+
 const saintsMaster = readJson(path.join(privateDir, "welsh-saints-index.local.json"));
 const normalize = (value) => String(value || "").normalize("NFD").replace(/[\u0300-\u036f]/g, "").toLocaleLowerCase("en");
 const tokenString = (record) => [...new Set(normalize([record.detailText, record.title, record.summary, ...(record.cells || []), ...(record.categories || []), ...(record.matchedBranches || [])].join(" ")).match(/[a-z0-9]+/g) || [])].join(" ");
@@ -187,7 +231,9 @@ for (const file of fs.readdirSync(output).filter((name) => name.endsWith(".html"
     .replace('<a href="#welsh-saints-search-controls">&uarr; Search</a>', '<a class="research-nav-icon" href="#welsh-saints-search-controls" aria-label="Go to search"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="m6 14 6-6 6 6"/></svg></a>')
     .replace('<a href="#page-bottom">&darr; Bottom</a>', '<a class="research-nav-icon" href="#page-bottom" aria-label="Go to bottom"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="m6 10 6 6 6-6"/></svg></a>');
   html = html.replace(/<p class="home-secondary" data-local-feature hidden><a href="data\/private\/familysearch-comparison\.local\.html">Research comparisons<\/a>[\s\S]*?<\/p>/, "");
-  if (file === "people-search.html") html = html.replace(/<script src="people-search\.js[^>]*><\/script>/, '<script src="data/beta/people-index.beta.js?v=gilwern-confirmed-20260814"></script><script src="people-search.js?v=member-source-audit-20260813"></script>');
+  if (file === "people-search.html") html = html
+    .replace(/<script src="all-records-discovery\.js[^>]*><\/script>/, '<script>window.ALL_RECORDS_DISCOVERY_BASE="data/discovery/";</script><script src="all-records-discovery.js?v=full-search-beta-20260814"></script>')
+    .replace(/<script src="people-search\.js[^>]*><\/script>/, '<script src="data/beta/people-index.beta.js?v=full-search-beta-20260814"></script><script src="people-search.js?v=full-search-beta-20260814"></script>');
   if (file === "welsh-saints-research.html") html = html.replace(/<script src="data\/private\/welsh-saints-index\.local\.js[^>]*><\/script><script src="data\/private\/typed-branch-record-index\.local\.js[^>]*><\/script>/, '<script src="data/beta/welsh-saints-index.beta.js"></script>');
   fs.writeFileSync(target, html);
 }
@@ -219,6 +265,8 @@ const privateLeaks = outputFiles.filter((name) => name.startsWith("data/private/
 if (privateLeaks.length) throw new Error(`Private files entered beta output: ${privateLeaks.join(", ")}`);
 const serializedSaints = fs.readFileSync(path.join(betaDataDir, "welsh-saints-index.beta.js"), "utf8");
 if (/detailText|Spouses and Children|Vital Information\s+Close/.test(serializedSaints)) throw new Error("Welsh Saints beta artifact contains prohibited prose/private fields.");
+const serializedDiscovery = fs.readdirSync(discoveryDataDir).filter((name) => name.endsWith(".js")).map((name) => fs.readFileSync(path.join(discoveryDataDir, name), "utf8")).join("\n");
+if (/[A-Z]:[\\/]Users[\\/]|resources[\\/]books|data[\\/]private|ron-dennis[^"\n]*\.pdf/i.test(serializedDiscovery)) throw new Error("Full search beta artifact contains a private path or source filename.");
 
 const collectionHosting = catalog.collections.map((collection) => {
   const hosted = collection.images.filter((image) => image.archiveRelativePath && remotePaths.has(image.archiveRelativePath)).length;
@@ -243,7 +291,8 @@ const report = {
   welshSaints: { records: saintsRecords.length, categories: saintsCounts, completeProseIncluded: false },
   branchRoutes: { canonicalBranches: branchRegistry.length, audited: branchRoutes.length, routes: branchRoutes },
   researchSupportPages: ["about.html", "branch-registry.html", "historical-names.html", "work-remaining.html", "familysearch-comparison.html"],
-  typedExtractSearchIncluded: false,
+  fullSearch: { counts: discoveryManifest.counts, artifactFiles: fs.readdirSync(discoveryDataDir).length, rightsNote: discoveryManifest.rightsNote },
+  typedExtractSearchIncluded: true,
   localOnlyCollections,
   privacy: { dataPrivateIncluded: false, privateLeaks },
   files: outputFiles.length,

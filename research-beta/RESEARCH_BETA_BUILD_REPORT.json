@@ -1,7 +1,7 @@
 {
   "edition": "unlisted-online-research-beta",
-  "generatedAt": "2026-08-13T05:35:21.671Z",
-  "output": "build/research-beta-gilwern-release",
+  "generatedAt": "2026-08-13T15:42:07.799Z",
+  "output": "build/research-beta",
   "noIndex": true,
   "memberSearch": {
     "records": 11473,
@@ -409,7 +409,20 @@
     "work-remaining.html",
     "familysearch-comparison.html"
   ],
-  "typedExtractSearchIncluded": false,
+  "fullSearch": {
+    "counts": {
+      "members": 11473,
+      "transcription": 663,
+      "welshSaints": 7234,
+      "ronDennisPages": 6971,
+      "ronDennisSourceRecords": 13,
+      "historicalRecords": 14881,
+      "allRecords": 26354
+    },
+    "artifactFiles": 93,
+    "rightsNote": "Discovery metadata and bounded snippets only. No Ron Dennis PDF, complete page prose, filesystem path, viewer, or download is included."
+  },
+  "typedExtractSearchIncluded": true,
   "localOnlyCollections": [
     {
       "id": "collection-63",
@@ -661,7 +674,7 @@
     "dataPrivateIncluded": false,
     "privateLeaks": []
   },
-  "files": 48,
+  "files": 143,
   "archiveInventory": {
     "item": "ldswelshmembership",
     "remoteFiles": 6030

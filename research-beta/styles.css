@@ -588,7 +588,7 @@ button, input { font: inherit; }
 .research-result small, .research-source { color: var(--muted); }
 .research-result small { font: 700 .75rem/1.4 Arial, sans-serif; letter-spacing: .035em; text-transform: uppercase; }
 .typed-record-result { border-left: 4px solid var(--gold); }
-.welsh-saints-result { border-left: 4px solid var(--green); }
+.welsh-saints-result { border-left: 4px solid var(--green); background: #f7f3e9; }
 .people-key-facts { display: flex; flex-wrap: wrap; gap: 7px 12px; margin: 0 0 10px; }
 .people-key-facts .people-fact { margin: 0; padding: 5px 8px; border-left: 3px solid #c9bda5; background: var(--paper); line-height: 1.4; }
 .people-key-facts .people-branch-fact { border-left-color: var(--green); }
@@ -602,8 +602,14 @@ button, input { font: inherit; }
 .people-source-link:focus-visible { outline: 2px solid var(--gold); outline-offset: 3px; border-radius: 2px; }
 .people-source-link-icon { position: relative; display: inline-block; width: 10px; height: 13px; margin-left: .35em; border: 1.5px solid var(--gold-dark); border-radius: 1px; box-sizing: border-box; vertical-align: -2px; }
 .people-source-link-icon::after { content: ""; position: absolute; right: -1.5px; top: -1.5px; width: 4px; height: 4px; border-left: 1.5px solid var(--gold-dark); border-bottom: 1.5px solid var(--gold-dark); background: var(--panel); }
-.people-search-controls { grid-template-columns: minmax(300px, 380px) max-content minmax(160px, 220px); justify-content: start; }
+.people-search-controls { grid-template-columns: minmax(300px, 380px) minmax(160px, 220px); justify-content: start; }
 .people-search-controls #peopleSearch { width: 100%; max-width: 380px; }
+.people-search-scope { grid-column: 1 / -1; display: flex; flex-wrap: wrap; gap: 4px 22px; margin: 0; padding: 0; border: 0; }
+.people-search-scope label { grid-column: auto; display: inline-flex; align-items: center; gap: 7px; min-height: 40px; padding: 4px 2px; font-weight: 600; cursor: pointer; }
+.people-search-scope input { width: 18px; height: 18px; min-height: 0; margin: 0; padding: 0; accent-color: var(--green); }
+.people-search-scope input:focus-visible { outline: 3px solid var(--gold); outline-offset: 3px; }
+.people-search-scope-note { grid-column: 1 / -1; max-width: 680px; margin: -3px 0 0; color: var(--muted); font-size: .94rem; }
+.visually-hidden { position: absolute !important; width: 1px !important; height: 1px !important; padding: 0 !important; margin: -1px !important; overflow: hidden !important; clip: rect(0, 0, 0, 0) !important; white-space: nowrap !important; border: 0 !important; }
 .people-branch-filter { position: relative; min-width: 0; }
 .people-branch-filter summary { min-height: 42px; box-sizing: border-box; display: flex; align-items: center; justify-content: space-between; gap: 8px; padding: 8px 10px; border: 1px solid var(--line); border-radius: 4px; background: var(--panel); cursor: pointer; list-style: none; white-space: nowrap; overflow: hidden; }
 .people-branch-filter summary::-webkit-details-marker { display: none; }

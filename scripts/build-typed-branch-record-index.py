@@ -1,8 +1,10 @@
 import csv
+import hashlib
 import json
 import re
 from datetime import datetime, timezone
 from pathlib import Path
+from urllib.parse import urlencode
 
 from pypdf import PdfReader
 
@@ -11,6 +13,7 @@ ROOT = Path(__file__).resolve().parents[1]
 PDF_DIR = ROOT / "resources" / "transcriptions"
 PRIVATE_DIR = ROOT / "data" / "private"
 PLAN = ROOT / "outputs" / "internet-archive-split-plan" / "proposed-splits.csv"
+VIEWER_MANIFEST = PDF_DIR / "viewer-pages" / "manifest.json"
 
 PDF_PATTERN = "A - CDs * - Typed Transcripts.pdf"
 RESULT_TYPE = "Typed branch-record extract"
@@ -48,6 +51,24 @@ POSSIBLE_PATTERNS = [re.compile(pattern, re.I) for pattern in [
 
 ADDITIONAL_BRANCH_ALIASES = {"Merthyr Tydfil": ["merthyr"]}
 
+ADMINISTRATIVE_MARKERS = [re.compile(pattern, re.I) for pattern in [
+    r"\btranscription project\b",
+    r"\bassigned\s*-?\s*in process\b",
+    r"\bcomplete\s*-?\s*submitted\b",
+    r"\bpages?\s+\d+(?:\s*[-–]\s*\d+)?\s+not done\b",
+    r"\bcd'?s?\s+from\s+blake miller\b",
+]]
+STRUCTURAL_MARKERS = [re.compile(pattern, re.I) for pattern in [
+    r"\bchurch archives call number\b",
+    r"\ball rights reserved\b.{0,80}\bcontents\b",
+    r"file\s*:\s*/?/?[a-z]\s*:\s*\\?images\\?contents\.htm",
+]]
+HISTORICAL_PROSE_MARKERS = [re.compile(pattern, re.I) for pattern in [
+    r"\bminutes? of (?:a |the )?(?:council|meeting|conference)\b",
+    r"\bmeeting (?:was )?(?:held|opened|commenced|called to order)\b",
+    r"\b(?:elder|president|brother|sister)\b.{0,80}\b(?:rose|spoke|testified|reported|taught)\b",
+]]
+
 
 def compact(text):
     return " ".join((text or "").replace("\x00", " ").split())
@@ -55,6 +76,43 @@ def compact(text):
 
 def normalize(text):
     return re.sub(r"[^a-z0-9]+", " ", (text or "").lower()).strip()
+
+
+def classify_page(text):
+    administrative = any(pattern.search(text) for pattern in ADMINISTRATIVE_MARKERS)
+    structural = any(pattern.search(text) for pattern in STRUCTURAL_MARKERS)
+    historical = any(pattern.search(text) for pattern in HISTORICAL_PROSE_MARKERS)
+    if administrative and historical:
+        return {
+            "pageClassification": "mixed-content",
+            "fullSearchEligible": False,
+            "classificationConfidence": "manual-review",
+            "classificationReason": "Project-administration wording and apparent historical record prose occur on the same page.",
+            "mixedContentReview": True,
+        }
+    if administrative:
+        return {
+            "pageClassification": "administrative-progress",
+            "fullSearchEligible": False,
+            "classificationConfidence": "high",
+            "classificationReason": "Original transcription-project inventory, assignment, or completion wording.",
+            "mixedContentReview": False,
+        }
+    if structural and not historical:
+        return {
+            "pageClassification": "structural-blank",
+            "fullSearchEligible": False,
+            "classificationConfidence": "high",
+            "classificationReason": "Catalog, contents, title, or other structural source leaf without transcript prose.",
+            "mixedContentReview": False,
+        }
+    return {
+        "pageClassification": "transcript-translation-content",
+        "fullSearchEligible": True,
+        "classificationConfidence": "high" if historical else "provisional",
+        "classificationReason": "Usable historical transcription/translation text; no strong project-administration marker detected.",
+        "mixedContentReview": False,
+    }
 
 
 def parse_pages(spec):
@@ -179,6 +237,11 @@ def main():
     source_reports = []
     candidates = []
 
+    viewer_sources = {}
+    if VIEWER_MANIFEST.exists():
+        manifest = json.loads(VIEWER_MANIFEST.read_text(encoding="utf-8"))
+        viewer_sources = {item["sourcePdf"]: item for item in manifest.get("sources", [])}
+
     for pdf in pdfs:
         reader = PdfReader(pdf)
         source_range = source_cd_range(pdf.name)
@@ -202,6 +265,16 @@ def main():
             lrs = detected_lrs or active_lrs
             cds = active_cds or source_range
             relative_path = pdf.relative_to(ROOT).as_posix()
+            viewer_source = viewer_sources.get(pdf.name)
+            viewer_collection_id = f"typed-viewer-{hashlib.sha256(pdf.name.encode('utf-8')).hexdigest()[:16]}" if viewer_source else ""
+            viewer_image = ""
+            viewer_url = ""
+            if viewer_source and page_number <= len(viewer_source.get("pages", [])):
+                viewer_image = viewer_source["pages"][page_number - 1]["image"]
+                parameters = {"collection": viewer_collection_id, "imageFilename": viewer_image, "view": "single"}
+                if branches:
+                    parameters["branch"] = branches[0]
+                viewer_url = "index.html?" + urlencode(parameters)
             record = {
                 "id": f"typed-pdf:{pdf.name}:{page_number}",
                 "type": "typed-branch-record-extract",
@@ -217,6 +290,10 @@ def main():
                 "recordGroup": group,
                 "originalLocalPath": relative_path,
                 "url": f"{relative_path}#page={page_number}",
+                "viewerCollectionId": viewer_collection_id or None,
+                "viewerImageFilename": viewer_image or None,
+                "viewerUrl": viewer_url or None,
+                **classify_page(text),
             }
             records.append(record)
             candidates.extend(candidate_evidence(record))
@@ -251,6 +328,10 @@ def main():
             "pageTextRecords": len(records),
             "pagesWithoutUsableEmbeddedText": sum(item["pagesWithoutUsableEmbeddedText"] for item in source_reports),
             "candidateEvidence": len(unique_candidates),
+            "fullSearchEligiblePages": sum(1 for item in records if item["fullSearchEligible"]),
+            "administrativeProgressPages": sum(1 for item in records if item["pageClassification"] == "administrative-progress"),
+            "mixedContentPages": sum(1 for item in records if item["pageClassification"] == "mixed-content"),
+            "structuralBlankPages": sum(1 for item in records if item["pageClassification"] == "structural-blank"),
         },
         "sources": source_reports,
         "records": records,

@@ -11,6 +11,8 @@ for (const file of files.filter((name) => /\.(?:html|js|json|css|txt|md|csv)$/i.
   if (/data\/private\//i.test(text)) failures.push(`${file}: private-data path reference`);
   if (/[A-Z]:[\\/]Users[\\/]/i.test(text)) failures.push(`${file}: local Windows path reference`);
 }
+const registryJsonText = fs.readFileSync(path.join(root, "data/branch-registry.json"), "utf8");
+if (/\"(?:localPath|localFile|localDirectory|sourcePath)\"\s*:/.test(registryJsonText)) failures.push("Branch registry exposes a local-only path field");
 
 const htmlFiles = files.filter((name) => name.endsWith(".html"));
 for (const file of htmlFiles) {
@@ -81,7 +83,19 @@ if (alltwenMary?.birthDate !== "Jan 17/48" || alltwenMary?.baptismDate !== "Gorf
 if (abersychanLydia?.baptismDate !== "23 Jul 1884") failures.push("Abersychan paragraph baptism correction missing from beta index");
 const peopleHtml = fs.readFileSync(path.join(root, "people-search.html"), "utf8");
 const peopleJs = fs.readFileSync(path.join(root, "people-search.js"), "utf8");
-if (!/Loading member index…/.test(peopleHtml) || !/stepaside-backfill-20260813/.test(peopleHtml)) failures.push("Member Search loading state/cache key missing");
+if (!/name="peopleSearchScope" value="member" checked/.test(peopleHtml) || !/name="peopleSearchScope" value="all-records"/.test(peopleHtml)) failures.push("Member/Full search radio controls missing");
+if (/peopleOccurrenceType|>All records</.test(peopleHtml)) failures.push("Legacy Member Search scope dropdown remains");
+if (!/Full search includes member records, transcripts, Welsh Saints material, and searchable publications\./.test(peopleHtml)) failures.push("Full search explanation missing");
+const discoveryDir = path.join(root, "data/discovery");
+if (!fs.existsSync(discoveryDir)) failures.push("Full search discovery package missing");
+else {
+  const discoveryContext = { window: {} };
+  vm.runInNewContext(fs.readFileSync(path.join(discoveryDir, "manifest.js"), "utf8"), discoveryContext);
+  const discovery = discoveryContext.window.ALL_RECORDS_DISCOVERY_MANIFEST;
+  if (discovery?.counts?.allRecords !== 26354 || discovery.counts.members !== 11473 || discovery.counts.transcription !== 663 || discovery.counts.welshSaints !== 7234 || discovery.counts.ronDennisPages !== 6971 || discovery.counts.ronDennisSourceRecords !== 13) failures.push("Full search packaged counts invalid");
+  if (discovery?.transcriptClassification?.administrativeProgressPages !== 3 || discovery?.transcriptClassification?.structuralCatalogPages !== 25 || discovery?.transcriptClassification?.pagesWithoutUsableEmbeddedText !== 86) failures.push("Full search transcript exclusions invalid");
+}
+if (!/Loading member index/.test(peopleHtml) || !/full-search-beta-20260814/.test(peopleHtml)) failures.push("Member Search loading state/cache key missing");
 if (!peopleJs.includes("let searchStarted = false")) failures.push("Member Search should not render records before a search/filter action");
 if (!peopleJs.includes("matches.slice(0, visibleLimit)")) failures.push("Member Search should batch result rendering");
 if (!peopleJs.includes("Show more results")) failures.push("Member Search show-more control is missing");
