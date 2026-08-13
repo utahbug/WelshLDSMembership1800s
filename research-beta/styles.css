@@ -593,8 +593,8 @@ button, input { font: inherit; }
 .people-result-action { margin-top: 12px !important; }
 .people-open-record { display: inline-flex; align-items: center; min-height: 42px; padding: 7px 12px; border: 1px solid var(--green); border-radius: 4px; background: var(--green); color: #fff; font-weight: 700; text-decoration: none; }
 .people-open-record:hover, .people-open-record:focus-visible { background: var(--green-dark); color: #fff; text-decoration: underline; }
-.people-source-link { display: inline-block; padding: 5px 0; color: var(--green-dark); font-weight: 700; text-decoration: underline; text-underline-offset: 2px; }
-.people-source-link:hover, .people-source-link:focus-visible { color: var(--green); text-decoration-thickness: 2px; }
+.people-source-link { display: inline-block; padding: 5px 0; color: var(--green-dark); font-weight: 700; text-decoration: none; }
+.people-source-link:hover, .people-source-link:focus-visible { color: var(--green); text-decoration: underline; text-decoration-thickness: 2px; text-underline-offset: 2px; }
 .people-search-controls { grid-template-columns: minmax(300px, 380px) max-content minmax(160px, 220px); justify-content: start; }
 .people-search-controls #peopleSearch { width: 100%; max-width: 380px; }
 .people-branch-filter { position: relative; min-width: 0; }
