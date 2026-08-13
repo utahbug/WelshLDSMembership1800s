@@ -1,14 +1,16 @@
 (() => {
   const app = document.querySelector("#peopleApp");
   const unavailable = document.querySelector("#peopleUnavailable");
+  const loading = document.querySelector("#peopleLoading");
+  const finishLoading = () => { if (loading) loading.hidden = true; };
   const betaIndex = window.WELSH_PEOPLE_BETA_INDEX;
-  if (window.WELSH_RECORD_CATALOG?.edition === "public" && !betaIndex?.betaPublicIndex) { unavailable.hidden = false; return; }
+  if (window.WELSH_RECORD_CATALOG?.edition === "public" && !betaIndex?.betaPublicIndex) { finishLoading(); unavailable.hidden = false; return; }
   if (betaIndex?.betaPublicIndex) { initialize(); return; }
   unavailable.hidden = false; return;
 
   function initialize() {
     const index = window.WELSH_PEOPLE_BETA_INDEX || window.WELSH_PEOPLE_PRIVATE_INDEX;
-    if (!index?.privateLocalIndex && !index?.betaPublicIndex) { unavailable.hidden = false; return; }
+    if (!index?.privateLocalIndex && !index?.betaPublicIndex) { finishLoading(); unavailable.hidden = false; return; }
     app.hidden = false;
     const search = document.querySelector("#peopleSearch");
     const occurrenceType = document.querySelector("#peopleOccurrenceType");
@@ -21,7 +23,7 @@
     const resultSummary = document.querySelector("#peopleResultSummary");
     const results = document.querySelector("#peopleResults");
     const searchCore = window.WELSH_PEOPLE_SEARCH_CORE;
-    if (!searchCore) { unavailable.hidden = false; app.hidden = true; return; }
+    if (!searchCore) { finishLoading(); unavailable.hidden = false; app.hidden = true; return; }
     const normalize = searchCore.normalize;
     const escapeHtml = (value) => String(value || "").replace(/[&<>"']/g, (character) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" })[character]);
     const records = index.records || [];
@@ -69,7 +71,8 @@
       resultSummary.textContent = `${matches.length.toLocaleString()} ${resultNoun} found${branchScope}`;
       results.replaceChildren(...matches.map((record) => {
         const article = document.createElement("article"); article.className = "research-result people-result";
-        const facts = [`<p class="people-fact people-branch-fact"><strong>Branch:</strong> ${escapeHtml(record.branch)}</p>`, record.birthDate ? `<p class="people-fact people-date-fact"><strong>Birth:</strong> ${escapeHtml(record.birthDate)}</p>` : "", record.baptismDate ? `<p class="people-fact people-date-fact"><strong>Baptism:</strong> ${escapeHtml(record.baptismDate)}</p>` : "", record.residence ? `<p class="people-fact"><strong>Residence:</strong> ${escapeHtml(record.residence)}</p>` : "", record.year || record.date ? `<p class="people-fact"><strong>Date:</strong> ${escapeHtml(record.year || record.date)}</p>` : "", record.entryNumber ? `<p class="people-fact"><strong>Entry:</strong> ${escapeHtml(record.entryNumber)}</p>` : ""].filter(Boolean);
+        const aliases = Array.isArray(record.aliases) ? record.aliases.filter(Boolean) : [];
+        const facts = [`<p class="people-fact people-branch-fact"><strong>Branch:</strong> ${escapeHtml(record.branch)}</p>`, record.birthDate ? `<p class="people-fact people-date-fact"><strong>Birth:</strong> ${escapeHtml(record.birthDate)}</p>` : "", record.baptismDate ? `<p class="people-fact people-date-fact"><strong>Baptism:</strong> ${escapeHtml(record.baptismDate)}</p>` : "", record.residence ? `<p class="people-fact"><strong>Residence:</strong> ${escapeHtml(record.residence)}</p>` : "", record.year || record.date ? `<p class="people-fact"><strong>Date:</strong> ${escapeHtml(record.year || record.date)}</p>` : "", record.entryNumber ? `<p class="people-fact"><strong>Entry:</strong> ${escapeHtml(record.entryNumber)}</p>` : "", aliases.length ? `<p class="people-fact"><strong>Also written/indexed:</strong> ${escapeHtml(aliases.join("; "))}</p>` : ""].filter(Boolean);
         const hasImage = record.verified && record.onlineViewerAvailable !== false && record.collectionId && ((Number.isInteger(record.imageSequence) && record.imageSequence > 0) || record.imageFilename);
         const pending = index.betaPublicIndex ? " Source image is not yet available online." : " Exact image not yet linked.";
         article.innerHTML = `<small>${record.occurrenceType === "associated" ? "Associated person" : "Indexed member"}${record.verified ? " · verified" : " · needs image verification"}</small><h2>${escapeHtml(record.nameAsWritten)}</h2><div class="people-key-facts">${facts.join("")}</div>${record.sourceBranchSpelling ? `<p class="people-source-detail"><strong>Source branch spelling:</strong> ${escapeHtml(record.sourceBranchSpelling)}</p>` : ""}${record.notes ? `<p class="people-source-detail">${escapeHtml(record.notes)}</p>` : ""}<p class="people-result-action"><a class="people-open-record" href="${escapeHtml(recordUrl(record))}">${hasImage ? "Open record" : `Open ${escapeHtml(record.branch)} resources`}</a>${hasImage ? "" : `<span class="people-image-pending">${pending}</span>`}</p>`;
@@ -78,6 +81,6 @@
       if (!matches.length) results.innerHTML = "<p>No indexed members matched this search.</p>";
     }
     document.addEventListener("click", (event) => { if (branchFilter.open && !branchFilter.contains(event.target)) branchFilter.open = false; });
-    search.addEventListener("input", render); occurrenceType.addEventListener("change", render); updateBranchSummary(); render();
+    search.addEventListener("input", render); occurrenceType.addEventListener("change", render); updateBranchSummary(); render(); finishLoading();
   }
 })();
