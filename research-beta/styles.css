@@ -634,17 +634,16 @@ button, input { font: inherit; }
 .research-view-nav a {
   display: inline-flex;
   align-items: center;
+  justify-content: center;
   min-height: 42px;
   padding: 5px 12px;
   color: var(--green-dark);
   text-decoration: none;
   border-right: 1px solid rgba(33, 78, 64, .28);
 }
-.search-sticky-nav a:first-child { padding-left: 12px; }
 #people-search-controls,
 #welsh-saints-search-controls,
 #page-bottom { scroll-margin-top: 96px; }
-.research-view-nav a:first-child { padding-left: 0; }
 .research-view-nav a:last-child { border-right: 0; }
 .research-view-nav a:hover,
 .research-view-nav a:focus-visible { text-decoration: underline; }
@@ -653,7 +652,6 @@ button, input { font: inherit; }
   .research-view-nav { margin-bottom: 10px; }
   .research-view-nav a { flex: 1 1 auto; justify-content: center; padding-right: 9px; padding-left: 9px; }
   .search-sticky-nav { width: 100%; }
-  .search-sticky-nav a:first-child { padding-left: 9px; }
   #people-search-controls,
   #welsh-saints-search-controls,
   #page-bottom { scroll-margin-top: 138px; }
