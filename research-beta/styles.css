@@ -665,6 +665,7 @@ button, input { font: inherit; }
 .research-view-nav a:hover,
 .research-view-nav a:focus-visible { text-decoration: underline; }
 .research-view-nav .research-nav-icon { width: 44px; min-width: 44px; padding: 5px 9px; box-sizing: border-box; }
+.research-nav-arrows { display: inline-flex; flex: 0 0 auto; flex-wrap: nowrap; white-space: nowrap; }
 .research-nav-icon svg { width: 20px; height: 20px; fill: none; stroke: currentColor; stroke-width: 2.25; stroke-linecap: round; stroke-linejoin: round; }
 .research-view-nav .research-nav-icon:hover,
 .research-view-nav .research-nav-icon:focus-visible { text-decoration: none; background: #f3ead8; }
@@ -673,7 +674,9 @@ button, input { font: inherit; }
 
 @media (max-width: 430px) {
   .research-view-nav { margin-bottom: 10px; }
-  .research-view-nav a { flex: 1 1 auto; justify-content: center; padding-right: 9px; padding-left: 9px; }
+  .research-view-nav a { flex: 1 1 auto; justify-content: center; padding-right: 7px; padding-left: 7px; }
+  .research-view-nav > a { min-width: 0; }
+  .research-nav-arrows { flex: 0 0 88px; }
   .research-view-nav .research-nav-icon { flex: 0 0 44px; }
   .search-sticky-nav { width: 100%; }
   #people-search-controls,
