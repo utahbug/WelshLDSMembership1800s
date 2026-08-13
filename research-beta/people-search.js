@@ -33,11 +33,13 @@
     const branches = [...new Set(records.map((record) => record.branch).filter(Boolean))].sort((a, b) => a.localeCompare(b, "en", { sensitivity: "base" }));
     const branchCount = branches.length;
     const selectedBranches = new Set(branches);
+    let searchStarted = false;
+    let visibleLimit = 50;
     for (const branch of branches) {
       const label = document.createElement("label");
       const checkbox = document.createElement("input");
       checkbox.type = "checkbox"; checkbox.value = branch; checkbox.checked = true;
-      checkbox.addEventListener("change", () => { checkbox.checked ? selectedBranches.add(branch) : selectedBranches.delete(branch); updateBranchSummary(); render(); });
+      checkbox.addEventListener("change", () => { checkbox.checked ? selectedBranches.add(branch) : selectedBranches.delete(branch); searchStarted = true; visibleLimit = 50; updateBranchSummary(); render(); });
       label.append(checkbox, document.createTextNode(branch)); branchChoices.append(label);
     }
     function updateBranchSummary() {
@@ -49,7 +51,7 @@
     function setAllBranches(checked) {
       selectedBranches.clear();
       branchChoices.querySelectorAll('input[type="checkbox"]').forEach((checkbox) => { checkbox.checked = checked; if (checked) selectedBranches.add(checkbox.value); });
-      updateBranchSummary(); render();
+      searchStarted = true; visibleLimit = 50; updateBranchSummary(); render();
     }
     branchSelectAll.addEventListener("click", () => setAllBranches(true));
     branchClear.addEventListener("click", () => setAllBranches(false));
@@ -62,6 +64,7 @@
       const browseSelectedBranches = rawQuery === "" || rawQuery === "*";
       const query = browseSelectedBranches ? "" : normalize(rawQuery);
       summary.textContent = `Member index contains ${records.length.toLocaleString()} occurrence${records.length === 1 ? "" : "s"} across ${branchCount.toLocaleString()} indexed branch${branchCount === 1 ? "" : "es"}.`;
+      if (!searchStarted) { resultSummary.textContent = "Begin a search to view member records"; results.innerHTML = "<p>Enter a name, branch, date, residence, record number, or source reference to begin searching.</p>"; return; }
       if (browseSelectedBranches && selectedBranches.size === 0) { resultSummary.textContent = "0 matches found"; results.innerHTML = "<p>Enter a person’s name or select one or more branches to browse their indexed members.</p>"; return; }
       const matches = records.filter((record) => selectedBranches.has(record.branch)
         && (!occurrenceType.value || record.occurrenceType === occurrenceType.value)
@@ -69,7 +72,8 @@
       const branchScope = selectedBranches.size === branches.length ? "" : selectedBranches.size === 1 ? ` in ${[...selectedBranches][0]}` : ` in ${selectedBranches.size.toLocaleString()} branches`;
       const resultNoun = browseSelectedBranches && occurrenceType.value === "member" ? `member${matches.length === 1 ? "" : "s"}` : browseSelectedBranches && occurrenceType.value === "associated" ? "associated people" : `match${matches.length === 1 ? "" : "es"}`;
       resultSummary.textContent = `${matches.length.toLocaleString()} ${resultNoun} found${branchScope}`;
-      results.replaceChildren(...matches.map((record) => {
+      const visibleMatches = matches.slice(0, visibleLimit);
+      results.replaceChildren(...visibleMatches.map((record) => {
         const article = document.createElement("article"); article.className = "research-result people-result";
         const aliases = Array.isArray(record.aliases) ? record.aliases.filter(Boolean) : [];
         const facts = [`<p class="people-fact people-branch-fact"><strong>Branch:</strong> ${escapeHtml(record.branch)}</p>`, record.birthDate ? `<p class="people-fact people-date-fact"><strong>Birth:</strong> ${escapeHtml(record.birthDate)}</p>` : "", record.baptismDate ? `<p class="people-fact people-date-fact"><strong>Baptism:</strong> ${escapeHtml(record.baptismDate)}</p>` : "", record.residence ? `<p class="people-fact"><strong>Residence:</strong> ${escapeHtml(record.residence)}</p>` : "", record.year || record.date ? `<p class="people-fact"><strong>Date:</strong> ${escapeHtml(record.year || record.date)}</p>` : "", record.entryNumber ? `<p class="people-fact"><strong>Entry:</strong> ${escapeHtml(record.entryNumber)}</p>` : "", aliases.length ? `<p class="people-fact"><strong>Also written/indexed:</strong> ${escapeHtml(aliases.join("; "))}</p>` : ""].filter(Boolean);
@@ -78,9 +82,18 @@
         article.innerHTML = `<small>${record.occurrenceType === "associated" ? "Associated person" : "Indexed member"}${record.verified ? " · verified" : " · needs image verification"}</small><h2>${escapeHtml(record.nameAsWritten)}</h2><div class="people-key-facts">${facts.join("")}</div>${record.sourceBranchSpelling ? `<p class="people-source-detail"><strong>Source branch spelling:</strong> ${escapeHtml(record.sourceBranchSpelling)}</p>` : ""}${record.notes ? `<p class="people-source-detail">${escapeHtml(record.notes)}</p>` : ""}<p class="people-result-action"><a class="people-open-record" href="${escapeHtml(recordUrl(record))}">${hasImage ? "Open record" : `Open ${escapeHtml(record.branch)} resources`}</a>${hasImage ? "" : `<span class="people-image-pending">${pending}</span>`}</p>`;
         return article;
       }));
+      if (matches.length > visibleMatches.length) {
+        const more = document.createElement("button");
+        more.type = "button"; more.className = "people-show-more";
+        more.textContent = `Show more results (${(matches.length - visibleMatches.length).toLocaleString()} remaining)`;
+        more.addEventListener("click", () => { visibleLimit += 50; render(); });
+        results.append(more);
+      }
       if (!matches.length) results.innerHTML = "<p>No indexed members matched this search.</p>";
     }
     document.addEventListener("click", (event) => { if (branchFilter.open && !branchFilter.contains(event.target)) branchFilter.open = false; });
-    search.addEventListener("input", render); occurrenceType.addEventListener("change", render); updateBranchSummary(); render(); finishLoading();
+    search.addEventListener("input", () => { searchStarted = true; visibleLimit = 50; render(); });
+    occurrenceType.addEventListener("change", () => { searchStarted = true; visibleLimit = 50; render(); });
+    updateBranchSummary(); render(); finishLoading();
   }
 })();
