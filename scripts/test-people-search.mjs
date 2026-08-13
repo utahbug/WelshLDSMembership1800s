@@ -37,13 +37,16 @@ const tests = [
   ["Margaret Vaughan Mai 1/17", "Margaret Vaughan", "Georgetown"],
   ["Margaret Vaughan Mai 2/45", "Margaret Vaughan", "Georgetown"],
   ["John Thomas Ynysfach entry 3", "John Thomas", "Georgetown"],
+  ["Gertrude Dora Hill Dance 29 Jan 1878", "Gertrude Dora Hill Dance", "Pontlanfraith"],
+  ["William Griffiths 9 Apr 1868", "William Griffiths", "Pontlanfraith"],
+  ["Julia Rose Griffiths Hoard 26 June 1920", "Julia Rose Griffiths Hoard", "Pontlanfraith"],
 ];
 
 const failures = tests.filter(([query, name, branch]) => !includes(query, name, branch));
 if (failures.length) throw new Error(`People Search failures:\n${failures.map((test) => test.join(" | ")).join("\n")}`);
 if (index.counts.occurrences !== 11473 || index.records.length !== 11473) throw new Error(`Unexpected occurrence count: ${index.records.length}`);
 if (index.counts.associated !== 0) throw new Error(`Associated-person count changed unexpectedly: ${index.counts.associated}`);
-if (index.counts.withBirthDate !== 44) throw new Error(`Expected 44 birth dates, found ${index.counts.withBirthDate}`);
+if (index.counts.withBirthDate !== 49) throw new Error(`Expected 49 birth dates, found ${index.counts.withBirthDate}`);
 if (index.counts.withBaptismDate !== 153) throw new Error(`Expected 153 baptism dates, found ${index.counts.withBaptismDate}`);
 if (index.records.some((record) => record.verified && (!record.collectionId || (!record.imageSequence && !record.imageFilename)))) throw new Error("A verified record lost its exact viewer linkage.");
 
