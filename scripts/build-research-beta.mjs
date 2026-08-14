@@ -8,6 +8,15 @@ const privateDir = path.join(root, "data/private");
 const betaDataDir = path.join(output, "data/beta");
 const discoverySourceDir = path.join(privateDir, "all-records-prototype");
 const discoveryDataDir = path.join(output, "data/discovery");
+const betaIconNames = ["favicon-beta.svg", "favicon-beta-32.png", "apple-touch-icon-beta.png", "app-icon-beta-192.png", "app-icon-beta-512.png"];
+const betaIconFallback = path.join(root, "build/research-beta/assets");
+const betaIconBuffers = new Map(betaIconNames.map((file) => {
+  const primary = path.join(root, "research-beta/assets", file);
+  const fallback = path.join(betaIconFallback, file);
+  const source = fs.existsSync(primary) ? primary : fallback;
+  if (!fs.existsSync(source)) throw new Error(`Missing Research Beta icon source: ${file}`);
+  return [file, fs.readFileSync(source)];
+}));
 
 const readJson = (file) => JSON.parse(fs.readFileSync(file, "utf8"));
 const escapeHtml = (value) => String(value ?? "").replace(/[&<>"']/g, (character) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" })[character]);
@@ -30,17 +39,15 @@ fs.mkdirSync(output, { recursive: true });
 
 const rootFiles = [
   ".nojekyll", "about.html", "app.js", "branch-registry.html", "feedback.js", "historical-names.html", "index.html",
-  "local-private-features.js", "navigation.js", "people-search-core.js", "people-search.html", "people-search.js",
-  "all-records-discovery.js",
-  "research-page-nav.css", "site.webmanifest", "styles.css", "welsh-saints-research.html", "welsh-saints-research.js",
+  "local-private-features.js", "navigation.js", "branch-members.js", "people-search-core.js", "people-search.html", "people-search.js",
+  "all-records-discovery.js", "search-page-navigation.js",
+  "research-page-nav.css", "site.webmanifest", "styles.css", "transcriptions-translations.html", "welsh-saints-research.html", "welsh-saints-research.js",
   "work-remaining.html", "WelshRecord-CreatingCommit1.jpg",
-  "RIGHTS_AND_PROVENANCE.md", "BRANCH_REGISTRY.csv",
+  "BRANCH_REGISTRY.csv",
 ];
 for (const file of rootFiles) copy(path.join(root, file), path.join(output, file));
 copyTree(path.join(root, "assets"), path.join(output, "assets"));
-for (const file of ["favicon-beta.svg", "favicon-beta-32.png", "apple-touch-icon-beta.png", "app-icon-beta-192.png", "app-icon-beta-512.png"]) {
-  copy(path.join(root, "research-beta/assets", file), path.join(output, "assets", file));
-}
+for (const [file, bytes] of betaIconBuffers) fs.writeFileSync(path.join(output, "assets", file), bytes);
 copy(path.join(root, "research-beta/site.webmanifest"), path.join(output, "site.webmanifest"));
 copy(path.join(root, "outputs/branch-registry/Welsh-LDS-Branch-Registry.xlsx"), path.join(output, "outputs/branch-registry/Welsh-LDS-Branch-Registry.xlsx"));
 for (const file of ["catalog.public.js", "historical-names.js", "historical-names.json"]) {
@@ -189,7 +196,7 @@ const discoveryManifest = {
 fs.writeFileSync(path.join(discoveryDataDir, "manifest.js"), `window.ALL_RECORDS_DISCOVERY_MANIFEST = ${JSON.stringify(discoveryManifest)};\n`);
 
 const saintsMaster = readJson(path.join(privateDir, "welsh-saints-index.local.json"));
-const normalize = (value) => String(value || "").normalize("NFD").replace(/[\u0300-\u036f]/g, "").toLocaleLowerCase("en");
+const normalize = (value) => String(value || "").normalize("NFD").replace(/[\u0300-\u036f]/g, "").replace(/[’']/g, "").toLocaleLowerCase("en");
 const tokenString = (record) => [...new Set(normalize([record.detailText, record.title, record.summary, ...(record.cells || []), ...(record.categories || []), ...(record.matchedBranches || [])].join(" ")).match(/[a-z0-9]+/g) || [])].join(" ");
 const saintsRecords = saintsMaster.records.filter((record) => ["immigrant", "voyage", "resource"].includes(record.type)).map((record) => ({
   type: record.type,
@@ -234,6 +241,13 @@ for (const file of fs.readdirSync(output).filter((name) => name.endsWith(".html"
   if (file === "people-search.html") html = html
     .replace(/<script src="all-records-discovery\.js[^>]*><\/script>/, '<script>window.ALL_RECORDS_DISCOVERY_BASE="data/discovery/";</script><script src="all-records-discovery.js?v=full-search-beta-20260814"></script>')
     .replace(/<script src="people-search\.js[^>]*><\/script>/, '<script src="data/beta/people-index.beta.js?v=member-fields-20260813"></script><script src="people-search.js?v=full-search-beta-20260814"></script>');
+  if (file === "index.html") html = html
+    .replace(/styles\.css\?v=[^"]+/, "styles.css?v=branch-members-20260814")
+    .replace('<section class="home-search" aria-labelledby="homeSearchTitle"><h3 id="homeSearchTitle">', '<section class="home-search" aria-labelledby="homeSearchTitle"><span class="home-category-label">Resources</span><h3 id="homeSearchTitle">')
+    .replace('<a class="home-path-card" href="index.html?view=branches"><strong>', '<a class="home-path-card" href="index.html?view=branches"><span class="home-category-label">Branches</span><strong>')
+    .replace('<a class="home-path-card" href="people-search.html" data-local-feature hidden><strong>', '<a class="home-path-card" href="people-search.html" data-local-feature hidden><span class="home-category-label">People</span><strong>')
+    .replace('<a class="home-path-card" href="welsh-saints-research.html" data-local-feature hidden><strong>', '<a class="home-path-card" href="welsh-saints-research.html" data-local-feature hidden><span class="home-category-label">Welsh Saints Project</span><strong>')
+    .replace(/<script src="navigation\.js([^>]*)><\/script>/, '<script src="navigation.js$1></script><script src="data/beta/people-index.beta.js?v=branch-members-20260814"></script><script src="branch-members.js?v=branch-members-20260814"></script>');
   if (file === "welsh-saints-research.html") html = html.replace(/<script src="data\/private\/welsh-saints-index\.local\.js[^>]*><\/script><script src="data\/private\/typed-branch-record-index\.local\.js[^>]*><\/script>/, '<script src="data/beta/welsh-saints-index.beta.js"></script>');
   fs.writeFileSync(target, html);
 }
@@ -245,6 +259,28 @@ betaPeopleSearch = betaPeopleSearch.replace(
 );
 if (/data\/private\//.test(betaPeopleSearch)) throw new Error("Member Search beta script still contains a private-data path.");
 fs.writeFileSync(peopleSearchTarget, betaPeopleSearch);
+fs.appendFileSync(path.join(output, "styles.css"), `
+.home-category-label { display: block; margin: 0 0 5px; color: var(--gold-dark, #8a6b20); font: 600 .69rem/1.2 Arial, sans-serif; letter-spacing: .08em; text-transform: uppercase; }
+.home-path-card .home-category-label { margin-bottom: 6px; }
+.branch-member-count, .resource-member-count { display: block; color: var(--muted); font: 400 .75rem/1.35 Arial, sans-serif; }
+.branch-member-count { margin-top: 3px !important; }
+.branch-members-content { padding-top: 12px; }
+.branch-member-filter { display: block; margin: 0 0 12px; max-width: 380px; color: var(--muted); font: 400 .78rem/1.35 Arial, sans-serif; }
+.branch-member-filter span { display: block; margin-bottom: 4px; }
+.branch-member-filter input { box-sizing: border-box; width: 100%; min-height: 40px; padding: 7px 10px; border: 1px solid var(--line); border-radius: 3px; background: white; color: var(--ink); font: 400 .92rem/1.3 Arial, sans-serif; }
+.branch-member-filter input:focus-visible { outline: 2px solid var(--gold); outline-offset: 2px; }
+.branch-member-list { display: grid; gap: 1px; }
+.branch-member-record { border-bottom: 1px solid var(--line); }
+.branch-member-record > summary { min-height: 42px; padding: 10px 24px 9px 2px; color: var(--green-dark); cursor: pointer; font: 400 .94rem/1.35 Arial, sans-serif; }
+.branch-member-record > summary:focus-visible { outline: 2px solid var(--gold); outline-offset: 2px; }
+.branch-member-record-details { padding: 0 4px 13px 18px; }
+.branch-member-record-details dl { display: grid; gap: 4px; margin: 0; font: 400 .84rem/1.4 Arial, sans-serif; }
+.branch-member-record-details dl div { display: grid; grid-template-columns: minmax(105px, max-content) minmax(0, 1fr); gap: 10px; }
+.branch-member-record-details dt { color: var(--muted); font-weight: 600; }
+.branch-member-record-details dd { margin: 0; min-width: 0; overflow-wrap: anywhere; }
+.branch-member-record-details .people-result-action { margin: 10px 0 0; }
+@media (max-width: 520px) { .branch-member-record-details { padding-left: 8px; } .branch-member-record-details dl div { grid-template-columns: 1fr; gap: 0; } }
+`, "utf8");
 fs.writeFileSync(path.join(output, "local-private-features.js"), `(() => {
   if (window.WELSH_RESEARCH_BETA !== true) return;
   document.querySelectorAll("[data-local-feature]").forEach((element) => { element.hidden = false; });
