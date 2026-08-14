@@ -283,7 +283,7 @@ for (const file of fs.readdirSync(output).filter((name) => name.endsWith(".html"
       });
     </script>`)
     .replace(/<script src="app\.js([^>]*)><\/script>/, '<script src="source-transition.js?v=source-transition-20260814"></script><script src="app.js$1></script>')
-    .replace(/<script src="navigation\.js([^>]*)><\/script>/, '<script src="navigation.js$1></script><script src="data/beta/people-index.beta.js?v=branch-members-20260814"></script><script src="branch-members.js?v=branch-context-cleanup-20260814"></script><script src="beta-presentation-polish.js?v=beta-polish-20260814d"></script>');
+    .replace(/<script src="navigation\.js([^>]*)><\/script>/, '<script src="navigation.js$1></script><script src="data/beta/people-index.beta.js?v=branch-members-20260814"></script><script src="branch-members.js?v=branch-member-hierarchy-20260814"></script><script src="beta-presentation-polish.js?v=beta-polish-20260814d"></script>');
   if (file === "welsh-saints-research.html") html = html.replace(/<script src="feedback\.js([^>]*)><\/script>/, '<script src="beta-presentation-polish.js?v=beta-polish-20260814d"></script><script src="feedback.js$1></script>');
   if (file === "welsh-saints-research.html") html = html.replace(/<script src="data\/private\/welsh-saints-index\.local\.js[^>]*><\/script><script src="data\/private\/typed-branch-record-index\.local\.js[^>]*><\/script>/, '<script src="data/beta/welsh-saints-index.beta.js"></script>');
   html = html.replace(/styles\.css\?v=[^"]+/g, "styles.css?v=beta-layout-20260814d");
@@ -311,9 +311,10 @@ fs.appendFileSync(path.join(output, "styles.css"), `
 .branch-members-content { padding-top: 12px; }
 .branch-member-filter { display: block; margin: 0 0 12px; max-width: 380px; color: var(--muted); font: 400 .78rem/1.35 Arial, sans-serif; }
 .branch-member-filter span { display: block; margin-bottom: 4px; }
-.branch-member-filter input { box-sizing: border-box; width: 100%; min-height: 40px; padding: 7px 10px; border: 1px solid var(--line); border-radius: 3px; background: white; color: var(--ink); font: 400 .92rem/1.3 Arial, sans-serif; }
+.branch-member-filter input { box-sizing: border-box; width: 100%; min-height: 40px; padding: 7px 10px; border: 1px solid var(--line); border-radius: 3px; background: white; color: var(--ink); font: 400 .92rem/1.3 Arial, sans-serif; transition: border-color .25s ease, box-shadow .25s ease; }
+.branch-member-filter input.branch-member-filter-emphasis { border-color: var(--gold); box-shadow: 0 0 0 3px rgba(173, 137, 48, .16); }
 .branch-member-filter input:focus-visible { outline: 2px solid var(--gold); outline-offset: 2px; }
-.branch-member-list { display: grid; gap: 1px; }
+.branch-member-list { display: grid; gap: 1px; margin-left: 22px; }
 .branch-member-record { border-bottom: 1px solid var(--line); }
 .branch-member-record > summary { min-height: 42px; padding: 10px 24px 9px 2px; color: var(--green-dark); cursor: pointer; font: 400 .94rem/1.35 Arial, sans-serif; }
 .branch-members-section .branch-member-record > summary::after { transform: rotate(45deg) translateY(-2px); }
@@ -325,6 +326,7 @@ fs.appendFileSync(path.join(output, "styles.css"), `
 .branch-member-record-details dt { color: var(--muted); font-weight: 600; }
 .branch-member-record-details dd { margin: 0; min-width: 0; overflow-wrap: anywhere; }
 .branch-member-record-details .people-result-action { margin: 10px 0 0; }
+@media (prefers-reduced-motion: reduce) { .branch-member-filter input { transition: none; } }
 .source-route-status { width: min(420px, calc(100% - 32px)); margin: 26px auto; padding: 12px 14px; color: var(--green-dark); border-left: 3px solid var(--gold); background: var(--panel); font: 500 .9rem/1.4 Arial, sans-serif; }
 .source-route-pending main > :not(.source-route-status) { visibility: hidden; }
 .presentation-research-links { display: none; margin: calc(clamp(28px, 4vw, 54px) + 16px) 0 10px; font-family: Arial, sans-serif; }

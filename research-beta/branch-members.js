@@ -92,7 +92,15 @@
       const query = filter.value.trim().toLocaleLowerCase("en");
       list.querySelectorAll(".branch-member-record").forEach((member) => { member.hidden = Boolean(query) && !member.dataset.memberName.includes(query); });
     });
-    section.addEventListener("toggle", () => section.querySelector("summary")?.setAttribute("aria-expanded", String(section.open)));
+    let filterEmphasisTimer = null;
+    section.addEventListener("toggle", () => {
+      section.querySelector("summary")?.setAttribute("aria-expanded", String(section.open));
+      if (!section.open || !filter) return;
+      clearTimeout(filterEmphasisTimer);
+      filter.classList.remove("branch-member-filter-emphasis");
+      requestAnimationFrame(() => filter.classList.add("branch-member-filter-emphasis"));
+      filterEmphasisTimer = setTimeout(() => filter.classList.remove("branch-member-filter-emphasis"), 1100);
+    });
     return section;
   }
 
