@@ -240,7 +240,7 @@ for (const file of fs.readdirSync(output).filter((name) => name.endsWith(".html"
   html = html.replace(/<p class="home-secondary" data-local-feature hidden><a href="data\/private\/familysearch-comparison\.local\.html">Research comparisons<\/a>[\s\S]*?<\/p>/, "");
   if (file === "people-search.html") html = html
     .replace(/<script src="all-records-discovery\.js[^>]*><\/script>/, '<script>window.ALL_RECORDS_DISCOVERY_BASE="data/discovery/";</script><script src="all-records-discovery.js?v=full-search-beta-20260814"></script>')
-    .replace(/<script src="people-search\.js[^>]*><\/script>/, '<script src="data/branch-registry.js?v=date-interpretation-20260814"></script><script src="data/beta/people-index.beta.js?v=member-fields-20260813"></script><script src="source-transition.js?v=source-transition-20260814"></script><script src="people-search.js?v=full-search-beta-20260814"></script><script src="beta-presentation-polish.js?v=beta-polish-20260814b"></script>');
+    .replace(/<script src="people-search\.js[^>]*><\/script>/, '<script src="data/branch-registry.js?v=date-interpretation-20260814"></script><script src="data/beta/people-index.beta.js?v=member-fields-20260813"></script><script src="source-transition.js?v=source-transition-20260814"></script><script src="people-search.js?v=full-search-beta-20260814"></script><script src="beta-presentation-polish.js?v=beta-polish-20260814c"></script>');
   if (file === "index.html") html = html
     .replace(/styles\.css\?v=[^"]+/, "styles.css?v=branch-context-cleanup-20260814")
     .replace(/data\/branch-registry\.js\?v=[^"]+/, "data/branch-registry.js?v=branch-members-20260814")
@@ -283,8 +283,8 @@ for (const file of fs.readdirSync(output).filter((name) => name.endsWith(".html"
       });
     </script>`)
     .replace(/<script src="app\.js([^>]*)><\/script>/, '<script src="source-transition.js?v=source-transition-20260814"></script><script src="app.js$1></script>')
-    .replace(/<script src="navigation\.js([^>]*)><\/script>/, '<script src="navigation.js$1></script><script src="data/beta/people-index.beta.js?v=branch-members-20260814"></script><script src="branch-members.js?v=branch-context-cleanup-20260814"></script><script src="beta-presentation-polish.js?v=beta-polish-20260814b"></script>');
-  if (file === "welsh-saints-research.html") html = html.replace(/<script src="feedback\.js([^>]*)><\/script>/, '<script src="beta-presentation-polish.js?v=beta-polish-20260814b"></script><script src="feedback.js$1></script>');
+    .replace(/<script src="navigation\.js([^>]*)><\/script>/, '<script src="navigation.js$1></script><script src="data/beta/people-index.beta.js?v=branch-members-20260814"></script><script src="branch-members.js?v=branch-context-cleanup-20260814"></script><script src="beta-presentation-polish.js?v=beta-polish-20260814c"></script>');
+  if (file === "welsh-saints-research.html") html = html.replace(/<script src="feedback\.js([^>]*)><\/script>/, '<script src="beta-presentation-polish.js?v=beta-polish-20260814c"></script><script src="feedback.js$1></script>');
   if (file === "welsh-saints-research.html") html = html.replace(/<script src="data\/private\/welsh-saints-index\.local\.js[^>]*><\/script><script src="data\/private\/typed-branch-record-index\.local\.js[^>]*><\/script>/, '<script src="data/beta/welsh-saints-index.beta.js"></script>');
   fs.writeFileSync(target, html);
 }
@@ -333,10 +333,9 @@ body:has(#directoryPanel:not([hidden])) .presentation-research-links { display: 
 .presentation-transcript-link a:focus-visible, .presentation-branch-review summary:focus-visible { outline: 2px solid var(--gold); outline-offset: 3px; border-radius: 2px; }
 .presentation-directory-top { display: grid; grid-template-columns: minmax(0, 1fr) max-content; align-items: start; gap: 18px clamp(24px, 4vw, 52px); }
 .presentation-directory-top .directory-heading { min-width: 0; }
-.presentation-branch-review { width: max-content; max-width: min(620px, 48vw); margin-top: 1em; color: var(--ink); background: var(--panel); box-shadow: 0 1px 0 #d6cfbf; }
-.presentation-branch-review[open] { width: min(620px, 48vw); }
+.presentation-branch-review { position: relative; width: max-content; max-width: min(620px, 48vw); margin-top: 1em; color: var(--ink); background: var(--panel); box-shadow: 0 1px 0 #d6cfbf; z-index: 8; }
 .presentation-branch-review summary { color: var(--green-dark); cursor: pointer; font: 500 .9rem/1.4 Arial, sans-serif; min-height: 44px; padding: 11px 28px 10px 18px; }
-.presentation-branch-review-content { border-top: 2px solid var(--gold); margin: 0; padding: 12px 18px 14px; }
+.presentation-branch-review-content { position: absolute; top: 100%; right: 0; box-sizing: border-box; width: min(620px, calc(100vw - 48px)); border: 1px solid #d6cfbf; border-top: 2px solid var(--gold); margin: 0; padding: 12px 18px 14px; background: var(--panel); box-shadow: 0 10px 24px rgba(42, 49, 42, .18); }
 .presentation-branch-review-content p { font: 400 .88rem/1.5 Arial, sans-serif; margin: 0 0 8px; max-width: 62ch; }
 .presentation-branch-review-content h3 { color: var(--ink); font: 600 .82rem/1.45 Arial, sans-serif; margin: 12px 0 5px; }
 .presentation-branch-candidates { display: grid; grid-template-columns: repeat(3, minmax(120px, 1fr)); gap: 2px 18px; list-style: none; margin: 0; padding: 0; }
@@ -356,7 +355,7 @@ body:has(#directoryPanel:not([hidden])) .presentation-research-links { display: 
 .home-search input { max-width: 590px; transition: border-color .35s ease, box-shadow .35s ease; }
 .home-search input.home-search-emphasis { border-color: var(--gold); box-shadow: 0 0 0 3px rgba(173, 137, 48, .16); }
 @media (prefers-reduced-motion: reduce) { .home-search input { transition: none; } }
-@media (max-width: 820px) { .presentation-directory-top { grid-template-columns: minmax(0, 1fr); gap: 10px; } .presentation-branch-review, .presentation-branch-review[open] { width: 100%; max-width: none; margin: 0 0 6px; } }
+@media (max-width: 820px) { .presentation-directory-top { grid-template-columns: minmax(0, 1fr); gap: 10px; } .presentation-branch-review, .presentation-branch-review[open] { width: 100%; max-width: none; margin: 0 0 6px; } .presentation-branch-review-content { position: static; width: auto; border-inline: 0; border-bottom: 0; box-shadow: none; } }
 @media (max-width: 520px) { .branch-member-record-details { padding-left: 8px; } .branch-member-record-details dl div { grid-template-columns: 1fr; gap: 0; } }
 `, "utf8");
 fs.writeFileSync(path.join(output, "local-private-features.js"), `(() => {

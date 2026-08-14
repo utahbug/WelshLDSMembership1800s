@@ -167,7 +167,7 @@ if (profile === "presentation") {
   const peopleJsPath = path.join(destination, "people-search.js");
   fs.writeFileSync(peopleJsPath, fs.readFileSync(peopleJsPath, "utf8").replace("data/private/people-index.local.js", "data/portable/people-index.portable.js"), "utf8");
   const peopleHtmlPath = path.join(destination, "people-search.html");
-  fs.writeFileSync(peopleHtmlPath, fs.readFileSync(peopleHtmlPath, "utf8").replace(/<script src="people-search\.js([^>]*)><\/script>/, '<script src="data/branch-registry.js?v=date-interpretation-20260814"></script><script src="source-transition.js?v=source-transition-20260814"></script><script src="people-search.js$1></script><script src="beta-presentation-polish.js?v=beta-polish-20260814b"></script>'), "utf8");
+  fs.writeFileSync(peopleHtmlPath, fs.readFileSync(peopleHtmlPath, "utf8").replace(/<script src="people-search\.js([^>]*)><\/script>/, '<script src="data/branch-registry.js?v=date-interpretation-20260814"></script><script src="source-transition.js?v=source-transition-20260814"></script><script src="people-search.js$1></script><script src="beta-presentation-polish.js?v=beta-polish-20260814c"></script>'), "utf8");
   const portableAppPath = path.join(destination, "app.js");
   const portableApp = fs.readFileSync(portableAppPath, "utf8")
     .replace(/    buildPageIndex\(\);\r?\n    setView\(initialView\);/, "    strip.replaceChildren();\n    setView(initialView);")
@@ -180,7 +180,7 @@ if (profile === "presentation") {
   const saintsHtml = fs.readFileSync(saintsHtmlPath, "utf8")
     .replace(/<script src="data\/private\/welsh-saints-index\.local\.js[^>]*><\/script>/, '<script src="data/portable/welsh-saints-index.portable.js"></script>')
     .replace(/<script src="data\/private\/typed-branch-record-index\.local\.js[^>]*><\/script>/, "")
-    .replace(/<script src="feedback\.js([^>]*)><\/script>/, '<script src="beta-presentation-polish.js?v=beta-polish-20260814b"></script><script src="feedback.js$1></script>');
+    .replace(/<script src="feedback\.js([^>]*)><\/script>/, '<script src="beta-presentation-polish.js?v=beta-polish-20260814c"></script><script src="feedback.js$1></script>');
   fs.writeFileSync(saintsHtmlPath, saintsHtml, "utf8");
   const homePath = path.join(destination, "index.html");
   let presentationHome = fs.readFileSync(homePath, "utf8")
@@ -212,7 +212,7 @@ if (profile === "presentation") {
     <nav class="viewer-breadcrumbs" id="branchResourceBreadcrumbs"`)
     .replace('<div class="pre-footer-feedback" data-home-feedback></div>', "")
     .replace(/<script src="app\.js([^>]*)><\/script>/, '<script src="source-transition.js?v=source-transition-20260814"></script><script src="app.js$1></script>')
-    .replace(/<script src="navigation\.js([^>]*)><\/script>/, '<script src="navigation.js$1></script><script src="data/portable/people-index.portable.js?v=branch-members-20260814"></script><script src="branch-members.js?v=branch-members-20260814"></script><script src="beta-presentation-polish.js?v=beta-polish-20260814b"></script>')
+    .replace(/<script src="navigation\.js([^>]*)><\/script>/, '<script src="navigation.js$1></script><script src="data/portable/people-index.portable.js?v=branch-members-20260814"></script><script src="branch-members.js?v=branch-members-20260814"></script><script src="beta-presentation-polish.js?v=beta-polish-20260814c"></script>')
     .replace("</footer>", `</footer><div class="pre-footer-feedback presentation-footer-feedback" data-home-feedback></div>
     <script>
       document.querySelectorAll(".presentation-branch-review").forEach((disclosure) => {
@@ -233,10 +233,9 @@ body:has(#directoryPanel:not([hidden])) .presentation-research-links { display: 
 .presentation-branch-review summary:focus-visible { outline: 2px solid var(--gold); outline-offset: 3px; border-radius: 2px; }
 .presentation-directory-top { display: grid; grid-template-columns: minmax(0, 1fr) max-content; align-items: start; gap: 18px clamp(24px, 4vw, 52px); }
 .presentation-directory-top .directory-heading { min-width: 0; }
-.presentation-branch-review { width: max-content; max-width: min(620px, 48vw); margin-top: 1em; color: var(--ink); background: var(--panel); box-shadow: 0 1px 0 #d6cfbf; }
-.presentation-branch-review[open] { width: min(620px, 48vw); }
+.presentation-branch-review { position: relative; width: max-content; max-width: min(620px, 48vw); margin-top: 1em; color: var(--ink); background: var(--panel); box-shadow: 0 1px 0 #d6cfbf; z-index: 8; }
 .presentation-branch-review summary { color: var(--green-dark); cursor: pointer; font: 500 .9rem/1.4 Arial, sans-serif; min-height: 44px; padding: 11px 28px 10px 18px; }
-.presentation-branch-review-content { border-top: 2px solid var(--gold); margin: 0; padding: 12px 18px 14px; }
+.presentation-branch-review-content { position: absolute; top: 100%; right: 0; box-sizing: border-box; width: min(620px, calc(100vw - 48px)); border: 1px solid #d6cfbf; border-top: 2px solid var(--gold); margin: 0; padding: 12px 18px 14px; background: var(--panel); box-shadow: 0 10px 24px rgba(42, 49, 42, .18); }
 .presentation-branch-review-content p { font: 400 .88rem/1.5 Arial, sans-serif; margin: 0 0 8px; max-width: 62ch; }
 .presentation-branch-review-content h3 { color: var(--ink); font: 600 .82rem/1.45 Arial, sans-serif; margin: 12px 0 5px; }
 .presentation-branch-candidates { display: grid; grid-template-columns: repeat(3, minmax(120px, 1fr)); gap: 2px 18px; list-style: none; margin: 0; padding: 0; }
@@ -279,6 +278,7 @@ body:has(#directoryPanel:not([hidden])) .presentation-research-links { display: 
 @media (max-width: 820px) {
   .presentation-directory-top { grid-template-columns: minmax(0, 1fr); gap: 10px; }
   .presentation-branch-review, .presentation-branch-review[open] { width: 100%; max-width: none; margin: 0 0 6px; }
+  .presentation-branch-review-content { position: static; width: auto; border-inline: 0; border-bottom: 0; box-shadow: none; }
 }
 @media (max-width: 620px) {
   .presentation-branch-candidates { grid-template-columns: repeat(2, minmax(0, 1fr)); column-gap: 12px; }

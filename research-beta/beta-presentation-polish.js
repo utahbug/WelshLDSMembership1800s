@@ -133,6 +133,20 @@
     setTimeout(clear, 1500);
   }
 
+  function initializeBranchReviewPopover() {
+    const disclosure = document.querySelector(".presentation-branch-review");
+    const summary = disclosure?.querySelector("summary");
+    if (!disclosure || !summary) return;
+    document.addEventListener("pointerdown", (event) => {
+      if (disclosure.open && innerWidth > 820 && !disclosure.contains(event.target)) disclosure.open = false;
+    });
+    document.addEventListener("keydown", (event) => {
+      if (event.key !== "Escape" || !disclosure.open || innerWidth <= 820) return;
+      disclosure.open = false;
+      summary.focus();
+    });
+  }
+
   function initializePublicViewerAvailability() {
     const parameters = new URLSearchParams(location.search);
     const collectionId = parameters.get("collection");
@@ -202,6 +216,7 @@
   observer.observe(document.body, { childList: true, subtree: true });
   initializeStickyNavigation();
   initializeHomeSearchEmphasis();
+  initializeBranchReviewPopover();
   initializePublicViewerAvailability();
   releaseFacingViewerTransition();
 })();
