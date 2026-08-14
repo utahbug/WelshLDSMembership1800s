@@ -242,7 +242,7 @@ for (const file of fs.readdirSync(output).filter((name) => name.endsWith(".html"
     .replace(/<script src="all-records-discovery\.js[^>]*><\/script>/, '<script>window.ALL_RECORDS_DISCOVERY_BASE="data/discovery/";</script><script src="all-records-discovery.js?v=full-search-beta-20260814"></script>')
     .replace(/<script src="people-search\.js[^>]*><\/script>/, '<script src="data/branch-registry.js?v=date-interpretation-20260814"></script><script src="data/beta/people-index.beta.js?v=member-fields-20260813"></script><script src="source-transition.js?v=source-transition-20260814"></script><script src="people-search.js?v=full-search-beta-20260814"></script><script src="beta-presentation-polish.js?v=beta-polish-20260814c"></script>');
   if (file === "index.html") html = html
-    .replace(/styles\.css\?v=[^"]+/, "styles.css?v=beta-layout-20260814c")
+    .replace(/styles\.css\?v=[^"]+/, "styles.css?v=beta-layout-20260814d")
     .replace(/data\/branch-registry\.js\?v=[^"]+/, "data/branch-registry.js?v=branch-members-20260814")
     .replace(/app\.js\?v=[^"]+/, "app.js?v=branch-context-cleanup-20260814")
     .replace(/navigation\.js\?v=[^"]+/, "navigation.js?v=branch-members-20260814")
@@ -286,7 +286,7 @@ for (const file of fs.readdirSync(output).filter((name) => name.endsWith(".html"
     .replace(/<script src="navigation\.js([^>]*)><\/script>/, '<script src="navigation.js$1></script><script src="data/beta/people-index.beta.js?v=branch-members-20260814"></script><script src="branch-members.js?v=branch-context-cleanup-20260814"></script><script src="beta-presentation-polish.js?v=beta-polish-20260814c"></script>');
   if (file === "welsh-saints-research.html") html = html.replace(/<script src="feedback\.js([^>]*)><\/script>/, '<script src="beta-presentation-polish.js?v=beta-polish-20260814c"></script><script src="feedback.js$1></script>');
   if (file === "welsh-saints-research.html") html = html.replace(/<script src="data\/private\/welsh-saints-index\.local\.js[^>]*><\/script><script src="data\/private\/typed-branch-record-index\.local\.js[^>]*><\/script>/, '<script src="data/beta/welsh-saints-index.beta.js"></script>');
-  html = html.replace(/styles\.css\?v=[^"]+/g, "styles.css?v=beta-layout-20260814c");
+  html = html.replace(/styles\.css\?v=[^"]+/g, "styles.css?v=beta-layout-20260814d");
   fs.writeFileSync(target, html);
 }
 const peopleSearchTarget = path.join(output, "people-search.js");
@@ -355,6 +355,10 @@ body:has(#directoryPanel:not([hidden])) .presentation-research-links { display: 
 .viewer-portable-only .record-stage, .viewer-portable-only .continuous-view, .viewer-portable-only .image-load-status { display: none !important; }
 .home-search input { max-width: 590px; transition: border-color .35s ease, box-shadow .35s ease; }
 .home-search input.home-search-emphasis { border-color: var(--gold); box-shadow: 0 0 0 3px rgba(173, 137, 48, .16); }
+body .research-beta-note { box-sizing: border-box; max-width: none; margin: 10px clamp(18px, 4vw, 52px) 5px; padding: 0; }
+body .research-beta-note + .site-disclaimer { margin-top: 0; padding-top: 10px; }
+body:has(.search-sticky-nav) .research-beta-note { margin-top: 10px; }
+body:has(.search-sticky-nav) .research-beta-note + .site-disclaimer { margin: 0; padding: 10px clamp(18px, 4vw, 52px) 20px; }
 @media (prefers-reduced-motion: reduce) { .home-search input { transition: none; } }
 @media (max-width: 820px) { .presentation-directory-top { grid-template-columns: minmax(0, 1fr); gap: 10px; } .presentation-branch-review, .presentation-branch-review[open] { width: 100%; max-width: none; margin: 0 0 6px; } .presentation-branch-review-content { position: static; width: auto; border-inline: 0; border-bottom: 0; box-shadow: none; } }
 @media (max-width: 520px) { .branch-member-record-details { padding-left: 8px; } .branch-member-record-details dl div { grid-template-columns: 1fr; gap: 0; } }

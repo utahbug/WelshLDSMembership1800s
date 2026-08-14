@@ -250,6 +250,10 @@ body:has(#directoryPanel:not([hidden])) .presentation-research-links { display: 
 .viewer-portable-availability { margin: 3px 0 0; color: var(--muted); font: 400 .76rem/1.35 Arial, sans-serif; }
 .home-search input { max-width: 590px; transition: border-color .35s ease, box-shadow .35s ease; }
 .home-search input.home-search-emphasis { border-color: var(--gold); box-shadow: 0 0 0 3px rgba(173, 137, 48, .16); }
+body .research-beta-note { box-sizing: border-box; max-width: none; margin: 10px clamp(18px, 4vw, 52px) 5px; padding: 0; }
+body .research-beta-note + .site-disclaimer { margin-top: 0; padding-top: 10px; }
+body:has(.search-sticky-nav) .research-beta-note { margin-top: 10px; }
+body:has(.search-sticky-nav) .research-beta-note + .site-disclaimer { margin: 0; padding: 10px clamp(18px, 4vw, 52px) 20px; }
 @media (prefers-reduced-motion: reduce) { .home-search input { transition: none; } }
 .home-category-label { display: block; margin: 0 0 5px; color: var(--gold-dark, #8a6b20); font: 600 .69rem/1.2 Arial, sans-serif; letter-spacing: .08em; text-transform: uppercase; }
 .home-path-card .home-category-label { margin-bottom: 6px; }
