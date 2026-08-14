@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-08-12T16:56:53.641Z",
+  "generatedAt": "2026-08-14T03:00:23.566Z",
   "registry": [
     {
       "canonicalName": "Abersychan",
@@ -475,6 +475,30 @@
       "nameSources": []
     },
     {
+      "canonicalName": "Eglwysbach",
+      "entityType": "Branch",
+      "variants": "Eglwys Fach; Eglwys Bach",
+      "earliestYear": 1849,
+      "latestYear": 1864,
+      "localCd": false,
+      "localNote": false,
+      "familySearch": false,
+      "comparisonStatus": "Historically verified branch; recorded branch book not currently located",
+      "filmAndCallNumbers": "Abel Evans organized a six-member branch; Hugh Roberts served as presiding elder and kept the branch record until emigrating in 1864; Historical/source spelling used in Hugh Roberts family records; Variant spacing retained for discovery; Conwy Valley Conference held at Eglwysbach, 28 May 1854; five branches and 98 members reported for the conference",
+      "relatedBranches": "",
+      "relationshipNotes": "",
+      "notes": "Organized by Abel Evans with six members after the Roberts family conversions; Hugh Roberts served as presiding elder and kept the branch record until 1864. The record's present survival or location is unknown.",
+      "sourceUrls": "https://welshsaints.byu.edu/Immigrant_View.aspx?id=806",
+      "nameSources": [
+        {
+          "sourceName": "Eglwysbach",
+          "collectionTitle": "Hugh and Mary Owens Roberts biographical and genealogical evidence",
+          "collectionBranch": "Eglwysbach",
+          "note": "The family history says Abel Evans organized the Eglwysbach Branch with six members, Hugh Roberts was called as presiding elder, and Roberts kept the branch record until he emigrated in 1864, when he delivered it to John Roberts of Pensarn. The present location or survival of that branch record is not established."
+        }
+      ]
+    },
+    {
       "canonicalName": "Ffestiniog",
       "entityType": "Branch",
       "variants": "Festiniog",
@@ -840,6 +864,30 @@
       "notes": "Needs human review; absence from one source is not proof the branch or record was absent.",
       "sourceUrls": "",
       "nameSources": []
+    },
+    {
+      "canonicalName": "Overton",
+      "entityType": "Branch",
+      "variants": "Owrtyn",
+      "earliestYear": 1840,
+      "latestYear": 1842,
+      "localCd": false,
+      "localNote": false,
+      "familySearch": false,
+      "comparisonStatus": "Historically verified branch; no surviving local membership register identified",
+      "filmAndCallNumbers": "Overton: The First LDS Branch in Wales; organized 30 October 1840; earliest documented branch in Wales; Welsh spelling used in Welsh Saints person records for Overton, Flintshire; Opposition to the Gospel Message in Wales, PDF page 23; missionaries arrived 16 October and organized a branch 30 October 1840",
+      "relatedBranches": "",
+      "relationshipNotes": "",
+      "notes": "Organized 30 October 1840 and documented as the first branch in Wales. Activity is documented through 1842; no surviving Overton membership register is currently identified.",
+      "sourceUrls": "https://welshsaints.byu.edu/Resource_Info.aspx?id=24497",
+      "nameSources": [
+        {
+          "sourceName": "Overton",
+          "collectionTitle": "Overton: The First LDS Branch in Wales",
+          "collectionBranch": "Overton",
+          "note": "Overton, historically in Flintshire and now in Wrexham County Borough, was organized on 30 October 1840 after the mission of Henry Royle and Frederick Cook. Contemporary journal references continue into 1842. The historical resource explicitly states that no Overton branch record is known to have survived."
+        }
+      ]
     },
     {
       "canonicalName": "Pen-y-cae",
@@ -1889,6 +1937,86 @@
       "source": "Local LR2257 membership register",
       "dateText": "1849-1859",
       "reference": "LR 225 7; historical/source spelling of Alltwen",
+      "sourceUrl": ""
+    },
+    {
+      "rawName": "Overton",
+      "canonicalName": "Overton",
+      "relatedBranch": "",
+      "relationshipNote": "",
+      "source": "Welsh Saints Project historical resource",
+      "dateText": "1840-1842",
+      "reference": "Overton: The First LDS Branch in Wales; organized 30 October 1840; earliest documented branch in Wales",
+      "sourceUrl": "https://welshsaints.byu.edu/Resource_Info.aspx?id=24497",
+      "provenance": {
+        "collectionTitle": "Overton: The First LDS Branch in Wales",
+        "collectionBranch": "Overton",
+        "note": "Overton, historically in Flintshire and now in Wrexham County Borough, was organized on 30 October 1840 after the mission of Henry Royle and Frederick Cook. Contemporary journal references continue into 1842. The historical resource explicitly states that no Overton branch record is known to have survived."
+      }
+    },
+    {
+      "rawName": "Owrtyn",
+      "canonicalName": "Overton",
+      "relatedBranch": "",
+      "relationshipNote": "",
+      "source": "Welsh Saints Project place-name evidence",
+      "dateText": "1840-1842",
+      "reference": "Welsh spelling used in Welsh Saints person records for Overton, Flintshire",
+      "sourceUrl": "https://welshsaints.byu.edu/Resource_Info.aspx?id=24497"
+    },
+    {
+      "rawName": "Overton",
+      "canonicalName": "Overton",
+      "relatedBranch": "",
+      "relationshipNote": "",
+      "source": "Ronald D. Dennis historical narrative",
+      "dateText": "1840",
+      "reference": "Opposition to the Gospel Message in Wales, PDF page 23; missionaries arrived 16 October and organized a branch 30 October 1840",
+      "sourceUrl": ""
+    },
+    {
+      "rawName": "Eglwysbach",
+      "canonicalName": "Eglwysbach",
+      "relatedBranch": "",
+      "relationshipNote": "",
+      "source": "Hugh and Mary Owens Roberts biographical history",
+      "dateText": "1849-1864",
+      "reference": "Abel Evans organized a six-member branch; Hugh Roberts served as presiding elder and kept the branch record until emigrating in 1864",
+      "sourceUrl": "https://welshsaints.byu.edu/Immigrant_View.aspx?id=806",
+      "provenance": {
+        "collectionTitle": "Hugh and Mary Owens Roberts biographical and genealogical evidence",
+        "collectionBranch": "Eglwysbach",
+        "note": "The family history says Abel Evans organized the Eglwysbach Branch with six members, Hugh Roberts was called as presiding elder, and Roberts kept the branch record until he emigrated in 1864, when he delivered it to John Roberts of Pensarn. The present location or survival of that branch record is not established."
+      }
+    },
+    {
+      "rawName": "Eglwys Fach",
+      "canonicalName": "Eglwysbach",
+      "relatedBranch": "",
+      "relationshipNote": "",
+      "source": "Welsh Saints Project place-name evidence",
+      "dateText": "1849-1864",
+      "reference": "Historical/source spelling used in Hugh Roberts family records",
+      "sourceUrl": "https://welshsaints.byu.edu/Immigrant_View.aspx?id=806"
+    },
+    {
+      "rawName": "Eglwys Bach",
+      "canonicalName": "Eglwysbach",
+      "relatedBranch": "",
+      "relationshipNote": "",
+      "source": "Historical spacing variant",
+      "dateText": "1849-1864",
+      "reference": "Variant spacing retained for discovery",
+      "sourceUrl": ""
+    },
+    {
+      "rawName": "Eglwysbach",
+      "canonicalName": "Eglwysbach",
+      "relatedBranch": "",
+      "relationshipNote": "",
+      "source": "Zion's Trumpet conference report",
+      "dateText": "1854",
+      "reference": "Conwy Valley Conference held at Eglwysbach, 28 May 1854; five branches and 98 members reported for the conference",
       "sourceUrl": ""
     },
     {

@@ -1,7 +1,7 @@
 {
   "edition": "unlisted-online-research-beta",
-  "generatedAt": "2026-08-13T16:26:44.965Z",
-  "output": "build/research-beta-merthyr-dowlais",
+  "generatedAt": "2026-08-14T14:42:12.476Z",
+  "output": "research-beta",
   "noIndex": true,
   "memberSearch": {
     "records": 11473,
@@ -338,8 +338,8 @@
     "completeProseIncluded": false
   },
   "branchRoutes": {
-    "canonicalBranches": 59,
-    "audited": 59,
+    "canonicalBranches": 61,
+    "audited": 61,
     "routes": [
       "index.html?branch=Abersychan",
       "index.html?branch=Abertillery",
@@ -364,6 +364,7 @@
       "index.html?branch=Dinas",
       "index.html?branch=Dowlais",
       "index.html?branch=Ebbw%20Vale",
+      "index.html?branch=Eglwysbach",
       "index.html?branch=Ffestiniog",
       "index.html?branch=Georgetown",
       "index.html?branch=Gilwern",
@@ -380,6 +381,7 @@
       "index.html?branch=Morriston",
       "index.html?branch=Nantyglo",
       "index.html?branch=Newport",
+      "index.html?branch=Overton",
       "index.html?branch=Pen-y-cae",
       "index.html?branch=Pen-y-Darran",
       "index.html?branch=Pendoylon",
@@ -674,7 +676,7 @@
     "dataPrivateIncluded": false,
     "privateLeaks": []
   },
-  "files": 143,
+  "files": 145,
   "archiveInventory": {
     "item": "ldswelshmembership",
     "remoteFiles": 6030

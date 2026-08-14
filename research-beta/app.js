@@ -82,6 +82,9 @@
   const caption = $("#recordCaption");
   const strip = $("#thumbnailStrip");
   const pageIndexButton = $("#pageIndexButton");
+  pageIndexButton.textContent = "▦";
+  const tiltIcon = $("#imageTools summary svg");
+  if (tiltIcon) tiltIcon.innerHTML = '<path d="M3 13.9 21 10.1"/>';
   const pageIndexPanel = $("#pageIndexPanel");
   const closePageIndex = $("#closePageIndex");
   const continuousView = $("#continuousView");
@@ -119,9 +122,6 @@
   const contrastSlider = $("#contrastSlider");
   const enhanceStatus = $("#enhanceStatus");
   const rotationTarget = $("#rotationTarget");
-  const backToResources = $("#backToResources");
-  const viewerBreadcrumbs = $("#viewerBreadcrumbs");
-  const breadcrumbCurrentPage = $("#breadcrumbCurrentPage");
   const viewerBranchResourcesLink = $("#viewerBranchResourcesLink");
   const viewerStickyHeader = $(".viewer-sticky-header");
   const viewerStickySentinel = $("#viewerStickySentinel");
@@ -395,6 +395,13 @@
   ]);
 
   const collectionDisplayNames = new Map([
+    ["A - CDs 35-39 (1 of 2) - Typed Transcripts - Viewer Pages", "Cardiff Donations and Branch Records"],
+    ["A - CDs 35-39 (2 of 2) - Typed Transcripts - Viewer Pages", "East Glamorgan Conference Minutes, 1853–1863"],
+    ["A - CDs 39 - Typed Transcripts - Viewer Pages", "Ebbw Vale General Minutes, 1852–1854"],
+    ["A - CDs 40-43 (1 of 2) - Typed Transcripts - Viewer Pages", "Welsh Branch and Conference Records, 1851–1870"],
+    ["A - CDs 40-43 (2 of 2) - Typed Transcripts - Viewer Pages", "East Glamorgan Conference, 1851–1852"],
+    ["A - CDs 44-59 - Typed Transcripts - Viewer Pages", "Welsh Branch and Conference Records"],
+    ["A - CDs 60-62 - Typed Transcripts - Viewer Pages", "Welsh District and General Minutes"],
     ["Cwmbran reports in Pontypool/Abersychan General Minutes, 1857-1889", "Cwmbran reports in Pontypool/Abersychan General Minutes, 1857-1889"],
     ["Morriston report in Western Glamorgan Conference Minutes, 1851-1870", "Morriston report in Western Glamorgan Conference Minutes, 1851-1870"],
     ["Welsh Conference,Record of Members,Early-1892,Library1614", "Welsh Conference Record of Members, early to 1892"],
@@ -421,9 +428,10 @@
     ["Llandebie,1849-1886,LR1137", "Llandebie Branch Record of Members, 1849-1866"],
     ["Castell Nedd,1879-1884,LR1967", "Castell Nedd Branch Record of Members, 1849-1884"],
     ["Rhymney English,1851-1887,LIB1602-direct-FHC", "Rhymney English Branch Record of Members, 1851-1887"],
-    ["Llanelly-production", "Llanelly-production source holding (review required)"],
+    ["Llanelly-production", "Llanelly mixed source holding"],
     ["Llansawel,1849-1855,LR2217", "Llansawel Branch Record of Members, 1849-1855 (Carmarthenshire)"],
     ["Llansawel (Glamorgan),1850-1889,LR117597", "Llansawel Branch Record, 1850-1889 (Glamorgan section)"],
+    ["Cardiff Confererence,1857-1869,LR241210", "Cardiff Conference, 1857-1869, LR241210"],
   ]);
 
   const collectionProvenanceOverrides = new Map([
@@ -531,7 +539,14 @@
   ]);
 
   function collectionDisplayName(collection) {
-    return collectionDisplayNames.get(collection?.name) || displayTitle(collection?.name);
+    if (collectionDisplayNames.has(collection?.name)) return collectionDisplayNames.get(collection.name);
+    if (collection?.viewerRepresentation && /Typed Transcripts/i.test(collection?.name || "")) {
+      return displayTitle(collection.name)
+        .replace(/^A\s*-\s*/i, "")
+        .replace(/\s*-\s*Viewer Pages$/i, "")
+        .replace(/\((\d+) of (\d+)\)/i, "Part $1 of $2");
+    }
+    return displayTitle(collection?.name);
   }
 
   function collectionReference(collection = currentCollection) {
@@ -546,6 +561,7 @@
   }
 
   function collectionHeading(collection) {
+    if (collection?.viewerRepresentation && /Typed Transcripts/i.test(collection?.name || "")) return collectionDisplayName(collection);
     if (collectionDisplayNames.has(collection?.name)) return collectionDisplayName(collection).replace(/(\b\d{4})-(\d{4}\b)/g, "$1–$2");
     return displayTitle(collection?.name).replace(/\s*,?\s*\b(?:LR|CR)\s*\d+(?:\s+\d+)?\b/gi, "").replace(/(\b\d{4})-(\d{4}\b)/g, "$1–$2").replace(/\s*,\s*$/, "").trim();
   }
@@ -798,8 +814,6 @@
   function openBranch(name, selectedButton) {
     currentBranchName = name;
     directoryPanel.hidden = true;
-    backToResources.hidden = true;
-    viewerBreadcrumbs.hidden = true;
     branchBreadcrumbName.textContent = name;
     branchResourceBreadcrumbs.hidden = false;
     [...branchList.children].forEach((button) => button.classList.toggle("active", button === selectedButton));
@@ -823,13 +837,15 @@
     if (name === "Rhymney English") branchReference = "Direct-FHC microfilm · source label 1602";
     branchHeadingDetails.textContent = branchReference;
     branchHeadingDetails.hidden = !branchReference;
+    branchHeadingDetails.textContent = "";
+    branchHeadingDetails.hidden = true;
     const facts = [];
     if (yearLabel(details)) facts.push(`<span><strong>Years found:</strong> ${yearLabel(details)}</span>`);
     if (branchSourceStructure.has(name)) facts.push(`<span><strong>Source structure:</strong> ${branchSourceStructure.get(name)}</span>`);
     if (details?.variants) facts.push(`<span><strong>Known variants:</strong> ${details.variants}</span>`);
     if (details?.relatedBranches) facts.push(`<span><strong>Related branch:</strong> ${details.relatedBranches}</span>`);
     branchMeta.innerHTML = facts.join("");
-    branchMeta.hidden = !facts.length;
+    branchMeta.hidden = true;
     const matches = relatedCollections(name);
     if (!matches.length || (matches.length === 1 && matches[0].id === "public-branch-registry")) {
       viewer.hidden = true;
@@ -845,9 +861,11 @@
         button.dataset.resourceGroup = descriptor.group;
         const detailedProvenance = resourceProvenance(collection);
         const conciseProvenance = conciseResourceProvenance(collection);
+        const mixedReviewHolding = /(?:review required|boundar(?:y|ies) unresolved)/i.test(`${collection.name} ${detailedProvenance}`);
         button.dataset.provenanceDetail = detailedProvenance;
-        button.dataset.provenanceSummary = conciseProvenance;
-        button.innerHTML = `<span class="resource-kind">${descriptor.label}</span><strong>${collectionDisplayName(collection)}</strong><small>${number.format(records.length)} item${records.length === 1 ? "" : "s"}</small><span class="resource-provenance">${conciseProvenance}</span>`;
+        button.dataset.provenanceSummary = mixedReviewHolding ? "" : conciseProvenance;
+        if (mixedReviewHolding) button.dataset.workRemaining = "Review and establish the internal source boundaries before treating this holding as separate record groups.";
+        button.innerHTML = `<span class="resource-kind">${descriptor.label}</span><strong>${collectionDisplayName(collection)}</strong><small>${number.format(records.length)} item${records.length === 1 ? "" : "s"}</small>${mixedReviewHolding ? "" : `<span class="resource-provenance">${conciseProvenance}</span>`}`;
         const online = catalog.edition !== "public" || (collection.availability?.online && collection.publicStorage);
         if (online) button.addEventListener("click", () => openCollection(collection, { keepResources: true, initialView: records.some((record) => record.type === "image") ? "continuous" : "index", initialImage: collection.preferredInitialPage ? collection.preferredInitialPage - 1 : null }));
         else {
@@ -1665,24 +1683,20 @@
     branchResourceBreadcrumbs.hidden = true;
     if (!keepResources) resourcePanel.classList.remove("compact");
     $(".viewer").classList.add("record-open");
-    viewerBreadcrumbs.hidden = !keepResources;
-    backToResources.hidden = !keepResources;
-    backToResources.textContent = keepResources ? `${currentBranchName} Resources` : "Branch Resources";
-    backToResources.href = keepResources ? `index.html?branch=${encodeURIComponent(currentBranchName)}` : "index.html";
     viewerBranchResourcesLink.textContent = `← ${currentBranchName} Branch Resources`;
     viewerBranchResourcesLink.textContent = currentBranchName ? `\u2190 ${currentBranchName} Branch Resources` : "\u2190 All Branches";
     viewerBranchResourcesLink.href = currentBranchName ? `index.html?branch=${encodeURIComponent(currentBranchName)}` : "index.html?view=branches";
-    const kind = resourceKind(collection);
-    breadcrumbCurrentPage.textContent = kind === "Membership Records" ? "Membership Record" : kind;
     viewer.hidden = false;
     title.textContent = collectionHeading(collection);
     viewContext.innerHTML = keepResources
-      ? `<small>${displayTitle(collection.name)}</small>`
-      : `<strong>${displayTitle(collection.name)}</strong>`;
+      ? `<small>${collectionHeading(collection)}</small>`
+      : `<strong>${collectionHeading(collection)}</strong>`;
     buildPageIndex();
     setView(initialView);
     resourceList.querySelectorAll(".resource-card").forEach((button) => button.classList.toggle("active", button.dataset.collectionId === collection.id));
-    position.textContent = `${number.format(currentRecords.length)} available item${currentRecords.length === 1 ? "" : "s"} · ${collectionReference(collection)}`;
+    position.textContent = collection?.viewerRepresentation && /Typed Transcripts/i.test(collection?.name || "")
+      ? `${number.format(currentRecords.length)} page${currentRecords.length === 1 ? "" : "s"}`
+      : `${number.format(currentRecords.length)} available item${currentRecords.length === 1 ? "" : "s"} · ${collectionReference(collection)}`;
     renderCollections();
     sidebar.classList.remove("open");
     menu.setAttribute("aria-expanded", "false");
@@ -1817,14 +1831,6 @@
   enableDragPan(continuousView);
   enableImageWheelZoom(stage);
   enableImageWheelZoom(continuousView);
-  backToResources.addEventListener("click", (event) => {
-    event.preventDefault();
-    viewer.hidden = true;
-    viewerBreadcrumbs.hidden = true;
-    resourcePanel.hidden = false;
-    $(".viewer").classList.remove("record-open");
-    window.scrollTo({ top: 0, behavior: "smooth" });
-  });
   previous.addEventListener("click", () => navigatePages(-1));
   next.addEventListener("click", () => navigatePages(1));
   menu.addEventListener("click", () => {

@@ -1,8 +1,8 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-08-12T23:22:24.339Z",
-  "canonicalCount": 59,
-  "distinctNameCount": 179,
+  "generatedAt": "2026-08-14T03:00:23.630Z",
+  "canonicalCount": 61,
+  "distinctNameCount": 184,
   "rows": [
     {
       "name": "Abercarn, Newport, and Varteg Branch",
@@ -645,6 +645,30 @@
       "resourceUrl": "index.html?branch=Ebbw%20Vale"
     },
     {
+      "name": "Eglwys Bach",
+      "canonicalName": "Eglwysbach",
+      "relationship": "Known alias",
+      "sourceNotes": "Current branch registry; Historical spacing variant",
+      "notes": "1849-1864 · Variant spacing retained for discovery",
+      "resourceUrl": "index.html?branch=Eglwysbach"
+    },
+    {
+      "name": "Eglwys Fach",
+      "canonicalName": "Eglwysbach",
+      "relationship": "Known alias",
+      "sourceNotes": "Current branch registry; Welsh Saints Project place-name evidence",
+      "notes": "1849-1864 · Historical/source spelling used in Hugh Roberts family records",
+      "resourceUrl": "index.html?branch=Eglwysbach"
+    },
+    {
+      "name": "Eglwysbach",
+      "canonicalName": "Eglwysbach",
+      "relationship": "Canonical",
+      "sourceNotes": "Current branch registry; Hugh and Mary Owens Roberts biographical history; Zion's Trumpet conference report",
+      "notes": "Branch; 1849-1864 · Abel Evans organized a six-member branch; Hugh Roberts served as presiding elder and kept the branch record until emigrating in 1864; 1854 · Conwy Valley Conference held at Eglwysbach, 28 May 1854; five branches and 98 members reported for the conference",
+      "resourceUrl": "index.html?branch=Eglwysbach"
+    },
+    {
       "name": "England Central Mission (Welsh Districts)",
       "canonicalName": "",
       "relationship": "Unmapped",
@@ -1051,6 +1075,22 @@
       "sourceNotes": "2022 Wales indexing-project branch map; 2022 FamilySearch indexing-project map",
       "notes": "1848-1857 · WALES (Country), Part 5 · DGS 106248102, images 99-194; WALES (Country), Part 5 · DGS 106248102 · images 99–194",
       "resourceUrl": "index.html?branch=Newport"
+    },
+    {
+      "name": "Overton",
+      "canonicalName": "Overton",
+      "relationship": "Canonical",
+      "sourceNotes": "Current branch registry; Welsh Saints Project historical resource; Ronald D. Dennis historical narrative",
+      "notes": "Branch; 1840-1842 · Overton: The First LDS Branch in Wales; organized 30 October 1840; earliest documented branch in Wales; 1840 · Opposition to the Gospel Message in Wales, PDF page 23; missionaries arrived 16 October and organized a branch 30 October 1840",
+      "resourceUrl": "index.html?branch=Overton"
+    },
+    {
+      "name": "Owrtyn",
+      "canonicalName": "Overton",
+      "relationship": "Known alias",
+      "sourceNotes": "Current branch registry; Welsh Saints Project place-name evidence",
+      "notes": "1840-1842 · Welsh spelling used in Welsh Saints person records for Overton, Flintshire",
+      "resourceUrl": "index.html?branch=Overton"
     },
     {
       "name": "Pen-y-cae",
