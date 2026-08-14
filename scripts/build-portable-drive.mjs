@@ -167,7 +167,7 @@ if (profile === "presentation") {
   const peopleJsPath = path.join(destination, "people-search.js");
   fs.writeFileSync(peopleJsPath, fs.readFileSync(peopleJsPath, "utf8").replace("data/private/people-index.local.js", "data/portable/people-index.portable.js"), "utf8");
   const peopleHtmlPath = path.join(destination, "people-search.html");
-  fs.writeFileSync(peopleHtmlPath, fs.readFileSync(peopleHtmlPath, "utf8").replace(/<script src="people-search\.js([^>]*)><\/script>/, '<script src="data/branch-registry.js?v=date-interpretation-20260814"></script><script src="source-transition.js?v=source-transition-20260814"></script><script src="people-search.js$1></script><script src="beta-presentation-polish.js?v=beta-polish-20260814"></script>'), "utf8");
+  fs.writeFileSync(peopleHtmlPath, fs.readFileSync(peopleHtmlPath, "utf8").replace(/<script src="people-search\.js([^>]*)><\/script>/, '<script src="data/branch-registry.js?v=date-interpretation-20260814"></script><script src="source-transition.js?v=source-transition-20260814"></script><script src="people-search.js$1></script><script src="beta-presentation-polish.js?v=beta-polish-20260814b"></script>'), "utf8");
   const portableAppPath = path.join(destination, "app.js");
   const portableApp = fs.readFileSync(portableAppPath, "utf8")
     .replace(/    buildPageIndex\(\);\r?\n    setView\(initialView\);/, "    strip.replaceChildren();\n    setView(initialView);")
@@ -180,7 +180,7 @@ if (profile === "presentation") {
   const saintsHtml = fs.readFileSync(saintsHtmlPath, "utf8")
     .replace(/<script src="data\/private\/welsh-saints-index\.local\.js[^>]*><\/script>/, '<script src="data/portable/welsh-saints-index.portable.js"></script>')
     .replace(/<script src="data\/private\/typed-branch-record-index\.local\.js[^>]*><\/script>/, "")
-    .replace(/<script src="feedback\.js([^>]*)><\/script>/, '<script src="beta-presentation-polish.js?v=beta-polish-20260814"></script><script src="feedback.js$1></script>');
+    .replace(/<script src="feedback\.js([^>]*)><\/script>/, '<script src="beta-presentation-polish.js?v=beta-polish-20260814b"></script><script src="feedback.js$1></script>');
   fs.writeFileSync(saintsHtmlPath, saintsHtml, "utf8");
   const homePath = path.join(destination, "index.html");
   let presentationHome = fs.readFileSync(homePath, "utf8")
@@ -212,7 +212,7 @@ if (profile === "presentation") {
     <nav class="viewer-breadcrumbs" id="branchResourceBreadcrumbs"`)
     .replace('<div class="pre-footer-feedback" data-home-feedback></div>', "")
     .replace(/<script src="app\.js([^>]*)><\/script>/, '<script src="source-transition.js?v=source-transition-20260814"></script><script src="app.js$1></script>')
-    .replace(/<script src="navigation\.js([^>]*)><\/script>/, '<script src="navigation.js$1></script><script src="data/portable/people-index.portable.js?v=branch-members-20260814"></script><script src="branch-members.js?v=branch-members-20260814"></script><script src="beta-presentation-polish.js?v=beta-polish-20260814"></script>')
+    .replace(/<script src="navigation\.js([^>]*)><\/script>/, '<script src="navigation.js$1></script><script src="data/portable/people-index.portable.js?v=branch-members-20260814"></script><script src="branch-members.js?v=branch-members-20260814"></script><script src="beta-presentation-polish.js?v=beta-polish-20260814b"></script>')
     .replace("</footer>", `</footer><div class="pre-footer-feedback presentation-footer-feedback" data-home-feedback></div>
     <script>
       document.querySelectorAll(".presentation-branch-review").forEach((disclosure) => {
@@ -231,9 +231,10 @@ body:has(#directoryPanel:not([hidden])) .presentation-research-links { display: 
 .presentation-transcript-link a:hover, .presentation-transcript-link a:focus-visible { text-decoration: underline; text-underline-offset: 3px; }
 .presentation-transcript-link a:focus-visible,
 .presentation-branch-review summary:focus-visible { outline: 2px solid var(--gold); outline-offset: 3px; border-radius: 2px; }
-.presentation-directory-top { display: grid; grid-template-columns: minmax(0, 1fr) minmax(300px, 520px); align-items: start; gap: 18px clamp(24px, 4vw, 52px); }
+.presentation-directory-top { display: grid; grid-template-columns: minmax(0, 1fr) max-content; align-items: start; gap: 18px clamp(24px, 4vw, 52px); }
 .presentation-directory-top .directory-heading { min-width: 0; }
-.presentation-branch-review { width: 100%; margin-top: 1em; color: var(--ink); background: var(--panel); box-shadow: 0 1px 0 #d6cfbf; }
+.presentation-branch-review { width: max-content; max-width: min(620px, 48vw); margin-top: 1em; color: var(--ink); background: var(--panel); box-shadow: 0 1px 0 #d6cfbf; }
+.presentation-branch-review[open] { width: min(620px, 48vw); }
 .presentation-branch-review summary { color: var(--green-dark); cursor: pointer; font: 500 .9rem/1.4 Arial, sans-serif; min-height: 44px; padding: 11px 28px 10px 18px; }
 .presentation-branch-review-content { border-top: 2px solid var(--gold); margin: 0; padding: 12px 18px 14px; }
 .presentation-branch-review-content p { font: 400 .88rem/1.5 Arial, sans-serif; margin: 0 0 8px; max-width: 62ch; }
@@ -243,11 +244,14 @@ body:has(#directoryPanel:not([hidden])) .presentation-research-links { display: 
 .presentation-footer-feedback { margin-top: 10px; }
 .directory-home-link, .directory-home-link:visited { color: var(--green-dark); font: 500 .8rem/1.25 Arial, sans-serif; text-decoration: none; }
 .directory-home-link:hover, .directory-home-link:focus-visible { text-decoration: underline; text-underline-offset: 3px; }
-.search-sticky-nav { padding-block: 3px; background: #fffdf8; }
+.search-sticky-nav { padding-block: 3px; background: #fbf7ec; }
 .search-sticky-nav.is-stuck { border-bottom: 1px solid var(--gold); box-shadow: 0 3px 8px rgba(42, 49, 42, .12); }
 .people-date-interpretations { margin: 8px 0 0; }
 .people-date-interpretations .people-source-detail { margin: 2px 0; }
 .viewer-portable-availability { margin: 3px 0 0; color: var(--muted); font: 400 .76rem/1.35 Arial, sans-serif; }
+.home-search input { max-width: 590px; transition: border-color .35s ease, box-shadow .35s ease; }
+.home-search input.home-search-emphasis { border-color: var(--gold); box-shadow: 0 0 0 3px rgba(173, 137, 48, .16); }
+@media (prefers-reduced-motion: reduce) { .home-search input { transition: none; } }
 .home-category-label { display: block; margin: 0 0 5px; color: var(--gold-dark, #8a6b20); font: 600 .69rem/1.2 Arial, sans-serif; letter-spacing: .08em; text-transform: uppercase; }
 .home-path-card .home-category-label { margin-bottom: 6px; }
 .branch-member-count, .resource-member-count { display: block; color: var(--muted); font: 400 .75rem/1.35 Arial, sans-serif; }
@@ -274,7 +278,7 @@ body:has(#directoryPanel:not([hidden])) .presentation-research-links { display: 
 .viewer.record-open:has(#viewerBranchResourcesLink[href*="?branch="]) { padding-top: 4px; }
 @media (max-width: 820px) {
   .presentation-directory-top { grid-template-columns: minmax(0, 1fr); gap: 10px; }
-  .presentation-branch-review { margin: 0 0 6px; }
+  .presentation-branch-review, .presentation-branch-review[open] { width: 100%; max-width: none; margin: 0 0 6px; }
 }
 @media (max-width: 620px) {
   .presentation-branch-candidates { grid-template-columns: repeat(2, minmax(0, 1fr)); column-gap: 12px; }

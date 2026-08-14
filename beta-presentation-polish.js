@@ -123,6 +123,57 @@
     update();
   }
 
+  function initializeHomeSearchEmphasis() {
+    const input = document.querySelector("#collectionSearch");
+    if (!input || location.search) return;
+    input.classList.add("home-search-emphasis");
+    const clear = () => input.classList.remove("home-search-emphasis");
+    input.addEventListener("pointerdown", clear, { once: true });
+    input.addEventListener("keydown", clear, { once: true });
+    setTimeout(clear, 1500);
+  }
+
+  function initializePublicViewerAvailability() {
+    const parameters = new URLSearchParams(location.search);
+    const collectionId = parameters.get("collection");
+    if (!collectionId || window.WELSH_RECORD_CATALOG?.edition !== "public") return false;
+    const collection = window.WELSH_RECORD_CATALOG.collections?.find((item) => item.id === collectionId);
+    if (!collection || collection.availability?.online) return false;
+    const viewer = document.querySelector("#recordViewer");
+    const position = document.querySelector("#imagePosition");
+    if (!viewer || !position) return false;
+    viewer.classList.add("viewer-portable-only");
+    const suppressUnavailablePages = () => {
+      viewer.querySelectorAll(".image-load-status").forEach((status) => status.remove());
+      viewer.querySelector("#recordImage")?.removeAttribute("src");
+      viewer.querySelector("#continuousView")?.replaceChildren();
+    };
+    suppressUnavailablePages();
+    new MutationObserver(suppressUnavailablePages).observe(viewer, { childList: true, subtree: true });
+    viewer.addEventListener("click", (event) => {
+      if (event.target.closest("[data-view]")) event.stopImmediatePropagation();
+    }, true);
+    let notice = viewer.querySelector(".viewer-portable-availability");
+    if (!notice) {
+      notice = document.createElement("div");
+      notice.className = "viewer-portable-availability";
+      notice.setAttribute("role", "status");
+      const message = document.createElement("p");
+      message.textContent = "Page images are available in the portable/archive edition.";
+      notice.append(message);
+      const documentUrl = [collection.publicDocumentUrl, collection.documentUrl, collection.sourceUrl]
+        .find((value) => /^https?:\/\//i.test(String(value || "")));
+      if (documentUrl) {
+        const link = document.createElement("a");
+        link.href = documentUrl;
+        link.textContent = "Open document";
+        notice.append(link);
+      }
+      viewer.querySelector(".viewer-sticky-header")?.insertAdjacentElement("afterend", notice);
+    }
+    return true;
+  }
+
   function releaseFacingViewerTransition() {
     const parameters = new URLSearchParams(location.search);
     if (!parameters.get("collection") || !["facing", "continuous"].includes(parameters.get("view"))) return;
@@ -133,16 +184,6 @@
     const viewer = document.querySelector("#recordViewer");
     const pages = document.querySelector("#continuousView");
     if (!viewer || !pages) return;
-    const collection = window.WELSH_RECORD_CATALOG?.collections?.find((item) => item.id === parameters.get("collection"));
-    if (window.WELSH_RECORD_CATALOG?.edition === "public" && collection && !collection.availability?.online) {
-      const position = document.querySelector("#imagePosition");
-      if (position && !document.querySelector(".viewer-portable-availability")) {
-        const notice = document.createElement("p");
-        notice.className = "viewer-portable-availability";
-        notice.textContent = "Viewer pages are available in the presentation/portable edition.";
-        position.insertAdjacentElement("afterend", notice);
-      }
-    }
     const check = () => {
       const images = [...pages.querySelectorAll("img")];
       if (images.some((image) => image.complete && image.naturalWidth > 0)) return finish();
@@ -160,5 +201,7 @@
   enhanceMemberDates();
   observer.observe(document.body, { childList: true, subtree: true });
   initializeStickyNavigation();
+  initializeHomeSearchEmphasis();
+  initializePublicViewerAvailability();
   releaseFacingViewerTransition();
 })();
