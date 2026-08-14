@@ -243,6 +243,9 @@ for (const file of fs.readdirSync(output).filter((name) => name.endsWith(".html"
     .replace(/<script src="people-search\.js[^>]*><\/script>/, '<script src="data/beta/people-index.beta.js?v=member-fields-20260813"></script><script src="people-search.js?v=full-search-beta-20260814"></script>');
   if (file === "index.html") html = html
     .replace(/styles\.css\?v=[^"]+/, "styles.css?v=branch-members-20260814")
+    .replace(/data\/branch-registry\.js\?v=[^"]+/, "data/branch-registry.js?v=branch-members-20260814")
+    .replace(/app\.js\?v=[^"]+/, "app.js?v=branch-members-20260814")
+    .replace(/navigation\.js\?v=[^"]+/, "navigation.js?v=branch-members-20260814")
     .replace('<section class="home-search" aria-labelledby="homeSearchTitle"><h3 id="homeSearchTitle">', '<section class="home-search" aria-labelledby="homeSearchTitle"><span class="home-category-label">Resources</span><h3 id="homeSearchTitle">')
     .replace('<a class="home-path-card" href="index.html?view=branches"><strong>', '<a class="home-path-card" href="index.html?view=branches"><span class="home-category-label">Branches</span><strong>')
     .replace('<a class="home-path-card" href="people-search.html" data-local-feature hidden><strong>', '<a class="home-path-card" href="people-search.html" data-local-feature hidden><span class="home-category-label">People</span><strong>')
