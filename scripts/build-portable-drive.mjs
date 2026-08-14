@@ -92,6 +92,7 @@ const portableFiles = [
   ["app.js", "app.js"],
   ["navigation.js", "navigation.js"],
   ["branch-members.js", "branch-members.js"],
+  ["source-transition.js", "source-transition.js"],
   ["feedback.js", "feedback.js"],
   ["styles.css", "styles.css"],
   ["research-page-nav.css", "research-page-nav.css"],
@@ -164,6 +165,14 @@ if (profile === "presentation") {
   fs.writeFileSync(path.join(destination, "data", "portable", "people-index.portable.js"), peopleSource, "utf8");
   const peopleJsPath = path.join(destination, "people-search.js");
   fs.writeFileSync(peopleJsPath, fs.readFileSync(peopleJsPath, "utf8").replace("data/private/people-index.local.js", "data/portable/people-index.portable.js"), "utf8");
+  const peopleHtmlPath = path.join(destination, "people-search.html");
+  fs.writeFileSync(peopleHtmlPath, fs.readFileSync(peopleHtmlPath, "utf8").replace(/<script src="people-search\.js([^>]*)><\/script>/, '<script src="source-transition.js?v=source-transition-20260814"></script><script src="people-search.js$1></script>'), "utf8");
+  const portableAppPath = path.join(destination, "app.js");
+  const portableApp = fs.readFileSync(portableAppPath, "utf8")
+    .replace(/    buildPageIndex\(\);\r?\n    setView\(initialView\);/, "    strip.replaceChildren();\n    setView(initialView);")
+    .replace(/  function openPageIndex\(\) \{\r?\n    pageIndexPanel\.hidden = false;/, "  function openPageIndex() {\n    if (!strip.children.length) buildPageIndex();\n    pageIndexPanel.hidden = false;")
+    .replace(/    if \(branch\) openBranch\(branch\);\r?\n    else currentBranchName = \"\";/, "    currentBranchName = branch || \"\";");
+  fs.writeFileSync(portableAppPath, portableApp, "utf8");
   const localFeaturesPath = path.join(destination, "local-private-features.js");
   fs.writeFileSync(localFeaturesPath, fs.readFileSync(localFeaturesPath, "utf8").replace('["data/private/familysearch-comparison.local.html", "FamilySearch comparison"]', '["familysearch-comparison.html", "FamilySearch comparison"]'), "utf8");
   const saintsHtmlPath = path.join(destination, "welsh-saints-research.html");
@@ -173,7 +182,7 @@ if (profile === "presentation") {
   fs.writeFileSync(saintsHtmlPath, saintsHtml, "utf8");
   const homePath = path.join(destination, "index.html");
   let presentationHome = fs.readFileSync(homePath, "utf8")
-    .replace("Search indexed members across Welsh branches.", "Search member records across Welsh branches.")
+    .replace("Search indexed members across Welsh branches.", "Search members across Welsh branches.")
     .replace('<section class="home-search" aria-labelledby="homeSearchTitle"><h3 id="homeSearchTitle">', '<section class="home-search" aria-labelledby="homeSearchTitle"><span class="home-category-label">Resources</span><h3 id="homeSearchTitle">')
     .replace('<a class="home-path-card" href="index.html?view=branches"><strong>', '<a class="home-path-card" href="index.html?view=branches"><span class="home-category-label">Branches</span><strong>')
     .replace('<a class="home-path-card" href="people-search.html" data-local-feature hidden><strong>', '<a class="home-path-card" href="people-search.html" data-local-feature hidden><span class="home-category-label">People</span><strong>')
@@ -200,6 +209,7 @@ if (profile === "presentation") {
     </div>
     <nav class="viewer-breadcrumbs" id="branchResourceBreadcrumbs"`)
     .replace('<div class="pre-footer-feedback" data-home-feedback></div>', "")
+    .replace(/<script src="app\.js([^>]*)><\/script>/, '<script src="source-transition.js?v=source-transition-20260814"></script><script src="app.js$1></script>')
     .replace(/<script src="navigation\.js([^>]*)><\/script>/, '<script src="navigation.js$1></script><script src="data/portable/people-index.portable.js?v=branch-members-20260814"></script><script src="branch-members.js?v=branch-members-20260814"></script>')
     .replace("</footer>", `</footer><div class="pre-footer-feedback presentation-footer-feedback" data-home-feedback></div>
     <script>
@@ -241,6 +251,8 @@ body:has(#directoryPanel:not([hidden])) .presentation-research-links { display: 
 .branch-member-list { display: grid; gap: 1px; }
 .branch-member-record { border-bottom: 1px solid var(--line); }
 .branch-member-record > summary { min-height: 42px; padding: 10px 24px 9px 2px; color: var(--green-dark); cursor: pointer; font: 400 .94rem/1.35 Arial, sans-serif; }
+.branch-members-section .branch-member-record > summary::after { transform: rotate(45deg) translateY(-2px); }
+.branch-members-section .branch-member-record[open] > summary::after { transform: rotate(225deg) translate(-1px, -1px); }
 .branch-member-record > summary:focus-visible { outline: 2px solid var(--gold); outline-offset: 2px; }
 .branch-member-record-details { padding: 0 4px 13px 18px; }
 .branch-member-record-details dl { display: grid; gap: 4px; margin: 0; font: 400 .84rem/1.4 Arial, sans-serif; }
@@ -248,6 +260,8 @@ body:has(#directoryPanel:not([hidden])) .presentation-research-links { display: 
 .branch-member-record-details dt { color: var(--muted); font-weight: 600; }
 .branch-member-record-details dd { margin: 0; min-width: 0; overflow-wrap: anywhere; }
 .branch-member-record-details .people-result-action { margin: 10px 0 0; }
+.source-route-status { width: min(420px, calc(100% - 32px)); margin: 26px auto; padding: 12px 14px; color: var(--green-dark); border-left: 3px solid var(--gold); background: var(--panel); font: 500 .9rem/1.4 Arial, sans-serif; }
+.source-route-pending main > :not(.source-route-status) { visibility: hidden; }
 .viewer.record-open:has(#viewerBranchResourcesLink[href*="?branch="]) { padding-top: 4px; }
 @media (max-width: 820px) {
   .presentation-directory-top { grid-template-columns: minmax(0, 1fr); gap: 10px; }

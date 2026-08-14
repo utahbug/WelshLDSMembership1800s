@@ -53,10 +53,10 @@
       ["Entry", record.entryNumber],
       ["Date", record.year || record.date],
       ["Also written", aliases.join("; ")],
-      ["Source branch spelling", record.sourceBranchSpelling && record.sourceBranchSpelling !== record.branch ? record.sourceBranchSpelling : ""],
       ["Source", record.collectionName],
       ["Source image", record.imageFilename],
       ["Notes", record.notes],
+      ["Source branch spelling", record.sourceBranchSpelling && record.sourceBranchSpelling !== record.branch ? record.sourceBranchSpelling : ""],
     ].filter(([, value]) => value !== undefined && value !== null && String(value).trim());
     const source = exactSourceAvailable(record)
       ? `<p class="people-result-action"><a class="people-source-link" href="${escapeHtml(recordUrl(record))}">Open source<span class="people-source-link-icon" aria-hidden="true"></span></a></p>`

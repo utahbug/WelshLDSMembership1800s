@@ -908,6 +908,7 @@
   }
 
   function openPageIndex() {
+    if (!strip.children.length) buildPageIndex();
     pageIndexPanel.hidden = false;
     strip.querySelectorAll("img[data-src]").forEach((thumbnail) => {
       thumbnail.src = thumbnail.dataset.src;
@@ -1691,7 +1692,7 @@
     viewContext.innerHTML = keepResources
       ? `<small>${collectionHeading(collection)}</small>`
       : `<strong>${collectionHeading(collection)}</strong>`;
-    buildPageIndex();
+    strip.replaceChildren();
     setView(initialView);
     resourceList.querySelectorAll(".resource-card").forEach((button) => button.classList.toggle("active", button.dataset.collectionId === collection.id));
     position.textContent = collection?.viewerRepresentation && /Typed Transcripts/i.test(collection?.name || "")
@@ -1710,8 +1711,7 @@
     const records = collection ? visibleRecords(collection) : [];
     const imageIndex = imageFilename ? records.findIndex((record) => record.name === imageFilename) : Number(imageSequence) - 1;
     if (!collection || !Number.isInteger(imageIndex) || imageIndex < 0 || imageIndex >= records.length) return false;
-    if (branch) openBranch(branch);
-    else currentBranchName = "";
+    currentBranchName = branch || "";
     openCollection(collection, { keepResources: Boolean(branch), initialView: ["single", "continuous", "facing"].includes(view) ? view : "single", initialImage: imageIndex });
     return true;
   };

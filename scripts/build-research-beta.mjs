@@ -39,7 +39,7 @@ fs.mkdirSync(output, { recursive: true });
 
 const rootFiles = [
   ".nojekyll", "about.html", "app.js", "branch-registry.html", "feedback.js", "historical-names.html", "index.html",
-  "local-private-features.js", "navigation.js", "branch-members.js", "people-search-core.js", "people-search.html", "people-search.js",
+  "local-private-features.js", "navigation.js", "branch-members.js", "source-transition.js", "people-search-core.js", "people-search.html", "people-search.js",
   "all-records-discovery.js", "search-page-navigation.js",
   "research-page-nav.css", "site.webmanifest", "styles.css", "transcriptions-translations.html", "welsh-saints-research.html", "welsh-saints-research.js",
   "work-remaining.html", "WelshRecord-CreatingCommit1.jpg",
@@ -240,17 +240,50 @@ for (const file of fs.readdirSync(output).filter((name) => name.endsWith(".html"
   html = html.replace(/<p class="home-secondary" data-local-feature hidden><a href="data\/private\/familysearch-comparison\.local\.html">Research comparisons<\/a>[\s\S]*?<\/p>/, "");
   if (file === "people-search.html") html = html
     .replace(/<script src="all-records-discovery\.js[^>]*><\/script>/, '<script>window.ALL_RECORDS_DISCOVERY_BASE="data/discovery/";</script><script src="all-records-discovery.js?v=full-search-beta-20260814"></script>')
-    .replace(/<script src="people-search\.js[^>]*><\/script>/, '<script src="data/beta/people-index.beta.js?v=member-fields-20260813"></script><script src="people-search.js?v=full-search-beta-20260814"></script>');
+    .replace(/<script src="people-search\.js[^>]*><\/script>/, '<script src="data/beta/people-index.beta.js?v=member-fields-20260813"></script><script src="source-transition.js?v=source-transition-20260814"></script><script src="people-search.js?v=full-search-beta-20260814"></script>');
   if (file === "index.html") html = html
-    .replace(/styles\.css\?v=[^"]+/, "styles.css?v=branch-members-20260814")
+    .replace(/styles\.css\?v=[^"]+/, "styles.css?v=branch-context-cleanup-20260814")
     .replace(/data\/branch-registry\.js\?v=[^"]+/, "data/branch-registry.js?v=branch-members-20260814")
-    .replace(/app\.js\?v=[^"]+/, "app.js?v=branch-members-20260814")
+    .replace(/app\.js\?v=[^"]+/, "app.js?v=branch-context-cleanup-20260814")
     .replace(/navigation\.js\?v=[^"]+/, "navigation.js?v=branch-members-20260814")
+    .replace("Search indexed members across Welsh branches.", "Search members across Welsh branches.")
     .replace('<section class="home-search" aria-labelledby="homeSearchTitle"><h3 id="homeSearchTitle">', '<section class="home-search" aria-labelledby="homeSearchTitle"><span class="home-category-label">Resources</span><h3 id="homeSearchTitle">')
     .replace('<a class="home-path-card" href="index.html?view=branches"><strong>', '<a class="home-path-card" href="index.html?view=branches"><span class="home-category-label">Branches</span><strong>')
     .replace('<a class="home-path-card" href="people-search.html" data-local-feature hidden><strong>', '<a class="home-path-card" href="people-search.html" data-local-feature hidden><span class="home-category-label">People</span><strong>')
     .replace('<a class="home-path-card" href="welsh-saints-research.html" data-local-feature hidden><strong>', '<a class="home-path-card" href="welsh-saints-research.html" data-local-feature hidden><span class="home-category-label">Welsh Saints Project</span><strong>')
-    .replace(/<script src="navigation\.js([^>]*)><\/script>/, '<script src="navigation.js$1></script><script src="data/beta/people-index.beta.js?v=branch-members-20260814"></script><script src="branch-members.js?v=branch-members-20260814"></script>');
+    .replace('<div class="directory-heading"><h3>Identified nineteenth-century branches</h3><p id="collectionCount"></p></div><nav class="branch-grid" id="branchList"', `<div class="presentation-directory-top">
+      <div class="directory-heading"><h3>Identified nineteenth-century branches</h3><p id="collectionCount"></p></div>
+      <details class="presentation-branch-review">
+        <summary aria-expanded="false">Possible branches under review</summary>
+        <div class="presentation-branch-review-content">
+          <p>Historically documented branch candidates not yet added to the canonical branch list.</p>
+          <ul class="presentation-branch-candidates" aria-label="Stronger branch candidates">
+            <li>Aberaman</li><li>Aberdare</li><li>Abergavenny</li><li>Beaufort</li><li>Brecon</li><li>Broadway</li><li>Cefn Mawr</li><li>Cwmbach</li><li>Freystrop</li><li>Gellifaelog</li><li>Hirwaun</li><li>Lawrenny</li><li>Llantrisant</li><li>Manorbier</li><li>Mountain Ash</li><li>Pembroke</li><li>Victoria</li><li>Ynysgau</li>
+          </ul>
+          <h3>Early border branches needing locality/spelling review</h3>
+          <ul class="presentation-branch-candidates presentation-border-candidates">
+            <li>Hewshovell</li><li>Lancathy</li><li>Llanellen</li><li>Llanfoist</li><li>Llantoney Abbey</li><li>Longtown</li><li>Welsh Iron Works</li>
+          </ul>
+        </div>
+      </details>
+    </div><nav class="branch-grid" id="branchList"`)
+    .replace(/<\/section>\r?\n    <nav class="viewer-breadcrumbs" id="branchResourceBreadcrumbs"/, `</section>
+    <div class="presentation-research-links">
+      <div class="presentation-transcript-link"><a href="transcriptions-translations.html">Transcriptions &amp; Translations</a></div>
+    </div>
+    <nav class="viewer-breadcrumbs" id="branchResourceBreadcrumbs"`)
+    .replace('<div class="pre-footer-feedback" data-branch-feedback></div><div class="pre-footer-feedback" data-home-feedback></div>', '<div class="pre-footer-feedback" data-branch-feedback></div>')
+    .replace("</footer>", `</footer><div class="pre-footer-feedback presentation-footer-feedback" data-home-feedback></div>
+    <script>
+      document.querySelectorAll(".presentation-branch-review").forEach((disclosure) => {
+        const summary = disclosure.querySelector("summary");
+        const syncExpanded = () => summary.setAttribute("aria-expanded", disclosure.open ? "true" : "false");
+        disclosure.addEventListener("toggle", syncExpanded);
+        syncExpanded();
+      });
+    </script>`)
+    .replace(/<script src="app\.js([^>]*)><\/script>/, '<script src="source-transition.js?v=source-transition-20260814"></script><script src="app.js$1></script>')
+    .replace(/<script src="navigation\.js([^>]*)><\/script>/, '<script src="navigation.js$1></script><script src="data/beta/people-index.beta.js?v=branch-members-20260814"></script><script src="branch-members.js?v=branch-context-cleanup-20260814"></script>');
   if (file === "welsh-saints-research.html") html = html.replace(/<script src="data\/private\/welsh-saints-index\.local\.js[^>]*><\/script><script src="data\/private\/typed-branch-record-index\.local\.js[^>]*><\/script>/, '<script src="data/beta/welsh-saints-index.beta.js"></script>');
   fs.writeFileSync(target, html);
 }
@@ -262,6 +295,12 @@ betaPeopleSearch = betaPeopleSearch.replace(
 );
 if (/data\/private\//.test(betaPeopleSearch)) throw new Error("Member Search beta script still contains a private-data path.");
 fs.writeFileSync(peopleSearchTarget, betaPeopleSearch);
+const betaAppTarget = path.join(output, "app.js");
+let betaApp = fs.readFileSync(betaAppTarget, "utf8")
+  .replace(/    buildPageIndex\(\);\r?\n    setView\(initialView\);/, "    strip.replaceChildren();\n    setView(initialView);")
+  .replace(/  function openPageIndex\(\) \{\r?\n    pageIndexPanel\.hidden = false;/, "  function openPageIndex() {\n    if (!strip.children.length) buildPageIndex();\n    pageIndexPanel.hidden = false;")
+  .replace(/    if \(branch\) openBranch\(branch\);\r?\n    else currentBranchName = \"\";/, "    currentBranchName = branch || \"\";");
+fs.writeFileSync(betaAppTarget, betaApp, "utf8");
 fs.appendFileSync(path.join(output, "styles.css"), `
 .home-category-label { display: block; margin: 0 0 5px; color: var(--gold-dark, #8a6b20); font: 600 .69rem/1.2 Arial, sans-serif; letter-spacing: .08em; text-transform: uppercase; }
 .home-path-card .home-category-label { margin-bottom: 6px; }
@@ -275,6 +314,8 @@ fs.appendFileSync(path.join(output, "styles.css"), `
 .branch-member-list { display: grid; gap: 1px; }
 .branch-member-record { border-bottom: 1px solid var(--line); }
 .branch-member-record > summary { min-height: 42px; padding: 10px 24px 9px 2px; color: var(--green-dark); cursor: pointer; font: 400 .94rem/1.35 Arial, sans-serif; }
+.branch-members-section .branch-member-record > summary::after { transform: rotate(45deg) translateY(-2px); }
+.branch-members-section .branch-member-record[open] > summary::after { transform: rotate(225deg) translate(-1px, -1px); }
 .branch-member-record > summary:focus-visible { outline: 2px solid var(--gold); outline-offset: 2px; }
 .branch-member-record-details { padding: 0 4px 13px 18px; }
 .branch-member-record-details dl { display: grid; gap: 4px; margin: 0; font: 400 .84rem/1.4 Arial, sans-serif; }
@@ -282,6 +323,24 @@ fs.appendFileSync(path.join(output, "styles.css"), `
 .branch-member-record-details dt { color: var(--muted); font-weight: 600; }
 .branch-member-record-details dd { margin: 0; min-width: 0; overflow-wrap: anywhere; }
 .branch-member-record-details .people-result-action { margin: 10px 0 0; }
+.source-route-status { width: min(420px, calc(100% - 32px)); margin: 26px auto; padding: 12px 14px; color: var(--green-dark); border-left: 3px solid var(--gold); background: var(--panel); font: 500 .9rem/1.4 Arial, sans-serif; }
+.source-route-pending main > :not(.source-route-status) { visibility: hidden; }
+.presentation-research-links { display: none; margin: calc(clamp(28px, 4vw, 54px) + 16px) 0 10px; font-family: Arial, sans-serif; }
+body:has(#directoryPanel:not([hidden])) .presentation-research-links { display: block; }
+.presentation-transcript-link a { color: var(--green-dark); font: 500 .9rem/1.4 Arial, sans-serif; text-decoration: none; }
+.presentation-transcript-link a:hover, .presentation-transcript-link a:focus-visible { text-decoration: underline; text-underline-offset: 3px; }
+.presentation-transcript-link a:focus-visible, .presentation-branch-review summary:focus-visible { outline: 2px solid var(--gold); outline-offset: 3px; border-radius: 2px; }
+.presentation-directory-top { display: grid; grid-template-columns: minmax(0, 1fr) minmax(300px, 520px); align-items: start; gap: 18px clamp(24px, 4vw, 52px); }
+.presentation-directory-top .directory-heading { min-width: 0; }
+.presentation-branch-review { width: 100%; color: var(--ink); background: var(--panel); box-shadow: 0 1px 0 #d6cfbf; }
+.presentation-branch-review summary { color: var(--green-dark); cursor: pointer; font: 500 .9rem/1.4 Arial, sans-serif; min-height: 44px; padding: 11px 28px 10px 18px; }
+.presentation-branch-review-content { border-top: 2px solid var(--gold); margin: 0; padding: 12px 18px 14px; }
+.presentation-branch-review-content p { font: 400 .88rem/1.5 Arial, sans-serif; margin: 0 0 8px; max-width: 62ch; }
+.presentation-branch-review-content h3 { color: var(--ink); font: 600 .82rem/1.45 Arial, sans-serif; margin: 12px 0 5px; }
+.presentation-branch-candidates { display: grid; grid-template-columns: repeat(3, minmax(120px, 1fr)); gap: 2px 18px; list-style: none; margin: 0; padding: 0; }
+.presentation-branch-candidates li { font: 400 .86rem/1.45 Arial, sans-serif; }
+.presentation-footer-feedback { margin-top: 10px; }
+@media (max-width: 820px) { .presentation-directory-top { grid-template-columns: minmax(0, 1fr); gap: 10px; } .presentation-branch-review { margin: 0 0 6px; } }
 @media (max-width: 520px) { .branch-member-record-details { padding-left: 8px; } .branch-member-record-details dl div { grid-template-columns: 1fr; gap: 0; } }
 `, "utf8");
 fs.writeFileSync(path.join(output, "local-private-features.js"), `(() => {
