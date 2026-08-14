@@ -240,7 +240,7 @@ for (const file of fs.readdirSync(output).filter((name) => name.endsWith(".html"
   html = html.replace(/<p class="home-secondary" data-local-feature hidden><a href="data\/private\/familysearch-comparison\.local\.html">Research comparisons<\/a>[\s\S]*?<\/p>/, "");
   if (file === "people-search.html") html = html
     .replace(/<script src="all-records-discovery\.js[^>]*><\/script>/, '<script>window.ALL_RECORDS_DISCOVERY_BASE="data/discovery/";</script><script src="all-records-discovery.js?v=full-search-beta-20260814"></script>')
-    .replace(/<script src="people-search\.js[^>]*><\/script>/, '<script src="data/branch-registry.js?v=date-interpretation-20260814"></script><script src="data/beta/people-index.beta.js?v=member-fields-20260813"></script><script src="source-transition.js?v=source-transition-20260814"></script><script src="people-search.js?v=full-search-beta-20260814"></script><script src="beta-presentation-polish.js?v=beta-polish-20260814c"></script>');
+    .replace(/<script src="people-search\.js[^>]*><\/script>/, '<script src="data/branch-registry.js?v=date-interpretation-20260814"></script><script src="data/beta/people-index.beta.js?v=member-fields-20260813"></script><script src="source-transition.js?v=source-transition-20260814"></script><script src="people-search.js?v=full-search-beta-20260814"></script><script src="beta-presentation-polish.js?v=beta-polish-20260814d"></script>');
   if (file === "index.html") html = html
     .replace(/styles\.css\?v=[^"]+/, "styles.css?v=beta-layout-20260814d")
     .replace(/data\/branch-registry\.js\?v=[^"]+/, "data/branch-registry.js?v=branch-members-20260814")
@@ -283,8 +283,8 @@ for (const file of fs.readdirSync(output).filter((name) => name.endsWith(".html"
       });
     </script>`)
     .replace(/<script src="app\.js([^>]*)><\/script>/, '<script src="source-transition.js?v=source-transition-20260814"></script><script src="app.js$1></script>')
-    .replace(/<script src="navigation\.js([^>]*)><\/script>/, '<script src="navigation.js$1></script><script src="data/beta/people-index.beta.js?v=branch-members-20260814"></script><script src="branch-members.js?v=branch-context-cleanup-20260814"></script><script src="beta-presentation-polish.js?v=beta-polish-20260814c"></script>');
-  if (file === "welsh-saints-research.html") html = html.replace(/<script src="feedback\.js([^>]*)><\/script>/, '<script src="beta-presentation-polish.js?v=beta-polish-20260814c"></script><script src="feedback.js$1></script>');
+    .replace(/<script src="navigation\.js([^>]*)><\/script>/, '<script src="navigation.js$1></script><script src="data/beta/people-index.beta.js?v=branch-members-20260814"></script><script src="branch-members.js?v=branch-context-cleanup-20260814"></script><script src="beta-presentation-polish.js?v=beta-polish-20260814d"></script>');
+  if (file === "welsh-saints-research.html") html = html.replace(/<script src="feedback\.js([^>]*)><\/script>/, '<script src="beta-presentation-polish.js?v=beta-polish-20260814d"></script><script src="feedback.js$1></script>');
   if (file === "welsh-saints-research.html") html = html.replace(/<script src="data\/private\/welsh-saints-index\.local\.js[^>]*><\/script><script src="data\/private\/typed-branch-record-index\.local\.js[^>]*><\/script>/, '<script src="data/beta/welsh-saints-index.beta.js"></script>');
   html = html.replace(/styles\.css\?v=[^"]+/g, "styles.css?v=beta-layout-20260814d");
   fs.writeFileSync(target, html);

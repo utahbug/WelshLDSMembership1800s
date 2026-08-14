@@ -167,7 +167,7 @@ if (profile === "presentation") {
   const peopleJsPath = path.join(destination, "people-search.js");
   fs.writeFileSync(peopleJsPath, fs.readFileSync(peopleJsPath, "utf8").replace("data/private/people-index.local.js", "data/portable/people-index.portable.js"), "utf8");
   const peopleHtmlPath = path.join(destination, "people-search.html");
-  fs.writeFileSync(peopleHtmlPath, fs.readFileSync(peopleHtmlPath, "utf8").replace(/<script src="people-search\.js([^>]*)><\/script>/, '<script src="data/branch-registry.js?v=date-interpretation-20260814"></script><script src="source-transition.js?v=source-transition-20260814"></script><script src="people-search.js$1></script><script src="beta-presentation-polish.js?v=beta-polish-20260814c"></script>'), "utf8");
+  fs.writeFileSync(peopleHtmlPath, fs.readFileSync(peopleHtmlPath, "utf8").replace(/<script src="people-search\.js([^>]*)><\/script>/, '<script src="data/branch-registry.js?v=date-interpretation-20260814"></script><script src="source-transition.js?v=source-transition-20260814"></script><script src="people-search.js$1></script><script src="beta-presentation-polish.js?v=beta-polish-20260814d"></script>'), "utf8");
   const portableAppPath = path.join(destination, "app.js");
   const portableApp = fs.readFileSync(portableAppPath, "utf8")
     .replace(/    buildPageIndex\(\);\r?\n    setView\(initialView\);/, "    strip.replaceChildren();\n    setView(initialView);")
@@ -180,7 +180,7 @@ if (profile === "presentation") {
   const saintsHtml = fs.readFileSync(saintsHtmlPath, "utf8")
     .replace(/<script src="data\/private\/welsh-saints-index\.local\.js[^>]*><\/script>/, '<script src="data/portable/welsh-saints-index.portable.js"></script>')
     .replace(/<script src="data\/private\/typed-branch-record-index\.local\.js[^>]*><\/script>/, "")
-    .replace(/<script src="feedback\.js([^>]*)><\/script>/, '<script src="beta-presentation-polish.js?v=beta-polish-20260814c"></script><script src="feedback.js$1></script>');
+    .replace(/<script src="feedback\.js([^>]*)><\/script>/, '<script src="beta-presentation-polish.js?v=beta-polish-20260814d"></script><script src="feedback.js$1></script>');
   fs.writeFileSync(saintsHtmlPath, saintsHtml, "utf8");
   const homePath = path.join(destination, "index.html");
   let presentationHome = fs.readFileSync(homePath, "utf8")
@@ -212,7 +212,7 @@ if (profile === "presentation") {
     <nav class="viewer-breadcrumbs" id="branchResourceBreadcrumbs"`)
     .replace('<div class="pre-footer-feedback" data-home-feedback></div>', "")
     .replace(/<script src="app\.js([^>]*)><\/script>/, '<script src="source-transition.js?v=source-transition-20260814"></script><script src="app.js$1></script>')
-    .replace(/<script src="navigation\.js([^>]*)><\/script>/, '<script src="navigation.js$1></script><script src="data/portable/people-index.portable.js?v=branch-members-20260814"></script><script src="branch-members.js?v=branch-members-20260814"></script><script src="beta-presentation-polish.js?v=beta-polish-20260814c"></script>')
+    .replace(/<script src="navigation\.js([^>]*)><\/script>/, '<script src="navigation.js$1></script><script src="data/portable/people-index.portable.js?v=branch-members-20260814"></script><script src="branch-members.js?v=branch-members-20260814"></script><script src="beta-presentation-polish.js?v=beta-polish-20260814d"></script>')
     .replace("</footer>", `</footer><div class="pre-footer-feedback presentation-footer-feedback" data-home-feedback></div>
     <script>
       document.querySelectorAll(".presentation-branch-review").forEach((disclosure) => {

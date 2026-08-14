@@ -185,6 +185,8 @@
       }
       viewer.querySelector(".viewer-sticky-header")?.insertAdjacentElement("afterend", notice);
     }
+    document.documentElement.classList.remove("source-route-pending");
+    document.querySelector(".source-route-status")?.remove();
     return true;
   }
 
