@@ -1,0 +1,102 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta name="robots" content="noindex,nofollow,noarchive">
+  <meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="icon" href="assets/favicon.svg" type="image/svg+xml"><link rel="icon" href="assets/favicon-32.png" sizes="32x32" type="image/png"><link rel="apple-touch-icon" href="assets/apple-touch-icon.png" sizes="180x180"><link rel="manifest" href="site.webmanifest"><meta name="theme-color" content="#163c31">
+  <meta name="description" content="Welsh Latter-day Saint branches, membership records, transcriptions, and minutes.">
+  <meta property="og:title" content="Welsh LDS Membership Records"><meta property="og:description" content="A growing archive of nineteenth-century Welsh LDS branches, membership records, and conference minutes.">
+  <meta property="og:type" content="website"><meta property="og:url" content="https://utahbug.github.io/WelshLDSMembership1800s/"><meta property="og:image" content="https://utahbug.github.io/WelshLDSMembership1800s/assets/welsh-lds-membership-social-card-ffestiniog-home.png"><meta property="og:image:width" content="1200"><meta property="og:image:height" content="630"><meta property="og:image:alt" content="LDS Welsh Membership Records historical archive"><meta name="twitter:card" content="summary_large_image"><meta name="twitter:image" content="https://utahbug.github.io/WelshLDSMembership1800s/assets/welsh-lds-membership-social-card-ffestiniog-home.png"><meta name="twitter:image:alt" content="LDS Welsh Membership Records historical archive">
+  <title>LDS Welsh Membership Records, 1800s</title><link rel="stylesheet" href="styles.css?v=beta-layout-20260814d">
+  <script>window.WELSH_RESEARCH_BETA=true;window.WELSH_FULL_ONLINE=true;</script>
+</head>
+<body>
+  <header class="masthead">
+    <div class="site-title"><p class="eyebrow">Historical archive</p><h1>LDS Welsh Membership Records</h1><p class="date-line">Nineteenth-century branches, conferences, and minutes</p></div>
+    <nav class="global-nav" aria-label="Site navigation">
+      <button class="header-icon" id="headerSearchButton" type="button" aria-label="Search the archive" title="Search">&#128269;</button>
+    </nav>
+  </header>
+  <div class="branch-picker" id="branchPicker" hidden>
+    <button class="picker-backdrop" id="pickerBackdrop" type="button" aria-label="Close branch picker"></button>
+    <section class="picker-panel" role="dialog" aria-modal="true" aria-labelledby="pickerTitle">
+      <div class="picker-heading"><h2 id="pickerTitle">Branches</h2><button id="closeBranchPicker" type="button" aria-label="Close branch picker">&times;</button></div>
+      <nav id="pickerBranchList" aria-label="Branch picker"></nav>
+    </section>
+  </div>
+  <main class="workspace"><section class="viewer" aria-live="polite">
+    <section class="home-page" id="homePanel">
+      <header class="home-intro"><p class="eyebrow">Welsh historical records</p><h2>Explore Welsh Latter&#8209;day Saint Records</h2><p>Explore nineteenth-century Welsh LDS branch and member records, and discover related Welsh Saints Project material.</p></header>
+      <section class="home-search" aria-labelledby="homeSearchTitle"><span class="home-category-label">Resources</span><h3 id="homeSearchTitle">Search the archive</h3>
+      <label for="collectionSearch">Search branches, collections, CD numbers, call numbers, dates, and filenames</label><input id="collectionSearch" type="search" placeholder="Try Cardiff, CD 58, LR2157, or Ffestionog" autocomplete="off" aria-describedby="searchHelp"><p class="search-help" id="searchHelp">Approximate spelling is welcome. Welsh, anglicized, and alternate forms are included.</p>
+      <section class="search-results" id="searchResults" hidden><h3>Search results</h3><div id="searchResultList"></div></section>
+      </section>
+      <nav class="home-paths" aria-label="Research paths">
+        <a class="home-path-card" href="index.html?view=branches"><span class="home-category-label">Branches</span><strong>All Branches</strong><small>Browse identified Welsh branches and their available records.</small></a>
+        <a class="home-path-card" href="people-search.html" data-local-feature hidden><span class="home-category-label">People</span><strong>Member Search</strong><small>Search members across Welsh branches.</small></a>
+        <a class="home-path-card" href="welsh-saints-research.html" data-local-feature hidden><span class="home-category-label">Welsh Saints Project</span><strong>Welsh Saints Search</strong><small>Search people, places, dates, voyages, and historical material from the Welsh Saints Project.</small></a>
+      </nav>
+    </section>
+    <section class="branch-directory" id="directoryPanel" hidden>
+      <a class="directory-home-link" href="index.html">&larr; Home</a>
+      <h2>Welsh branches</h2>
+      <p class="directory-scope">Nineteenth-century Welsh Latter-day Saint branches and conferences</p>
+      <div class="presentation-directory-top">
+      <div class="directory-heading"><h3>Identified nineteenth-century branches</h3><p id="collectionCount"></p></div>
+      <details class="presentation-branch-review">
+        <summary aria-expanded="false">Possible branches under review</summary>
+        <div class="presentation-branch-review-content">
+          <p>Historically documented branch candidates not yet added to the canonical branch list.</p>
+          <ul class="presentation-branch-candidates" aria-label="Stronger branch candidates">
+            <li>Aberaman</li><li>Aberdare</li><li>Abergavenny</li><li>Beaufort</li><li>Brecon</li><li>Broadway</li><li>Cefn Mawr</li><li>Cwmbach</li><li>Freystrop</li><li>Gellifaelog</li><li>Hirwaun</li><li>Lawrenny</li><li>Llantrisant</li><li>Manorbier</li><li>Mountain Ash</li><li>Pembroke</li><li>Victoria</li><li>Ynysgau</li>
+          </ul>
+          <h3>Early border branches needing locality/spelling review</h3>
+          <ul class="presentation-branch-candidates presentation-border-candidates">
+            <li>Hewshovell</li><li>Lancathy</li><li>Llanellen</li><li>Llanfoist</li><li>Llantoney Abbey</li><li>Longtown</li><li>Welsh Iron Works</li>
+          </ul>
+        </div>
+      </details>
+    </div><nav class="branch-grid" id="branchList" aria-label="Identified nineteenth-century Welsh branches"></nav>
+    </section>
+    <div class="presentation-research-links">
+      <div class="presentation-transcript-link"><a href="transcriptions-translations.html">Transcriptions &amp; Translations</a></div>
+    </div>
+    <nav class="viewer-breadcrumbs" id="branchResourceBreadcrumbs" aria-label="Breadcrumb" hidden><a href="index.html">Home</a><span aria-hidden="true">&rsaquo;</span><a href="index.html?view=branches">All Branches</a><span aria-hidden="true">&rsaquo;</span><span id="branchBreadcrumbName" aria-current="page"></span></nav>
+    <section class="resource-panel" id="resourcePanel" hidden><nav class="branch-level-navigation" aria-label="Branch page navigation"><a href="index.html">Home</a><a href="index.html?view=branches">All Branches</a></nav><header class="branch-resource-heading"><h2 id="branchTitle"></h2><p id="branchHeadingYears"></p><p id="branchHeadingDetails"></p></header><div class="resource-content"><div class="branch-meta" id="branchMeta"></div><div class="resource-list" id="resourceList"></div></div></section>
+    <div class="record-viewer" id="recordViewer" hidden>
+      <span class="viewer-sticky-sentinel" id="viewerStickySentinel" aria-hidden="true"></span>
+      <div class="viewer-sticky-header">
+      <div class="viewer-intro"><a class="viewer-branch-resources-link" id="viewerBranchResourcesLink" href="index.html">&larr; Branch Resources</a><div class="viewer-heading"><div><h2 id="collectionTitle"></h2><p id="imagePosition"></p></div><div class="viewer-actions"><button type="button" id="previousImage">&larr; Previous</button><button type="button" id="nextImage">Next &rarr;</button></div></div></div>
+      <div class="view-toolbar" aria-label="Record viewing mode"><strong>View:</strong>
+        <button type="button" data-view="single">Single Page</button><button type="button" data-view="continuous">Continuous</button><button type="button" data-view="facing" class="facing-view-icon" aria-label="Facing pages" title="Facing pages">Facing Pages</button>
+        <button type="button" class="pan-tool" id="panTool" aria-label="Pan image" aria-pressed="false" hidden title="Pan image with the hand tool">&#9995;</button>
+        <span class="alignment-tools"><button type="button" class="line-guide-tool icon-button" id="lineGuideTool" aria-label="Toggle alignment guide" aria-pressed="false" hidden title="Show or hide the selected page alignment guide"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 12h18"/></svg></button><span class="guide-controls compact-popover-controls" id="guideControls" hidden><button type="button" id="guideRotateLeft" aria-label="Rotate selected guide counterclockwise" title="Rotate selected guide counterclockwise">&#8630;</button><output id="guideAngle" aria-label="Selected guide angle">0&deg;</output><button type="button" id="guideRotateRight" aria-label="Rotate selected guide clockwise" title="Rotate selected guide clockwise">&#8631;</button><button type="button" id="guideReset" class="icon-button" aria-label="Reset selected guide" title="Reset selected guide position and angle">&#10227;</button></span></span>
+        <details class="image-tools" id="imageTools"><summary aria-label="Tilt image" title="Tilt image"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="8" y="6" width="9" height="12" rx="1" transform="rotate(8 12.5 12)"/><path d="M7 5 4 7l3 2M17 19l3-2-3-2"/><path d="M4.5 7.5a9 9 0 0 1 3-4M19.5 16.5a9 9 0 0 1-3 4"/></svg></summary><div><select id="rotationTarget" aria-label="Image to rotate" title="Choose the left or right image"><option value="left">Left image</option><option value="right">Right image</option></select><button type="button" data-rotate="-1" aria-label="Rotate selected image minus 1 degree" title="Rotate minus 1 degree">&minus;1&deg;</button><button type="button" data-rotate="-.5" aria-label="Rotate selected image minus half a degree" title="Rotate minus 0.5 degrees">&minus;.5&deg;</button><button type="button" data-rotate=".5" aria-label="Rotate selected image plus half a degree" title="Rotate plus 0.5 degrees">+.5&deg;</button><button type="button" data-rotate="1" aria-label="Rotate selected image plus 1 degree" title="Rotate plus 1 degree">+1&deg;</button><button type="button" data-rotate-reset aria-label="Reset selected image rotation" title="Reset selected image rotation">&#10227;</button></div></details>
+        <details class="image-adjustments" id="imageAdjustments"><summary aria-label="Enhance image" title="Enhance image"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2v2M12 20v2M2 12h2M20 12h2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M19.1 4.9l-1.4 1.4M6.3 17.7l-1.4 1.4"/><path d="M12 7a5 5 0 1 0 0 10z"/><path d="M12 7a5 5 0 0 1 0 10" fill="currentColor" opacity=".28"/></svg></summary><div><button type="button" id="autoEnhance" class="auto-enhance">Auto Enhance</button><label class="adjustment-slider" for="brightnessSlider"><span>Brightness</span><input id="brightnessSlider" type="range" min="50" max="200" step="5" value="100"><output id="brightnessValue" aria-label="Selected image brightness">100%</output></label><label class="adjustment-slider" for="contrastSlider"><span>Contrast</span><input id="contrastSlider" type="range" min="50" max="200" step="5" value="100"><output id="contrastValue" aria-label="Selected image contrast">100%</output></label><button type="button" id="imageAdjustmentsReset" class="adjustment-reset" aria-label="Reset selected image enhancement" title="Reset image enhancement">&#10227; Reset</button><span id="enhanceStatus" class="enhance-status" aria-live="polite"></span></div></details>
+        <button type="button" id="resetPage" aria-label="Reset page" title="Reset only the selected page adjustments">Reset page</button>
+        <span class="facing-controls" id="facingTools" hidden><button type="button" id="swapFacingPages" class="icon-button" aria-label="Swap left/right" title="Swap left/right">&#8644;</button><details class="scale-tools"><summary aria-label="Zoom/Scale selected page" title="Zoom/Scale selected page"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="10" cy="10" r="5.5"/><path d="m14 14 5 5M10 7v6M7 10h6"/></svg></summary><div><button type="button" id="facingZoomOut" class="icon-button" aria-label="Make selected image smaller" title="Reduce selected image size">&minus;</button><output id="facingScale" aria-label="Selected image size">100%</output><button type="button" id="facingZoomIn" class="icon-button" aria-label="Make selected image larger" title="Increase selected image size">+</button></div></details><button type="button" id="facingZoomFit" class="icon-button" aria-label="Fit selected image to default size" title="Fit selected image to its default size">&#10530;</button></span>
+        <button type="button" id="spreadModeToggle" class="spread-mode-toggle" aria-label="Apply pan and zoom to the facing spread" aria-pressed="false" title="Spread mode: pan and zoom both pages together" hidden>Spread</button><button type="button" id="resetSpread" class="spread-reset" aria-label="Reset spread" title="Reset only the active spread zoom and pan" hidden>Reset spread</button>
+        <span class="active-page-indicator viewer-status-internal" id="activePageIndicator" hidden aria-hidden="true"><strong>Adjusting:</strong> <span>Left page</span></span><span class="view-context" id="viewContext"></span><button class="branch-page-picker toolbar-branch-picker" id="branchPagePicker" type="button" aria-controls="branchPicker" aria-expanded="false" hidden>Branches <span aria-hidden="true">&#9662;</span></button>
+        <button type="button" id="pageIndexButton" class="index-mode" aria-haspopup="dialog" aria-controls="pageIndexPanel" aria-expanded="false" aria-label="Pages" title="Pages: choose from image thumbnails"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 4h6v6H4zM14 4h6v6h-6zM4 14h6v6H4zM14 14h6v6h-6z"/></svg></button>
+        <span class="jump-page-group"><button type="button" class="jump-page" id="jumpFirstPage" aria-label="Top of page" hidden title="Top of page"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 19V5M6 11l6-6 6 6"/></svg></button><button type="button" class="jump-page" id="jumpLastPage" aria-label="Bottom of page" hidden title="Bottom of page"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 5v14M6 13l6 6 6-6"/></svg></button></span>
+      </div>
+      </div>
+      <figure class="record-stage"><img id="recordImage" alt="" draggable="false"><div class="document-preview" id="documentPreview" hidden><p class="document-type" id="documentType"></p><h3 id="documentName"></h3><iframe id="documentFrame" title="Document preview" hidden></iframe><a id="documentLink" href="">Open document</a></div><figcaption id="recordCaption"></figcaption></figure>
+      <div class="continuous-view" id="continuousView" hidden></div>
+      <div class="page-index-panel" id="pageIndexPanel" hidden><button type="button" class="page-index-backdrop" id="pageIndexBackdrop" aria-label="Close Pages"></button><section role="dialog" aria-modal="true" aria-labelledby="pageIndexTitle"><header><h3 id="pageIndexTitle">Pages</h3><button type="button" id="closePageIndex" aria-label="Close Pages" title="Close Pages">&times;</button></header><div class="thumbnail-strip" id="thumbnailStrip" aria-label="Page thumbnails"></div></section></div>
+    </div>
+  </section></main>
+  <div class="pre-footer-feedback" data-branch-feedback></div>
+  <p class="research-beta-note">Full online edition — records, classifications, and source relationships continue to be reviewed and expanded.</p>
+  <footer class="site-disclaimer"><details class="footer-project"><summary>Project</summary><nav aria-label="Project"><a href="about.html">About this project</a><a href="transcriptions-translations.html">Transcriptions &amp; Translations</a><span class="footer-project-unavailable">FamilySearch comparison</span></nav></details><p>Independent historical research project. This website is not an official publication of or endorsed by The Church of Jesus Christ of Latter-day Saints, Brigham Young University, FamilySearch, or the Church History Library.</p></footer><div class="pre-footer-feedback presentation-footer-feedback" data-home-feedback></div>
+    <script>
+      document.querySelectorAll(".presentation-branch-review").forEach((disclosure) => {
+        const summary = disclosure.querySelector("summary");
+        const syncExpanded = () => summary.setAttribute("aria-expanded", disclosure.open ? "true" : "false");
+        disclosure.addEventListener("toggle", syncExpanded);
+        syncExpanded();
+      });
+    </script>
+  <div class="legacy-controls" hidden aria-hidden="true"><div id="welcome"><dl id="archiveStats"></dl></div><aside id="sidebar"><input id="legacySearch"><datalist id="collectionSuggestions"></datalist><div id="categoryFilter"><select id="categorySelect"></select></div><nav id="collectionList"></nav></aside><button id="menuButton"></button><button id="sidebarToggle"></button><div id="sidebarResizer"></div><button id="browseBranches"></button><button id="browseCollections"></button></div>
+<noscript>This viewer requires JavaScript.</noscript><script src="data/catalog.public.js?v=typed-viewer-pages-20260812"></script><script src="data/branch-registry.js?v=branch-members-20260814"></script><script src="data/historical-names.js?v=historical-names-20260812"></script><script src="source-transition.js?v=source-transition-20260814"></script><script src="app.js?v=branch-context-cleanup-20260814"></script><script src="navigation.js?v=branch-members-20260814"></script><script src="data/beta/people-index.beta.js?v=branch-members-20260814"></script><script src="branch-members.js?v=branch-member-hierarchy-20260814"></script><script src="beta-presentation-polish.js?v=beta-polish-20260814d"></script><script src="local-private-features.js?v=footer-cleanup-20260813"></script><script src="feedback.js?v=email-feedback-20260813"></script>
+</body></html>
