@@ -25,9 +25,21 @@ for (const file of fs.readdirSync(output).filter((name) => name.endsWith(".html"
   let html = fs.readFileSync(target, "utf8");
   html = html
     .replace("window.WELSH_RESEARCH_BETA=true;", "window.WELSH_RESEARCH_BETA=true;window.WELSH_LOCAL_DEVELOPMENT=true;")
-    .replace(/(<p class="research-beta-note">)[\s\S]*?(<\/p>)/, "$1Development build — not published.$2");
+    .replace(/(<p class="research-beta-note">)[\s\S]*?(<\/p>)/, "$1LOCAL DEVELOPMENT — NOT PUBLISHED$2")
+    .replace("</head>", '<meta name="apple-mobile-web-app-title" content="Welsh DEV">\n</head>');
   fs.writeFileSync(target, html, "utf8");
 }
+
+const manifestPath = path.join(output, "site.webmanifest");
+const manifest = JSON.parse(fs.readFileSync(manifestPath, "utf8"));
+manifest.name = "Welsh DEV — Local Development";
+manifest.short_name = "Welsh DEV";
+manifest.description = "Local development build of LDS Welsh Membership Records; not published.";
+manifest.icons = [
+  { src: "assets/app-icon-beta-192.png", sizes: "192x192", type: "image/png" },
+  { src: "assets/app-icon-beta-512.png", sizes: "512x512", type: "image/png" },
+];
+fs.writeFileSync(manifestPath, `${JSON.stringify(manifest, null, 2)}\n`, "utf8");
 
 const reportPath = path.join(output, "RESEARCH_BETA_BUILD_REPORT.json");
 const report = JSON.parse(fs.readFileSync(reportPath, "utf8"));
@@ -38,7 +50,7 @@ fs.writeFileSync(reportPath, `${JSON.stringify(report, null, 2)}\n`, "utf8");
 fs.writeFileSync(path.join(output, "LOCAL_DEVELOPMENT_BUILD_REPORT.json"), `${JSON.stringify(report, null, 2)}\n`, "utf8");
 fs.rmSync(path.join(output, "README-RESEARCH-BETA.txt"), { force: true });
 fs.writeFileSync(path.join(output, "README-LOCAL-DEVELOPMENT.txt"), [
-  "LDS Welsh Membership Records — Local Development",
+  "LDS Welsh Membership Records — LOCAL DEVELOPMENT — NOT PUBLISHED",
   "",
   "This folder is generated for local testing only and is not published automatically.",
   "Build: node scripts/build-local-development.mjs",

@@ -20,7 +20,15 @@ node scripts/test-local-development.mjs
 node scripts/serve-local-development.mjs
 ```
 
-Open `http://127.0.0.1:18768/`. The generated output is `outputs/local-development/`, is ignored by Git, and displays `Development build — not published.` on every page.
+Open `http://127.0.0.1:18768/`. The generated output is `outputs/local-development/`, is ignored by Git, and displays `LOCAL DEVELOPMENT — NOT PUBLISHED` on every page.
+
+For an iPhone or iPad on the same Wi-Fi, double-click `START-LOCAL-DEVELOPMENT.cmd` or run:
+
+```powershell
+node scripts/serve-local-development.mjs
+```
+
+The server binds to `0.0.0.0`, serves only `outputs/local-development/`, and prints the active private IPv4 URL to enter on the device. If Windows Firewall prompts, allow Node.js on **Private networks only**.
 
 Building and testing this edition never changes `full/` and never publishes anything.
 
