@@ -1,43 +1,17 @@
 <!doctype html>
 <html lang="en">
 <head>
-  <meta name="robots" content="noindex,nofollow,noarchive">
   <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <link rel="icon" href="assets/favicon-beta.svg" type="image/svg+xml"><link rel="icon" href="assets/favicon-beta-32.png" sizes="32x32" type="image/png"><link rel="apple-touch-icon" href="assets/apple-touch-icon-beta.png" sizes="180x180"><link rel="manifest" href="site.webmanifest"><meta name="theme-color" content="#163c31">
-  <title>Historical Names and Variants | LDS Welsh Membership Records</title>
-  <link rel="stylesheet" href="styles.css?v=beta-layout-20260814d">
-  <link rel="stylesheet" href="research-page-nav.css?v=4">
-  <script>window.WELSH_RESEARCH_BETA=true;</script>
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="robots" content="noindex,nofollow,noarchive">
+  <meta http-equiv="refresh" content="0; url=../full/historical-names.html">
+  <title>Research Beta moved</title>
+  <script>location.replace(new URL("../full/historical-names.html" + location.search + location.hash, location.href));</script>
 </head>
-<body class="research-page-nav-page" id="page-top">
-  <header class="masthead compact-masthead"><div><p class="eyebrow">Branch coverage</p><h1>Historical Names and Variants</h1><p class="date-line">Names encountered in project sources, including aliases and unresolved identities</p></div></header>
-  <nav class="research-page-nav" aria-label="Page navigation"><a href="index.html">&larr; Home</a><a href="#page-top">&uarr; Top</a><a href="#page-bottom">&darr; Bottom</a></nav>
-  <main class="guide-page historical-names-page">
-    <nav class="breadcrumb" aria-label="Breadcrumb"><a href="index.html">Home</a> â€º <a href="branch-registry.html">Branch coverage</a> â€º <span aria-current="page">Historical Names and Variants</span></nav>
-    <section class="guide-intro"><h2>Search names as they were found</h2><p>Canonical Branches remain the clean Resource-page list. This index separately preserves historical spellings, Welsh and English forms, compound labels, and identities still needing review.</p><label for="historicalNameSearch">Name or source wording</label><input id="historicalNameSearch" type="search" placeholder="For example: Abertawe, Festiniog, or Treforis"><p id="historicalNameCount" aria-live="polite"></p></section>
-    <div class="historical-name-list" id="historicalNameList"></div>
+<body>
+  <main>
+    <h1>Research Beta has moved</h1>
+    <p>The active edition is now <a href="../full/historical-names.html">LDS Welsh Membership Records — Full Online</a>.</p>
   </main>
-  <p class="research-beta-note">Research beta — records, classifications, and source relationships continue to be reviewed and expanded.</p>
-  <footer class="site-disclaimer" id="page-bottom"><details class="footer-project"><summary>Project</summary><nav aria-label="Project"><a href="about.html">About this project</a><a href="transcriptions-translations.html">Transcriptions &amp; Translations</a><span class="footer-project-unavailable">FamilySearch comparison</span></nav></details><p>Independent historical research project. This website is not an official publication of or endorsed by The Church of Jesus Christ of Latter-day Saints, Brigham Young University, FamilySearch, or the Church History Library.</p></footer>
-  <script src="data/historical-names.js"></script>
-  <script src="local-private-features.js"></script>
-  <script>
-    const data = window.WELSH_HISTORICAL_NAMES || { rows: [] };
-    const search = document.querySelector("#historicalNameSearch");
-    const list = document.querySelector("#historicalNameList");
-    const count = document.querySelector("#historicalNameCount");
-    const safe = (value) => String(value ?? "").replace(/[&<>"']/g, (character) => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"})[character]);
-    const normalized = (value) => String(value ?? "").normalize("NFD").replace(/[\u0300-\u036f]/g, "").toLowerCase();
-    function render() {
-      const query = normalized(search.value.trim());
-      const rows = data.rows.filter((row) => !query || normalized(Object.values(row).join(" ")).includes(query));
-      count.textContent = `${rows.length} of ${data.distinctNameCount || data.rows.length} names`;
-      list.innerHTML = rows.map((row) => `<article class="historical-name-entry"><h2>${safe(row.name)}</h2><p><strong>Canonical branch/entity:</strong> ${row.canonicalName ? `<a href="${safe(row.resourceUrl)}">${safe(row.canonicalName)}</a>` : "Not yet mapped"}</p><p><strong>Relationship:</strong> ${safe(row.relationship)}</p><p><strong>Source/notes:</strong> ${safe([row.sourceNotes, row.notes].filter(Boolean).join(" Â· "))}</p></article>`).join("");
-    }
-    search.addEventListener("input", render);
-    const query = new URLSearchParams(location.search).get("q"); if (query) search.value = query;
-    render();
-  </script><script src="feedback.js?v=email-feedback-20260813"></script>
 </body>
 </html>

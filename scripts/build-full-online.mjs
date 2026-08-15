@@ -7,6 +7,15 @@ const root = path.resolve(import.meta.dirname, "..");
 const output = path.resolve(process.argv[2] || path.join(root, "full"));
 const betaBuilder = path.join(root, "scripts", "build-research-beta.mjs");
 
+if (output === path.join(root, "full") && !process.argv.includes("--approved")) {
+  throw new Error([
+    "The deployed /full/ edition is frozen.",
+    "Build and test outputs/local-development first.",
+    "After explicit publication approval, use:",
+    "  node scripts/publish-approved-local-development.mjs --approved",
+  ].join("\n"));
+}
+
 const build = spawnSync(process.execPath, [betaBuilder, output], {
   cwd: root,
   encoding: "utf8",

@@ -1,109 +1,17 @@
 <!doctype html>
 <html lang="en">
 <head>
-  <meta name="robots" content="noindex,nofollow,noarchive">
   <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <link rel="icon" href="assets/favicon-beta.svg" type="image/svg+xml"><link rel="icon" href="assets/favicon-beta-32.png" sizes="32x32" type="image/png"><link rel="apple-touch-icon" href="assets/apple-touch-icon-beta.png" sizes="180x180"><link rel="manifest" href="site.webmanifest"><meta name="theme-color" content="#163c31">
-  <title>Welsh LDS Historical Branch Registry</title>
-  <style>
-    body { margin: 0; color: #25241f; background: #faf8f2; font: 16px/1.45 system-ui, sans-serif; }
-    header { padding: 1.5rem clamp(1rem, 4vw, 3rem); color: white; background: #285848; }
-    header h1 { margin: 0 0 .35rem; font-family: Georgia, serif; }
-    header p { max-width: 70rem; margin: 0; }
-    main { padding: 1.25rem clamp(.75rem, 3vw, 2rem) 3rem; }
-    .tools { display: flex; flex-wrap: wrap; gap: .75rem; align-items: center; margin-bottom: 1rem; }
-    input { flex: 1 1 18rem; padding: .7rem; border: 1px solid #9d9688; border-radius: .35rem; font: inherit; }
-    a { color: #285848; }
-    .table-wrap { overflow: auto; border: 1px solid #d4ccbd; background: white; }
-    table { width: 100%; border-collapse: collapse; min-width: 75rem; }
-    th { position: sticky; top: 0; color: white; background: #285848; text-align: left; }
-    th, td { padding: .6rem .7rem; border-bottom: 1px solid #e5dfd3; vertical-align: top; }
-    tbody tr:nth-child(even) { background: #f2f7f3; }
-    .status { max-width: 18rem; }
-    .relationship { color: #694f17; }
-    .site-disclaimer { margin: 2.5rem clamp(1rem, 4vw, 3rem) 1.5rem; padding-top: 1rem; color: #6b6a64; border-top: 1px solid #ddd7cb; font: .75rem/1.5 system-ui, sans-serif; }
-    .research-page-nav { position: sticky; top: 0; z-index: 30; display: flex; width: fit-content; max-width: calc(100% - 1.5rem); margin: 0 clamp(.75rem,3vw,2rem) 1rem; border: 1px solid #b9ad98; border-radius: .35rem; background: rgba(250,248,242,.97); box-shadow: 0 2px 7px rgba(36,52,46,.13); overflow: hidden; }
-    html:has(body.research-page-nav-page), body.research-page-nav-page { overflow: visible; overflow-x: clip; }
-    .research-page-nav a { display: inline-flex; align-items: center; min-height: 42px; padding: .35rem .8rem; color: #234b40; font-weight: 700; text-decoration: none; white-space: nowrap; }
-    .research-page-nav a + a { border-left: 1px solid #d1c7b6; }
-    .research-page-nav a:hover, .research-page-nav a:focus-visible { background: #f1eadc; text-decoration: underline; }
-    @media (max-width: 420px) { .research-page-nav { width: calc(100% - 1.5rem); } .research-page-nav a { flex: 1 1 auto; justify-content: center; padding-inline: .45rem; } }
-  </style>
-  <script>window.WELSH_RESEARCH_BETA=true;</script>
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="robots" content="noindex,nofollow,noarchive">
+  <meta http-equiv="refresh" content="0; url=../full/branch-registry.html">
+  <title>Research Beta moved</title>
+  <script>location.replace(new URL("../full/branch-registry.html" + location.search + location.hash, location.href));</script>
 </head>
-<body class="research-page-nav-page" id="page-top">
-  <header>
-    <h1>Welsh LDS Historical Branch Registry</h1>
-    <p>A living list of branch names found in the surviving CDs, recovered research notes, and FamilySearch catalog. Historical spellings and relationships are preserved rather than silently corrected.</p>
-  </header>
-  <nav class="research-page-nav" aria-label="Page navigation"><a href="index.html">&larr; Home</a><a href="#page-top">&uarr; Top</a><a href="#page-bottom">&darr; Bottom</a></nav>
+<body>
   <main>
-    <div class="tools">
-      <input id="search" type="search" placeholder="Search a branch, approximate spelling, date, or related branch" list="branchSuggestions" aria-describedby="searchHelp">
-      <datalist id="branchSuggestions"></datalist>
-      <small id="searchHelp">Small spelling differences and F/Ff variants are accepted.</small>
-      <span id="count"></span>
-      <a href="BRANCH_REGISTRY.csv">Download CSV</a>
-      <a href="outputs/branch-registry/Welsh-LDS-Branch-Registry.xlsx">Download Excel workbook</a>
-      <a href="historical-names.html">Historical Names and Variants</a>
-      <a href="transcriptions-translations.html">View transcriptions and translations</a>
-    </div>
-    <div class="table-wrap">
-      <table>
-        <thead><tr><th>Branch or entity</th><th>Known variants</th><th>Years found</th><th>Source comparison</th><th>Related branch</th><th>Relationship note</th><th>Film / call numbers</th></tr></thead>
-        <tbody id="rows"></tbody>
-      </table>
-    </div>
+    <h1>Research Beta has moved</h1>
+    <p>The active edition is now <a href="../full/branch-registry.html">LDS Welsh Membership Records — Full Online</a>.</p>
   </main>
-  <div class="pre-footer-feedback" aria-label="Research feedback"></div><p class="research-beta-note">Research beta — records, classifications, and source relationships continue to be reviewed and expanded.</p>
-  <footer class="site-disclaimer" id="page-bottom"><details class="footer-project"><summary>Project</summary><nav aria-label="Project"><a href="about.html">About this project</a><a href="transcriptions-translations.html">Transcriptions &amp; Translations</a><span class="footer-project-unavailable">FamilySearch comparison</span></nav></details><p>Independent historical research project. This website is not an official publication of or endorsed by The Church of Jesus Christ of Latter-day Saints, Brigham Young University, FamilySearch, or the Church History Library.</p></footer>
-  <script src="data/branch-registry.js"></script><script src="local-private-features.js"></script>
-  <script>
-    const rows = document.querySelector("#rows");
-    const search = document.querySelector("#search");
-    const count = document.querySelector("#count");
-    const suggestions = document.querySelector("#branchSuggestions");
-    let registry = [];
-    const safe = (value) => String(value ?? "").replace(/[&<>"']/g, (char) => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"})[char]);
-    const normalized = (value) => String(value ?? "").normalize("NFD").replace(/[\u0300-\u036f]/g, "").toLowerCase().replace(/\bff/g, "f").replace(/[^a-z0-9]/g, "");
-    function editDistance(left, right) {
-      if (!left) return right.length;
-      const previous = Array.from({ length: right.length + 1 }, (_, index) => index);
-      for (let i = 1; i <= left.length; i += 1) {
-        const current = [i];
-        for (let j = 1; j <= right.length; j += 1) {
-          current[j] = Math.min(current[j - 1] + 1, previous[j] + 1, previous[j - 1] + (left[i - 1] === right[j - 1] ? 0 : 1));
-        }
-        previous.splice(0, previous.length, ...current);
-      }
-      return previous[right.length];
-    }
-    function score(query, candidate) {
-      const q = normalized(query); const name = normalized(candidate);
-      if (!q) return 0;
-      if (name.startsWith(q)) return 0;
-      if (name.includes(q)) return 1;
-      const allowance = q.length >= 8 ? 2 : q.length >= 5 ? 1 : 0;
-      const distance = editDistance(q, name);
-      return distance <= allowance ? 2 + distance : Infinity;
-    }
-    function itemScore(item, query) {
-      const names = [item.canonicalName, ...(item.variants || "").split(";"), ...(item.relatedBranches || "").split(";")];
-      const nameMatch = Math.min(...names.map((name) => score(query, name)));
-      return Number.isFinite(nameMatch) ? nameMatch : (Object.values(item).join(" ").toLowerCase().includes(query.toLowerCase()) ? 4 : Infinity);
-    }
-    function render() {
-      const query = search.value.trim();
-      const matches = registry.map((item) => ({ item, score: itemScore(item, query) })).filter(({ score }) => !query || Number.isFinite(score)).sort((a, b) => a.score - b.score || a.item.canonicalName.localeCompare(b.item.canonicalName)).map(({ item }) => item);
-      count.textContent = `${matches.length} of ${registry.length} entries`;
-      rows.innerHTML = matches.map((item) => `<tr><td><strong>${safe(item.canonicalName)}</strong><br><small>${safe(item.entityType)}</small></td><td>${safe(item.variants)}</td><td>${safe(item.earliestYear)}${item.latestYear && item.latestYear !== item.earliestYear ? `â€“${safe(item.latestYear)}` : ""}</td><td class="status">${safe(item.comparisonStatus)}</td><td>${safe(item.relatedBranches)}</td><td class="relationship">${safe(item.relationshipNotes)}</td><td>${safe(item.filmAndCallNumbers)}</td></tr>`).join("");
-      const likelyNames = registry.map((item) => item.canonicalName).filter((name) => Number.isFinite(score(query, name))).slice(0, 12);
-      suggestions.replaceChildren(...likelyNames.map((name) => { const option = document.createElement("option"); option.value = name; return option; }));
-    }
-    registry = window.WELSH_BRANCH_REGISTRY?.registry || [];
-    render();
-    search.addEventListener("input", render);
-  </script>
-<script src="feedback.js?v=email-feedback-20260813"></script></body>
+</body>
 </html>
