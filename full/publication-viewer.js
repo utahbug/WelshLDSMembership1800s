@@ -261,7 +261,8 @@ async function start() {
   elements.author.textContent = [publication.author, publication.year].filter(Boolean).join(" · ");
   elements.searchSection.hidden = !publication.searchable;
   const suppliedSource = publication.suppliedPublicUrl || publication.publicSource;
-  elements.sourceNote.innerHTML = suppliedSource ? `Local Development reading copy. <a href="${escapeHtml(suppliedSource)}" target="_blank" rel="noopener">Original publication source</a>` : "Local Development reading copy.";
+  const readingCopyLabel = window.WELSH_FULL_ONLINE === true ? "Full Online reading copy" : "Full Online reading copy";
+  elements.sourceNote.innerHTML = suppliedSource ? `${readingCopyLabel}. <a href="${escapeHtml(suppliedSource)}" target="_blank" rel="noopener">Original publication source</a>` : `${readingCopyLabel}.`;
   pdf = await pdfjsLib.getDocument({ url: publication.localDocument || publication.pdf, standardFontDataUrl: "assets/pdfjs/standard_fonts/" }).promise;
   elements.pageTotal.textContent = `of ${pdf.numPages}`;
   elements.pageNumber.max = pdf.numPages;

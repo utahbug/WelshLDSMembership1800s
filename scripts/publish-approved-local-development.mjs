@@ -58,6 +58,12 @@ for (const file of fs.readdirSync(staging).filter((name) => name.endsWith(".html
   for (const [betaIcon, mainIcon] of icons) html = html.replaceAll(betaIcon, mainIcon);
   fs.writeFileSync(filePath, html, "utf8");
 }
+const publicationViewerRuntime = path.join(staging, "publication-viewer.js");
+fs.writeFileSync(
+  publicationViewerRuntime,
+  fs.readFileSync(publicationViewerRuntime, "utf8").replaceAll("Local Development reading copy", "Full Online reading copy"),
+  "utf8",
+);
 
 const catalogPath = path.join(staging, "data/catalog.public.js");
 const context = { window: {} };
