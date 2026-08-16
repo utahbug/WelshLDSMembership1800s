@@ -291,31 +291,35 @@
     return;
   }
 
-  function recordUrl(record) {
+  function recordUrls(record) {
     if (catalog.edition === "public" && currentCollection?.publicStorage?.baseUrl) {
       if (currentCollection.publicStorage.provider === "internet-archive") {
         if (!record.archiveRelativePath) {
           console.error("Archive.org path missing for catalog record", { collection: currentCollection.name, record: record.name });
-          return "";
+          return [];
         }
         const encodedPath = record.archiveRelativePath
           .replaceAll("\\", "/")
           .split("/")
           .map((segment) => encodeURIComponent(segment))
           .join("/");
-        return `${currentCollection.publicStorage.baseUrl}${encodedPath}`;
+        return [currentCollection.publicStorage.baseUrl, ...(currentCollection.publicStorage.fallbackBaseUrls || [])]
+          .map((baseUrl) => `${baseUrl}${encodedPath}`);
       }
-      return `${currentCollection.publicStorage.baseUrl}${encodeURIComponent(record.name)}`;
+      return [`${currentCollection.publicStorage.baseUrl}${encodeURIComponent(record.name)}`];
     }
-    return location.protocol === "http:" || location.protocol === "https:" ? record.serveUrl : record.url;
+    return [location.protocol === "http:" || location.protocol === "https:" ? record.serveUrl : record.url].filter(Boolean);
+  }
+
+  function recordUrl(record) {
+    return recordUrls(record)[0] || "";
   }
 
   function prepareRecordImage(image, record) {
-    if (catalog.edition === "public" && currentCollection?.publicStorage?.provider === "internet-archive" && record.archiveRelativePath) {
-      image.crossOrigin = "anonymous";
-    } else {
-      image.removeAttribute("crossorigin");
-    }
+    // Record images are displayed directly and are never read into a canvas.
+    // Keep Archive.org delivery as an ordinary <img> request so redirects do
+    // not become CORS-gated image loads (notably in mobile Safari).
+    image.removeAttribute("crossorigin");
   }
 
   function prepareImageLoadFeedback(image, retry) {
@@ -334,10 +338,13 @@
     status.append(message, retryButton);
     image.insertAdjacentElement("afterend", status);
     image.addEventListener("load", () => {
+      clearTimeout(image._welshImageLoadTimer);
       image.parentElement?.classList.remove("image-loading", "image-load-error");
       status.hidden = true;
     });
     image.addEventListener("error", () => {
+      clearTimeout(image._welshImageLoadTimer);
+      if (image._welshTryNextSource?.()) return;
       image.parentElement?.classList.remove("image-loading");
       image.parentElement?.classList.add("image-load-error");
       message.textContent = "Record image could not be loaded.";
@@ -346,8 +353,10 @@
     });
   }
 
-  function loadRecordImage(image, source, retry = () => loadRecordImage(image, source), loadingText = "Loading record image…") {
-    prepareImageLoadFeedback(image, retry);
+  function loadRecordImage(image, sources, retry, loadingText = "Loading record image…") {
+    const candidates = [...new Set((Array.isArray(sources) ? sources : [sources]).filter(Boolean))];
+    const restart = retry || (() => loadRecordImage(image, candidates, undefined, loadingText));
+    prepareImageLoadFeedback(image, restart);
     const status = image.parentElement?.querySelector(":scope > .image-load-status");
     const message = status?.querySelector("span");
     const retryButton = status?.querySelector("button");
@@ -356,14 +365,35 @@
     if (message) message.textContent = loadingText;
     if (retryButton) retryButton.hidden = true;
     if (status) status.hidden = false;
-    if (!source) {
+    if (!candidates.length) {
       image.parentElement?.classList.remove("image-loading");
       image.parentElement?.classList.add("image-load-error");
       if (message) message.textContent = "Image path is unavailable.";
       if (retryButton) retryButton.hidden = false;
       return;
     }
-    image.src = source;
+    let sourceIndex = 0;
+    const showFailure = () => {
+      image.parentElement?.classList.remove("image-loading");
+      image.parentElement?.classList.add("image-load-error");
+      if (message) message.textContent = "Record image could not be loaded.";
+      if (retryButton) retryButton.hidden = false;
+      if (status) status.hidden = false;
+    };
+    const trySource = () => {
+      clearTimeout(image._welshImageLoadTimer);
+      image.src = candidates[sourceIndex];
+      image._welshImageLoadTimer = setTimeout(() => {
+        if (!image._welshTryNextSource?.()) showFailure();
+      }, 12000);
+    };
+    image._welshTryNextSource = () => {
+      if (sourceIndex + 1 >= candidates.length) return false;
+      sourceIndex += 1;
+      trySource();
+      return true;
+    };
+    trySource();
   }
 
   function normalized(value) {
@@ -1009,7 +1039,7 @@
     if (record.type === "image") {
       const pageImage = document.createElement("img");
       prepareRecordImage(pageImage, record);
-      pageImage.dataset.src = recordUrl(record);
+      pageImage.dataset.sources = JSON.stringify(recordUrls(record));
       pageImage.alt = `${currentCollection.name}, page ${index + 1}`;
       pageImage.decoding = "async";
       pageImage.loading = "lazy";
@@ -1021,7 +1051,7 @@
       pageImage.dataset.imageContrast = String(state.contrast);
       applyImageTransform(pageImage);
       figure.append(pageImage);
-      prepareImageLoadFeedback(pageImage, () => loadRecordImage(pageImage, recordUrl(record), undefined, `Loading page ${index + 1}…`));
+      prepareImageLoadFeedback(pageImage, () => loadRecordImage(pageImage, recordUrls(record), undefined, `Loading page ${index + 1}…`));
     } else {
       const link = document.createElement("a");
       link.className = "document-card";
@@ -1037,23 +1067,23 @@
 
   function startLazyLoading() {
     lazyObserver?.disconnect();
-    const pending = [...continuousView.querySelectorAll("img[data-src]")];
+    const pending = [...continuousView.querySelectorAll("img[data-sources]")];
     if (!("IntersectionObserver" in window)) {
-      pending.forEach((item) => { loadRecordImage(item, item.dataset.src); delete item.dataset.src; });
+      pending.forEach((item) => { loadRecordImage(item, JSON.parse(item.dataset.sources)); delete item.dataset.sources; });
       return;
     }
     lazyObserver = new IntersectionObserver((entries, observer) => entries.forEach((entry) => {
       if (!entry.isIntersecting) return;
       const index = Number(entry.target.closest("[data-page-index]")?.dataset.pageIndex);
-      loadRecordImage(entry.target, entry.target.dataset.src, undefined, Number.isFinite(index) ? `Loading page ${index + 1}…` : "Loading record image…");
-      delete entry.target.dataset.src;
+      loadRecordImage(entry.target, JSON.parse(entry.target.dataset.sources), undefined, Number.isFinite(index) ? `Loading page ${index + 1}…` : "Loading record image…");
+      delete entry.target.dataset.sources;
       observer.unobserve(entry.target);
     }), { rootMargin: "360px 0px" });
     const priorityIndexes = viewMode === "facing"
       ? new Set(facingIndexes(currentImage).filter((index) => index != null))
       : new Set([currentImage]);
     const priority = pending.filter((item) => priorityIndexes.has(Number(item.closest("[data-page-index]")?.dataset.pageIndex)));
-    const observeRemaining = () => pending.filter((item) => item.dataset.src).forEach((item) => lazyObserver.observe(item));
+    const observeRemaining = () => pending.filter((item) => item.dataset.sources).forEach((item) => lazyObserver.observe(item));
     if (!priority.length) {
       observeRemaining();
       return;
@@ -1068,8 +1098,8 @@
       item.addEventListener("load", startNearbyLoading, { once: true });
       item.addEventListener("error", startNearbyLoading, { once: true });
       const index = Number(item.closest("[data-page-index]")?.dataset.pageIndex);
-      loadRecordImage(item, item.dataset.src, undefined, Number.isFinite(index) ? `Loading page ${index + 1}…` : "Loading record image…");
-      delete item.dataset.src;
+      loadRecordImage(item, JSON.parse(item.dataset.sources), undefined, Number.isFinite(index) ? `Loading page ${index + 1}…` : "Loading record image…");
+      delete item.dataset.sources;
     });
   }
 
@@ -1767,7 +1797,7 @@
     documentPreview.hidden = isImage;
     if (isImage) {
       prepareRecordImage(image, record);
-      loadRecordImage(image, recordUrl(record), () => showImage(currentImage), `Loading page ${currentImage + 1}…`);
+      loadRecordImage(image, recordUrls(record), () => showImage(currentImage), `Loading page ${currentImage + 1}…`);
       image.alt = `${currentCollection.name}, record image ${currentImage + 1}`;
       const state = pageState(currentImage);
       image.dataset.rotation = String(state.rotation);

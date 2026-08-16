@@ -260,7 +260,8 @@ for (const file of fs.readdirSync(output).filter((name) => name.endsWith(".html"
   if (file === "index.html") html = html
     .replace(/styles\.css\?v=[^"]+/, "styles.css?v=beta-layout-20260814d")
     .replace(/data\/branch-registry\.js\?v=[^"]+/, "data/branch-registry.js?v=branch-members-20260814")
-    .replace(/app\.js\?v=[^"]+/, "app.js?v=public-routing-20260816")
+    .replace(/data\/catalog\.public\.js\?v=[^"]+/, "data/catalog.public.js?v=image-delivery-20260816b")
+    .replace(/app\.js\?v=[^"]+/, "app.js?v=image-delivery-20260816b")
     .replace(/navigation\.js\?v=[^"]+/, "navigation.js?v=branch-members-20260814")
     .replace("Search indexed members across Welsh branches.", "Search members across Welsh branches.")
     .replace('<section class="home-search" aria-labelledby="homeSearchTitle"><h3 id="homeSearchTitle">', '<section class="home-search" aria-labelledby="homeSearchTitle"><span class="home-category-label">Resources</span><h3 id="homeSearchTitle">')

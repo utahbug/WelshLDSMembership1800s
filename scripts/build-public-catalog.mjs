@@ -12,10 +12,15 @@ const local = context.window.WELSH_RECORD_CATALOG;
 const archiveStorage = {
   provider: "internet-archive",
   identifier: "ldswelshmembership",
-  // Use Archive.org's public delivery broker. The /download/ route can pin
-  // this large, directory-based item to a stale storage node after a server
-  // migration, while /serve/ resolves the currently workable copy.
-  baseUrl: "https://archive.org/serve/ldswelshmembership/",
+  // Archive's public front door intermittently stalls before returning any
+  // HTTP response on mobile networks. Use the current workable storage URL
+  // returned by Archive for this item, retaining the documented broker routes
+  // as bounded public-only fallbacks.
+  baseUrl: "https://ia601403.us.archive.org/10/items/ldswelshmembership/",
+  fallbackBaseUrls: [
+    "https://archive.org/serve/ldswelshmembership/",
+    "https://archive.org/download/ldswelshmembership/",
+  ],
 };
 // A local archive-relative path is not proof that the file has been published.
 // Keep newly recovered collections offline until their Archive.org upload is

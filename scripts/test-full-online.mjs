@@ -94,8 +94,12 @@ if (!fs.existsSync(archiveInventoryPath)) {
 } else {
   const archivePaths = new Set(fs.readFileSync(archiveInventoryPath, "utf8").split(/\r?\n/).filter(Boolean));
   for (const collection of archiveCollections) {
-    if (collection.publicStorage.baseUrl !== "https://archive.org/serve/ldswelshmembership/") {
+    if (collection.publicStorage.baseUrl !== "https://ia601403.us.archive.org/10/items/ldswelshmembership/") {
       failures.push(`Archive.org collection uses an unapproved delivery route: ${collection.name}`);
+    }
+    const expectedFallbacks = ["https://archive.org/serve/ldswelshmembership/", "https://archive.org/download/ldswelshmembership/"];
+    if (JSON.stringify(collection.publicStorage.fallbackBaseUrls) !== JSON.stringify(expectedFallbacks)) {
+      failures.push(`Archive.org collection has invalid public fallback routes: ${collection.name}`);
     }
     const images = collection.images.filter((record) => record.type === "image");
     if (!images.length) failures.push(`Online Archive.org collection has no image records: ${collection.name}`);
