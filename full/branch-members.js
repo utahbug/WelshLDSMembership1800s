@@ -15,7 +15,8 @@
 
   const escapeHtml = (value) => String(value ?? "").replace(/[&<>"']/g, (character) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" })[character]);
   const memberCountText = (count) => `${count.toLocaleString()} member${count === 1 ? "" : "s"}`;
-  const exactSourceAvailable = (record) => record.onlineViewerAvailable !== false
+  const exactSourceAvailable = (record) => (record.onlineViewerAvailable !== false
+      || (window.WELSH_LOCAL_DEVELOPMENT && record.collectionName === "Georgetown-production"))
     && record.collectionId
     && ((Number.isInteger(record.imageSequence) && record.imageSequence > 0) || record.imageFilename);
   const recordUrl = (record) => `index.html?${new URLSearchParams({

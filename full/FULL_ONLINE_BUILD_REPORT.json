@@ -1,6 +1,6 @@
 {
   "edition": "unlisted-full-online",
-  "generatedAt": "2026-08-14T17:52:06.904Z",
+  "generatedAt": "2026-08-16T11:34:44.612Z",
   "output": "full",
   "noIndex": true,
   "memberSearch": {
@@ -338,25 +338,37 @@
     "completeProseIncluded": false
   },
   "branchRoutes": {
-    "canonicalBranches": 61,
-    "audited": 61,
+    "canonicalBranches": 97,
+    "audited": 97,
     "routes": [
+      "index.html?branch=Aberaman",
+      "index.html?branch=Aberdare",
+      "index.html?branch=Abergavenny",
+      "index.html?branch=Abergele",
       "index.html?branch=Abersychan",
       "index.html?branch=Abertillery",
       "index.html?branch=Alltwen",
+      "index.html?branch=Bagillt",
+      "index.html?branch=Beaufort",
+      "index.html?branch=Blaenavon",
       "index.html?branch=Brechfa",
+      "index.html?branch=Brecon",
       "index.html?branch=Britonferry",
       "index.html?branch=Brynmawr",
       "index.html?branch=Bryntroedgam",
       "index.html?branch=Cardiff",
+      "index.html?branch=Carmarthen",
       "index.html?branch=Castell%20Nedd%20(Neath)",
       "index.html?branch=Cefn%20Coed-y-Cymmer",
+      "index.html?branch=Cefn%20Mawr",
+      "index.html?branch=Cellan",
       "index.html?branch=Coalbrookvale",
       "index.html?branch=Cogan",
       "index.html?branch=Crumlin",
       "index.html?branch=Cuffern%20Mountain",
       "index.html?branch=Cwm%20Celyn",
       "index.html?branch=Cwm%20Saerbren",
+      "index.html?branch=Cwmbach",
       "index.html?branch=Cwmbran",
       "index.html?branch=Cwmcillyn",
       "index.html?branch=Cwmtillery",
@@ -366,33 +378,55 @@
       "index.html?branch=Ebbw%20Vale",
       "index.html?branch=Eglwysbach",
       "index.html?branch=Ffestiniog",
+      "index.html?branch=Fishguard",
+      "index.html?branch=Fleur-de-Lis",
+      "index.html?branch=Garndiffaith",
+      "index.html?branch=Gellifaelog",
       "index.html?branch=Georgetown",
       "index.html?branch=Gilwern",
+      "index.html?branch=Harlech",
       "index.html?branch=Haverfordwest",
+      "index.html?branch=Hirwaun",
+      "index.html?branch=Letterston",
+      "index.html?branch=Llanbrynmair",
+      "index.html?branch=Llanddoged",
       "index.html?branch=Llandebie",
+      "index.html?branch=Llandudno",
       "index.html?branch=Llanelli",
       "index.html?branch=Llanelltyd",
       "index.html?branch=Llanelly%202",
       "index.html?branch=Llanfabon",
+      "index.html?branch=Llanpumsaint",
       "index.html?branch=Llansawel%20(Carmarthenshire)",
       "index.html?branch=Llansawel%20(Glamorgan)",
+      "index.html?branch=Llantrisant",
+      "index.html?branch=Llanybydder",
       "index.html?branch=Machen",
+      "index.html?branch=Machynlleth",
+      "index.html?branch=Maesteg",
       "index.html?branch=Merthyr%20Tydfil",
       "index.html?branch=Morriston",
+      "index.html?branch=Mountain%20Ash",
       "index.html?branch=Nantyglo",
+      "index.html?branch=Newmarket",
       "index.html?branch=Newport",
       "index.html?branch=Overton",
+      "index.html?branch=Pembroke",
       "index.html?branch=Pen-y-cae",
       "index.html?branch=Pen-y-Darran",
+      "index.html?branch=Pencader",
       "index.html?branch=Pendoylon",
       "index.html?branch=Pontlanfraith",
       "index.html?branch=Pontypool",
       "index.html?branch=Pontypridd",
+      "index.html?branch=Rhosllanerchrugog",
       "index.html?branch=Rhymney",
       "index.html?branch=Rhymney%20English",
+      "index.html?branch=St%20Clears",
       "index.html?branch=Stepaside",
       "index.html?branch=Sutton%20Mountain",
       "index.html?branch=Swansea",
+      "index.html?branch=Towyn",
       "index.html?branch=Treboeth",
       "index.html?branch=Tredegar",
       "index.html?branch=Treforest",
@@ -400,7 +434,9 @@
       "index.html?branch=Trinant",
       "index.html?branch=Twyn-yr-Odyn",
       "index.html?branch=Twyncarno",
+      "index.html?branch=Victoria",
       "index.html?branch=Welsh%20Conference",
+      "index.html?branch=Ynysgau",
       "index.html?branch=Ystrad"
     ]
   },
@@ -426,34 +462,6 @@
   },
   "typedExtractSearchIncluded": true,
   "localOnlyCollections": [
-    {
-      "id": "collection-63",
-      "name": "104886",
-      "images": 762,
-      "hostedImages": 0,
-      "status": "local-portable-only"
-    },
-    {
-      "id": "collection-64",
-      "name": "104887",
-      "images": 769,
-      "hostedImages": 0,
-      "status": "local-portable-only"
-    },
-    {
-      "id": "collection-65",
-      "name": "104888",
-      "images": 495,
-      "hostedImages": 0,
-      "status": "local-portable-only"
-    },
-    {
-      "id": "collection-66",
-      "name": "104889",
-      "images": 508,
-      "hostedImages": 0,
-      "status": "local-portable-only"
-    },
     {
       "id": "typed-viewer-15aa4a1effc73cdf",
       "name": "A - CDs 35-39 (1 of 2) - Typed Transcripts - Viewer Pages",
@@ -504,14 +512,14 @@
       "status": "local-portable-only"
     },
     {
-      "id": "collection-67",
+      "id": "collection-62",
       "name": "assets",
       "images": 1,
       "hostedImages": 0,
       "status": "local-portable-only"
     },
     {
-      "id": "collection-68",
+      "id": "collection-63",
       "name": "Branches",
       "images": 54,
       "hostedImages": 0,
@@ -539,14 +547,7 @@
       "status": "local-portable-only"
     },
     {
-      "id": "collection-62",
-      "name": "General transcriptions and indexes",
-      "images": 5,
-      "hostedImages": 0,
-      "status": "local-portable-only"
-    },
-    {
-      "id": "collection-70",
+      "id": "collection-65",
       "name": "General transcriptions and indexes",
       "images": 7,
       "hostedImages": 0,
@@ -555,7 +556,7 @@
     {
       "id": "collection-42",
       "name": "Georgetown-production",
-      "images": 180,
+      "images": 90,
       "hostedImages": 0,
       "status": "local-portable-only"
     },
@@ -567,7 +568,7 @@
       "status": "local-portable-only"
     },
     {
-      "id": "collection-69",
+      "id": "collection-64",
       "name": "Indexing",
       "images": 3,
       "hostedImages": 0,
@@ -676,10 +677,11 @@
     "dataPrivateIncluded": false,
     "privateLeaks": []
   },
-  "files": 147,
+  "files": 148,
   "archiveInventory": {
     "item": "ldswelshmembership",
     "remoteFiles": 6030
   },
-  "researchBetaPreserved": true
+  "localOriginalCdFiles": 7258,
+  "promotedFromTestedLocalDevelopment": true
 }

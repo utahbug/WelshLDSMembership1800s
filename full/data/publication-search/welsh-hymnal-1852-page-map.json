@@ -1,0 +1,4518 @@
+{
+  "schemaVersion": 1,
+  "source": "1852WelchHymnal.pdf",
+  "cleanedDerivative": "1852-welsh-hymnal-cleaned.pdf",
+  "pageCount": 265,
+  "mapping": "One cleaned viewer page for each original PDF page; page numbers are identical.",
+  "cleanup": {
+    "method": "Deterministic photographed-content crop, grayscale conversion, conservative autocontrast, and mild unsharp masking.",
+    "deskew": "No automatic rotation was applied where a safe angle could not be established; original photographic geometry is preserved."
+  },
+  "pages": [
+    {
+      "originalPdfPage": 1,
+      "cleanedViewerPage": 1,
+      "renderDpi": 140,
+      "sourcePixelSize": [
+        1190,
+        1540
+      ],
+      "cropPixels": [
+        295,
+        73,
+        1137,
+        785
+      ],
+      "deskewDegrees": 0,
+      "note": null
+    },
+    {
+      "originalPdfPage": 2,
+      "cleanedViewerPage": 2,
+      "renderDpi": 140,
+      "sourcePixelSize": [
+        1196,
+        1546
+      ],
+      "cropPixels": [
+        92,
+        0,
+        936,
+        610
+      ],
+      "deskewDegrees": 0,
+      "note": null
+    },
+    {
+      "originalPdfPage": 3,
+      "cleanedViewerPage": 3,
+      "renderDpi": 140,
+      "sourcePixelSize": [
+        1190,
+        1540
+      ],
+      "cropPixels": [
+        217,
+        112,
+        1144,
+        824
+      ],
+      "deskewDegrees": 0,
+      "note": null
+    },
+    {
+      "originalPdfPage": 4,
+      "cleanedViewerPage": 4,
+      "renderDpi": 140,
+      "sourcePixelSize": [
+        1190,
+        1540
+      ],
+      "cropPixels": [
+        174,
+        80,
+        1105,
+        812
+      ],
+      "deskewDegrees": 0,
+      "note": null
+    },
+    {
+      "originalPdfPage": 5,
+      "cleanedViewerPage": 5,
+      "renderDpi": 140,
+      "sourcePixelSize": [
+        1540,
+        1190
+      ],
+      "cropPixels": [
+        54,
+        119,
+        1016,
+        952
+      ],
+      "deskewDegrees": 0,
+      "note": "Consistent early landscape copier setup; fixed proportional crop removes the blank platen while preserving the complete photographed spread."
+    },
+    {
+      "originalPdfPage": 6,
+      "cleanedViewerPage": 6,
+      "renderDpi": 140,
+      "sourcePixelSize": [
+        1540,
+        1190
+      ],
+      "cropPixels": [
+        54,
+        119,
+        1016,
+        952
+      ],
+      "deskewDegrees": 0,
+      "note": "Consistent early landscape copier setup; fixed proportional crop removes the blank platen while preserving the complete photographed spread."
+    },
+    {
+      "originalPdfPage": 7,
+      "cleanedViewerPage": 7,
+      "renderDpi": 140,
+      "sourcePixelSize": [
+        1540,
+        1190
+      ],
+      "cropPixels": [
+        54,
+        119,
+        1016,
+        952
+      ],
+      "deskewDegrees": 0,
+      "note": "Consistent early landscape copier setup; fixed proportional crop removes the blank platen while preserving the complete photographed spread."
+    },
+    {
+      "originalPdfPage": 8,
+      "cleanedViewerPage": 8,
+      "renderDpi": 140,
+      "sourcePixelSize": [
+        1540,
+        1190
+      ],
+      "cropPixels": [
+        54,
+        119,
+        1016,
+        952
+      ],
+      "deskewDegrees": 0,
+      "note": "Consistent early landscape copier setup; fixed proportional crop removes the blank platen while preserving the complete photographed spread."
+    },
+    {
+      "originalPdfPage": 9,
+      "cleanedViewerPage": 9,
+      "renderDpi": 140,
+      "sourcePixelSize": [
+        1540,
+        1190
+      ],
+      "cropPixels": [
+        54,
+        119,
+        1016,
+        952
+      ],
+      "deskewDegrees": 0,
+      "note": "Consistent early landscape copier setup; fixed proportional crop removes the blank platen while preserving the complete photographed spread."
+    },
+    {
+      "originalPdfPage": 10,
+      "cleanedViewerPage": 10,
+      "renderDpi": 140,
+      "sourcePixelSize": [
+        1540,
+        1190
+      ],
+      "cropPixels": [
+        54,
+        119,
+        1016,
+        952
+      ],
+      "deskewDegrees": 0,
+      "note": "Consistent early landscape copier setup; fixed proportional crop removes the blank platen while preserving the complete photographed spread."
+    },
+    {
+      "originalPdfPage": 11,
+      "cleanedViewerPage": 11,
+      "renderDpi": 140,
+      "sourcePixelSize": [
+        1540,
+        1190
+      ],
+      "cropPixels": [
+        54,
+        119,
+        1016,
+        952
+      ],
+      "deskewDegrees": 0,
+      "note": "Consistent early landscape copier setup; fixed proportional crop removes the blank platen while preserving the complete photographed spread."
+    },
+    {
+      "originalPdfPage": 12,
+      "cleanedViewerPage": 12,
+      "renderDpi": 140,
+      "sourcePixelSize": [
+        1540,
+        1190
+      ],
+      "cropPixels": [
+        54,
+        119,
+        1016,
+        952
+      ],
+      "deskewDegrees": 0,
+      "note": "Consistent early landscape copier setup; fixed proportional crop removes the blank platen while preserving the complete photographed spread."
+    },
+    {
+      "originalPdfPage": 13,
+      "cleanedViewerPage": 13,
+      "renderDpi": 140,
+      "sourcePixelSize": [
+        1540,
+        1190
+      ],
+      "cropPixels": [
+        54,
+        119,
+        1016,
+        952
+      ],
+      "deskewDegrees": 0,
+      "note": "Consistent early landscape copier setup; fixed proportional crop removes the blank platen while preserving the complete photographed spread."
+    },
+    {
+      "originalPdfPage": 14,
+      "cleanedViewerPage": 14,
+      "renderDpi": 140,
+      "sourcePixelSize": [
+        1540,
+        1190
+      ],
+      "cropPixels": [
+        54,
+        119,
+        1016,
+        952
+      ],
+      "deskewDegrees": 0,
+      "note": "Consistent early landscape copier setup; fixed proportional crop removes the blank platen while preserving the complete photographed spread."
+    },
+    {
+      "originalPdfPage": 15,
+      "cleanedViewerPage": 15,
+      "renderDpi": 140,
+      "sourcePixelSize": [
+        1540,
+        1190
+      ],
+      "cropPixels": [
+        54,
+        119,
+        1016,
+        952
+      ],
+      "deskewDegrees": 0,
+      "note": "Consistent early landscape copier setup; fixed proportional crop removes the blank platen while preserving the complete photographed spread."
+    },
+    {
+      "originalPdfPage": 16,
+      "cleanedViewerPage": 16,
+      "renderDpi": 140,
+      "sourcePixelSize": [
+        1540,
+        1190
+      ],
+      "cropPixels": [
+        54,
+        119,
+        1016,
+        952
+      ],
+      "deskewDegrees": 0,
+      "note": "Consistent early landscape copier setup; fixed proportional crop removes the blank platen while preserving the complete photographed spread."
+    },
+    {
+      "originalPdfPage": 17,
+      "cleanedViewerPage": 17,
+      "renderDpi": 140,
+      "sourcePixelSize": [
+        1540,
+        1190
+      ],
+      "cropPixels": [
+        54,
+        119,
+        1016,
+        952
+      ],
+      "deskewDegrees": 0,
+      "note": "Consistent early landscape copier setup; fixed proportional crop removes the blank platen while preserving the complete photographed spread."
+    },
+    {
+      "originalPdfPage": 18,
+      "cleanedViewerPage": 18,
+      "renderDpi": 140,
+      "sourcePixelSize": [
+        1540,
+        1190
+      ],
+      "cropPixels": [
+        54,
+        119,
+        1016,
+        952
+      ],
+      "deskewDegrees": 0,
+      "note": "Consistent early landscape copier setup; fixed proportional crop removes the blank platen while preserving the complete photographed spread."
+    },
+    {
+      "originalPdfPage": 19,
+      "cleanedViewerPage": 19,
+      "renderDpi": 140,
+      "sourcePixelSize": [
+        1540,
+        1190
+      ],
+      "cropPixels": [
+        54,
+        119,
+        1016,
+        952
+      ],
+      "deskewDegrees": 0,
+      "note": "Consistent early landscape copier setup; fixed proportional crop removes the blank platen while preserving the complete photographed spread."
+    },
+    {
+      "originalPdfPage": 20,
+      "cleanedViewerPage": 20,
+      "renderDpi": 140,
+      "sourcePixelSize": [
+        1540,
+        1190
+      ],
+      "cropPixels": [
+        54,
+        119,
+        1016,
+        952
+      ],
+      "deskewDegrees": 0,
+      "note": "Consistent early landscape copier setup; fixed proportional crop removes the blank platen while preserving the complete photographed spread."
+    },
+    {
+      "originalPdfPage": 21,
+      "cleanedViewerPage": 21,
+      "renderDpi": 140,
+      "sourcePixelSize": [
+        1540,
+        1190
+      ],
+      "cropPixels": [
+        54,
+        119,
+        1016,
+        952
+      ],
+      "deskewDegrees": 0,
+      "note": "Consistent early landscape copier setup; fixed proportional crop removes the blank platen while preserving the complete photographed spread."
+    },
+    {
+      "originalPdfPage": 22,
+      "cleanedViewerPage": 22,
+      "renderDpi": 140,
+      "sourcePixelSize": [
+        1540,
+        1190
+      ],
+      "cropPixels": [
+        54,
+        119,
+        1016,
+        952
+      ],
+      "deskewDegrees": 0,
+      "note": "Consistent early landscape copier setup; fixed proportional crop removes the blank platen while preserving the complete photographed spread."
+    },
+    {
+      "originalPdfPage": 23,
+      "cleanedViewerPage": 23,
+      "renderDpi": 140,
+      "sourcePixelSize": [
+        1540,
+        1190
+      ],
+      "cropPixels": [
+        54,
+        119,
+        1016,
+        952
+      ],
+      "deskewDegrees": 0,
+      "note": "Consistent early landscape copier setup; fixed proportional crop removes the blank platen while preserving the complete photographed spread."
+    },
+    {
+      "originalPdfPage": 24,
+      "cleanedViewerPage": 24,
+      "renderDpi": 140,
+      "sourcePixelSize": [
+        1540,
+        1190
+      ],
+      "cropPixels": [
+        54,
+        119,
+        1016,
+        952
+      ],
+      "deskewDegrees": 0,
+      "note": "Consistent early landscape copier setup; fixed proportional crop removes the blank platen while preserving the complete photographed spread."
+    },
+    {
+      "originalPdfPage": 25,
+      "cleanedViewerPage": 25,
+      "renderDpi": 140,
+      "sourcePixelSize": [
+        1540,
+        1190
+      ],
+      "cropPixels": [
+        54,
+        119,
+        1016,
+        952
+      ],
+      "deskewDegrees": 0,
+      "note": "Consistent early landscape copier setup; fixed proportional crop removes the blank platen while preserving the complete photographed spread."
+    },
+    {
+      "originalPdfPage": 26,
+      "cleanedViewerPage": 26,
+      "renderDpi": 140,
+      "sourcePixelSize": [
+        1540,
+        1190
+      ],
+      "cropPixels": [
+        54,
+        119,
+        1016,
+        952
+      ],
+      "deskewDegrees": 0,
+      "note": "Consistent early landscape copier setup; fixed proportional crop removes the blank platen while preserving the complete photographed spread."
+    },
+    {
+      "originalPdfPage": 27,
+      "cleanedViewerPage": 27,
+      "renderDpi": 140,
+      "sourcePixelSize": [
+        1190,
+        1540
+      ],
+      "cropPixels": [
+        80,
+        181,
+        1021,
+        881
+      ],
+      "deskewDegrees": 0,
+      "note": null
+    },
+    {
+      "originalPdfPage": 28,
+      "cleanedViewerPage": 28,
+      "renderDpi": 140,
+      "sourcePixelSize": [
+        1190,
+        1540
+      ],
+      "cropPixels": [
+        133,
+        121,
+        1076,
+        833
+      ],
+      "deskewDegrees": 0,
+      "note": null
+    },
+    {
+      "originalPdfPage": 29,
+      "cleanedViewerPage": 29,
+      "renderDpi": 140,
+      "sourcePixelSize": [
+        1542,
+        1194
+      ],
+      "cropPixels": [
+        0,
+        0,
+        1130,
+        970
+      ],
+      "deskewDegrees": 0,
+      "note": null
+    },
+    {
+      "originalPdfPage": 30,
+      "cleanedViewerPage": 30,
+      "renderDpi": 140,
+      "sourcePixelSize": [
+        1558,
+        1216
+      ],
+      "cropPixels": [
+        0,
+        108,
+        1076,
+        941
+      ],
+      "deskewDegrees": 0,
+      "note": null
+    },
+    {
+      "originalPdfPage": 31,
+      "cleanedViewerPage": 31,
+      "renderDpi": 140,
+      "sourcePixelSize": [
+        1558,
+        1216
+      ],
+      "cropPixels": [
+        0,
+        111,
+        1067,
+        944
+      ],
+      "deskewDegrees": 0,
+      "note": null
+    },
+    {
+      "originalPdfPage": 32,
+      "cleanedViewerPage": 32,
+      "renderDpi": 140,
+      "sourcePixelSize": [
+        1543,
+        1193
+      ],
+      "cropPixels": [
+        0,
+        80,
+        1065,
+        932
+      ],
+      "deskewDegrees": 0,
+      "note": null
+    },
+    {
+      "originalPdfPage": 33,
+      "cleanedViewerPage": 33,
+      "renderDpi": 140,
+      "sourcePixelSize": [
+        1543,
+        1193
+      ],
+      "cropPixels": [
+        0,
+        98,
+        1062,
+        929
+      ],
+      "deskewDegrees": 0,
+      "note": null
+    },
+    {
+      "originalPdfPage": 34,
+      "cleanedViewerPage": 34,
+      "renderDpi": 140,
+      "sourcePixelSize": [
+        1543,
+        1193
+      ],
+      "cropPixels": [
+        0,
+        36,
+        944,
+        932
+      ],
+      "deskewDegrees": 0,
+      "note": null
+    },
+    {
+      "originalPdfPage": 35,
+      "cleanedViewerPage": 35,
+      "renderDpi": 140,
+      "sourcePixelSize": [
+        1543,
+        1193
+      ],
+      "cropPixels": [
+        0,
+        53,
+        941,
+        929
+      ],
+      "deskewDegrees": 0,
+      "note": null
+    },
+    {
+      "originalPdfPage": 36,
+      "cleanedViewerPage": 36,
+      "renderDpi": 140,
+      "sourcePixelSize": [
+        1542,
+        1194
+      ],
+      "cropPixels": [
+        0,
+        24,
+        940,
+        931
+      ],
+      "deskewDegrees": 0,
+      "note": null
+    },
+    {
+      "originalPdfPage": 37,
+      "cleanedViewerPage": 37,
+      "renderDpi": 140,
+      "sourcePixelSize": [
+        1543,
+        1193
+      ],
+      "cropPixels": [
+        0,
+        77,
+        941,
+        926
+      ],
+      "deskewDegrees": 0,
+      "note": null
+    },
+    {
+      "originalPdfPage": 38,
+      "cleanedViewerPage": 38,
+      "renderDpi": 140,
+      "sourcePixelSize": [
+        1543,
+        1193
+      ],
+      "cropPixels": [
+        0,
+        101,
+        938,
+        926
+      ],
+      "deskewDegrees": 0,
+      "note": null
+    },
+    {
+      "originalPdfPage": 39,
+      "cleanedViewerPage": 39,
+      "renderDpi": 140,
+      "sourcePixelSize": [
+        1543,
+        1193
+      ],
+      "cropPixels": [
+        0,
+        104,
+        938,
+        932
+      ],
+      "deskewDegrees": 0,
+      "note": null
+    },
+    {
+      "originalPdfPage": 40,
+      "cleanedViewerPage": 40,
+      "renderDpi": 140,
+      "sourcePixelSize": [
+        1543,
+        1193
+      ],
+      "cropPixels": [
+        0,
+        113,
+        938,
+        929
+      ],
+      "deskewDegrees": 0,
+      "note": null
+    },
+    {
+      "originalPdfPage": 41,
+      "cleanedViewerPage": 41,
+      "renderDpi": 140,
+      "sourcePixelSize": [
+        1543,
+        1193
+      ],
+      "cropPixels": [
+        0,
+        107,
+        938,
+        932
+      ],
+      "deskewDegrees": 0,
+      "note": null
+    },
+    {
+      "originalPdfPage": 42,
+      "cleanedViewerPage": 42,
+      "renderDpi": 140,
+      "sourcePixelSize": [
+        1543,
+        1193
+      ],
+      "cropPixels": [
+        0,
+        116,
+        938,
+        932
+      ],
+      "deskewDegrees": 0,
+      "note": null
+    },
+    {
+      "originalPdfPage": 43,
+      "cleanedViewerPage": 43,
+      "renderDpi": 140,
+      "sourcePixelSize": [
+        1543,
+        1193
+      ],
+      "cropPixels": [
+        0,
+        50,
+        941,
+        973
+      ],
+      "deskewDegrees": 0,
+      "note": null
+    },
+    {
+      "originalPdfPage": 44,
+      "cleanedViewerPage": 44,
+      "renderDpi": 140,
+      "sourcePixelSize": [
+        1543,
+        1193
+      ],
+      "cropPixels": [
+        0,
+        83,
+        941,
+        976
+      ],
+      "deskewDegrees": 0,
+      "note": null
+    },
+    {
+      "originalPdfPage": 45,
+      "cleanedViewerPage": 45,
+      "renderDpi": 140,
+      "sourcePixelSize": [
+        1543,
+        1193
+      ],
+      "cropPixels": [
+        0,
+        92,
+        941,
+        976
+      ],
+      "deskewDegrees": 0,
+      "note": null
+    },
+    {
+      "originalPdfPage": 46,
+      "cleanedViewerPage": 46,
+      "renderDpi": 140,
+      "sourcePixelSize": [
+        1544,
+        1197
+      ],
+      "cropPixels": [
+        0,
+        33,
+        938,
+        983
+      ],
+      "deskewDegrees": 0,
+      "note": null
+    },
+    {
+      "originalPdfPage": 47,
+      "cleanedViewerPage": 47,
+      "renderDpi": 140,
+      "sourcePixelSize": [
+        1542,
+        1194
+      ],
+      "cropPixels": [
+        0,
+        98,
+        955,
+        985
+      ],
+      "deskewDegrees": 0,
+      "note": null
+    },
+    {
+      "originalPdfPage": 48,
+      "cleanedViewerPage": 48,
+      "renderDpi": 140,
+      "sourcePixelSize": [
+        1543,
+        1193
+      ],
+      "cropPixels": [
+        0,
+        65,
+        958,
+        976
+      ],
+      "deskewDegrees": 0,
+      "note": null
+    },
+    {
+      "originalPdfPage": 49,
+      "cleanedViewerPage": 49,
+      "renderDpi": 140,
+      "sourcePixelSize": [
+        1543,
+        1193
+      ],
+      "cropPixels": [
+        0,
+        86,
+        955,
+        973
+      ],
+      "deskewDegrees": 0,
+      "note": null
+    },
+    {
+      "originalPdfPage": 50,
+      "cleanedViewerPage": 50,
+      "renderDpi": 140,
+      "sourcePixelSize": [
+        1542,
+        1194
+      ],
+      "cropPixels": [
+        0,
+        101,
+        958,
+        979
+      ],
+      "deskewDegrees": 0,
+      "note": null
+    },
+    {
+      "originalPdfPage": 51,
+      "cleanedViewerPage": 51,
+      "renderDpi": 140,
+      "sourcePixelSize": [
+        1543,
+        1193
+      ],
+      "cropPixels": [
+        0,
+        47,
+        958,
+        979
+      ],
+      "deskewDegrees": 0,
+      "note": null
+    },
+    {
+      "originalPdfPage": 52,
+      "cleanedViewerPage": 52,
+      "renderDpi": 140,
+      "sourcePixelSize": [
+        1542,
+        1194
+      ],
+      "cropPixels": [
+        0,
+        169,
+        958,
+        973
+      ],
+      "deskewDegrees": 0,
+      "note": null
+    },
+    {
+      "originalPdfPage": 53,
+      "cleanedViewerPage": 53,
+      "renderDpi": 140,
+      "sourcePixelSize": [
+        1542,
+        1194
+      ],
+      "cropPixels": [
+        0,
+        169,
+        955,
+        970
+      ],
+      "deskewDegrees": 0,
+      "note": null
+    },
+    {
+      "originalPdfPage": 54,
+      "cleanedViewerPage": 54,
+      "renderDpi": 140,
+      "sourcePixelSize": [
+        1542,
+        1194
+      ],
+      "cropPixels": [
+        0,
+        166,
+        958,
+        970
+      ],
+      "deskewDegrees": 0,
+      "note": null
+    },
+    {
+      "originalPdfPage": 55,
+      "cleanedViewerPage": 55,
+      "renderDpi": 140,
+      "sourcePixelSize": [
+        1554,
+        1209
+      ],
+      "cropPixels": [
+        0,
+        176,
+        962,
+        983
+      ],
+      "deskewDegrees": 0,
+      "note": null
+    },
+    {
+      "originalPdfPage": 56,
+      "cleanedViewerPage": 56,
+      "renderDpi": 140,
+      "sourcePixelSize": [
+        1556,
+        1212
+      ],
+      "cropPixels": [
+        0,
+        174,
+        961,
+        978
+      ],
+      "deskewDegrees": 0,
+      "note": null
+    },
+    {
+      "originalPdfPage": 57,
+      "cleanedViewerPage": 57,
+      "renderDpi": 140,
+      "sourcePixelSize": [
+        1543,
+        1193
+      ],
+      "cropPixels": [
+        0,
+        160,
+        958,
+        973
+      ],
+      "deskewDegrees": 0,
+      "note": null
+    },
+    {
+      "originalPdfPage": 58,
+      "cleanedViewerPage": 58,
+      "renderDpi": 140,
+      "sourcePixelSize": [
+        1554,
+        1209
+      ],
+      "cropPixels": [
+        0,
+        170,
+        962,
+        980
+      ],
+      "deskewDegrees": 0,
+      "note": null
+    },
+    {
+      "originalPdfPage": 59,
+      "cleanedViewerPage": 59,
+      "renderDpi": 140,
+      "sourcePixelSize": [
+        1554,
+        1209
+      ],
+      "cropPixels": [
+        0,
+        176,
+        962,
+        971
+      ],
+      "deskewDegrees": 0,
+      "note": null
+    },
+    {
+      "originalPdfPage": 60,
+      "cleanedViewerPage": 60,
+      "renderDpi": 140,
+      "sourcePixelSize": [
+        1542,
+        1194
+      ],
+      "cropPixels": [
+        0,
+        169,
+        958,
+        967
+      ],
+      "deskewDegrees": 0,
+      "note": null
+    },
+    {
+      "originalPdfPage": 61,
+      "cleanedViewerPage": 61,
+      "renderDpi": 140,
+      "sourcePixelSize": [
+        1563,
+        1221
+      ],
+      "cropPixels": [
+        0,
+        174,
+        968,
+        974
+      ],
+      "deskewDegrees": 0,
+      "note": null
+    },
+    {
+      "originalPdfPage": 62,
+      "cleanedViewerPage": 62,
+      "renderDpi": 140,
+      "sourcePixelSize": [
+        1543,
+        1193
+      ],
+      "cropPixels": [
+        0,
+        169,
+        970,
+        964
+      ],
+      "deskewDegrees": 0,
+      "note": null
+    },
+    {
+      "originalPdfPage": 63,
+      "cleanedViewerPage": 63,
+      "renderDpi": 140,
+      "sourcePixelSize": [
+        1543,
+        1193
+      ],
+      "cropPixels": [
+        0,
+        163,
+        970,
+        961
+      ],
+      "deskewDegrees": 0,
+      "note": null
+    },
+    {
+      "originalPdfPage": 64,
+      "cleanedViewerPage": 64,
+      "renderDpi": 140,
+      "sourcePixelSize": [
+        1543,
+        1193
+      ],
+      "cropPixels": [
+        0,
+        157,
+        970,
+        973
+      ],
+      "deskewDegrees": 0,
+      "note": null
+    },
+    {
+      "originalPdfPage": 65,
+      "cleanedViewerPage": 65,
+      "renderDpi": 140,
+      "sourcePixelSize": [
+        1543,
+        1193
+      ],
+      "cropPixels": [
+        0,
+        163,
+        970,
+        964
+      ],
+      "deskewDegrees": 0,
+      "note": null
+    },
+    {
+      "originalPdfPage": 66,
+      "cleanedViewerPage": 66,
+      "renderDpi": 140,
+      "sourcePixelSize": [
+        1543,
+        1193
+      ],
+      "cropPixels": [
+        0,
+        163,
+        970,
+        964
+      ],
+      "deskewDegrees": 0,
+      "note": null
+    },
+    {
+      "originalPdfPage": 67,
+      "cleanedViewerPage": 67,
+      "renderDpi": 140,
+      "sourcePixelSize": [
+        1543,
+        1193
+      ],
+      "cropPixels": [
+        0,
+        163,
+        973,
+        964
+      ],
+      "deskewDegrees": 0,
+      "note": null
+    },
+    {
+      "originalPdfPage": 68,
+      "cleanedViewerPage": 68,
+      "renderDpi": 140,
+      "sourcePixelSize": [
+        1544,
+        1197
+      ],
+      "cropPixels": [
+        0,
+        151,
+        1027,
+        971
+      ],
+      "deskewDegrees": 0,
+      "note": null
+    },
+    {
+      "originalPdfPage": 69,
+      "cleanedViewerPage": 69,
+      "renderDpi": 140,
+      "sourcePixelSize": [
+        1543,
+        1193
+      ],
+      "cropPixels": [
+        0,
+        151,
+        1024,
+        970
+      ],
+      "deskewDegrees": 0,
+      "note": null
+    },
+    {
+      "originalPdfPage": 70,
+      "cleanedViewerPage": 70,
+      "renderDpi": 140,
+      "sourcePixelSize": [
+        1543,
+        1193
+      ],
+      "cropPixels": [
+        0,
+        148,
+        1024,
+        970
+      ],
+      "deskewDegrees": 0,
+      "note": null
+    },
+    {
+      "originalPdfPage": 71,
+      "cleanedViewerPage": 71,
+      "renderDpi": 140,
+      "sourcePixelSize": [
+        1543,
+        1193
+      ],
+      "cropPixels": [
+        0,
+        148,
+        1024,
+        970
+      ],
+      "deskewDegrees": 0,
+      "note": null
+    },
+    {
+      "originalPdfPage": 72,
+      "cleanedViewerPage": 72,
+      "renderDpi": 140,
+      "sourcePixelSize": [
+        1544,
+        1197
+      ],
+      "cropPixels": [
+        0,
+        151,
+        1027,
+        974
+      ],
+      "deskewDegrees": 0,
+      "note": null
+    },
+    {
+      "originalPdfPage": 73,
+      "cleanedViewerPage": 73,
+      "renderDpi": 140,
+      "sourcePixelSize": [
+        1544,
+        1197
+      ],
+      "cropPixels": [
+        0,
+        211,
+        1030,
+        974
+      ],
+      "deskewDegrees": 0,
+      "note": null
+    },
+    {
+      "originalPdfPage": 74,
+      "cleanedViewerPage": 74,
+      "renderDpi": 140,
+      "sourcePixelSize": [
+        1544,
+        1197
+      ],
+      "cropPixels": [
+        0,
+        211,
+        1030,
+        971
+      ],
+      "deskewDegrees": 0,
+      "note": null
+    },
+    {
+      "originalPdfPage": 75,
+      "cleanedViewerPage": 75,
+      "renderDpi": 140,
+      "sourcePixelSize": [
+        1544,
+        1197
+      ],
+      "cropPixels": [
+        0,
+        214,
+        1030,
+        971
+      ],
+      "deskewDegrees": 0,
+      "note": null
+    },
+    {
+      "originalPdfPage": 76,
+      "cleanedViewerPage": 76,
+      "renderDpi": 140,
+      "sourcePixelSize": [
+        1544,
+        1197
+      ],
+      "cropPixels": [
+        0,
+        229,
+        1030,
+        968
+      ],
+      "deskewDegrees": 0,
+      "note": null
+    },
+    {
+      "originalPdfPage": 77,
+      "cleanedViewerPage": 77,
+      "renderDpi": 140,
+      "sourcePixelSize": [
+        1544,
+        1197
+      ],
+      "cropPixels": [
+        0,
+        229,
+        1054,
+        968
+      ],
+      "deskewDegrees": 0,
+      "note": null
+    },
+    {
+      "originalPdfPage": 78,
+      "cleanedViewerPage": 78,
+      "renderDpi": 140,
+      "sourcePixelSize": [
+        1544,
+        1197
+      ],
+      "cropPixels": [
+        0,
+        232,
+        1045,
+        971
+      ],
+      "deskewDegrees": 0,
+      "note": null
+    },
+    {
+      "originalPdfPage": 79,
+      "cleanedViewerPage": 79,
+      "renderDpi": 140,
+      "sourcePixelSize": [
+        1544,
+        1197
+      ],
+      "cropPixels": [
+        0,
+        235,
+        1045,
+        974
+      ],
+      "deskewDegrees": 0,
+      "note": null
+    },
+    {
+      "originalPdfPage": 80,
+      "cleanedViewerPage": 80,
+      "renderDpi": 140,
+      "sourcePixelSize": [
+        1544,
+        1197
+      ],
+      "cropPixels": [
+        0,
+        232,
+        1045,
+        971
+      ],
+      "deskewDegrees": 0,
+      "note": null
+    },
+    {
+      "originalPdfPage": 81,
+      "cleanedViewerPage": 81,
+      "renderDpi": 140,
+      "sourcePixelSize": [
+        1547,
+        1200
+      ],
+      "cropPixels": [
+        0,
+        238,
+        1047,
+        976
+      ],
+      "deskewDegrees": 0,
+      "note": null
+    },
+    {
+      "originalPdfPage": 82,
+      "cleanedViewerPage": 82,
+      "renderDpi": 140,
+      "sourcePixelSize": [
+        1544,
+        1197
+      ],
+      "cropPixels": [
+        0,
+        235,
+        1045,
+        974
+      ],
+      "deskewDegrees": 0,
+      "note": null
+    },
+    {
+      "originalPdfPage": 83,
+      "cleanedViewerPage": 83,
+      "renderDpi": 140,
+      "sourcePixelSize": [
+        1544,
+        1197
+      ],
+      "cropPixels": [
+        0,
+        243,
+        1048,
+        971
+      ],
+      "deskewDegrees": 0,
+      "note": null
+    },
+    {
+      "originalPdfPage": 84,
+      "cleanedViewerPage": 84,
+      "renderDpi": 140,
+      "sourcePixelSize": [
+        1544,
+        1197
+      ],
+      "cropPixels": [
+        0,
+        217,
+        1045,
+        974
+      ],
+      "deskewDegrees": 0,
+      "note": null
+    },
+    {
+      "originalPdfPage": 85,
+      "cleanedViewerPage": 85,
+      "renderDpi": 140,
+      "sourcePixelSize": [
+        1547,
+        1200
+      ],
+      "cropPixels": [
+        0,
+        223,
+        1050,
+        979
+      ],
+      "deskewDegrees": 0,
+      "note": null
+    },
+    {
+      "originalPdfPage": 86,
+      "cleanedViewerPage": 86,
+      "renderDpi": 140,
+      "sourcePixelSize": [
+        1544,
+        1197
+      ],
+      "cropPixels": [
+        0,
+        220,
+        1045,
+        974
+      ],
+      "deskewDegrees": 0,
+      "note": null
+    },
+    {
+      "originalPdfPage": 87,
+      "cleanedViewerPage": 87,
+      "renderDpi": 140,
+      "sourcePixelSize": [
+        1544,
+        1197
+      ],
+      "cropPixels": [
+        0,
+        220,
+        1045,
+        974
+      ],
+      "deskewDegrees": 0,
+      "note": null
+    },
+    {
+      "originalPdfPage": 88,
+      "cleanedViewerPage": 88,
+      "renderDpi": 140,
+      "sourcePixelSize": [
+        1543,
+        1193
+      ],
+      "cropPixels": [
+        0,
+        231,
+        1092,
+        1062
+      ],
+      "deskewDegrees": 0,
+      "note": null
+    },
+    {
+      "originalPdfPage": 89,
+      "cleanedViewerPage": 89,
+      "renderDpi": 140,
+      "sourcePixelSize": [
+        1540,
+        1190
+      ],
+      "cropPixels": [
+        0,
+        358,
+        1063,
+        1119
+      ],
+      "deskewDegrees": 0,
+      "note": null
+    },
+    {
+      "originalPdfPage": 90,
+      "cleanedViewerPage": 90,
+      "renderDpi": 140,
+      "sourcePixelSize": [
+        1550,
+        1202
+      ],
+      "cropPixels": [
+        0,
+        358,
+        1067,
+        1124
+      ],
+      "deskewDegrees": 0,
+      "note": null
+    },
+    {
+      "originalPdfPage": 91,
+      "cleanedViewerPage": 91,
+      "renderDpi": 140,
+      "sourcePixelSize": [
+        1540,
+        1190
+      ],
+      "cropPixels": [
+        0,
+        355,
+        1063,
+        1116
+      ],
+      "deskewDegrees": 0,
+      "note": null
+    },
+    {
+      "originalPdfPage": 92,
+      "cleanedViewerPage": 92,
+      "renderDpi": 140,
+      "sourcePixelSize": [
+        1540,
+        1190
+      ],
+      "cropPixels": [
+        0,
+        355,
+        1063,
+        1116
+      ],
+      "deskewDegrees": 0,
+      "note": null
+    },
+    {
+      "originalPdfPage": 93,
+      "cleanedViewerPage": 93,
+      "renderDpi": 140,
+      "sourcePixelSize": [
+        1553,
+        1205
+      ],
+      "cropPixels": [
+        0,
+        364,
+        1069,
+        1114
+      ],
+      "deskewDegrees": 0,
+      "note": null
+    },
+    {
+      "originalPdfPage": 94,
+      "cleanedViewerPage": 94,
+      "renderDpi": 140,
+      "sourcePixelSize": [
+        1540,
+        1190
+      ],
+      "cropPixels": [
+        0,
+        355,
+        1066,
+        1111
+      ],
+      "deskewDegrees": 0,
+      "note": null
+    },
+    {
+      "originalPdfPage": 95,
+      "cleanedViewerPage": 95,
+      "renderDpi": 140,
+      "sourcePixelSize": [
+        1540,
+        1190
+      ],
+      "cropPixels": [
+        0,
+        355,
+        1069,
+        1111
+      ],
+      "deskewDegrees": 0,
+      "note": null
+    },
+    {
+      "originalPdfPage": 96,
+      "cleanedViewerPage": 96,
+      "renderDpi": 140,
+      "sourcePixelSize": [
+        1545,
+        1196
+      ],
+      "cropPixels": [
+        0,
+        354,
+        1070,
+        1114
+      ],
+      "deskewDegrees": 0,
+      "note": null
+    },
+    {
+      "originalPdfPage": 97,
+      "cleanedViewerPage": 97,
+      "renderDpi": 140,
+      "sourcePixelSize": [
+        1540,
+        1190
+      ],
+      "cropPixels": [
+        0,
+        352,
+        1066,
+        1114
+      ],
+      "deskewDegrees": 0,
+      "note": null
+    },
+    {
+      "originalPdfPage": 98,
+      "cleanedViewerPage": 98,
+      "renderDpi": 140,
+      "sourcePixelSize": [
+        1540,
+        1190
+      ],
+      "cropPixels": [
+        0,
+        355,
+        1066,
+        1114
+      ],
+      "deskewDegrees": 0,
+      "note": null
+    },
+    {
+      "originalPdfPage": 99,
+      "cleanedViewerPage": 99,
+      "renderDpi": 140,
+      "sourcePixelSize": [
+        1540,
+        1190
+      ],
+      "cropPixels": [
+        0,
+        352,
+        1066,
+        1122
+      ],
+      "deskewDegrees": 0,
+      "note": null
+    },
+    {
+      "originalPdfPage": 100,
+      "cleanedViewerPage": 100,
+      "renderDpi": 140,
+      "sourcePixelSize": [
+        1540,
+        1190
+      ],
+      "cropPixels": [
+        0,
+        355,
+        1066,
+        1125
+      ],
+      "deskewDegrees": 0,
+      "note": null
+    },
+    {
+      "originalPdfPage": 101,
+      "cleanedViewerPage": 101,
+      "renderDpi": 140,
+      "sourcePixelSize": [
+        1540,
+        1190
+      ],
+      "cropPixels": [
+        0,
+        355,
+        1066,
+        1125
+      ],
+      "deskewDegrees": 0,
+      "note": null
+    },
+    {
+      "originalPdfPage": 102,
+      "cleanedViewerPage": 102,
+      "renderDpi": 140,
+      "sourcePixelSize": [
+        1548,
+        1199
+      ],
+      "cropPixels": [
+        0,
+        387,
+        1069,
+        1122
+      ],
+      "deskewDegrees": 0,
+      "note": null
+    },
+    {
+      "originalPdfPage": 103,
+      "cleanedViewerPage": 103,
+      "renderDpi": 140,
+      "sourcePixelSize": [
+        1548,
+        1199
+      ],
+      "cropPixels": [
+        0,
+        387,
+        1069,
+        1122
+      ],
+      "deskewDegrees": 0,
+      "note": null
+    },
+    {
+      "originalPdfPage": 104,
+      "cleanedViewerPage": 104,
+      "renderDpi": 140,
+      "sourcePixelSize": [
+        1553,
+        1205
+      ],
+      "cropPixels": [
+        0,
+        382,
+        1072,
+        1123
+      ],
+      "deskewDegrees": 0,
+      "note": null
+    },
+    {
+      "originalPdfPage": 105,
+      "cleanedViewerPage": 105,
+      "renderDpi": 140,
+      "sourcePixelSize": [
+        1550,
+        1202
+      ],
+      "cropPixels": [
+        0,
+        382,
+        1070,
+        1121
+      ],
+      "deskewDegrees": 0,
+      "note": null
+    },
+    {
+      "originalPdfPage": 106,
+      "cleanedViewerPage": 106,
+      "renderDpi": 140,
+      "sourcePixelSize": [
+        1562,
+        1218
+      ],
+      "cropPixels": [
+        0,
+        387,
+        1075,
+        1129
+      ],
+      "deskewDegrees": 0,
+      "note": null
+    },
+    {
+      "originalPdfPage": 107,
+      "cleanedViewerPage": 107,
+      "renderDpi": 140,
+      "sourcePixelSize": [
+        1559,
+        1215
+      ],
+      "cropPixels": [
+        0,
+        387,
+        1073,
+        1130
+      ],
+      "deskewDegrees": 0,
+      "note": null
+    },
+    {
+      "originalPdfPage": 108,
+      "cleanedViewerPage": 108,
+      "renderDpi": 140,
+      "sourcePixelSize": [
+        1548,
+        1199
+      ],
+      "cropPixels": [
+        0,
+        360,
+        1072,
+        1128
+      ],
+      "deskewDegrees": 0,
+      "note": null
+    },
+    {
+      "originalPdfPage": 109,
+      "cleanedViewerPage": 109,
+      "renderDpi": 140,
+      "sourcePixelSize": [
+        1545,
+        1196
+      ],
+      "cropPixels": [
+        0,
+        386,
+        1070,
+        1123
+      ],
+      "deskewDegrees": 0,
+      "note": null
+    },
+    {
+      "originalPdfPage": 110,
+      "cleanedViewerPage": 110,
+      "renderDpi": 140,
+      "sourcePixelSize": [
+        1549,
+        1203
+      ],
+      "cropPixels": [
+        0,
+        363,
+        1075,
+        1123
+      ],
+      "deskewDegrees": 0,
+      "note": null
+    },
+    {
+      "originalPdfPage": 111,
+      "cleanedViewerPage": 111,
+      "renderDpi": 140,
+      "sourcePixelSize": [
+        1549,
+        1203
+      ],
+      "cropPixels": [
+        0,
+        366,
+        1075,
+        1129
+      ],
+      "deskewDegrees": 0,
+      "note": null
+    },
+    {
+      "originalPdfPage": 112,
+      "cleanedViewerPage": 112,
+      "renderDpi": 140,
+      "sourcePixelSize": [
+        1556,
+        1212
+      ],
+      "cropPixels": [
+        0,
+        395,
+        1080,
+        1137
+      ],
+      "deskewDegrees": 0,
+      "note": null
+    },
+    {
+      "originalPdfPage": 113,
+      "cleanedViewerPage": 113,
+      "renderDpi": 140,
+      "sourcePixelSize": [
+        1552,
+        1206
+      ],
+      "cropPixels": [
+        0,
+        373,
+        1074,
+        1134
+      ],
+      "deskewDegrees": 0,
+      "note": null
+    },
+    {
+      "originalPdfPage": 114,
+      "cleanedViewerPage": 114,
+      "renderDpi": 140,
+      "sourcePixelSize": [
+        1547,
+        1200
+      ],
+      "cropPixels": [
+        0,
+        369,
+        1071,
+        1133
+      ],
+      "deskewDegrees": 0,
+      "note": null
+    },
+    {
+      "originalPdfPage": 115,
+      "cleanedViewerPage": 115,
+      "renderDpi": 140,
+      "sourcePixelSize": [
+        1542,
+        1194
+      ],
+      "cropPixels": [
+        0,
+        362,
+        1068,
+        1130
+      ],
+      "deskewDegrees": 0,
+      "note": null
+    },
+    {
+      "originalPdfPage": 116,
+      "cleanedViewerPage": 116,
+      "renderDpi": 140,
+      "sourcePixelSize": [
+        1547,
+        1200
+      ],
+      "cropPixels": [
+        0,
+        369,
+        1071,
+        1136
+      ],
+      "deskewDegrees": 0,
+      "note": null
+    },
+    {
+      "originalPdfPage": 117,
+      "cleanedViewerPage": 117,
+      "renderDpi": 140,
+      "sourcePixelSize": [
+        1540,
+        1190
+      ],
+      "cropPixels": [
+        0,
+        409,
+        1128,
+        1125
+      ],
+      "deskewDegrees": 0,
+      "note": null
+    },
+    {
+      "originalPdfPage": 118,
+      "cleanedViewerPage": 118,
+      "renderDpi": 140,
+      "sourcePixelSize": [
+        1540,
+        1190
+      ],
+      "cropPixels": [
+        0,
+        349,
+        1028,
+        1125
+      ],
+      "deskewDegrees": 0,
+      "note": null
+    },
+    {
+      "originalPdfPage": 119,
+      "cleanedViewerPage": 119,
+      "renderDpi": 140,
+      "sourcePixelSize": [
+        1540,
+        1190
+      ],
+      "cropPixels": [
+        0,
+        349,
+        1022,
+        1128
+      ],
+      "deskewDegrees": 0,
+      "note": null
+    },
+    {
+      "originalPdfPage": 120,
+      "cleanedViewerPage": 120,
+      "renderDpi": 140,
+      "sourcePixelSize": [
+        1545,
+        1196
+      ],
+      "cropPixels": [
+        0,
+        345,
+        1025,
+        1135
+      ],
+      "deskewDegrees": 0,
+      "note": null
+    },
+    {
+      "originalPdfPage": 121,
+      "cleanedViewerPage": 121,
+      "renderDpi": 140,
+      "sourcePixelSize": [
+        1540,
+        1190
+      ],
+      "cropPixels": [
+        0,
+        346,
+        1004,
+        1134
+      ],
+      "deskewDegrees": 0,
+      "note": null
+    },
+    {
+      "originalPdfPage": 122,
+      "cleanedViewerPage": 122,
+      "renderDpi": 140,
+      "sourcePixelSize": [
+        1558,
+        1216
+      ],
+      "cropPixels": [
+        0,
+        369,
+        1052,
+        1157
+      ],
+      "deskewDegrees": 0,
+      "note": null
+    },
+    {
+      "originalPdfPage": 123,
+      "cleanedViewerPage": 123,
+      "renderDpi": 140,
+      "sourcePixelSize": [
+        1545,
+        1196
+      ],
+      "cropPixels": [
+        0,
+        348,
+        1037,
+        1135
+      ],
+      "deskewDegrees": 0,
+      "note": null
+    },
+    {
+      "originalPdfPage": 124,
+      "cleanedViewerPage": 124,
+      "renderDpi": 140,
+      "sourcePixelSize": [
+        1556,
+        1212
+      ],
+      "cropPixels": [
+        0,
+        365,
+        1050,
+        1152
+      ],
+      "deskewDegrees": 0,
+      "note": null
+    },
+    {
+      "originalPdfPage": 125,
+      "cleanedViewerPage": 125,
+      "renderDpi": 140,
+      "sourcePixelSize": [
+        1544,
+        1197
+      ],
+      "cropPixels": [
+        0,
+        338,
+        1039,
+        1155
+      ],
+      "deskewDegrees": 0,
+      "note": null
+    },
+    {
+      "originalPdfPage": 126,
+      "cleanedViewerPage": 126,
+      "renderDpi": 140,
+      "sourcePixelSize": [
+        1558,
+        1216
+      ],
+      "cropPixels": [
+        0,
+        354,
+        1052,
+        1166
+      ],
+      "deskewDegrees": 0,
+      "note": null
+    },
+    {
+      "originalPdfPage": 127,
+      "cleanedViewerPage": 127,
+      "renderDpi": 140,
+      "sourcePixelSize": [
+        1542,
+        1194
+      ],
+      "cropPixels": [
+        0,
+        341,
+        1038,
+        1154
+      ],
+      "deskewDegrees": 0,
+      "note": null
+    },
+    {
+      "originalPdfPage": 128,
+      "cleanedViewerPage": 128,
+      "renderDpi": 140,
+      "sourcePixelSize": [
+        1544,
+        1197
+      ],
+      "cropPixels": [
+        0,
+        341,
+        1039,
+        1146
+      ],
+      "deskewDegrees": 0,
+      "note": null
+    },
+    {
+      "originalPdfPage": 129,
+      "cleanedViewerPage": 129,
+      "renderDpi": 140,
+      "sourcePixelSize": [
+        1544,
+        1197
+      ],
+      "cropPixels": [
+        0,
+        341,
+        1042,
+        1155
+      ],
+      "deskewDegrees": 0,
+      "note": null
+    },
+    {
+      "originalPdfPage": 130,
+      "cleanedViewerPage": 130,
+      "renderDpi": 140,
+      "sourcePixelSize": [
+        1544,
+        1197
+      ],
+      "cropPixels": [
+        0,
+        344,
+        1033,
+        1149
+      ],
+      "deskewDegrees": 0,
+      "note": null
+    },
+    {
+      "originalPdfPage": 131,
+      "cleanedViewerPage": 131,
+      "renderDpi": 140,
+      "sourcePixelSize": [
+        1544,
+        1197
+      ],
+      "cropPixels": [
+        0,
+        341,
+        1033,
+        1155
+      ],
+      "deskewDegrees": 0,
+      "note": null
+    },
+    {
+      "originalPdfPage": 132,
+      "cleanedViewerPage": 132,
+      "renderDpi": 140,
+      "sourcePixelSize": [
+        1540,
+        1190
+      ],
+      "cropPixels": [
+        0,
+        335,
+        1031,
+        1149
+      ],
+      "deskewDegrees": 0,
+      "note": null
+    },
+    {
+      "originalPdfPage": 133,
+      "cleanedViewerPage": 133,
+      "renderDpi": 140,
+      "sourcePixelSize": [
+        1540,
+        1190
+      ],
+      "cropPixels": [
+        0,
+        338,
+        1031,
+        1149
+      ],
+      "deskewDegrees": 0,
+      "note": null
+    },
+    {
+      "originalPdfPage": 134,
+      "cleanedViewerPage": 134,
+      "renderDpi": 140,
+      "sourcePixelSize": [
+        1566,
+        1225
+      ],
+      "cropPixels": [
+        0,
+        367,
+        1066,
+        1174
+      ],
+      "deskewDegrees": 0,
+      "note": null
+    },
+    {
+      "originalPdfPage": 135,
+      "cleanedViewerPage": 135,
+      "renderDpi": 140,
+      "sourcePixelSize": [
+        1540,
+        1190
+      ],
+      "cropPixels": [
+        0,
+        335,
+        1090,
+        1149
+      ],
+      "deskewDegrees": 0,
+      "note": null
+    },
+    {
+      "originalPdfPage": 136,
+      "cleanedViewerPage": 136,
+      "renderDpi": 140,
+      "sourcePixelSize": [
+        1540,
+        1190
+      ],
+      "cropPixels": [
+        0,
+        335,
+        1081,
+        1149
+      ],
+      "deskewDegrees": 0,
+      "note": null
+    },
+    {
+      "originalPdfPage": 137,
+      "cleanedViewerPage": 137,
+      "renderDpi": 140,
+      "sourcePixelSize": [
+        1540,
+        1190
+      ],
+      "cropPixels": [
+        0,
+        335,
+        1081,
+        1149
+      ],
+      "deskewDegrees": 0,
+      "note": null
+    },
+    {
+      "originalPdfPage": 138,
+      "cleanedViewerPage": 138,
+      "renderDpi": 140,
+      "sourcePixelSize": [
+        1544,
+        1197
+      ],
+      "cropPixels": [
+        0,
+        321,
+        1081,
+        1152
+      ],
+      "deskewDegrees": 0,
+      "note": null
+    },
+    {
+      "originalPdfPage": 139,
+      "cleanedViewerPage": 139,
+      "renderDpi": 140,
+      "sourcePixelSize": [
+        1547,
+        1200
+      ],
+      "cropPixels": [
+        0,
+        321,
+        1080,
+        1157
+      ],
+      "deskewDegrees": 0,
+      "note": null
+    },
+    {
+      "originalPdfPage": 140,
+      "cleanedViewerPage": 140,
+      "renderDpi": 140,
+      "sourcePixelSize": [
+        1549,
+        1203
+      ],
+      "cropPixels": [
+        0,
+        334,
+        1105,
+        1162
+      ],
+      "deskewDegrees": 0,
+      "note": null
+    },
+    {
+      "originalPdfPage": 141,
+      "cleanedViewerPage": 141,
+      "renderDpi": 140,
+      "sourcePixelSize": [
+        1540,
+        1190
+      ],
+      "cropPixels": [
+        0,
+        329,
+        1054,
+        1155
+      ],
+      "deskewDegrees": 0,
+      "note": null
+    },
+    {
+      "originalPdfPage": 142,
+      "cleanedViewerPage": 142,
+      "renderDpi": 140,
+      "sourcePixelSize": [
+        1558,
+        1216
+      ],
+      "cropPixels": [
+        0,
+        351,
+        1067,
+        1163
+      ],
+      "deskewDegrees": 0,
+      "note": null
+    },
+    {
+      "originalPdfPage": 143,
+      "cleanedViewerPage": 143,
+      "renderDpi": 140,
+      "sourcePixelSize": [
+        1540,
+        1190
+      ],
+      "cropPixels": [
+        0,
+        326,
+        1054,
+        1152
+      ],
+      "deskewDegrees": 0,
+      "note": null
+    },
+    {
+      "originalPdfPage": 144,
+      "cleanedViewerPage": 144,
+      "renderDpi": 140,
+      "sourcePixelSize": [
+        1540,
+        1190
+      ],
+      "cropPixels": [
+        0,
+        326,
+        1054,
+        1155
+      ],
+      "deskewDegrees": 0,
+      "note": null
+    },
+    {
+      "originalPdfPage": 145,
+      "cleanedViewerPage": 145,
+      "renderDpi": 140,
+      "sourcePixelSize": [
+        1540,
+        1190
+      ],
+      "cropPixels": [
+        0,
+        323,
+        1054,
+        1152
+      ],
+      "deskewDegrees": 0,
+      "note": null
+    },
+    {
+      "originalPdfPage": 146,
+      "cleanedViewerPage": 146,
+      "renderDpi": 140,
+      "sourcePixelSize": [
+        1575,
+        1237
+      ],
+      "cropPixels": [
+        0,
+        366,
+        1084,
+        1178
+      ],
+      "deskewDegrees": 0,
+      "note": null
+    },
+    {
+      "originalPdfPage": 147,
+      "cleanedViewerPage": 147,
+      "renderDpi": 140,
+      "sourcePixelSize": [
+        1540,
+        1190
+      ],
+      "cropPixels": [
+        0,
+        329,
+        1060,
+        1155
+      ],
+      "deskewDegrees": 0,
+      "note": null
+    },
+    {
+      "originalPdfPage": 148,
+      "cleanedViewerPage": 148,
+      "renderDpi": 140,
+      "sourcePixelSize": [
+        1558,
+        1216
+      ],
+      "cropPixels": [
+        0,
+        348,
+        1073,
+        1160
+      ],
+      "deskewDegrees": 0,
+      "note": null
+    },
+    {
+      "originalPdfPage": 149,
+      "cleanedViewerPage": 149,
+      "renderDpi": 140,
+      "sourcePixelSize": [
+        1558,
+        1216
+      ],
+      "cropPixels": [
+        0,
+        348,
+        1070,
+        1168
+      ],
+      "deskewDegrees": 0,
+      "note": null
+    },
+    {
+      "originalPdfPage": 150,
+      "cleanedViewerPage": 150,
+      "renderDpi": 140,
+      "sourcePixelSize": [
+        1547,
+        1200
+      ],
+      "cropPixels": [
+        0,
+        256,
+        1065,
+        1101
+      ],
+      "deskewDegrees": 0,
+      "note": null
+    },
+    {
+      "originalPdfPage": 151,
+      "cleanedViewerPage": 151,
+      "renderDpi": 140,
+      "sourcePixelSize": [
+        1540,
+        1190
+      ],
+      "cropPixels": [
+        0,
+        249,
+        1060,
+        1096
+      ],
+      "deskewDegrees": 0,
+      "note": null
+    },
+    {
+      "originalPdfPage": 152,
+      "cleanedViewerPage": 152,
+      "renderDpi": 140,
+      "sourcePixelSize": [
+        1540,
+        1190
+      ],
+      "cropPixels": [
+        0,
+        249,
+        1063,
+        1111
+      ],
+      "deskewDegrees": 0,
+      "note": null
+    },
+    {
+      "originalPdfPage": 153,
+      "cleanedViewerPage": 153,
+      "renderDpi": 140,
+      "sourcePixelSize": [
+        1540,
+        1190
+      ],
+      "cropPixels": [
+        0,
+        249,
+        1060,
+        1108
+      ],
+      "deskewDegrees": 0,
+      "note": null
+    },
+    {
+      "originalPdfPage": 154,
+      "cleanedViewerPage": 154,
+      "renderDpi": 140,
+      "sourcePixelSize": [
+        1540,
+        1190
+      ],
+      "cropPixels": [
+        0,
+        252,
+        1060,
+        1111
+      ],
+      "deskewDegrees": 0,
+      "note": null
+    },
+    {
+      "originalPdfPage": 155,
+      "cleanedViewerPage": 155,
+      "renderDpi": 140,
+      "sourcePixelSize": [
+        1540,
+        1190
+      ],
+      "cropPixels": [
+        0,
+        231,
+        1093,
+        1063
+      ],
+      "deskewDegrees": 0,
+      "note": null
+    },
+    {
+      "originalPdfPage": 156,
+      "cleanedViewerPage": 156,
+      "renderDpi": 140,
+      "sourcePixelSize": [
+        1556,
+        1212
+      ],
+      "cropPixels": [
+        0,
+        290,
+        1098,
+        1080
+      ],
+      "deskewDegrees": 0,
+      "note": null
+    },
+    {
+      "originalPdfPage": 157,
+      "cleanedViewerPage": 157,
+      "renderDpi": 140,
+      "sourcePixelSize": [
+        1540,
+        1190
+      ],
+      "cropPixels": [
+        0,
+        252,
+        1093,
+        1048
+      ],
+      "deskewDegrees": 0,
+      "note": null
+    },
+    {
+      "originalPdfPage": 158,
+      "cleanedViewerPage": 158,
+      "renderDpi": 140,
+      "sourcePixelSize": [
+        1561,
+        1218
+      ],
+      "cropPixels": [
+        0,
+        252,
+        1129,
+        1078
+      ],
+      "deskewDegrees": 0,
+      "note": null
+    },
+    {
+      "originalPdfPage": 159,
+      "cleanedViewerPage": 159,
+      "renderDpi": 140,
+      "sourcePixelSize": [
+        1558,
+        1216
+      ],
+      "cropPixels": [
+        0,
+        249,
+        1115,
+        1073
+      ],
+      "deskewDegrees": 0,
+      "note": null
+    },
+    {
+      "originalPdfPage": 160,
+      "cleanedViewerPage": 160,
+      "renderDpi": 140,
+      "sourcePixelSize": [
+        1558,
+        1216
+      ],
+      "cropPixels": [
+        0,
+        249,
+        1118,
+        1076
+      ],
+      "deskewDegrees": 0,
+      "note": null
+    },
+    {
+      "originalPdfPage": 161,
+      "cleanedViewerPage": 161,
+      "renderDpi": 140,
+      "sourcePixelSize": [
+        1556,
+        1212
+      ],
+      "cropPixels": [
+        0,
+        245,
+        1116,
+        1071
+      ],
+      "deskewDegrees": 0,
+      "note": null
+    },
+    {
+      "originalPdfPage": 162,
+      "cleanedViewerPage": 162,
+      "renderDpi": 140,
+      "sourcePixelSize": [
+        1558,
+        1216
+      ],
+      "cropPixels": [
+        0,
+        249,
+        1112,
+        1076
+      ],
+      "deskewDegrees": 0,
+      "note": null
+    },
+    {
+      "originalPdfPage": 163,
+      "cleanedViewerPage": 163,
+      "renderDpi": 140,
+      "sourcePixelSize": [
+        1556,
+        1212
+      ],
+      "cropPixels": [
+        0,
+        245,
+        1107,
+        1071
+      ],
+      "deskewDegrees": 0,
+      "note": null
+    },
+    {
+      "originalPdfPage": 164,
+      "cleanedViewerPage": 164,
+      "renderDpi": 140,
+      "sourcePixelSize": [
+        1558,
+        1216
+      ],
+      "cropPixels": [
+        0,
+        246,
+        1127,
+        1073
+      ],
+      "deskewDegrees": 0,
+      "note": null
+    },
+    {
+      "originalPdfPage": 165,
+      "cleanedViewerPage": 165,
+      "renderDpi": 140,
+      "sourcePixelSize": [
+        1540,
+        1190
+      ],
+      "cropPixels": [
+        0,
+        264,
+        1131,
+        1054
+      ],
+      "deskewDegrees": 0,
+      "note": null
+    },
+    {
+      "originalPdfPage": 166,
+      "cleanedViewerPage": 166,
+      "renderDpi": 140,
+      "sourcePixelSize": [
+        1540,
+        1190
+      ],
+      "cropPixels": [
+        0,
+        264,
+        1087,
+        1060
+      ],
+      "deskewDegrees": 0,
+      "note": null
+    },
+    {
+      "originalPdfPage": 167,
+      "cleanedViewerPage": 167,
+      "renderDpi": 140,
+      "sourcePixelSize": [
+        1540,
+        1190
+      ],
+      "cropPixels": [
+        0,
+        267,
+        1078,
+        1060
+      ],
+      "deskewDegrees": 0,
+      "note": null
+    },
+    {
+      "originalPdfPage": 168,
+      "cleanedViewerPage": 168,
+      "renderDpi": 140,
+      "sourcePixelSize": [
+        1556,
+        1212
+      ],
+      "cropPixels": [
+        0,
+        314,
+        1089,
+        1077
+      ],
+      "deskewDegrees": 0,
+      "note": null
+    },
+    {
+      "originalPdfPage": 169,
+      "cleanedViewerPage": 169,
+      "renderDpi": 140,
+      "sourcePixelSize": [
+        1556,
+        1212
+      ],
+      "cropPixels": [
+        0,
+        317,
+        1014,
+        1128
+      ],
+      "deskewDegrees": 0,
+      "note": null
+    },
+    {
+      "originalPdfPage": 170,
+      "cleanedViewerPage": 170,
+      "renderDpi": 140,
+      "sourcePixelSize": [
+        1568,
+        1228
+      ],
+      "cropPixels": [
+        0,
+        338,
+        1031,
+        1128
+      ],
+      "deskewDegrees": 0,
+      "note": null
+    },
+    {
+      "originalPdfPage": 171,
+      "cleanedViewerPage": 171,
+      "renderDpi": 140,
+      "sourcePixelSize": [
+        1570,
+        1231
+      ],
+      "cropPixels": [
+        0,
+        329,
+        1039,
+        1126
+      ],
+      "deskewDegrees": 0,
+      "note": null
+    },
+    {
+      "originalPdfPage": 172,
+      "cleanedViewerPage": 172,
+      "renderDpi": 140,
+      "sourcePixelSize": [
+        1549,
+        1203
+      ],
+      "cropPixels": [
+        0,
+        307,
+        1022,
+        1114
+      ],
+      "deskewDegrees": 0,
+      "note": null
+    },
+    {
+      "originalPdfPage": 173,
+      "cleanedViewerPage": 173,
+      "renderDpi": 140,
+      "sourcePixelSize": [
+        1540,
+        1190
+      ],
+      "cropPixels": [
+        0,
+        293,
+        1013,
+        1108
+      ],
+      "deskewDegrees": 0,
+      "note": null
+    },
+    {
+      "originalPdfPage": 174,
+      "cleanedViewerPage": 174,
+      "renderDpi": 140,
+      "sourcePixelSize": [
+        1549,
+        1203
+      ],
+      "cropPixels": [
+        0,
+        307,
+        1019,
+        1111
+      ],
+      "deskewDegrees": 0,
+      "note": null
+    },
+    {
+      "originalPdfPage": 175,
+      "cleanedViewerPage": 175,
+      "renderDpi": 140,
+      "sourcePixelSize": [
+        1540,
+        1190
+      ],
+      "cropPixels": [
+        0,
+        299,
+        1007,
+        1114
+      ],
+      "deskewDegrees": 0,
+      "note": null
+    },
+    {
+      "originalPdfPage": 176,
+      "cleanedViewerPage": 176,
+      "renderDpi": 140,
+      "sourcePixelSize": [
+        1540,
+        1190
+      ],
+      "cropPixels": [
+        0,
+        296,
+        1004,
+        1125
+      ],
+      "deskewDegrees": 0,
+      "note": null
+    },
+    {
+      "originalPdfPage": 177,
+      "cleanedViewerPage": 177,
+      "renderDpi": 140,
+      "sourcePixelSize": [
+        1540,
+        1190
+      ],
+      "cropPixels": [
+        0,
+        296,
+        1004,
+        1131
+      ],
+      "deskewDegrees": 0,
+      "note": null
+    },
+    {
+      "originalPdfPage": 178,
+      "cleanedViewerPage": 178,
+      "renderDpi": 140,
+      "sourcePixelSize": [
+        1540,
+        1190
+      ],
+      "cropPixels": [
+        0,
+        296,
+        1004,
+        1131
+      ],
+      "deskewDegrees": 0,
+      "note": null
+    },
+    {
+      "originalPdfPage": 179,
+      "cleanedViewerPage": 179,
+      "renderDpi": 140,
+      "sourcePixelSize": [
+        1540,
+        1190
+      ],
+      "cropPixels": [
+        0,
+        296,
+        1007,
+        1128
+      ],
+      "deskewDegrees": 0,
+      "note": null
+    },
+    {
+      "originalPdfPage": 180,
+      "cleanedViewerPage": 180,
+      "renderDpi": 140,
+      "sourcePixelSize": [
+        1540,
+        1190
+      ],
+      "cropPixels": [
+        0,
+        299,
+        1007,
+        1134
+      ],
+      "deskewDegrees": 0,
+      "note": null
+    },
+    {
+      "originalPdfPage": 181,
+      "cleanedViewerPage": 181,
+      "renderDpi": 140,
+      "sourcePixelSize": [
+        1540,
+        1190
+      ],
+      "cropPixels": [
+        0,
+        296,
+        1004,
+        1137
+      ],
+      "deskewDegrees": 0,
+      "note": null
+    },
+    {
+      "originalPdfPage": 182,
+      "cleanedViewerPage": 182,
+      "renderDpi": 140,
+      "sourcePixelSize": [
+        1547,
+        1200
+      ],
+      "cropPixels": [
+        0,
+        303,
+        1035,
+        1142
+      ],
+      "deskewDegrees": 0,
+      "note": null
+    },
+    {
+      "originalPdfPage": 183,
+      "cleanedViewerPage": 183,
+      "renderDpi": 140,
+      "sourcePixelSize": [
+        1547,
+        1200
+      ],
+      "cropPixels": [
+        0,
+        303,
+        1035,
+        1125
+      ],
+      "deskewDegrees": 0,
+      "note": null
+    },
+    {
+      "originalPdfPage": 184,
+      "cleanedViewerPage": 184,
+      "renderDpi": 140,
+      "sourcePixelSize": [
+        1547,
+        1200
+      ],
+      "cropPixels": [
+        0,
+        306,
+        1038,
+        1125
+      ],
+      "deskewDegrees": 0,
+      "note": null
+    },
+    {
+      "originalPdfPage": 185,
+      "cleanedViewerPage": 185,
+      "renderDpi": 140,
+      "sourcePixelSize": [
+        1540,
+        1190
+      ],
+      "cropPixels": [
+        0,
+        352,
+        1028,
+        1119
+      ],
+      "deskewDegrees": 0,
+      "note": null
+    },
+    {
+      "originalPdfPage": 186,
+      "cleanedViewerPage": 186,
+      "renderDpi": 140,
+      "sourcePixelSize": [
+        1540,
+        1190
+      ],
+      "cropPixels": [
+        0,
+        355,
+        1034,
+        1125
+      ],
+      "deskewDegrees": 0,
+      "note": null
+    },
+    {
+      "originalPdfPage": 187,
+      "cleanedViewerPage": 187,
+      "renderDpi": 140,
+      "sourcePixelSize": [
+        1550,
+        1202
+      ],
+      "cropPixels": [
+        0,
+        361,
+        1082,
+        1130
+      ],
+      "deskewDegrees": 0,
+      "note": null
+    },
+    {
+      "originalPdfPage": 188,
+      "cleanedViewerPage": 188,
+      "renderDpi": 140,
+      "sourcePixelSize": [
+        1553,
+        1205
+      ],
+      "cropPixels": [
+        0,
+        358,
+        1081,
+        1129
+      ],
+      "deskewDegrees": 0,
+      "note": null
+    },
+    {
+      "originalPdfPage": 189,
+      "cleanedViewerPage": 189,
+      "renderDpi": 140,
+      "sourcePixelSize": [
+        1553,
+        1205
+      ],
+      "cropPixels": [
+        0,
+        361,
+        1084,
+        1129
+      ],
+      "deskewDegrees": 0,
+      "note": null
+    },
+    {
+      "originalPdfPage": 190,
+      "cleanedViewerPage": 190,
+      "renderDpi": 140,
+      "sourcePixelSize": [
+        1553,
+        1205
+      ],
+      "cropPixels": [
+        0,
+        358,
+        1084,
+        1126
+      ],
+      "deskewDegrees": 0,
+      "note": null
+    },
+    {
+      "originalPdfPage": 191,
+      "cleanedViewerPage": 191,
+      "renderDpi": 140,
+      "sourcePixelSize": [
+        1553,
+        1205
+      ],
+      "cropPixels": [
+        0,
+        358,
+        1084,
+        1129
+      ],
+      "deskewDegrees": 0,
+      "note": null
+    },
+    {
+      "originalPdfPage": 192,
+      "cleanedViewerPage": 192,
+      "renderDpi": 140,
+      "sourcePixelSize": [
+        1550,
+        1202
+      ],
+      "cropPixels": [
+        0,
+        358,
+        1082,
+        1124
+      ],
+      "deskewDegrees": 0,
+      "note": null
+    },
+    {
+      "originalPdfPage": 193,
+      "cleanedViewerPage": 193,
+      "renderDpi": 140,
+      "sourcePixelSize": [
+        1550,
+        1202
+      ],
+      "cropPixels": [
+        0,
+        361,
+        1079,
+        1127
+      ],
+      "deskewDegrees": 0,
+      "note": null
+    },
+    {
+      "originalPdfPage": 194,
+      "cleanedViewerPage": 194,
+      "renderDpi": 140,
+      "sourcePixelSize": [
+        1553,
+        1205
+      ],
+      "cropPixels": [
+        0,
+        358,
+        1081,
+        1123
+      ],
+      "deskewDegrees": 0,
+      "note": null
+    },
+    {
+      "originalPdfPage": 195,
+      "cleanedViewerPage": 195,
+      "renderDpi": 140,
+      "sourcePixelSize": [
+        1550,
+        1202
+      ],
+      "cropPixels": [
+        0,
+        361,
+        1082,
+        1124
+      ],
+      "deskewDegrees": 0,
+      "note": null
+    },
+    {
+      "originalPdfPage": 196,
+      "cleanedViewerPage": 196,
+      "renderDpi": 140,
+      "sourcePixelSize": [
+        1540,
+        1190
+      ],
+      "cropPixels": [
+        0,
+        355,
+        1051,
+        1116
+      ],
+      "deskewDegrees": 0,
+      "note": null
+    },
+    {
+      "originalPdfPage": 197,
+      "cleanedViewerPage": 197,
+      "renderDpi": 140,
+      "sourcePixelSize": [
+        1543,
+        1194
+      ],
+      "cropPixels": [
+        0,
+        0,
+        1543,
+        1194
+      ],
+      "deskewDegrees": 0,
+      "note": "No stable photographed-content boundary detected; full page preserved."
+    },
+    {
+      "originalPdfPage": 198,
+      "cleanedViewerPage": 198,
+      "renderDpi": 140,
+      "sourcePixelSize": [
+        1582,
+        1241
+      ],
+      "cropPixels": [
+        0,
+        380,
+        1095,
+        1141
+      ],
+      "deskewDegrees": 0,
+      "note": null
+    },
+    {
+      "originalPdfPage": 199,
+      "cleanedViewerPage": 199,
+      "renderDpi": 140,
+      "sourcePixelSize": [
+        1550,
+        1203
+      ],
+      "cropPixels": [
+        0,
+        361,
+        1067,
+        1127
+      ],
+      "deskewDegrees": 0,
+      "note": null
+    },
+    {
+      "originalPdfPage": 200,
+      "cleanedViewerPage": 200,
+      "renderDpi": 140,
+      "sourcePixelSize": [
+        1552,
+        1206
+      ],
+      "cropPixels": [
+        0,
+        361,
+        1068,
+        1125
+      ],
+      "deskewDegrees": 0,
+      "note": null
+    },
+    {
+      "originalPdfPage": 201,
+      "cleanedViewerPage": 201,
+      "renderDpi": 140,
+      "sourcePixelSize": [
+        1540,
+        1190
+      ],
+      "cropPixels": [
+        0,
+        355,
+        1063,
+        1116
+      ],
+      "deskewDegrees": 0,
+      "note": null
+    },
+    {
+      "originalPdfPage": 202,
+      "cleanedViewerPage": 202,
+      "renderDpi": 140,
+      "sourcePixelSize": [
+        1552,
+        1206
+      ],
+      "cropPixels": [
+        0,
+        367,
+        1068,
+        1116
+      ],
+      "deskewDegrees": 0,
+      "note": null
+    },
+    {
+      "originalPdfPage": 203,
+      "cleanedViewerPage": 203,
+      "renderDpi": 140,
+      "sourcePixelSize": [
+        1540,
+        1190
+      ],
+      "cropPixels": [
+        0,
+        358,
+        1066,
+        1114
+      ],
+      "deskewDegrees": 0,
+      "note": null
+    },
+    {
+      "originalPdfPage": 204,
+      "cleanedViewerPage": 204,
+      "renderDpi": 140,
+      "sourcePixelSize": [
+        1550,
+        1203
+      ],
+      "cropPixels": [
+        0,
+        361,
+        1073,
+        1121
+      ],
+      "deskewDegrees": 0,
+      "note": null
+    },
+    {
+      "originalPdfPage": 205,
+      "cleanedViewerPage": 205,
+      "renderDpi": 140,
+      "sourcePixelSize": [
+        1542,
+        1194
+      ],
+      "cropPixels": [
+        0,
+        353,
+        1068,
+        1112
+      ],
+      "deskewDegrees": 0,
+      "note": null
+    },
+    {
+      "originalPdfPage": 206,
+      "cleanedViewerPage": 206,
+      "renderDpi": 140,
+      "sourcePixelSize": [
+        1540,
+        1190
+      ],
+      "cropPixels": [
+        0,
+        355,
+        1066,
+        1114
+      ],
+      "deskewDegrees": 0,
+      "note": null
+    },
+    {
+      "originalPdfPage": 207,
+      "cleanedViewerPage": 207,
+      "renderDpi": 140,
+      "sourcePixelSize": [
+        1540,
+        1190
+      ],
+      "cropPixels": [
+        0,
+        355,
+        1066,
+        1114
+      ],
+      "deskewDegrees": 0,
+      "note": null
+    },
+    {
+      "originalPdfPage": 208,
+      "cleanedViewerPage": 208,
+      "renderDpi": 140,
+      "sourcePixelSize": [
+        1540,
+        1190
+      ],
+      "cropPixels": [
+        0,
+        352,
+        1066,
+        1122
+      ],
+      "deskewDegrees": 0,
+      "note": null
+    },
+    {
+      "originalPdfPage": 209,
+      "cleanedViewerPage": 209,
+      "renderDpi": 140,
+      "sourcePixelSize": [
+        1540,
+        1190
+      ],
+      "cropPixels": [
+        0,
+        355,
+        1066,
+        1125
+      ],
+      "deskewDegrees": 0,
+      "note": null
+    },
+    {
+      "originalPdfPage": 210,
+      "cleanedViewerPage": 210,
+      "renderDpi": 140,
+      "sourcePixelSize": [
+        1540,
+        1190
+      ],
+      "cropPixels": [
+        0,
+        355,
+        1066,
+        1125
+      ],
+      "deskewDegrees": 0,
+      "note": null
+    },
+    {
+      "originalPdfPage": 211,
+      "cleanedViewerPage": 211,
+      "renderDpi": 140,
+      "sourcePixelSize": [
+        1545,
+        1197
+      ],
+      "cropPixels": [
+        0,
+        389,
+        1070,
+        1123
+      ],
+      "deskewDegrees": 0,
+      "note": null
+    },
+    {
+      "originalPdfPage": 212,
+      "cleanedViewerPage": 212,
+      "renderDpi": 140,
+      "sourcePixelSize": [
+        1547,
+        1200
+      ],
+      "cropPixels": [
+        0,
+        387,
+        1068,
+        1122
+      ],
+      "deskewDegrees": 0,
+      "note": null
+    },
+    {
+      "originalPdfPage": 213,
+      "cleanedViewerPage": 213,
+      "renderDpi": 140,
+      "sourcePixelSize": [
+        1550,
+        1203
+      ],
+      "cropPixels": [
+        0,
+        382,
+        1070,
+        1127
+      ],
+      "deskewDegrees": 0,
+      "note": null
+    },
+    {
+      "originalPdfPage": 214,
+      "cleanedViewerPage": 214,
+      "renderDpi": 140,
+      "sourcePixelSize": [
+        1550,
+        1203
+      ],
+      "cropPixels": [
+        0,
+        382,
+        1070,
+        1124
+      ],
+      "deskewDegrees": 0,
+      "note": null
+    },
+    {
+      "originalPdfPage": 215,
+      "cleanedViewerPage": 215,
+      "renderDpi": 140,
+      "sourcePixelSize": [
+        1550,
+        1203
+      ],
+      "cropPixels": [
+        0,
+        382,
+        1070,
+        1124
+      ],
+      "deskewDegrees": 0,
+      "note": null
+    },
+    {
+      "originalPdfPage": 216,
+      "cleanedViewerPage": 216,
+      "renderDpi": 140,
+      "sourcePixelSize": [
+        1559,
+        1215
+      ],
+      "cropPixels": [
+        0,
+        387,
+        1073,
+        1133
+      ],
+      "deskewDegrees": 0,
+      "note": null
+    },
+    {
+      "originalPdfPage": 217,
+      "cleanedViewerPage": 217,
+      "renderDpi": 140,
+      "sourcePixelSize": [
+        1547,
+        1200
+      ],
+      "cropPixels": [
+        0,
+        360,
+        1071,
+        1128
+      ],
+      "deskewDegrees": 0,
+      "note": null
+    },
+    {
+      "originalPdfPage": 218,
+      "cleanedViewerPage": 218,
+      "renderDpi": 140,
+      "sourcePixelSize": [
+        1561,
+        1218
+      ],
+      "cropPixels": [
+        0,
+        399,
+        1078,
+        1135
+      ],
+      "deskewDegrees": 0,
+      "note": null
+    },
+    {
+      "originalPdfPage": 219,
+      "cleanedViewerPage": 219,
+      "renderDpi": 140,
+      "sourcePixelSize": [
+        1550,
+        1202
+      ],
+      "cropPixels": [
+        0,
+        364,
+        1076,
+        1124
+      ],
+      "deskewDegrees": 0,
+      "note": null
+    },
+    {
+      "originalPdfPage": 220,
+      "cleanedViewerPage": 220,
+      "renderDpi": 140,
+      "sourcePixelSize": [
+        1550,
+        1202
+      ],
+      "cropPixels": [
+        0,
+        367,
+        1076,
+        1127
+      ],
+      "deskewDegrees": 0,
+      "note": null
+    },
+    {
+      "originalPdfPage": 221,
+      "cleanedViewerPage": 221,
+      "renderDpi": 140,
+      "sourcePixelSize": [
+        1540,
+        1190
+      ],
+      "cropPixels": [
+        0,
+        388,
+        1069,
+        1128
+      ],
+      "deskewDegrees": 0,
+      "note": null
+    },
+    {
+      "originalPdfPage": 222,
+      "cleanedViewerPage": 222,
+      "renderDpi": 140,
+      "sourcePixelSize": [
+        1550,
+        1202
+      ],
+      "cropPixels": [
+        0,
+        370,
+        1073,
+        1133
+      ],
+      "deskewDegrees": 0,
+      "note": null
+    },
+    {
+      "originalPdfPage": 223,
+      "cleanedViewerPage": 223,
+      "renderDpi": 140,
+      "sourcePixelSize": [
+        1540,
+        1190
+      ],
+      "cropPixels": [
+        0,
+        361,
+        1066,
+        1128
+      ],
+      "deskewDegrees": 0,
+      "note": null
+    },
+    {
+      "originalPdfPage": 224,
+      "cleanedViewerPage": 224,
+      "renderDpi": 140,
+      "sourcePixelSize": [
+        1550,
+        1202
+      ],
+      "cropPixels": [
+        0,
+        367,
+        1076,
+        1136
+      ],
+      "deskewDegrees": 0,
+      "note": null
+    },
+    {
+      "originalPdfPage": 225,
+      "cleanedViewerPage": 225,
+      "renderDpi": 140,
+      "sourcePixelSize": [
+        1540,
+        1190
+      ],
+      "cropPixels": [
+        0,
+        364,
+        1066,
+        1131
+      ],
+      "deskewDegrees": 0,
+      "note": null
+    },
+    {
+      "originalPdfPage": 226,
+      "cleanedViewerPage": 226,
+      "renderDpi": 140,
+      "sourcePixelSize": [
+        1548,
+        1199
+      ],
+      "cropPixels": [
+        0,
+        414,
+        1131,
+        1134
+      ],
+      "deskewDegrees": 0,
+      "note": null
+    },
+    {
+      "originalPdfPage": 227,
+      "cleanedViewerPage": 227,
+      "renderDpi": 140,
+      "sourcePixelSize": [
+        1540,
+        1190
+      ],
+      "cropPixels": [
+        0,
+        349,
+        1028,
+        1128
+      ],
+      "deskewDegrees": 0,
+      "note": null
+    },
+    {
+      "originalPdfPage": 228,
+      "cleanedViewerPage": 228,
+      "renderDpi": 140,
+      "sourcePixelSize": [
+        1540,
+        1190
+      ],
+      "cropPixels": [
+        0,
+        349,
+        1022,
+        1128
+      ],
+      "deskewDegrees": 0,
+      "note": null
+    },
+    {
+      "originalPdfPage": 229,
+      "cleanedViewerPage": 229,
+      "renderDpi": 140,
+      "sourcePixelSize": [
+        1560,
+        1214
+      ],
+      "cropPixels": [
+        0,
+        366,
+        1029,
+        1152
+      ],
+      "deskewDegrees": 0,
+      "note": null
+    },
+    {
+      "originalPdfPage": 230,
+      "cleanedViewerPage": 230,
+      "renderDpi": 140,
+      "sourcePixelSize": [
+        1540,
+        1190
+      ],
+      "cropPixels": [
+        0,
+        349,
+        1004,
+        1134
+      ],
+      "deskewDegrees": 0,
+      "note": null
+    },
+    {
+      "originalPdfPage": 231,
+      "cleanedViewerPage": 231,
+      "renderDpi": 140,
+      "sourcePixelSize": [
+        1560,
+        1214
+      ],
+      "cropPixels": [
+        0,
+        369,
+        1053,
+        1155
+      ],
+      "deskewDegrees": 0,
+      "note": null
+    },
+    {
+      "originalPdfPage": 232,
+      "cleanedViewerPage": 232,
+      "renderDpi": 140,
+      "sourcePixelSize": [
+        1542,
+        1194
+      ],
+      "cropPixels": [
+        0,
+        347,
+        1035,
+        1136
+      ],
+      "deskewDegrees": 0,
+      "note": null
+    },
+    {
+      "originalPdfPage": 233,
+      "cleanedViewerPage": 233,
+      "renderDpi": 140,
+      "sourcePixelSize": [
+        1560,
+        1214
+      ],
+      "cropPixels": [
+        0,
+        366,
+        1053,
+        1155
+      ],
+      "deskewDegrees": 0,
+      "note": null
+    },
+    {
+      "originalPdfPage": 234,
+      "cleanedViewerPage": 234,
+      "renderDpi": 140,
+      "sourcePixelSize": [
+        1560,
+        1214
+      ],
+      "cropPixels": [
+        0,
+        354,
+        1053,
+        1167
+      ],
+      "deskewDegrees": 0,
+      "note": null
+    },
+    {
+      "originalPdfPage": 235,
+      "cleanedViewerPage": 235,
+      "renderDpi": 140,
+      "sourcePixelSize": [
+        1560,
+        1214
+      ],
+      "cropPixels": [
+        0,
+        351,
+        1053,
+        1164
+      ],
+      "deskewDegrees": 0,
+      "note": null
+    },
+    {
+      "originalPdfPage": 236,
+      "cleanedViewerPage": 236,
+      "renderDpi": 140,
+      "sourcePixelSize": [
+        1546,
+        1196
+      ],
+      "cropPixels": [
+        0,
+        345,
+        1044,
+        1151
+      ],
+      "deskewDegrees": 0,
+      "note": null
+    },
+    {
+      "originalPdfPage": 237,
+      "cleanedViewerPage": 237,
+      "renderDpi": 140,
+      "sourcePixelSize": [
+        1543,
+        1193
+      ],
+      "cropPixels": [
+        0,
+        335,
+        1039,
+        1148
+      ],
+      "deskewDegrees": 0,
+      "note": null
+    },
+    {
+      "originalPdfPage": 238,
+      "cleanedViewerPage": 238,
+      "renderDpi": 140,
+      "sourcePixelSize": [
+        1546,
+        1196
+      ],
+      "cropPixels": [
+        0,
+        339,
+        1044,
+        1154
+      ],
+      "deskewDegrees": 0,
+      "note": null
+    },
+    {
+      "originalPdfPage": 239,
+      "cleanedViewerPage": 239,
+      "renderDpi": 140,
+      "sourcePixelSize": [
+        1546,
+        1196
+      ],
+      "cropPixels": [
+        0,
+        342,
+        1035,
+        1148
+      ],
+      "deskewDegrees": 0,
+      "note": null
+    },
+    {
+      "originalPdfPage": 240,
+      "cleanedViewerPage": 240,
+      "renderDpi": 140,
+      "sourcePixelSize": [
+        1540,
+        1190
+      ],
+      "cropPixels": [
+        0,
+        338,
+        1031,
+        1152
+      ],
+      "deskewDegrees": 0,
+      "note": null
+    },
+    {
+      "originalPdfPage": 241,
+      "cleanedViewerPage": 241,
+      "renderDpi": 140,
+      "sourcePixelSize": [
+        1540,
+        1190
+      ],
+      "cropPixels": [
+        0,
+        338,
+        1031,
+        1149
+      ],
+      "deskewDegrees": 0,
+      "note": null
+    },
+    {
+      "originalPdfPage": 242,
+      "cleanedViewerPage": 242,
+      "renderDpi": 140,
+      "sourcePixelSize": [
+        1540,
+        1190
+      ],
+      "cropPixels": [
+        0,
+        338,
+        1031,
+        1149
+      ],
+      "deskewDegrees": 0,
+      "note": null
+    },
+    {
+      "originalPdfPage": 243,
+      "cleanedViewerPage": 243,
+      "renderDpi": 140,
+      "sourcePixelSize": [
+        1567,
+        1223
+      ],
+      "cropPixels": [
+        0,
+        365,
+        1067,
+        1172
+      ],
+      "deskewDegrees": 0,
+      "note": null
+    },
+    {
+      "originalPdfPage": 244,
+      "cleanedViewerPage": 244,
+      "renderDpi": 140,
+      "sourcePixelSize": [
+        1540,
+        1190
+      ],
+      "cropPixels": [
+        0,
+        335,
+        1090,
+        1149
+      ],
+      "deskewDegrees": 0,
+      "note": null
+    },
+    {
+      "originalPdfPage": 245,
+      "cleanedViewerPage": 245,
+      "renderDpi": 140,
+      "sourcePixelSize": [
+        1567,
+        1223
+      ],
+      "cropPixels": [
+        0,
+        365,
+        1097,
+        1175
+      ],
+      "deskewDegrees": 0,
+      "note": null
+    },
+    {
+      "originalPdfPage": 246,
+      "cleanedViewerPage": 246,
+      "renderDpi": 140,
+      "sourcePixelSize": [
+        1567,
+        1223
+      ],
+      "cropPixels": [
+        0,
+        365,
+        1097,
+        1175
+      ],
+      "deskewDegrees": 0,
+      "note": null
+    },
+    {
+      "originalPdfPage": 247,
+      "cleanedViewerPage": 247,
+      "renderDpi": 140,
+      "sourcePixelSize": [
+        1582,
+        1241
+      ],
+      "cropPixels": [
+        0,
+        356,
+        1107,
+        1193
+      ],
+      "deskewDegrees": 0,
+      "note": null
+    },
+    {
+      "originalPdfPage": 248,
+      "cleanedViewerPage": 248,
+      "renderDpi": 140,
+      "sourcePixelSize": [
+        1548,
+        1199
+      ],
+      "cropPixels": [
+        0,
+        319,
+        1081,
+        1158
+      ],
+      "deskewDegrees": 0,
+      "note": null
+    },
+    {
+      "originalPdfPage": 249,
+      "cleanedViewerPage": 249,
+      "renderDpi": 140,
+      "sourcePixelSize": [
+        1548,
+        1199
+      ],
+      "cropPixels": [
+        0,
+        330,
+        1104,
+        1158
+      ],
+      "deskewDegrees": 0,
+      "note": null
+    },
+    {
+      "originalPdfPage": 250,
+      "cleanedViewerPage": 250,
+      "renderDpi": 140,
+      "sourcePixelSize": [
+        1540,
+        1190
+      ],
+      "cropPixels": [
+        0,
+        329,
+        1054,
+        1155
+      ],
+      "deskewDegrees": 0,
+      "note": null
+    },
+    {
+      "originalPdfPage": 251,
+      "cleanedViewerPage": 251,
+      "renderDpi": 140,
+      "sourcePixelSize": [
+        1540,
+        1190
+      ],
+      "cropPixels": [
+        0,
+        326,
+        1054,
+        1152
+      ],
+      "deskewDegrees": 0,
+      "note": null
+    },
+    {
+      "originalPdfPage": 252,
+      "cleanedViewerPage": 252,
+      "renderDpi": 140,
+      "sourcePixelSize": [
+        1540,
+        1190
+      ],
+      "cropPixels": [
+        0,
+        326,
+        1054,
+        1152
+      ],
+      "deskewDegrees": 0,
+      "note": null
+    },
+    {
+      "originalPdfPage": 253,
+      "cleanedViewerPage": 253,
+      "renderDpi": 140,
+      "sourcePixelSize": [
+        1543,
+        1193
+      ],
+      "cropPixels": [
+        0,
+        329,
+        1053,
+        1154
+      ],
+      "deskewDegrees": 0,
+      "note": null
+    },
+    {
+      "originalPdfPage": 254,
+      "cleanedViewerPage": 254,
+      "renderDpi": 140,
+      "sourcePixelSize": [
+        1540,
+        1190
+      ],
+      "cropPixels": [
+        0,
+        326,
+        1054,
+        1152
+      ],
+      "deskewDegrees": 0,
+      "note": null
+    },
+    {
+      "originalPdfPage": 255,
+      "cleanedViewerPage": 255,
+      "renderDpi": 140,
+      "sourcePixelSize": [
+        1577,
+        1235
+      ],
+      "cropPixels": [
+        0,
+        367,
+        1083,
+        1180
+      ],
+      "deskewDegrees": 0,
+      "note": null
+    },
+    {
+      "originalPdfPage": 256,
+      "cleanedViewerPage": 256,
+      "renderDpi": 140,
+      "sourcePixelSize": [
+        1557,
+        1211
+      ],
+      "cropPixels": [
+        0,
+        350,
+        1069,
+        1162
+      ],
+      "deskewDegrees": 0,
+      "note": null
+    },
+    {
+      "originalPdfPage": 257,
+      "cleanedViewerPage": 257,
+      "renderDpi": 140,
+      "sourcePixelSize": [
+        1560,
+        1214
+      ],
+      "cropPixels": [
+        0,
+        345,
+        1071,
+        1158
+      ],
+      "deskewDegrees": 0,
+      "note": null
+    },
+    {
+      "originalPdfPage": 258,
+      "cleanedViewerPage": 258,
+      "renderDpi": 140,
+      "sourcePixelSize": [
+        1560,
+        1214
+      ],
+      "cropPixels": [
+        0,
+        351,
+        1071,
+        1164
+      ],
+      "deskewDegrees": 0,
+      "note": null
+    },
+    {
+      "originalPdfPage": 259,
+      "cleanedViewerPage": 259,
+      "renderDpi": 140,
+      "sourcePixelSize": [
+        1543,
+        1193
+      ],
+      "cropPixels": [
+        0,
+        252,
+        1062,
+        1095
+      ],
+      "deskewDegrees": 0,
+      "note": null
+    },
+    {
+      "originalPdfPage": 260,
+      "cleanedViewerPage": 260,
+      "renderDpi": 140,
+      "sourcePixelSize": [
+        1584,
+        1244
+      ],
+      "cropPixels": [
+        0,
+        295,
+        1087,
+        1142
+      ],
+      "deskewDegrees": 0,
+      "note": null
+    },
+    {
+      "originalPdfPage": 261,
+      "cleanedViewerPage": 261,
+      "renderDpi": 140,
+      "sourcePixelSize": [
+        1546,
+        1196
+      ],
+      "cropPixels": [
+        0,
+        253,
+        1064,
+        1112
+      ],
+      "deskewDegrees": 0,
+      "note": null
+    },
+    {
+      "originalPdfPage": 262,
+      "cleanedViewerPage": 262,
+      "renderDpi": 140,
+      "sourcePixelSize": [
+        1540,
+        1190
+      ],
+      "cropPixels": [
+        0,
+        249,
+        1057,
+        1108
+      ],
+      "deskewDegrees": 0,
+      "note": null
+    },
+    {
+      "originalPdfPage": 263,
+      "cleanedViewerPage": 263,
+      "renderDpi": 140,
+      "sourcePixelSize": [
+        1193,
+        1543
+      ],
+      "cropPixels": [
+        0,
+        0,
+        1193,
+        1543
+      ],
+      "deskewDegrees": 0,
+      "note": "No stable photographed-content boundary detected; full page preserved."
+    },
+    {
+      "originalPdfPage": 264,
+      "cleanedViewerPage": 264,
+      "renderDpi": 140,
+      "sourcePixelSize": [
+        1540,
+        1190
+      ],
+      "cropPixels": [
+        0,
+        0,
+        1540,
+        1191
+      ],
+      "deskewDegrees": 0,
+      "note": null
+    },
+    {
+      "originalPdfPage": 265,
+      "cleanedViewerPage": 265,
+      "renderDpi": 140,
+      "sourcePixelSize": [
+        1542,
+        1194
+      ],
+      "cropPixels": [
+        0,
+        0,
+        1542,
+        1195
+      ],
+      "deskewDegrees": 0,
+      "note": null
+    }
+  ]
+}

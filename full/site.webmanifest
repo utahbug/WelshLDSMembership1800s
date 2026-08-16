@@ -1,7 +1,7 @@
 {
-  "name": "LDS Welsh Membership Records",
-  "short_name": "Welsh Records",
-  "description": "Historical Welsh Latter-day Saint branches, membership records, transcriptions, and minutes.",
+  "name": "Welsh DEV — Local Development",
+  "short_name": "Welsh DEV",
+  "description": "Local development build of LDS Welsh Membership Records; not published.",
   "start_url": "./",
   "scope": "./",
   "display": "standalone",
@@ -9,12 +9,12 @@
   "theme_color": "#163c31",
   "icons": [
     {
-      "src": "assets/app-icon-192.png",
+      "src": "assets/app-icon-beta-192.png",
       "sizes": "192x192",
       "type": "image/png"
     },
     {
-      "src": "assets/app-icon-512.png",
+      "src": "assets/app-icon-beta-512.png",
       "sizes": "512x512",
       "type": "image/png"
     }

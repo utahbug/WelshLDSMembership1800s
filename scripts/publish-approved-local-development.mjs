@@ -27,6 +27,23 @@ if (validator.status !== 0) {
 
 fs.rmSync(staging, { recursive: true, force: true });
 fs.cpSync(source, staging, { recursive: true });
+// GitHub rejects individual files over 100 MB. Preserve the supplied source
+// PDFs outside /full/ and use page-identical web derivatives for oversized
+// viewer files. After the first release, the existing /full/ derivative is a
+// valid fallback for later promotions.
+for (const name of ["prophet-of-the-jubilee.pdf", "on-trial-welsh-press.pdf", "zions-trumpet-1849.pdf"]) {
+  const generated = path.join(root, "output/pdf/web", name);
+  const existingFull = path.join(target, "books", name);
+  const webSource = fs.existsSync(generated) ? generated : existingFull;
+  if (!fs.existsSync(webSource) || fs.statSync(webSource).size >= 100_000_000) {
+    throw new Error(`A sub-100 MB web derivative is required before publishing: ${name}`);
+  }
+  fs.copyFileSync(webSource, path.join(staging, "books", name));
+}
+// Full Online source-image routes use the public catalog's Archive.org
+// mappings. Never publish the Local Development original-CD tree; it includes
+// reviewer-only holdings such as Pontlanfraith.
+fs.rmSync(path.join(staging, "resources/original-cds"), { recursive: true, force: true });
 const icons = new Map([
   ["favicon-beta.svg", "favicon.svg"],
   ["favicon-beta-32.png", "favicon-32.png"],
@@ -57,6 +74,9 @@ report.promotedFromTestedLocalDevelopment = true;
 delete report.publishAutomatically;
 fs.writeFileSync(path.join(staging, "FULL_ONLINE_BUILD_REPORT.json"), `${JSON.stringify(report, null, 2)}\n`, "utf8");
 for (const file of ["LOCAL_DEVELOPMENT_BUILD_REPORT.json", "RESEARCH_BETA_BUILD_REPORT.json", "README-LOCAL-DEVELOPMENT.txt"]) fs.rmSync(path.join(staging, file), { force: true });
+for (const privateName of ["member-data-completeness-report.local.json", "member-data-completeness-review-queue.local.csv"]) {
+  if (fs.existsSync(path.join(staging, privateName))) throw new Error(`Private Local Development artifact reached Full Online staging: ${privateName}`);
+}
 fs.writeFileSync(path.join(staging, "README-FULL-ONLINE.txt"), [
   "LDS Welsh Membership Records — Full Online Edition",
   "",

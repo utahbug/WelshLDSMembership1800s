@@ -14,6 +14,8 @@ if (!fs.existsSync(configPath) || !fs.existsSync(catalogPath)) {
 
 const config = JSON.parse(fs.readFileSync(configPath, "utf8"));
 const sources = new Map(config.sources.map((source) => [source.id, path.resolve(source.path)]));
+const typedViewerPages = path.join(root, "resources", "transcriptions", "viewer-pages");
+if (fs.existsSync(typedViewerPages)) sources.set("typed-viewer-pages", typedViewerPages);
 const mimeTypes = new Map([
   [".html", "text/html; charset=utf-8"], [".htm", "text/html; charset=utf-8"],
   [".css", "text/css; charset=utf-8"], [".js", "text/javascript; charset=utf-8"],

@@ -27,6 +27,15 @@ BOOK_METADATA = {
     "Welsh Mormon Writings (1844-1862).pdf": {"title": "Welsh Mormon Writings, 1844-1862", "kind": "ron-dennis-publication", "author": "Ronald D. Dennis", "status": "Published bibliography; local research copy", "public": False},
 }
 
+# Page-level branch associations are deliberately curated rather than inferred
+# from every place-name mention in a publication. This prevents an index or
+# passing reference from being presented as branch evidence.
+CURATED_PUBLICATION_BRANCH_PAGES = {
+    ("Opposition to the Gospel Message in Wales.pdf", 23): ["Overton"],
+    ("AbleEvans.pdf", 135): ["Eglwysbach"],
+    ("Zions Trumpet (1854).pdf", 446): ["Eglwysbach"],
+}
+
 
 def normalize(value: str) -> str:
     text = unicodedata.normalize("NFD", value or "")
@@ -49,6 +58,30 @@ def bounded_snippet(value: str, limit: int = 420) -> str:
     cut = text[:limit]
     boundary = max(cut.rfind(". "), cut.rfind("; "), cut.rfind(" "))
     return cut[:boundary if boundary > limit // 2 else limit].rstrip() + "..."
+
+
+CURATED_TRANSCRIPT_TITLES = {
+    "A - CDs 35-39 (2 of 2) - Typed Transcripts.pdf": "East Glamorgan Conference Minutes, 1853–1863",
+}
+
+
+def transcript_display_title(source: dict) -> str:
+    title = source.get("title") or source.get("sourceFile") or "Typed transcript"
+    if not re.match(r"^A - CDs? .+ - Typed Transcripts$", title, re.I):
+        return title
+    return CURATED_TRANSCRIPT_TITLES.get(source.get("sourceFile", ""), "Welsh Branch and Conference Typed Transcripts")
+
+
+def publication_search_text(text: str, title: str) -> str:
+    """Remove a repeated running title at the start of a photographed page.
+
+    This affects discovery postings only. The bounded source snippet remains
+    unchanged, and substantive title mentions later in a page remain searchable.
+    """
+    title_pattern = r"\s*".join(re.escape(part) for part in re.findall(r"[A-Za-z0-9]+", title))
+    if not title_pattern:
+        return text
+    return re.sub(rf"^\s*{title_pattern}\b[\s\W]*", "", text, count=1, flags=re.I)
 
 
 def load_js_payload(path: Path) -> dict:
@@ -97,7 +130,8 @@ for source in transcripts["records"]:
     add_record({
         "sourceType": "transcription",
         "sourceId": source["id"],
-        "title": source.get("title") or source.get("sourceFile"),
+        "title": transcript_display_title(source),
+        "technicalSourceTitle": source.get("sourceFile"),
         "snippet": bounded_snippet(text),
         "location": f"PDF page {source['pdfPage']}",
         "branches": source.get("associatedBranches") or [],
@@ -163,6 +197,7 @@ for pdf in sorted(RON_DIR.glob("*.pdf"), key=lambda item: item.name.casefold()):
         if len(text) < 20:
             continue
         text_pages += 1
+        page_branches = CURATED_PUBLICATION_BRANCH_PAGES.get((pdf.name, page_number), [])
         add_record({
             "sourceType": metadata["kind"],
             "sourceId": f"ron-dennis:{source_hash}:{page_number}",
@@ -172,13 +207,13 @@ for pdf in sorted(RON_DIR.glob("*.pdf"), key=lambda item: item.name.casefold()):
             "versionStatus": metadata["status"],
             "snippet": bounded_snippet(text),
             "location": f"PDF page {page_number}",
-            "branches": [],
-            "branchConfidence": "No automatic canonical-branch assertion",
+            "branches": page_branches,
+            "branchConfidence": "Curated page-level branch association from explicit historical text" if page_branches else "No automatic canonical-branch assertion",
             "provenance": "Ron Dennis publication in the local research corpus",
             "publicAvailability": metadata["public"],
             "viewerAvailability": False,
             "downloadAvailability": False,
-        }, text)
+        }, publication_search_text(text, metadata["title"]))
     book_reports.append({"file": pdf.name, "title": metadata["title"], "pages": len(reader.pages), "textPages": text_pages, "sourceType": metadata["kind"], "publicAvailability": metadata["public"]})
 
 

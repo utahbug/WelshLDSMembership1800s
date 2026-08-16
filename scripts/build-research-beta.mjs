@@ -40,7 +40,7 @@ fs.mkdirSync(output, { recursive: true });
 const rootFiles = [
   ".nojekyll", "about.html", "app.js", "branch-registry.html", "feedback.js", "historical-names.html", "index.html",
   "local-private-features.js", "navigation.js", "branch-members.js", "source-transition.js", "people-search-core.js", "people-search.html", "people-search.js",
-  "all-records-discovery.js", "search-page-navigation.js",
+  "all-records-discovery.js", "welsh-saints-person-detail.js", "search-page-navigation.js",
   "research-page-nav.css", "site.webmanifest", "styles.css", "transcriptions-translations.html", "welsh-saints-research.html", "welsh-saints-research.js", "beta-presentation-polish.js",
   "work-remaining.html", "WelshRecord-CreatingCommit1.jpg",
   "BRANCH_REGISTRY.csv",
@@ -197,19 +197,35 @@ fs.writeFileSync(path.join(discoveryDataDir, "manifest.js"), `window.ALL_RECORDS
 
 const saintsMaster = readJson(path.join(privateDir, "welsh-saints-index.local.json"));
 const normalize = (value) => String(value || "").normalize("NFD").replace(/[\u0300-\u036f]/g, "").replace(/[’']/g, "").toLocaleLowerCase("en");
-const tokenString = (record) => [...new Set(normalize([record.detailText, record.title, record.summary, ...(record.cells || []), ...(record.categories || []), ...(record.matchedBranches || [])].join(" ")).match(/[a-z0-9]+/g) || [])].join(" ");
-const saintsRecords = saintsMaster.records.filter((record) => ["immigrant", "voyage", "resource"].includes(record.type)).map((record) => ({
-  type: record.type,
-  sourceId: record.sourceId,
-  title: record.title,
-  summary: record.summary,
-  cells: record.cells || [],
-  category: record.category || null,
-  categories: record.categories || [],
-  matchedBranches: record.matchedBranches || [],
-  url: record.url,
-  searchTerms: tokenString(record),
-}));
+const personSearchLabels = ["Birth date", "Birth place", "Baptism date", "Death date", "Death place"];
+const tokenString = (record, personDetails) => [...new Set(normalize([record.detailText, record.title, record.summary, ...(record.cells || []), ...(record.categories || []), ...(record.matchedBranches || []), ...personSearchLabels.map((label) => personDetails?.[label])].join(" ")).match(/[a-z0-9]+/g) || [])].join(" ");
+const personDetailLabels = ["Gender", "Birth date", "Birth place", "Christening date", "Christening place", "Baptism date", "Baptism place", "Confirmation date", "Confirmation place", "Marriage date", "Marriage place", "Death date", "Death place", "Burial date", "Burial place", "Father", "Mother"];
+const extractPersonDetails = (record) => {
+  if (record.type !== "immigrant" || !record.detailText) return null;
+  const text = String(record.detailText).replace(/&nbsp;?/gi, " ").replace(/\s+/g, " ");
+  const found = personDetailLabels.map((label) => ({ label, marker: `${label}:`, index: text.indexOf(`${label}:`) })).filter((item) => item.index >= 0).sort((a, b) => a.index - b.index);
+  const details = Object.fromEntries(found.map((item, index) => {
+    const value = text.slice(item.index + item.marker.length, found[index + 1]?.index ?? text.length).split(/\bView Sources\b|\bParents and Siblings\b|\bSiblings\b|\bSpouses and Children\b|\bChildren\b|\bCensus Records\b|\bMigration\b|\bComments\b|\bResources\b/i)[0].trim();
+    return [item.label, value];
+  }).filter(([, value]) => value));
+  return Object.keys(details).length ? details : null;
+};
+const saintsRecords = saintsMaster.records.filter((record) => ["immigrant", "voyage", "resource"].includes(record.type)).map((record) => {
+  const personDetails = extractPersonDetails(record);
+  return {
+    type: record.type,
+    sourceId: record.sourceId,
+    title: record.title,
+    summary: record.summary,
+    cells: record.cells || [],
+    category: record.category || null,
+    categories: record.categories || [],
+    matchedBranches: record.matchedBranches || [],
+    url: record.url,
+    personDetails,
+    searchTerms: tokenString(record, personDetails),
+  };
+});
 const saintsCounts = Object.fromEntries(["immigrant", "voyage", "resource"].map((type) => [type, saintsRecords.filter((record) => record.type === type).length]));
 const saintsPayload = { betaPublicIndex: true, version: 1, generatedAt: new Date().toISOString(), source: "Welsh Saints Project", counts: saintsCounts, records: saintsRecords };
 fs.writeFileSync(path.join(betaDataDir, "welsh-saints-index.beta.js"), `window.WELSH_SAINTS_BETA_INDEX = ${JSON.stringify(saintsPayload)};\n`);
@@ -257,12 +273,44 @@ for (const file of fs.readdirSync(output).filter((name) => name.endsWith(".html"
         <summary aria-expanded="false">Possible branches under review</summary>
         <div class="presentation-branch-review-content">
           <p>Historically documented branch candidates not yet added to the canonical branch list.</p>
-          <ul class="presentation-branch-candidates" aria-label="Stronger branch candidates">
-            <li>Aberaman</li><li>Aberdare</li><li>Abergavenny</li><li>Beaufort</li><li>Brecon</li><li>Broadway</li><li>Cefn Mawr</li><li>Cwmbach</li><li>Freystrop</li><li>Gellifaelog</li><li>Hirwaun</li><li>Lawrenny</li><li>Llantrisant</li><li>Manorbier</li><li>Mountain Ash</li><li>Pembroke</li><li>Victoria</li><li>Ynysgau</li>
+          <h3>Strong candidates needing locality/identity review</h3>
+          <ul class="presentation-branch-candidates presentation-strong-candidates" aria-label="Strong branch candidates needing locality or identity review">
+            <li><strong>Cap Coch</strong><span>Branch-like source evidence; identity unresolved.</span></li>
+            <li><strong>Coed-y-garth</strong><span>Named branch evidence; relationship to nearby branches unresolved.</span></li>
+            <li><strong>Cowbridge</strong><span>Branch-like source evidence; identity unresolved.</span></li>
+            <li><strong>Cwm Nedd</strong><span>Historical branch name; relationship to Neath-area identities unresolved.</span></li>
+            <li><strong>Cwmbychan</strong><span>Named branch evidence; locality unresolved.</span></li>
+            <li><strong>Cyfyng</strong><span>Historical branch-like reference; locality/spelling unresolved.</span></li>
+            <li><strong>Drym</strong><span>Named branch evidence; locality unresolved.</span></li>
+            <li><strong>Eglwysnewydd</strong><span>Historical branch-like reference; identity unresolved.</span></li>
+            <li><strong>Ffynnon Tydfil</strong><span>Named branch evidence; relationship to Merthyr-area branches unresolved.</span></li>
+            <li><strong>Gog</strong><span>Historical branch-like reference; locality unresolved.</span></li>
+            <li><strong>Gostwng</strong><span>Historical branch-like reference; locality unresolved.</span></li>
+            <li><strong>Llandaff</strong><span>Branch-like evidence; relationship to Cardiff-area organization unresolved.</span></li>
+            <li><strong>Llwyni</strong><span>Named branch evidence; locality unresolved.</span></li>
+            <li><strong>Peel</strong><span>Named branch evidence; locality and Welsh-registry scope unresolved.</span></li>
+            <li><strong>Pontfaen</strong><span>Named branch evidence; locality/identity unresolved.</span></li>
+            <li><strong>Troed-y-rhiw</strong><span>Historical branch-like reference; relationship to existing identities unresolved.</span></li>
+            <li><strong>Wern</strong><span>Explicit branch references; which Wern locality is intended remains unresolved.</span></li>
+            <li><strong>Wig</strong><span>Historical branch-like reference; locality unresolved.</span></li>
+            <li><strong>Ystradgynlais</strong><span>Named branch evidence; identity and source scope need confirmation.</span></li>
           </ul>
-          <h3>Early border branches needing locality/spelling review</h3>
+          <h3>Other candidates under review</h3>
+          <ul class="presentation-branch-candidates" aria-label="Other branch candidates under review">
+            <li><strong>Broadway</strong><span>Place references only; branch organization not yet confirmed.</span></li>
+            <li><strong>Freystrop</strong><span>Place references only; branch organization not yet confirmed.</span></li>
+            <li><strong>Lawrenny</strong><span>Place references only; branch organization not yet confirmed.</span></li>
+            <li><strong>Manorbier</strong><span>Place references only; branch organization not yet confirmed.</span></li>
+          </ul>
+          <h3>Early border/locality names needing resolution</h3>
           <ul class="presentation-branch-candidates presentation-border-candidates">
-            <li>Hewshovell</li><li>Lancathy</li><li>Llanellen</li><li>Llanfoist</li><li>Llantoney Abbey</li><li>Longtown</li><li>Welsh Iron Works</li>
+            <li><strong>Hewshovell</strong><span>Early border name; locality/spelling unresolved.</span></li>
+            <li><strong>Lancathy</strong><span>Early border name; locality/spelling unresolved.</span></li>
+            <li><strong>Llanellen</strong><span>Early border name; organizational identity unresolved.</span></li>
+            <li><strong>Llanfoist</strong><span>Early border name; organizational identity unresolved.</span></li>
+            <li><strong>Llantoney Abbey</strong><span>Early border name; locality/spelling unresolved.</span></li>
+            <li><strong>Longtown</strong><span>Early border name; Welsh-registry scope unresolved.</span></li>
+            <li><strong>Welsh Iron Works</strong><span>Early industrial locality; branch identity unresolved.</span></li>
           </ul>
         </div>
       </details>
@@ -343,6 +391,10 @@ body:has(#directoryPanel:not([hidden])) .presentation-research-links { display: 
 .presentation-branch-review-content h3 { color: var(--ink); font: 600 .82rem/1.45 Arial, sans-serif; margin: 12px 0 5px; }
 .presentation-branch-candidates { display: grid; grid-template-columns: repeat(3, minmax(120px, 1fr)); gap: 2px 18px; list-style: none; margin: 0; padding: 0; }
 .presentation-branch-candidates li { font: 400 .86rem/1.45 Arial, sans-serif; }
+.presentation-branch-candidates li strong, .presentation-branch-candidates li span { display: block; }
+.presentation-branch-candidates li strong { color: var(--ink); font-weight: 500; }
+.presentation-branch-candidates li span { color: var(--muted); font-size: .76rem; line-height: 1.35; }
+.presentation-strong-candidates { max-height: 280px; overflow: auto; padding-right: 6px; }
 .presentation-footer-feedback { margin-top: 10px; }
 .directory-home-link, .directory-home-link:visited { color: var(--green-dark); font: 500 .8rem/1.25 Arial, sans-serif; text-decoration: none; }
 .directory-home-link:hover, .directory-home-link:focus-visible { text-decoration: underline; text-underline-offset: 3px; }
@@ -362,7 +414,7 @@ body .research-beta-note + .site-disclaimer { margin-top: 0; padding-top: 10px; 
 body:has(.search-sticky-nav) .research-beta-note { margin-top: 10px; }
 body:has(.search-sticky-nav) .research-beta-note + .site-disclaimer { margin: 0; padding: 10px clamp(18px, 4vw, 52px) 20px; }
 @media (prefers-reduced-motion: reduce) { .home-search input { transition: none; } }
-@media (max-width: 820px) { .presentation-directory-top { grid-template-columns: minmax(0, 1fr); gap: 10px; } .presentation-branch-review, .presentation-branch-review[open] { width: 100%; max-width: none; margin: 0 0 6px; } .presentation-branch-review-content { position: static; width: auto; border-inline: 0; border-bottom: 0; box-shadow: none; } }
+@media (max-width: 820px) { .presentation-directory-top { grid-template-columns: minmax(0, 1fr); gap: 10px; } .presentation-branch-review, .presentation-branch-review[open] { width: 100%; max-width: none; margin: 0 0 6px; } .presentation-branch-review-content { position: static; width: auto; border-inline: 0; border-bottom: 0; box-shadow: none; } .presentation-branch-candidates { grid-template-columns: minmax(0, 1fr); } }
 @media (max-width: 520px) { .branch-member-record-details { padding-left: 8px; } .branch-member-record-details dl div { grid-template-columns: 1fr; gap: 0; } }
 `, "utf8");
 fs.writeFileSync(path.join(output, "local-private-features.js"), `(() => {

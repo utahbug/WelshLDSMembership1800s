@@ -15,6 +15,17 @@ if (!fs.existsSync(configPath)) {
 
 const config = JSON.parse(fs.readFileSync(configPath, "utf8"));
 fs.mkdirSync(outputDir, { recursive: true });
+const typedViewerPagesPath = path.join(root, "resources", "transcriptions", "viewer-pages");
+const configuredSources = [...config.sources];
+if (fs.existsSync(path.join(typedViewerPagesPath, "manifest.json"))) {
+  configuredSources.push({
+    id: "typed-viewer-pages",
+    label: "Generated typed-document viewer pages",
+    path: typedViewerPagesPath,
+    priority: 1,
+    category: "Typed transcript and translation viewer pages",
+  });
+}
 
 const natural = new Intl.Collator("en", { numeric: true, sensitivity: "base" });
 const imageExtensions = new Set([".jpg", ".jpeg", ".png"]);
@@ -66,7 +77,7 @@ function sha256(filePath) {
 const sourceReports = [];
 const candidates = [];
 
-for (const source of [...config.sources].sort((a, b) => a.priority - b.priority)) {
+for (const source of configuredSources.sort((a, b) => a.priority - b.priority)) {
   if (!fs.existsSync(source.path)) {
     sourceReports.push({ ...source, available: false, collectionCount: 0, imageCount: 0 });
     continue;
@@ -74,6 +85,7 @@ for (const source of [...config.sources].sort((a, b) => a.priority - b.priority)
 
   const directories = fs.readdirSync(source.path, { withFileTypes: true })
     .filter((entry) => entry.isDirectory())
+    .filter((entry) => !(source.id === "conference-minutes" && entry.name === "viewer-pages"))
     .sort((a, b) => natural.compare(a.name, b.name));
   const collectionDirectories = directories.map((directory) => ({ name: directory.name, path: path.join(source.path, directory.name) }));
   if (source.includeRootFiles) collectionDirectories.unshift({ name: "General transcriptions and indexes", path: source.path, rootOnly: true });
@@ -230,7 +242,29 @@ await Promise.all(Array.from({ length: Math.min(6, imagesToAnalyze.length) }, en
 fs.writeFileSync(enhancementCachePath, JSON.stringify(enhancementCache), "utf8");
 
 const collectionMap = new Map();
+// Some recovered source packets preserve an original one-page PDF in
+// source-pdfs/ and a deterministic viewer derivative with the same basename
+// in images/. Treat those as two representations of one source page, not two
+// consecutive viewer pages. Keep the PDF provenance on the rendered image.
+const representedSourcePdfs = new Set();
+const sourcePdfByPageKey = new Map();
+const pageRepresentationKey = (item) => `${item.sourceId}:${item.collectionKey}:${path.basename(item.name, item.extension).toLowerCase()}`;
+for (const item of retained) {
+  if (item.extension === ".pdf" && path.basename(path.dirname(item.relativeSourcePath)).toLowerCase() === "source-pdfs") {
+    sourcePdfByPageKey.set(pageRepresentationKey(item), item);
+  }
+}
+for (const item of retained) {
+  if (item.type !== "image" || path.basename(path.dirname(item.relativeSourcePath)).toLowerCase() !== "images") continue;
+  const sourcePdf = sourcePdfByPageKey.get(pageRepresentationKey(item));
+  if (!sourcePdf) continue;
+  item.sourcePdfFilename = sourcePdf.name;
+  item.sourcePdfRelativePath = sourcePdf.relativeSourcePath.split(path.sep).join("/");
+  item.sourcePdfPage = 1;
+  representedSourcePdfs.add(sourcePdf.file);
+}
 for (const image of retained) {
+  if (representedSourcePdfs.has(image.file)) continue;
   const key = image.collectionKey || image.collection.toLowerCase();
   let collection = collectionMap.get(key);
   if (!collection) {
@@ -257,6 +291,9 @@ for (const image of retained) {
     type: image.type,
     extension: image.extension,
     enhancement: image.enhancement,
+    sourcePdfFilename: image.sourcePdfFilename || null,
+    sourcePdfRelativePath: image.sourcePdfRelativePath || null,
+    sourcePdfPage: image.sourcePdfPage || null,
   });
 }
 
@@ -271,6 +308,25 @@ const collections = [...collectionMap.values()]
   }))
   .filter((collection) => collection.images.length)
   .sort((a, b) => natural.compare(a.name, b.name));
+
+// Typed PDFs remain unchanged in the general-document collection. Their
+// permanent page-image representations are separate, manifest-backed viewer
+// collections with stable IDs and explicit source-PDF provenance.
+const typedViewerManifestPath = path.join(root, "resources", "transcriptions", "viewer-pages", "manifest.json");
+if (fs.existsSync(typedViewerManifestPath)) {
+  const typedViewerManifest = JSON.parse(fs.readFileSync(typedViewerManifestPath, "utf8"));
+  for (const source of typedViewerManifest.sources || []) {
+    const collection = collections.find((item) => item.name === source.collectionName);
+    if (!collection) throw new Error(`Typed viewer collection not found for ${source.sourcePdf}.`);
+    collection.id = `typed-viewer-${crypto.createHash("sha256").update(source.sourcePdf).digest("hex").slice(0, 16)}`;
+    collection.sourcePdf = source.sourcePdf;
+    collection.sourcePdfRelativePath = source.sourcePdfRelativePath;
+    collection.sourcePdfSha256 = source.sourcePdfSha256;
+    collection.viewerRepresentation = true;
+    collection.renderDpi = source.renderDpi;
+    if (collection.images.length !== source.pageCount) throw new Error(`${source.sourcePdf}: expected ${source.pageCount} page images; found ${collection.images.length}.`);
+  }
+}
 
 // Expose an independently headed section of a compound volume without copying
 // its files. The virtual collection reuses the exact local and Archive paths.
@@ -300,6 +356,47 @@ if (llanelltydCompound) {
   collections.sort((a,b)=>natural.compare(a.name,b.name));
 }
 
+const cwmCelynCompound = collections.find((collection) => collection.name === "Cwm Celyn,1851-1883,LR1957");
+if (cwmCelynCompound) {
+  const abertilleryImages = cwmCelynCompound.images.filter((record) => {
+    const match = record.name.match(/_M_(\d{5})\.jpg$/i);
+    const sequence = match ? Number(match[1]) : NaN;
+    return sequence >= 46 && sequence <= 57;
+  });
+  if (abertilleryImages.length !== 12) throw new Error(`Expected 12 Abertillery section images; found ${abertilleryImages.length}.`);
+  collections.push({ id:"virtual-abertillery-lr1957", name:"Abertillery,1861-1866,LR1957", category:cwmCelynCompound.category, aliases:["Abertillery Branch,1861-1866,LR1957"], sources:[...cwmCelynCompound.sources], availability:{local:true,portable:true,online:false}, publicStorage:null, virtualSourceCollection:cwmCelynCompound.id, images:abertilleryImages });
+  collections.sort((a,b)=>natural.compare(a.name,b.name));
+}
+
+// The local Crumlin PDF preserves a nine-frame compound packet: four
+// structural/catalog frames, one closing Trinant register frame, and four
+// Crumlin register frames. Expose bounded Trinant and Crumlin virtual
+// collections while retaining the complete packet unchanged for provenance.
+const rejectedTrinantCandidate = collections.find((collection) => collection.name === "Trinant,1849-1853,Library859");
+if (rejectedTrinantCandidate) {
+  rejectedTrinantCandidate.name = "Unassigned Library 859 captures 294-306";
+  rejectedTrinantCandidate.aliases = ["Former Trinant candidate packet 294-306"];
+  rejectedTrinantCandidate.category = "Context and excluded source material";
+}
+const library859Packet = collections.find((collection) => collection.name === "Cwmtillery Trinant Crumlin compound packet,Library859");
+if (library859Packet) {
+  const trinantImages = library859Packet.images.filter((record) => {
+    const match = record.name.match(/pdf-page-(\d{3})\.jpg$/i);
+    const page = match ? Number(match[1]) : NaN;
+    return page >= 4 && page <= 5;
+  });
+  if (trinantImages.length !== 2) throw new Error(`Expected 2 bounded Trinant source images; found ${trinantImages.length}.`);
+  collections.push({ id:"virtual-trinant-library859", name:"Trinant,1849-1853,Library859", category:library859Packet.category, aliases:["Trinant Branch,1849-1853,Library859"], sources:[...library859Packet.sources], availability:{local:true,portable:true,online:false}, publicStorage:null, virtualSourceCollection:library859Packet.id, images:trinantImages });
+  const crumlinImages = library859Packet.images.filter((record) => {
+    const match = record.name.match(/pdf-page-(\d{3})\.jpg$/i);
+    const page = match ? Number(match[1]) : NaN;
+    return page >= 6 && page <= 9;
+  });
+  if (crumlinImages.length !== 4) throw new Error(`Expected 4 bounded Crumlin register images; found ${crumlinImages.length}.`);
+  collections.push({ id:"virtual-crumlin-library859", name:"Crumlin,1857-1862,Library859", category:library859Packet.category, aliases:["Crumlin Branch,1857-1862,Library859"], sources:[...library859Packet.sources], availability:{local:true,portable:true,online:false}, publicStorage:null, virtualSourceCollection:library859Packet.id, images:crumlinImages });
+  collections.sort((a,b)=>natural.compare(a.name,b.name));
+}
+
 const nantygloCompound = collections.find((collection) => collection.name === "Nantyglo,1846-1867,LR1747");
 if (nantygloCompound) {
   const sectionImages = nantygloCompound.images.filter((record) => {
@@ -309,6 +406,21 @@ if (nantygloCompound) {
   });
   if (sectionImages.length !== 83) throw new Error(`Expected 83 Coalbrookvale section images; found ${sectionImages.length}.`);
   collections.push({ id:"virtual-coalbrookvale-lr1747", name:"Coalbrookvale,1856-1867,LR1747", category:nantygloCompound.category, aliases:["Coal Brook Vale,1856-1867,LR1747","Coal Brock Vale,1856-1867,LR1747","Blaina,1856-1867,LR1747"], sources:[...nantygloCompound.sources], availability:{local:true,portable:true,online:false}, publicStorage:null, virtualSourceCollection:nantygloCompound.id, images:sectionImages });
+  collections.sort((a,b)=>natural.compare(a.name,b.name));
+}
+
+// LR117597 is a compound physical volume. Its explicitly headed Llansawel
+// section occupies images 00009-00048; expose that section independently for
+// the Glamorgan branch without copying or renaming any source image.
+const llansawelGlamorganCompound = collections.find((collection) => collection.name === "Llansawel,1850-1889,LR117597");
+if (llansawelGlamorganCompound) {
+  const sectionImages = llansawelGlamorganCompound.images.filter((record) => {
+    const match = record.name.match(/_M_(\d{5})\.jpg$/i);
+    const sequence = match ? Number(match[1]) : NaN;
+    return sequence >= 9 && sequence <= 48;
+  });
+  if (sectionImages.length !== 40) throw new Error(`Expected 40 Llansawel (Glamorgan) section images; found ${sectionImages.length}.`);
+  collections.push({ id:"virtual-llansawel-glamorgan-lr117597", name:"Llansawel (Glamorgan),1850-1889,LR117597", category:llansawelGlamorganCompound.category, aliases:["Llansawel Branch (Glamorgan),1850-1889,LR117597"], sources:[...llansawelGlamorganCompound.sources], availability:{local:true,portable:true,online:false}, publicStorage:null, virtualSourceCollection:llansawelGlamorganCompound.id, images:sectionImages });
   collections.sort((a,b)=>natural.compare(a.name,b.name));
 }
 
@@ -323,6 +435,7 @@ const catalog = {
     uniqueImages: retained.filter((item) => item.type === "image").length,
     uniqueDocuments: retained.filter((item) => item.type === "document").length,
     exactDuplicates: duplicates.length,
+    representedSourcePdfs: representedSourcePdfs.size,
     collections: collections.length,
     hashedFiles,
   },

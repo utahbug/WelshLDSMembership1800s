@@ -128,9 +128,7 @@
     if (!input || location.search) return;
     input.classList.add("home-search-emphasis");
     const clear = () => input.classList.remove("home-search-emphasis");
-    input.addEventListener("pointerdown", clear, { once: true });
-    input.addEventListener("keydown", clear, { once: true });
-    setTimeout(clear, 1500);
+    setTimeout(clear, 1150);
   }
 
   function initializeBranchReviewPopover() {

@@ -76,12 +76,24 @@ const aliases = new Map(Object.entries({
   "pen y cae": "Pen-y-cae",
   "pen y darran": "Pen-y-Darran", "penydarran": "Pen-y-Darran",
   "pendoylan": "Pendoylon", "pendoylon": "Pendoylon",
+  "overton": "Overton", "owrtyn": "Overton",
+  "eglwysbach": "Eglwysbach", "eglwys bach": "Eglwysbach", "eglwys fach": "Eglwysbach",
+  "aberaman": "Aberaman", "aberamman": "Aberaman", "aberamon": "Aberaman",
+  "aberdare": "Aberdare", "aberdar": "Aberdare",
+  "abergavenny": "Abergavenny", "abergyfeny": "Abergavenny", "y fenni": "Abergavenny",
+  "hirwaun": "Hirwaun", "hirwaen": "Hirwaun",
+  "pontrlanfraith": "Pontlanfraith", "pontlanfraith": "Pontlanfraith",
   "gymmer": "Cymmer",
   "treboth": "Treboeth", "treboeth": "Treboeth",
   "treforis": "Treforest", "treforest": "Treforest",
   "treorky": "Treorchy", "treorchy": "Treorchy",
   "twynyrodyn": "Twyn-yr-Odyn", "twyn yr odyn": "Twyn-yr-Odyn",
   "twyn carno": "Twyncarno", "twyncarno": "Twyncarno",
+  "newmarket": "Newmarket", "trelawnyd": "Newmarket",
+  "towyn": "Towyn", "tywyn": "Towyn",
+  "st clears": "St Clears", "saint clears": "St Clears",
+  "fleur de lis": "Fleur-de-Lis", "fleur-de-lis": "Fleur-de-Lis",
+  "garnddiffaith": "Garndiffaith", "garndiffaith": "Garndiffaith",
 }));
 
 function baseName(raw) {
@@ -116,6 +128,75 @@ function addEvidence(rawName, source, dateText = "", reference = "", sourceUrl =
 for (const [name, dateText, callNumber, cd] of cdIndex) addEvidence(name, "2007 CD branch index", dateText, `CD ${cd}; ${callNumber}`, "", originalSource?.path ?? "");
 
 addEvidence("Brechfa", "Recovered full-resolution local source", "1846-1875", "CD 4; LR 11000 7; 62 authoritative images", "", originalSource?.path ?? "");
+addEvidence("Cwmtillery", "Recovered full-resolution local source", "1847-1857", "CD 8; LR 188 7; photographed library identifier 859; 69 authoritative full-resolution images", "", originalSource?.path ?? "", {
+  collectionTitle: "Cwmtillery Branch Record of Members, 1847-1857",
+  collectionBranch: "Cwmtillery",
+  note: "The source heading supports 1847-1857 for the Record of Members. The broader inherited 1847-1862 range describes additional deaths, children and historical material and is not used as the membership-register range.",
+});
+addEvidence("Trinant", "Direct-FHC microfilm recovery", "1849-1853", "Photographed library identifier 859; compound PDF pages 4-5", "", originalSource?.path ?? "", {
+  collectionTitle: "Trinant Branch surviving Record of Members page, 1849-1853",
+  collectionBranch: "Trinant",
+  note: "The Library 859 label identifies a Trinant Record of Members dated 1849-1853. Compound PDF page 5 preserves the closing register leaf, entries 19-29; entries 1-18 are not currently recovered. Candidate captures 294-295 are later member/status pages and captures 296-306 are Stepaside financial records, so they are retained as context but excluded from Trinant.",
+});
+addEvidence("Crumlin", "Direct-FHC microfilm recovery", "1857-1862", "Photographed library identifier 859; four bounded register frames within a nine-frame compound packet", "", originalSource?.path ?? "", {
+  collectionTitle: "Crumlin Branch Record of Members, 1857-1862",
+  collectionBranch: "Crumlin",
+  note: "PDF pages 6-9 contain the Crumlin register. Pages 1-4 are structural/catalog frames and page 5 closes the preceding Trinant section.",
+});
+addEvidence("Machen", "Direct-FHC microfilm recovery", "1854-1865", "18 recovered PDF frames; photographed identifier unresolved as 1565 versus 1765", "", originalSource?.path ?? "", {
+  collectionTitle: "Machen Branch Record of Members, 1854-1865",
+  collectionBranch: "Machen",
+  note: "The local PDF is a documented direct-FHC fallback. The photographed/library identifier discrepancy 1565 versus 1765 remains unresolved.",
+});
+addEvidence("Twyn Carno", "Direct-FHC microfilm recovery", "1856-1857", "Captures 314-338; photographed library identifier 1602; 25 retained source frames", "", originalSource?.path ?? "", {
+  collectionTitle: "Twyn Carno Branch Record, 1856-1857",
+  collectionBranch: "Twyncarno",
+  note: "The retained branch section begins with the printed/narrative source at capture 314; the regular register begins at capture 318. Earlier captures 308-312 belong to adjacent context, and captures 307 and 313 were not found.",
+});
+addEvidence("Welsh Conference", "Recovered direct-FHC microfilm components", "1850-1922", "Film 104172 item 11 context; Library 1614 early-1892; Library 3114 1887-1901; Library 3118 early-1911 partial capture; LR1001123 incomplete minutes, 1884", "", originalSource?.path ?? "", {
+  collectionTitle: "Welsh Conference records and minutes",
+  collectionBranch: "Welsh Conference",
+  note: "Three distinct member books and a separate 1884 minutes fragment survive locally. Library 3118 is incomplete after direct-FHC component 474. The Film 86987 convenience PDF includes Bristol Conference material and is not treated as a single Welsh Conference source.",
+});
+addEvidence("Cwmcillyn", "2026 bounded local recovery audit", "1847-1856", "Film 104168 Item 12; no matching local image or PDF packet located", "", "", {
+  collectionTitle: "Cwmcillyn Branch source attestation",
+  collectionBranch: "Cwmcillyn",
+  note: "Checked project source CDs, recovered CD copies, Microfilm PDFs/direct-FHC component holdings, manifests, catalogs, and legacy Wales2Utah material. The source remains historically attested, but no authoritative local image collection was found.",
+});
+addEvidence("Pendoylon", "2026 bounded local recovery audit", "1851-1886", "DGS 106248102; indexing images 195-239; no matching local image or PDF packet located", "", "", {
+  collectionTitle: "Pendoylon Branch source attestation",
+  collectionBranch: "Pendoylon",
+  note: "The indexing map identifies images 195-239 and preserves Pendoylan as a source spelling. Project source CDs, recovered CD copies, Microfilm PDFs/direct-FHC holdings, manifests, catalogs, and typed sources yielded no matching authoritative local collection.",
+});
+addEvidence("Llansawel (Carmarthenshire)", "Recovered full-resolution local source", "1849-1855", "CD 14; LR 221 7; photographed library identifier 318; 28 authoritative images", "", originalSource?.path ?? "", {
+  collectionTitle: "Llansawel Branch Record of Members, 1849-1855",
+  filename: "318__M_00002.jpg",
+  viewerSequence: 2,
+  collectionBranch: "Llansawel (Carmarthenshire)",
+  lrContext: "CD 14 / LR 221 7; photographed library identifier 318.",
+  note: "Dedicated register. Member residences and the CD assignment support the Carmarthenshire identity; it is distinct from the later Glamorgan section in LR 11759 7.",
+});
+addEvidence("Llansawel (Glamorgan)", "Recovered full-resolution compound source section", "1850-1889", "CD 18; LR 11759 7; explicit images 00009-00048; 40 authoritative in-place images", "", originalSource?.path ?? "", {
+  collectionTitle: "Llansawel Branch Record, 1850-1889",
+  filename: "LR-11759-7_v1575_M_00009.jpg",
+  viewerSequence: 1,
+  collectionBranch: "Llansawel (Glamorgan)",
+  lrContext: "CD 18 / LR 11759 7 compound Swansea-related volume.",
+  note: "The photographed heading explicitly identifies Glamorgan. The Llansawel section is images 00009-00048; Swansea resumes at image 00049.",
+});
+addEvidence("Pontlanfraith", "Direct-FHC microfilm recovery", "Early to 1947", "10-page source packet; photographed library identifier 27560", "", originalSource?.path ?? "", {
+  collectionTitle: "Pontlanfraith Branch Record of Members and Children",
+  collectionBranch: "Pontlanfraith",
+  note: "Mixed members-and-children record. Source spelling Pontrlanfraith is preserved where photographed; later children/index and post-1920 material are classified separately.",
+});
+addEvidence("Abertillery", "Recovered full-resolution compound source", "1861-1866", "CD 19; LR 195 7 compound section; images 00046-00057; 12 authoritative images", "", originalSource?.path ?? "", {
+  collectionTitle: "Abertillery Branch Record of Members, 1861-1866",
+  filename: "LR-195-7_M_00046.jpg",
+  viewerSequence: 1,
+  collectionBranch: "Abertillery",
+  lrContext: "CD 19 / LR 195 7 compound volume",
+  note: "Abertillery occupies images 00046-00057 of the compound source. Cwm Celyn precedes this section and Tredegar begins at image 00058. The physical volume remains intact; the site exposes this range as a virtual collection.",
+});
 addEvidence("Cuffern Mountain", "Recovered full-resolution local source", "1849-1876", "CD 6; LR 198 7; 83 authoritative historical images", "", originalSource?.path ?? "");
 addEvidence("Dinas", "Recovered full-resolution local source", "1848-1878", "CD 1; LR 182 7; source image/catalog prefix 1555; 66 authoritative images", "", originalSource?.path ?? "", {
   collectionTitle: "Dinas Branch Record of Members, 1848-1878",
@@ -134,6 +215,164 @@ addEvidence("Cefncoed-y-Cymar", "Recovered full-resolution local source", "1847-
 
 // Preserve the source/indexing-map spelling without creating a duplicate branch.
 addEvidence("Altwen", "Local LR2257 membership register", "1849-1859", "LR 225 7; historical/source spelling of Alltwen", "", originalSource?.path ?? "");
+
+// North Wales branches supported by historical narrative and biographical
+// sources. No local membership-register collection is currently identified
+// for either branch, so these rows preserve attestation without inventing a
+// Church History Library/CD holding.
+addEvidence("Overton", "Welsh Saints Project historical resource", "1840-1842", "Overton: The First LDS Branch in Wales; organized 30 October 1840; earliest documented branch in Wales", "https://welshsaints.byu.edu/Resource_Info.aspx?id=24497", "", {
+  collectionTitle: "Overton: The First LDS Branch in Wales",
+  collectionBranch: "Overton",
+  note: "Overton, historically in Flintshire and now in Wrexham County Borough, was organized on 30 October 1840 after the mission of Henry Royle and Frederick Cook. Contemporary journal references continue into 1842. The historical resource explicitly states that no Overton branch record is known to have survived.",
+});
+addEvidence("Owrtyn", "Welsh Saints Project place-name evidence", "1840-1842", "Welsh spelling used in Welsh Saints person records for Overton, Flintshire", "https://welshsaints.byu.edu/Resource_Info.aspx?id=24497");
+addEvidence("Overton", "Ronald D. Dennis historical narrative", "1840", "Opposition to the Gospel Message in Wales, PDF page 23; missionaries arrived 16 October and organized a branch 30 October 1840");
+
+addEvidence("Eglwysbach", "Hugh and Mary Owens Roberts biographical history", "1849-1864", "Abel Evans organized a six-member branch; Hugh Roberts served as presiding elder and kept the branch record until emigrating in 1864", "https://welshsaints.byu.edu/Immigrant_View.aspx?id=806", "", {
+  collectionTitle: "Hugh and Mary Owens Roberts biographical and genealogical evidence",
+  collectionBranch: "Eglwysbach",
+  note: "The family history says Abel Evans organized the Eglwysbach Branch with six members, Hugh Roberts was called as presiding elder, and Roberts kept the branch record until he emigrated in 1864, when he delivered it to John Roberts of Pensarn. The present location or survival of that branch record is not established.",
+});
+addEvidence("Eglwys Fach", "Welsh Saints Project place-name evidence", "1849-1864", "Historical/source spelling used in Hugh Roberts family records", "https://welshsaints.byu.edu/Immigrant_View.aspx?id=806");
+addEvidence("Eglwys Bach", "Historical spacing variant", "1849-1864", "Variant spacing retained for discovery");
+addEvidence("Eglwysbach", "Zion's Trumpet conference report", "1854", "Conwy Valley Conference held at Eglwysbach, 28 May 1854; five branches and 98 members reported for the conference", "", "resources/books/Zions Trumpet (1854).pdf");
+
+// Historically verified branches identified in the completed 2026 candidate
+// audit. These are branch attestations, not invented Records of Members; no
+// dedicated local membership-register collection is currently assigned.
+addEvidence("Aberaman", "East Glamorgan typed conference transcript", "1852", "Aberaman Branch council and branch business, typed transcript page 17", "", "", {
+  collectionTitle: "East Glamorgan branch and conference minutes",
+  collectionBranch: "Aberaman",
+  note: "The transcript explicitly distinguishes Aberaman Branch from Aberdare Branch and records branch council activity in 1852.",
+});
+addEvidence("Aberamman", "Richard Jenkins journal", "1852", "Journal reference to an Aberaman Branch meeting", "https://welshsaints.byu.edu/Resource_Info.aspx?id=2759", "");
+addEvidence("Aberamon", "Thomas Howells journal", "1852", "Journal reference to the saints meeting at Aberaman Branch", "https://welshsaints.byu.edu/Resource_Info.aspx?id=1347", "");
+
+addEvidence("Aberdare", "Ronald D. Dennis historical narrative", "1844", "Named among the seven branches forming the Merthyr Tydfil Conference", "https://welshsaints.byu.edu/Resource_Info.aspx?id=2618", "", {
+  collectionTitle: "The Welsh and the Gospel",
+  collectionBranch: "Aberdare",
+  note: "The historical narrative names Aberdare among the seven established branches forming the Merthyr Tydfil Conference.",
+});
+addEvidence("Aberdare", "East Glamorgan typed conference transcript", "1852", "Aberdare Branch council and branch business, typed transcript page 17");
+addEvidence("Aberdar", "Historical spelling variant", "1844-1852", "Variant retained for branch discovery");
+
+addEvidence("Abergavenny", "Ronald D. Dennis historical narrative", "1840-1844", "Missionaries arrived late 1840; Abergavenny Branch later transferred from Garway Conference to Merthyr Tydfil Conference", "https://welshsaints.byu.edu/Resource_Info.aspx?id=2618", "", {
+  collectionTitle: "The Welsh and the Gospel",
+  collectionBranch: "Abergavenny",
+  note: "The narrative identifies Abergavenny as a branch, records missionary activity beginning in late 1840, and describes its later conference transfer.",
+});
+addEvidence("Abergavenny", "Indefatigable Veteran", "1840", "PDF page 30 describes the arrival of the first missionaries and the established branch");
+addEvidence("Abergyfeny", "Historical journal spelling", "1840-1844", "Variant retained for discovery");
+addEvidence("Y Fenni", "Welsh place-name variant", "1840-1844", "Variant retained for discovery");
+
+addEvidence("Beaufort", "Ronald D. Dennis historical narrative", "1844", "Named among the seven branches forming the Merthyr Tydfil Conference", "https://welshsaints.byu.edu/Resource_Info.aspx?id=2618", "", {
+  collectionTitle: "The Welsh and the Gospel",
+  collectionBranch: "Beaufort",
+  note: "The historical narrative explicitly lists Beaufort as one of the branches forming the Merthyr Tydfil Conference.",
+});
+addEvidence("Brecon", "Zion's Trumpet", "1856-1857", "A report identifies John Jones as formerly President of Brecon Branch; PDF page 445", "", "", {
+  collectionTitle: "Zion's Trumpet, 1856-1857",
+  collectionBranch: "Brecon",
+  note: "The periodical explicitly identifies an officer who had served as President of Brecon Branch.",
+});
+addEvidence("Cefn Mawr", "Zion's Trumpet", "1854", "Explicit Cefn Mawr Branch reference; PDF page 688", "", "", {
+  collectionTitle: "Zion's Trumpet, 1854",
+  collectionBranch: "Cefn Mawr",
+  note: "The periodical explicitly names Cefn Mawr Branch.",
+});
+addEvidence("Cwmbach", "Welsh branch and conference typed transcript", "1851-1852", "Cwmbach Branch president and council activity; typed transcript page 12", "", "", {
+  collectionTitle: "East Glamorgan Conference minutes, 1851-1852",
+  collectionBranch: "Cwmbach",
+  note: "The minutes explicitly identify Cwmbach Branch, its president, and branch council activity.",
+});
+addEvidence("Gellifaelog", "East Glamorgan Conference typed transcript", "1851-1852", "Gellifaelog Branch and branch officer ordinations; typed pages 60 and 76", "", "", {
+  collectionTitle: "East Glamorgan Conference minutes, 1851-1852",
+  collectionBranch: "Gellifaelog",
+  note: "Conference reporting and officer ordinations explicitly identify Gellifaelog Branch.",
+});
+addEvidence("Hirwaun", "Prophet of the Jubilee", "1846-1848", "Hirwaun Branch is identified in 1846 and in later priesthood and baptism statistics; PDF page 498", "", "", {
+  collectionTitle: "Prophet of the Jubilee",
+  collectionBranch: "Hirwaun",
+  note: "The publication explicitly identifies Hirwaun Branch and preserves branch-level statistical evidence.",
+});
+addEvidence("Hirwaen", "Historical spelling variant", "1846-1848", "Variant retained for discovery");
+addEvidence("Llantrisant", "Richard Jenkins journal", "1851", "Baptized by a priest of Llantrisant Branch and confirmed under Thomas Morgan, Branch President", "https://welshsaints.byu.edu/Resource_Info.aspx?id=2759", "", {
+  collectionTitle: "Richard Jenkins journal",
+  collectionBranch: "Llantrisant",
+  note: "The journal directly identifies Llantrisant Branch, its priesthood activity, and its branch president in January 1851.",
+});
+addEvidence("Llantrisant", "Zion's Trumpet distribution table", "1850", "Llantrisant is listed with branch-level distribution and membership figures");
+addEvidence("Mountain Ash", "Thomas Evans Jeremy journal", "1862", "Journal entry dated 30 January 1862 states that the writer came to Mountain Ash Branch", "https://welshsaints.byu.edu/Resource_Info.aspx?id=181", "", {
+  collectionTitle: "Thomas Evans Jeremy journal",
+  collectionBranch: "Mountain Ash",
+  note: "The dated journal entry explicitly identifies Mountain Ash Branch.",
+});
+addEvidence("Pembroke", "Zion's Trumpet", "1856-1857", "Pembroke Branch is explicitly named in a contribution list; PDF page 974", "", "", {
+  collectionTitle: "Zion's Trumpet, 1856-1857",
+  collectionBranch: "Pembroke",
+  note: "The periodical explicitly names Pembroke Branch in a branch contribution list.",
+});
+addEvidence("Victoria", "David John journal", "1858", "Journal entry dated 31 March 1858 records a visit to Victoria Branch", "https://welshsaints.byu.edu/Resource_Info.aspx?id=4078", "", {
+  collectionTitle: "David John journal",
+  collectionBranch: "Victoria",
+  note: "The dated journal entry explicitly identifies Victoria Branch. A separate 1846 license documents earlier Latter-day Saint activity at Victoria but is not used to extend the branch date.",
+});
+addEvidence("Victoria", "Welsh Saints Project license record", "", "1846 Latter-day Saint meeting context at Victoria; contextual evidence only and not used to extend the verified branch date", "https://welshsaints.byu.edu/Resource_Info.aspx?id=24026");
+addEvidence("Ynysgau", "Welsh Saints Project conference record", "1850", "Special conference on 8 March 1850 appointed John Argust president of Ynysgau Branch, Merthyr", "https://welshsaints.byu.edu/Resource_Info.aspx?id=571", "", {
+  collectionTitle: "Merthyr special conference record",
+  collectionBranch: "Ynysgau",
+  note: "The conference record explicitly appoints a president of Ynysgau Branch in Merthyr.",
+});
+
+// Twenty-two historically verified branches approved for Local Development
+// promotion in August 2026. The publication date is retained in the citation,
+// not converted into a speculative founding/closing range.
+const verifiedBranchEvidence = [
+  ["Rhosllanerchrugog", "A Steamboat for an Eldership", "PDF page 89; Dan Jones explicitly says that he established a branch at Rhosllanerchrugog", ""],
+  ["Abergele", "Zion's Trumpet, 1850", "PDF page 281; Edward Parry appointed to preside after John Parry was released", "Branch president: John Parry; succeeded by Edward Parry"],
+  ["Bagillt", "Zion's Trumpet, 1849", "PDF page 95; Bagillt explicitly identified as a branch in the Flintshire organization", "Branch president: John Jones"],
+  ["Newmarket", "Zion's Trumpet, 1849", "PDF pages 117-118; Newmarket represented as a branch and Robert Parry set apart to preside", "Branch president: Robert Parry"],
+  ["Llandudno", "Zion's Trumpet, 1850", "PDF page 417; branch established at Llandudno", "Branch president: Isaac Morris"],
+  ["Llanddoged", "Zion's Trumpet, 1850 and 1854", "PDF page 417 (1850) and page 705 (1854); branch established and later presiding appointment recorded", "Branch presidents: John Davies (1850); John Ellis (1854)"],
+  ["Harlech", "Zion's Trumpet, 1849", "PDF page 299; Harlech listed among represented Merionethshire branches", ""],
+  ["Machynlleth", "Zion's Trumpet, 1849", "PDF page 299; Machynlleth listed among represented Merionethshire branches", ""],
+  ["Llanbrynmair", "Zion's Trumpet, 1849", "PDF page 299; Llanbrynmair listed among represented Merionethshire branches", ""],
+  ["Towyn", "Zion's Trumpet, 1849 and 1850", "PDF page 299 (1849); branch represented; PDF page 417 (1850); presiding appointment", "Branch president: John Evans"],
+  ["Llanybydder", "Prophet of the Jubilee", "PDF page 59; explicit Llanybydder Branch report", ""],
+  ["Carmarthen", "Zion's Trumpet, 1852", "PDF page 260; Carmarthen named among branches assigned to the Carmarthen Conference", ""],
+  ["St Clears", "Zion's Trumpet, 1852 and 1854", "PDF page 260 (Saint Clears in branch list); PDF page 627 (St. Clears branch president referenced)", ""],
+  ["Llanpumsaint", "Zion's Trumpet, 1852", "PDF page 260; Llanpumsaint named among branches assigned to the Carmarthen Conference", ""],
+  ["Pencader", "Zion's Trumpet, 1852", "PDF page 260; Pencader named among branches assigned to the Carmarthen Conference", ""],
+  ["Cellan", "Zion's Trumpet, 1852", "PDF page 65; William Evans identified as an elder in Cellan Branch", "Officer: William Evans, elder"],
+  ["Fishguard", "Zion's Trumpet, 1856-1857", "PDF page 974; Fishguard appears in a branch-organized contribution list", ""],
+  ["Letterston", "Zion's Trumpet, 1855", "PDF page 212; North Pembroke conference report held at Letterston with branch representation", ""],
+  ["Maesteg", "Zion's Trumpet, 1855", "PDF page 203; William Evans explicitly identified as a member of Maesteg Branch", ""],
+  ["Garndiffaith", "Zion's Trumpet, 1850", "PDF page 197; source spelling Garnddiffaith, branch presented to the Herefordshire District", ""],
+  ["Blaenavon", "Zion's Trumpet, 1850", "PDF page 197; Blaenavon branch presented to the Herefordshire District", ""],
+  ["Fleur-de-Lis", "Zion's Trumpet, 1850", "PDF page 197; William Howells appointed to preside over Fleur-de-Lis Branch", "Branch president: William Howells"],
+];
+for (const [name, source, reference, leadership] of verifiedBranchEvidence) {
+  const evidenceType = /appointed|preside|president/i.test(`${reference} ${leadership}`)
+    ? "Branch leadership/officer appointment"
+    : /contribution/i.test(reference)
+    ? "Branch contribution/account list"
+    : /established|organized/i.test(reference)
+    ? "Branch organization statement"
+    : /represented|assigned|among branches|branch list|district/i.test(reference)
+    ? "Conference organization/branch list"
+    : "Explicit branch reference";
+  addEvidence(name, source, "", reference, "", "", {
+    collectionTitle: source,
+    collectionBranch: name,
+    evidenceType,
+    note: reference,
+    ...(leadership ? { leadership } : {}),
+  });
+}
+addEvidence("Trelawnyd", "Modern locality relationship", "", "Modern name of historical Newmarket; historical source name remains canonical");
+addEvidence("Tywyn", "Modern Welsh spelling", "", "Modern spelling retained as an alias of historical source form Towyn");
+addEvidence("Saint Clears", "Historical source spelling", "", "Expanded source spelling retained as an alias of St Clears");
+addEvidence("Garnddiffaith", "Zion's Trumpet source spelling", "", "Source spelling retained as an alias of Garndiffaith");
 
 // Names appearing in the 2007 meeting-transcription checklist. These are
 // additional local-record evidence, not proof that each was an independent
@@ -154,7 +393,11 @@ for (const [name, dateText, reference] of meetingChecklist) {
 
 // The surviving book title uses the anglicized single-F spelling. Preserve it
 // as a visible historical variant of the Welsh double-F place name.
-addEvidence("Festiniog", "Local membership record images", "", "Ffestiniog membership record book integrated into local archive; surviving title uses Festiniog; 94 unique viewer images");
+addEvidence("Festiniog", "Local membership record images", "1848-1856", "Ffestiniog membership record book integrated into local archive; surviving title uses Festiniog; 94 unique viewer images", "", "", {
+  collectionTitle: "FESTINIOG BRANCH (Wales), WELSH MISSION, Historical Record and Record of Members, 1848, etc.",
+  collectionBranch: "Ffestiniog",
+  note: "The membership-book title page directly supports the 1848 start date with the wording '1848, etc.' The 1856 endpoint is the branch closing/end date documented in the project's historical context; 1856 is not printed on that title page.",
+});
 addEvidence("Abertawe", "Recovered Swansea source description and Welsh source heading", "", "Swansea / Abertawe source identity; Swansea Branch LR 8863 10", "", originalSource?.path ?? "", {
   collectionTitle: "Swansea Branch, England Southwest Mission, Confidential Minutes, 1849-1881",
   collectionBranch: "Swansea",
@@ -285,20 +528,29 @@ if (notesSource) {
     // registry so it can be reviewed and placed separately later.
     if (entry.name === "Merthyr_Tydfil_(1932-1943).htm") continue;
     const rawName = entry.name.replace(/\.html?$/i, "").replaceAll("_", " ");
+    // The legacy generic Llansawel note predates the recovered source work.
+    // Do not recreate a third artificial branch now that the dedicated
+    // Carmarthenshire register and the Glamorgan compound-volume section are
+    // independently identified and preserved below.
+    if (baseName(rawName) === "Llansawel") continue;
     addEvidence(rawName, "Recovered RoboHelp branch note", years(rawName).join("-"), "Wales2Utah research note", "", path.join(branchesPath, entry.name));
   }
 }
 
 for (const [name, item, dateText] of familySearch104168) addEvidence(name, "FamilySearch catalog", dateText, `Film 104168 ${item}`, "https://www.familysearch.org/search/catalog/results?query=film_number%3A104168");
 for (const [name, item, dateText] of familySearch104172) addEvidence(name, "FamilySearch catalog", dateText, `Film 104172 ${item}`, "https://www.familysearch.org/search/catalog/results?query=film_number%3A104172");
-addEvidence("Llansawel", "FamilySearch catalog", "1849-1855; 1850-1853; 1879", "Film 104169 items 14-15", "https://www.familysearch.org/search/catalog/209087");
+addEvidence("Llansawel (Carmarthenshire)", "FamilySearch catalog context", "1849-1855", "Film 104169 items 14-15; locality assignment requires the recovered CD 14 source", "https://www.familysearch.org/search/catalog/209087");
+addEvidence("Llansawel (Glamorgan)", "FamilySearch catalog context", "1850-1889", "Film 104169 items 14-15; locality assignment requires the recovered LR 11759 7 heading", "https://www.familysearch.org/search/catalog/209087");
 addEvidence("Sutton Mountain", "FamilySearch catalog", "1853-1859", "Film 104171 item 6", "https://www.familysearch.org/search/catalog/results?query=film_number%3A104171");
+addEvidence("Cwmbran", "Typed contextual minutes evidence", "1850-1874", "CD 62 within source group CDs 60-62; LR 70861 1; Pontypool/Abersychan General Minutes, 1857-1889; Cwmbran reports on typed PDF pages 129, 167, 169, 171-172, 176", "", "resources/transcriptions/A - CDs 60-62 - Typed Transcripts.pdf");
+addEvidence("Morriston", "Typed contextual minutes evidence", "1853-1868", "CD 41; LR 17617 21; Western Glamorgan Conference Minutes, 1851-1870; Morriston fast-offerings report, 1866", "", "resources/transcriptions/A - CDs 40-43 (2 of 2) - Typed Transcripts.pdf");
 
 const grouped = Map.groupBy(evidence, (item) => item.canonicalName);
 const registry = [...grouped.entries()].map(([canonicalName, entries]) => {
   const allYears = entries.flatMap((entry) => years(`${entry.rawName} ${entry.dateText}`));
   const variants = [...new Set(entries.map((entry) => baseName(entry.rawName)).filter((name) => name !== canonicalName))];
-  const localCd = entries.some((entry) => ["2007 CD branch index", "2007 meeting transcription checklist", "Historical structural image", "Recovered full-resolution compound source", "Recovered full-resolution local source"].includes(entry.source));
+  if (/^Llansawel \(/.test(canonicalName)) variants.unshift("Llansawel");
+  const localCd = entries.some((entry) => ["2007 CD branch index", "2007 meeting transcription checklist", "Historical structural image", "Recovered full-resolution compound source", "Recovered full-resolution local source", "Recovered direct-FHC microfilm components", "Typed contextual minutes evidence"].includes(entry.source));
   const localNote = entries.some((entry) => entry.source === "Recovered RoboHelp branch note");
   const familySearch = entries.some((entry) => entry.source === "FamilySearch catalog");
   let comparisonStatus = "Research note only";
@@ -307,6 +559,7 @@ const registry = [...grouped.entries()].map(([canonicalName, entries]) => {
   else if (!familySearch && localCd) comparisonStatus = "Local CD only / verify with FamilySearch";
   else if (entries.some((entry) => entry.source === "Historical structural image")) comparisonStatus = "Historical source attestation; dedicated record collection not yet identified";
   if (["Brechfa", "Brynmawr", "Bryntroedgam", "Castell Nedd (Neath)", "Cogan", "Cefn Coed-y-Cymmer", "Cuffern Mountain", "Dinas", "Ebbw Vale", "Haverfordwest", "Llandebie", "Llanfabon"].includes(canonicalName)) comparisonStatus = "Verified local source collection";
+  if (canonicalName === "Abertillery") comparisonStatus = "Verified compound local source section";
   if (canonicalName === "Rhymney English") comparisonStatus = "Verified direct-FHC microfilm fallback source";
   if (canonicalName === "Coalbrookvale") comparisonStatus = "Verified compound local source section";
   if (canonicalName === "Llanelltyd") comparisonStatus = "Verified compound local source section";
@@ -314,11 +567,19 @@ const registry = [...grouped.entries()].map(([canonicalName, entries]) => {
   if (canonicalName === "Treorchy") comparisonStatus = "Verified compound local source section";
   if (canonicalName === "Swansea") comparisonStatus = "Verified local source identity and collections";
   if (canonicalName === "Pendoylon") comparisonStatus = "Historical source attestation; local image collection not yet located";
+  if (canonicalName === "Cwmbran") comparisonStatus = "Contextual typed minutes evidence; dedicated member register not recovered";
+  if (canonicalName === "Morriston") comparisonStatus = "Contextual conference-minutes evidence; dedicated member register not recovered";
+  if (canonicalName === "Overton") comparisonStatus = "Historically verified branch; no surviving local membership register identified";
+  if (canonicalName === "Eglwysbach") comparisonStatus = "Historically verified branch; recorded branch book not currently located";
+  if (["Aberaman", "Aberdare", "Abergavenny", "Beaufort", "Brecon", "Cefn Mawr", "Cwmbach", "Gellifaelog", "Hirwaun", "Llantrisant", "Mountain Ash", "Pembroke", "Victoria", "Ynysgau", ...verifiedBranchEvidence.map(([name]) => name)].includes(canonicalName)) comparisonStatus = "Historically verified branch; no dedicated local membership register identified";
+  if (canonicalName === "Welsh Conference") comparisonStatus = "Verified local direct-FHC conference sources; Library 3118 incomplete";
+  if (canonicalName === "Llansawel (Carmarthenshire)") comparisonStatus = "Verified dedicated local source collection";
+  if (canonicalName === "Llansawel (Glamorgan)") comparisonStatus = "Verified compound local source section";
   const entityType = /conference/i.test(canonicalName) ? "Conference" : "Branch";
   return {
     canonicalName, entityType, variants: variants.join("; "),
-    earliestYear: canonicalName === "Llanelltyd" ? 1850 : canonicalName === "Treorchy" ? 1874 : canonicalName === "Rhymney English" ? 1851 : canonicalName === "Llandebie" || canonicalName === "Castell Nedd (Neath)" ? 1849 : (allYears.length ? Math.min(...allYears) : null),
-    latestYear: canonicalName === "Llanelltyd" ? 1857 : canonicalName === "Treorchy" ? 1882 : canonicalName === "Rhymney English" ? 1887 : canonicalName === "Llandebie" ? 1866 : canonicalName === "Castell Nedd (Neath)" ? 1884 : (allYears.length ? Math.max(...allYears) : null),
+    earliestYear: canonicalName === "Pontlanfraith" ? null : canonicalName === "Llanelltyd" ? 1850 : canonicalName === "Treorchy" ? 1874 : canonicalName === "Rhymney English" ? 1851 : canonicalName === "Cwmtillery" ? 1847 : canonicalName === "Trinant" ? 1849 : canonicalName === "Crumlin" ? 1857 : canonicalName === "Machen" ? 1854 : canonicalName === "Twyncarno" ? 1856 : canonicalName === "Llandebie" || canonicalName === "Castell Nedd (Neath)" ? 1849 : (allYears.length ? Math.min(...allYears) : null),
+    latestYear: canonicalName === "Pontlanfraith" ? null : canonicalName === "Llanelltyd" ? 1857 : canonicalName === "Treorchy" ? 1882 : canonicalName === "Rhymney English" ? 1887 : canonicalName === "Cwmtillery" ? 1857 : canonicalName === "Trinant" ? 1853 : canonicalName === "Crumlin" ? 1862 : canonicalName === "Machen" ? 1865 : canonicalName === "Twyncarno" ? 1857 : canonicalName === "Llandebie" ? 1866 : canonicalName === "Castell Nedd (Neath)" ? 1884 : (allYears.length ? Math.max(...allYears) : null),
     localCd, localNote, familySearch, comparisonStatus,
     filmAndCallNumbers: canonicalName === "Brechfa"
       ? "CD 4; LR 11000 7; 62 authoritative full-resolution images"
@@ -354,15 +615,30 @@ const registry = [...grouped.entries()].map(([canonicalName, entries]) => {
       ? "CD 34; LR 172 7 compound logical sections; 68 authoritative full-resolution images; Treorky minutes 1874 and membership register 1875-1882"
       : canonicalName === "Coalbrookvale"
       ? "CD 24; LR 174 7 compound section; 83 authoritative full-resolution images; membership registers 00080-00137"
+      : canonicalName === "Cwmbran"
+      ? "CD 62 within source group CDs 60-62; LR 70861 1; Pontypool/Abersychan General Minutes, 1857-1889; Cwmbran reports on typed PDF pages 129, 167, 169, 171-172, 176; Film 104168 Item 13 retained as legacy discovery metadata"
+      : canonicalName === "Morriston"
+      ? "CD 41; LR 17617 21; Western Glamorgan Conference Minutes, 1851-1870; Morriston fast-offerings report, 1866; Film 104172 Item 5 retained as legacy discovery metadata"
       : [...new Set(entries.map((entry) => entry.reference).filter(Boolean))].join("; "),
     relatedBranches: canonicalName === "Coalbrookvale" ? "Blaina; Nantyglo; Cwm Celyn" : canonicalName === "Swansea" ? "" : [...new Set(entries.map((entry) => entry.relatedBranch).filter(Boolean))].join("; "),
     relationshipNotes: canonicalName === "Coalbrookvale" ? "The source records organization of Coal Brook Vale on 3 March 1856 after disorganization/reorganization involving Nantyglo, Blaenau and Cwm Celyn. Blaina appears throughout the membership registers as the branch/locality heading; the evidence is preserved without creating a duplicate branch." : canonicalName === "Swansea" ? "Abertawe is the Welsh/historical source name for Swansea; the recovered LR 8863 10 description states that the branch was known as Abertawe until 1866." : [...new Set(entries.map((entry) => entry.relationshipNote).filter(Boolean))].join("; "),
-    notes: comparisonStatus.includes("only") ? "Needs human review; absence from one source is not proof the branch or record was absent." : "",
+    notes: canonicalName === "Cwmbran"
+      ? "Cwmbran is repeatedly attested in branch-condition, missionary, baptism/addition, and appointment reports. This is contextual minutes evidence, not a dedicated Record of Members."
+      : canonicalName === "Morriston"
+      ? "Morriston is explicitly attested by a 1866 fast-offerings report in the enclosing conference minutes. This is contextual conference material, not a dedicated Record of Members."
+      : canonicalName === "Overton"
+      ? "Organized 30 October 1840 and documented as the first branch in Wales. Activity is documented through 1842; no surviving Overton membership register is currently identified."
+      : canonicalName === "Eglwysbach"
+      ? "Organized by Abel Evans with six members after the Roberts family conversions; Hugh Roberts served as presiding elder and kept the branch record until 1864. The record's present survival or location is unknown."
+      : ["Aberaman", "Aberdare", "Abergavenny", "Beaufort", "Brecon", "Cefn Mawr", "Cwmbach", "Gellifaelog", "Hirwaun", "Llantrisant", "Mountain Ash", "Pembroke", "Victoria", "Ynysgau", ...verifiedBranchEvidence.map(([name]) => name)].includes(canonicalName)
+      ? "Explicit historical branch evidence is preserved in conference minutes, journals, Welsh Saints material, or Ronald D. Dennis publications. No dedicated Record of Members is currently identified."
+      : comparisonStatus.includes("only") ? "Needs human review; absence from one source is not proof the branch or record was absent." : "",
     sourceUrls: [...new Set(entries.map((entry) => entry.sourceUrl).filter(Boolean))].join("; "),
     nameSources: entries.filter((entry) => entry.provenance).map((entry) => ({
       sourceName: baseName(entry.rawName),
       ...entry.provenance,
     })),
+    leadershipOfficers: [...new Set(entries.map((entry) => entry.provenance?.leadership).filter(Boolean))].join("; "),
   };
 }).sort((a, b) => a.canonicalName.localeCompare(b.canonicalName, "en", { sensitivity: "base" }));
 

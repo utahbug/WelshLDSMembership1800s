@@ -1,6 +1,108 @@
 {
-  "generatedAt": "2026-08-14T03:00:23.566Z",
+  "generatedAt": "2026-08-16T02:27:57.618Z",
   "registry": [
+    {
+      "canonicalName": "Aberaman",
+      "entityType": "Branch",
+      "variants": "Aberamman; Aberamon",
+      "earliestYear": 1852,
+      "latestYear": 1852,
+      "localCd": false,
+      "localNote": false,
+      "familySearch": false,
+      "comparisonStatus": "Historically verified branch; no dedicated local membership register identified",
+      "filmAndCallNumbers": "Aberaman Branch council and branch business, typed transcript page 17; Journal reference to an Aberaman Branch meeting; Journal reference to the saints meeting at Aberaman Branch",
+      "relatedBranches": "",
+      "relationshipNotes": "",
+      "notes": "Explicit historical branch evidence is preserved in conference minutes, journals, Welsh Saints material, or Ronald D. Dennis publications. No dedicated Record of Members is currently identified.",
+      "sourceUrls": "https://welshsaints.byu.edu/Resource_Info.aspx?id=2759; https://welshsaints.byu.edu/Resource_Info.aspx?id=1347",
+      "nameSources": [
+        {
+          "sourceName": "Aberaman",
+          "collectionTitle": "East Glamorgan branch and conference minutes",
+          "collectionBranch": "Aberaman",
+          "note": "The transcript explicitly distinguishes Aberaman Branch from Aberdare Branch and records branch council activity in 1852."
+        }
+      ],
+      "leadershipOfficers": ""
+    },
+    {
+      "canonicalName": "Aberdare",
+      "entityType": "Branch",
+      "variants": "Aberdar",
+      "earliestYear": 1844,
+      "latestYear": 1852,
+      "localCd": false,
+      "localNote": false,
+      "familySearch": false,
+      "comparisonStatus": "Historically verified branch; no dedicated local membership register identified",
+      "filmAndCallNumbers": "Named among the seven branches forming the Merthyr Tydfil Conference; Aberdare Branch council and branch business, typed transcript page 17; Variant retained for branch discovery",
+      "relatedBranches": "",
+      "relationshipNotes": "",
+      "notes": "Explicit historical branch evidence is preserved in conference minutes, journals, Welsh Saints material, or Ronald D. Dennis publications. No dedicated Record of Members is currently identified.",
+      "sourceUrls": "https://welshsaints.byu.edu/Resource_Info.aspx?id=2618",
+      "nameSources": [
+        {
+          "sourceName": "Aberdare",
+          "collectionTitle": "The Welsh and the Gospel",
+          "collectionBranch": "Aberdare",
+          "note": "The historical narrative names Aberdare among the seven established branches forming the Merthyr Tydfil Conference."
+        }
+      ],
+      "leadershipOfficers": ""
+    },
+    {
+      "canonicalName": "Abergavenny",
+      "entityType": "Branch",
+      "variants": "Abergyfeny; Y Fenni",
+      "earliestYear": 1840,
+      "latestYear": 1844,
+      "localCd": false,
+      "localNote": false,
+      "familySearch": false,
+      "comparisonStatus": "Historically verified branch; no dedicated local membership register identified",
+      "filmAndCallNumbers": "Missionaries arrived late 1840; Abergavenny Branch later transferred from Garway Conference to Merthyr Tydfil Conference; PDF page 30 describes the arrival of the first missionaries and the established branch; Variant retained for discovery",
+      "relatedBranches": "",
+      "relationshipNotes": "",
+      "notes": "Explicit historical branch evidence is preserved in conference minutes, journals, Welsh Saints material, or Ronald D. Dennis publications. No dedicated Record of Members is currently identified.",
+      "sourceUrls": "https://welshsaints.byu.edu/Resource_Info.aspx?id=2618",
+      "nameSources": [
+        {
+          "sourceName": "Abergavenny",
+          "collectionTitle": "The Welsh and the Gospel",
+          "collectionBranch": "Abergavenny",
+          "note": "The narrative identifies Abergavenny as a branch, records missionary activity beginning in late 1840, and describes its later conference transfer."
+        }
+      ],
+      "leadershipOfficers": ""
+    },
+    {
+      "canonicalName": "Abergele",
+      "entityType": "Branch",
+      "variants": "",
+      "earliestYear": null,
+      "latestYear": null,
+      "localCd": false,
+      "localNote": false,
+      "familySearch": false,
+      "comparisonStatus": "Historically verified branch; no dedicated local membership register identified",
+      "filmAndCallNumbers": "PDF page 281; Edward Parry appointed to preside after John Parry was released",
+      "relatedBranches": "",
+      "relationshipNotes": "",
+      "notes": "Explicit historical branch evidence is preserved in conference minutes, journals, Welsh Saints material, or Ronald D. Dennis publications. No dedicated Record of Members is currently identified.",
+      "sourceUrls": "",
+      "nameSources": [
+        {
+          "sourceName": "Abergele",
+          "collectionTitle": "Zion's Trumpet, 1850",
+          "collectionBranch": "Abergele",
+          "evidenceType": "Branch leadership/officer appointment",
+          "note": "PDF page 281; Edward Parry appointed to preside after John Parry was released",
+          "leadership": "Branch president: John Parry; succeeded by Edward Parry"
+        }
+      ],
+      "leadershipOfficers": "Branch president: John Parry; succeeded by Edward Parry"
+    },
     {
       "canonicalName": "Abersychan",
       "entityType": "Branch",
@@ -16,7 +118,8 @@
       "relationshipNotes": "",
       "notes": "Needs human review; absence from one source is not proof the branch or record was absent.",
       "sourceUrls": "",
-      "nameSources": []
+      "nameSources": [],
+      "leadershipOfficers": ""
     },
     {
       "canonicalName": "Abertillery",
@@ -43,7 +146,8 @@
           "lrContext": "CD 19 / LR 195 7 compound volume",
           "note": "Abertillery occupies images 00046-00057 of the compound source. Cwm Celyn precedes this section and Tredegar begins at image 00058. The physical volume remains intact; the site exposes this range as a virtual collection."
         }
-      ]
+      ],
+      "leadershipOfficers": ""
     },
     {
       "canonicalName": "Alltwen",
@@ -60,7 +164,86 @@
       "relationshipNotes": "",
       "notes": "Needs human review; absence from one source is not proof the branch or record was absent.",
       "sourceUrls": "",
-      "nameSources": []
+      "nameSources": [],
+      "leadershipOfficers": ""
+    },
+    {
+      "canonicalName": "Bagillt",
+      "entityType": "Branch",
+      "variants": "",
+      "earliestYear": null,
+      "latestYear": null,
+      "localCd": false,
+      "localNote": false,
+      "familySearch": false,
+      "comparisonStatus": "Historically verified branch; no dedicated local membership register identified",
+      "filmAndCallNumbers": "PDF page 95; Bagillt explicitly identified as a branch in the Flintshire organization",
+      "relatedBranches": "",
+      "relationshipNotes": "",
+      "notes": "Explicit historical branch evidence is preserved in conference minutes, journals, Welsh Saints material, or Ronald D. Dennis publications. No dedicated Record of Members is currently identified.",
+      "sourceUrls": "",
+      "nameSources": [
+        {
+          "sourceName": "Bagillt",
+          "collectionTitle": "Zion's Trumpet, 1849",
+          "collectionBranch": "Bagillt",
+          "evidenceType": "Branch leadership/officer appointment",
+          "note": "PDF page 95; Bagillt explicitly identified as a branch in the Flintshire organization",
+          "leadership": "Branch president: John Jones"
+        }
+      ],
+      "leadershipOfficers": "Branch president: John Jones"
+    },
+    {
+      "canonicalName": "Beaufort",
+      "entityType": "Branch",
+      "variants": "",
+      "earliestYear": 1844,
+      "latestYear": 1844,
+      "localCd": false,
+      "localNote": false,
+      "familySearch": false,
+      "comparisonStatus": "Historically verified branch; no dedicated local membership register identified",
+      "filmAndCallNumbers": "Named among the seven branches forming the Merthyr Tydfil Conference",
+      "relatedBranches": "",
+      "relationshipNotes": "",
+      "notes": "Explicit historical branch evidence is preserved in conference minutes, journals, Welsh Saints material, or Ronald D. Dennis publications. No dedicated Record of Members is currently identified.",
+      "sourceUrls": "https://welshsaints.byu.edu/Resource_Info.aspx?id=2618",
+      "nameSources": [
+        {
+          "sourceName": "Beaufort",
+          "collectionTitle": "The Welsh and the Gospel",
+          "collectionBranch": "Beaufort",
+          "note": "The historical narrative explicitly lists Beaufort as one of the branches forming the Merthyr Tydfil Conference."
+        }
+      ],
+      "leadershipOfficers": ""
+    },
+    {
+      "canonicalName": "Blaenavon",
+      "entityType": "Branch",
+      "variants": "",
+      "earliestYear": null,
+      "latestYear": null,
+      "localCd": false,
+      "localNote": false,
+      "familySearch": false,
+      "comparisonStatus": "Historically verified branch; no dedicated local membership register identified",
+      "filmAndCallNumbers": "PDF page 197; Blaenavon branch presented to the Herefordshire District",
+      "relatedBranches": "",
+      "relationshipNotes": "",
+      "notes": "Explicit historical branch evidence is preserved in conference minutes, journals, Welsh Saints material, or Ronald D. Dennis publications. No dedicated Record of Members is currently identified.",
+      "sourceUrls": "",
+      "nameSources": [
+        {
+          "sourceName": "Blaenavon",
+          "collectionTitle": "Zion's Trumpet, 1850",
+          "collectionBranch": "Blaenavon",
+          "evidenceType": "Conference organization/branch list",
+          "note": "PDF page 197; Blaenavon branch presented to the Herefordshire District"
+        }
+      ],
+      "leadershipOfficers": ""
     },
     {
       "canonicalName": "Brechfa",
@@ -77,7 +260,33 @@
       "relationshipNotes": "",
       "notes": "",
       "sourceUrls": "",
-      "nameSources": []
+      "nameSources": [],
+      "leadershipOfficers": ""
+    },
+    {
+      "canonicalName": "Brecon",
+      "entityType": "Branch",
+      "variants": "",
+      "earliestYear": 1856,
+      "latestYear": 1857,
+      "localCd": false,
+      "localNote": false,
+      "familySearch": false,
+      "comparisonStatus": "Historically verified branch; no dedicated local membership register identified",
+      "filmAndCallNumbers": "A report identifies John Jones as formerly President of Brecon Branch; PDF page 445",
+      "relatedBranches": "",
+      "relationshipNotes": "",
+      "notes": "Explicit historical branch evidence is preserved in conference minutes, journals, Welsh Saints material, or Ronald D. Dennis publications. No dedicated Record of Members is currently identified.",
+      "sourceUrls": "",
+      "nameSources": [
+        {
+          "sourceName": "Brecon",
+          "collectionTitle": "Zion's Trumpet, 1856-1857",
+          "collectionBranch": "Brecon",
+          "note": "The periodical explicitly identifies an officer who had served as President of Brecon Branch."
+        }
+      ],
+      "leadershipOfficers": ""
     },
     {
       "canonicalName": "Britonferry",
@@ -94,7 +303,8 @@
       "relationshipNotes": "",
       "notes": "Needs human review; absence from one source is not proof the branch or record was absent.",
       "sourceUrls": "",
-      "nameSources": []
+      "nameSources": [],
+      "leadershipOfficers": ""
     },
     {
       "canonicalName": "Brynmawr",
@@ -111,7 +321,8 @@
       "relationshipNotes": "",
       "notes": "",
       "sourceUrls": "",
-      "nameSources": []
+      "nameSources": [],
+      "leadershipOfficers": ""
     },
     {
       "canonicalName": "Bryntroedgam",
@@ -128,7 +339,8 @@
       "relationshipNotes": "",
       "notes": "",
       "sourceUrls": "",
-      "nameSources": []
+      "nameSources": [],
+      "leadershipOfficers": ""
     },
     {
       "canonicalName": "Cardiff",
@@ -145,7 +357,34 @@
       "relationshipNotes": "",
       "notes": "",
       "sourceUrls": "https://www.familysearch.org/search/catalog/results?query=film_number%3A104168",
-      "nameSources": []
+      "nameSources": [],
+      "leadershipOfficers": ""
+    },
+    {
+      "canonicalName": "Carmarthen",
+      "entityType": "Branch",
+      "variants": "",
+      "earliestYear": null,
+      "latestYear": null,
+      "localCd": false,
+      "localNote": false,
+      "familySearch": false,
+      "comparisonStatus": "Historically verified branch; no dedicated local membership register identified",
+      "filmAndCallNumbers": "PDF page 260; Carmarthen named among branches assigned to the Carmarthen Conference",
+      "relatedBranches": "",
+      "relationshipNotes": "",
+      "notes": "Explicit historical branch evidence is preserved in conference minutes, journals, Welsh Saints material, or Ronald D. Dennis publications. No dedicated Record of Members is currently identified.",
+      "sourceUrls": "",
+      "nameSources": [
+        {
+          "sourceName": "Carmarthen",
+          "collectionTitle": "Zion's Trumpet, 1852",
+          "collectionBranch": "Carmarthen",
+          "evidenceType": "Conference organization/branch list",
+          "note": "PDF page 260; Carmarthen named among branches assigned to the Carmarthen Conference"
+        }
+      ],
+      "leadershipOfficers": ""
     },
     {
       "canonicalName": "Castell Nedd (Neath)",
@@ -181,7 +420,8 @@
           "lrContext": "Project/CD reference LR 196 7; photographed source/library identifier 1544.",
           "note": "The cover uses the compact historical spelling Castellned and dates the volume 1849-1883; the adjacent library label uses Castell Nedd and extends the catalog coverage through 1884."
         }
-      ]
+      ],
+      "leadershipOfficers": ""
     },
     {
       "canonicalName": "Cefn Coed-y-Cymmer",
@@ -198,7 +438,60 @@
       "relationshipNotes": "",
       "notes": "",
       "sourceUrls": "https://www.familysearch.org/search/catalog/results?query=film_number%3A104168",
-      "nameSources": []
+      "nameSources": [],
+      "leadershipOfficers": ""
+    },
+    {
+      "canonicalName": "Cefn Mawr",
+      "entityType": "Branch",
+      "variants": "",
+      "earliestYear": 1854,
+      "latestYear": 1854,
+      "localCd": false,
+      "localNote": false,
+      "familySearch": false,
+      "comparisonStatus": "Historically verified branch; no dedicated local membership register identified",
+      "filmAndCallNumbers": "Explicit Cefn Mawr Branch reference; PDF page 688",
+      "relatedBranches": "",
+      "relationshipNotes": "",
+      "notes": "Explicit historical branch evidence is preserved in conference minutes, journals, Welsh Saints material, or Ronald D. Dennis publications. No dedicated Record of Members is currently identified.",
+      "sourceUrls": "",
+      "nameSources": [
+        {
+          "sourceName": "Cefn Mawr",
+          "collectionTitle": "Zion's Trumpet, 1854",
+          "collectionBranch": "Cefn Mawr",
+          "note": "The periodical explicitly names Cefn Mawr Branch."
+        }
+      ],
+      "leadershipOfficers": ""
+    },
+    {
+      "canonicalName": "Cellan",
+      "entityType": "Branch",
+      "variants": "",
+      "earliestYear": null,
+      "latestYear": null,
+      "localCd": false,
+      "localNote": false,
+      "familySearch": false,
+      "comparisonStatus": "Historically verified branch; no dedicated local membership register identified",
+      "filmAndCallNumbers": "PDF page 65; William Evans identified as an elder in Cellan Branch",
+      "relatedBranches": "",
+      "relationshipNotes": "",
+      "notes": "Explicit historical branch evidence is preserved in conference minutes, journals, Welsh Saints material, or Ronald D. Dennis publications. No dedicated Record of Members is currently identified.",
+      "sourceUrls": "",
+      "nameSources": [
+        {
+          "sourceName": "Cellan",
+          "collectionTitle": "Zion's Trumpet, 1852",
+          "collectionBranch": "Cellan",
+          "evidenceType": "Explicit branch reference",
+          "note": "PDF page 65; William Evans identified as an elder in Cellan Branch",
+          "leadership": "Officer: William Evans, elder"
+        }
+      ],
+      "leadershipOfficers": "Officer: William Evans, elder"
     },
     {
       "canonicalName": "Coalbrookvale",
@@ -225,7 +518,8 @@
           "lrContext": "CD 24 / LR 174 7 compound volume",
           "note": "Image 00078 records organization of Coal Brook Vale on 3 March 1856 from Nantyglo, Blaenau and Cwm Celyn; images 00080-00137 contain two membership sequences under Coal Brook Vale / Blaina headings."
         }
-      ]
+      ],
+      "leadershipOfficers": ""
     },
     {
       "canonicalName": "Cogan",
@@ -242,7 +536,8 @@
       "relationshipNotes": "",
       "notes": "",
       "sourceUrls": "https://www.familysearch.org/search/catalog/results?query=film_number%3A104168",
-      "nameSources": []
+      "nameSources": [],
+      "leadershipOfficers": ""
     },
     {
       "canonicalName": "Crumlin",
@@ -266,7 +561,8 @@
           "collectionBranch": "Crumlin",
           "note": "PDF pages 6-9 contain the Crumlin register. Pages 1-4 are structural/catalog frames and page 5 closes the preceding Trinant section."
         }
-      ]
+      ],
+      "leadershipOfficers": ""
     },
     {
       "canonicalName": "Cuffern Mountain",
@@ -283,7 +579,8 @@
       "relationshipNotes": "",
       "notes": "",
       "sourceUrls": "https://www.familysearch.org/search/catalog/results?query=film_number%3A104168",
-      "nameSources": []
+      "nameSources": [],
+      "leadershipOfficers": ""
     },
     {
       "canonicalName": "Cwm Celyn",
@@ -300,7 +597,8 @@
       "relationshipNotes": "",
       "notes": "Needs human review; absence from one source is not proof the branch or record was absent.",
       "sourceUrls": "",
-      "nameSources": []
+      "nameSources": [],
+      "leadershipOfficers": ""
     },
     {
       "canonicalName": "Cwm Saerbren",
@@ -329,7 +627,33 @@
           "separateReference": "LR 11150",
           "note": "Internal source label dates the Cwm Saerbren record of members 1858-1874. The enclosing physical volume spans 1850-1882. LR 11150 remains a separate catalog reference; no corresponding images are currently connected."
         }
-      ]
+      ],
+      "leadershipOfficers": ""
+    },
+    {
+      "canonicalName": "Cwmbach",
+      "entityType": "Branch",
+      "variants": "",
+      "earliestYear": 1851,
+      "latestYear": 1852,
+      "localCd": false,
+      "localNote": false,
+      "familySearch": false,
+      "comparisonStatus": "Historically verified branch; no dedicated local membership register identified",
+      "filmAndCallNumbers": "Cwmbach Branch president and council activity; typed transcript page 12",
+      "relatedBranches": "",
+      "relationshipNotes": "",
+      "notes": "Explicit historical branch evidence is preserved in conference minutes, journals, Welsh Saints material, or Ronald D. Dennis publications. No dedicated Record of Members is currently identified.",
+      "sourceUrls": "",
+      "nameSources": [
+        {
+          "sourceName": "Cwmbach",
+          "collectionTitle": "East Glamorgan Conference minutes, 1851-1852",
+          "collectionBranch": "Cwmbach",
+          "note": "The minutes explicitly identify Cwmbach Branch, its president, and branch council activity."
+        }
+      ],
+      "leadershipOfficers": ""
     },
     {
       "canonicalName": "Cwmbran",
@@ -346,7 +670,8 @@
       "relationshipNotes": "",
       "notes": "Cwmbran is repeatedly attested in branch-condition, missionary, baptism/addition, and appointment reports. This is contextual minutes evidence, not a dedicated Record of Members.",
       "sourceUrls": "https://www.familysearch.org/search/catalog/results?query=film_number%3A104168",
-      "nameSources": []
+      "nameSources": [],
+      "leadershipOfficers": ""
     },
     {
       "canonicalName": "Cwmcillyn",
@@ -370,7 +695,8 @@
           "collectionBranch": "Cwmcillyn",
           "note": "Checked project source CDs, recovered CD copies, Microfilm PDFs/direct-FHC component holdings, manifests, catalogs, and legacy Wales2Utah material. The source remains historically attested, but no authoritative local image collection was found."
         }
-      ]
+      ],
+      "leadershipOfficers": ""
     },
     {
       "canonicalName": "Cwmtillery",
@@ -394,7 +720,8 @@
           "collectionBranch": "Cwmtillery",
           "note": "The source heading supports 1847-1857 for the Record of Members. The broader inherited 1847-1862 range describes additional deaths, children and historical material and is not used as the membership-register range."
         }
-      ]
+      ],
+      "leadershipOfficers": ""
     },
     {
       "canonicalName": "Cymmer",
@@ -411,7 +738,8 @@
       "relationshipNotes": "",
       "notes": "Needs human review; absence from one source is not proof the branch or record was absent.",
       "sourceUrls": "",
-      "nameSources": []
+      "nameSources": [],
+      "leadershipOfficers": ""
     },
     {
       "canonicalName": "Dinas",
@@ -438,7 +766,8 @@
           "lrContext": "Project/recovered-folder reference LR 182 7; retained source-image prefix 1555.",
           "note": "The cover says 1848-1878 while the inherited project/indexing range says 1848-1879. No inspected membership entry or annotation establishes 1879. Introductory Welsh narrative ends with apparent Cymer Branch wording and is preserved as possible branch evidence."
         }
-      ]
+      ],
+      "leadershipOfficers": ""
     },
     {
       "canonicalName": "Dowlais",
@@ -455,7 +784,8 @@
       "relationshipNotes": "",
       "notes": "Needs human review; absence from one source is not proof the branch or record was absent.",
       "sourceUrls": "",
-      "nameSources": []
+      "nameSources": [],
+      "leadershipOfficers": ""
     },
     {
       "canonicalName": "Ebbw Vale",
@@ -472,7 +802,8 @@
       "relationshipNotes": "",
       "notes": "",
       "sourceUrls": "",
-      "nameSources": []
+      "nameSources": [],
+      "leadershipOfficers": ""
     },
     {
       "canonicalName": "Eglwysbach",
@@ -496,7 +827,8 @@
           "collectionBranch": "Eglwysbach",
           "note": "The family history says Abel Evans organized the Eglwysbach Branch with six members, Hugh Roberts was called as presiding elder, and Roberts kept the branch record until he emigrated in 1864, when he delivered it to John Roberts of Pensarn. The present location or survival of that branch record is not established."
         }
-      ]
+      ],
+      "leadershipOfficers": ""
     },
     {
       "canonicalName": "Ffestiniog",
@@ -520,7 +852,112 @@
           "collectionBranch": "Ffestiniog",
           "note": "The membership-book title page directly supports the 1848 start date with the wording '1848, etc.' The 1856 endpoint is the branch closing/end date documented in the project's historical context; 1856 is not printed on that title page."
         }
-      ]
+      ],
+      "leadershipOfficers": ""
+    },
+    {
+      "canonicalName": "Fishguard",
+      "entityType": "Branch",
+      "variants": "",
+      "earliestYear": null,
+      "latestYear": null,
+      "localCd": false,
+      "localNote": false,
+      "familySearch": false,
+      "comparisonStatus": "Historically verified branch; no dedicated local membership register identified",
+      "filmAndCallNumbers": "PDF page 974; Fishguard appears in a branch-organized contribution list",
+      "relatedBranches": "",
+      "relationshipNotes": "",
+      "notes": "Explicit historical branch evidence is preserved in conference minutes, journals, Welsh Saints material, or Ronald D. Dennis publications. No dedicated Record of Members is currently identified.",
+      "sourceUrls": "",
+      "nameSources": [
+        {
+          "sourceName": "Fishguard",
+          "collectionTitle": "Zion's Trumpet, 1856-1857",
+          "collectionBranch": "Fishguard",
+          "evidenceType": "Branch contribution/account list",
+          "note": "PDF page 974; Fishguard appears in a branch-organized contribution list"
+        }
+      ],
+      "leadershipOfficers": ""
+    },
+    {
+      "canonicalName": "Fleur-de-Lis",
+      "entityType": "Branch",
+      "variants": "",
+      "earliestYear": null,
+      "latestYear": null,
+      "localCd": false,
+      "localNote": false,
+      "familySearch": false,
+      "comparisonStatus": "Historically verified branch; no dedicated local membership register identified",
+      "filmAndCallNumbers": "PDF page 197; William Howells appointed to preside over Fleur-de-Lis Branch",
+      "relatedBranches": "",
+      "relationshipNotes": "",
+      "notes": "Explicit historical branch evidence is preserved in conference minutes, journals, Welsh Saints material, or Ronald D. Dennis publications. No dedicated Record of Members is currently identified.",
+      "sourceUrls": "",
+      "nameSources": [
+        {
+          "sourceName": "Fleur-de-Lis",
+          "collectionTitle": "Zion's Trumpet, 1850",
+          "collectionBranch": "Fleur-de-Lis",
+          "evidenceType": "Branch leadership/officer appointment",
+          "note": "PDF page 197; William Howells appointed to preside over Fleur-de-Lis Branch",
+          "leadership": "Branch president: William Howells"
+        }
+      ],
+      "leadershipOfficers": "Branch president: William Howells"
+    },
+    {
+      "canonicalName": "Garndiffaith",
+      "entityType": "Branch",
+      "variants": "Garnddiffaith",
+      "earliestYear": null,
+      "latestYear": null,
+      "localCd": false,
+      "localNote": false,
+      "familySearch": false,
+      "comparisonStatus": "Historically verified branch; no dedicated local membership register identified",
+      "filmAndCallNumbers": "PDF page 197; source spelling Garnddiffaith, branch presented to the Herefordshire District; Source spelling retained as an alias of Garndiffaith",
+      "relatedBranches": "",
+      "relationshipNotes": "",
+      "notes": "Explicit historical branch evidence is preserved in conference minutes, journals, Welsh Saints material, or Ronald D. Dennis publications. No dedicated Record of Members is currently identified.",
+      "sourceUrls": "",
+      "nameSources": [
+        {
+          "sourceName": "Garndiffaith",
+          "collectionTitle": "Zion's Trumpet, 1850",
+          "collectionBranch": "Garndiffaith",
+          "evidenceType": "Conference organization/branch list",
+          "note": "PDF page 197; source spelling Garnddiffaith, branch presented to the Herefordshire District"
+        }
+      ],
+      "leadershipOfficers": ""
+    },
+    {
+      "canonicalName": "Gellifaelog",
+      "entityType": "Branch",
+      "variants": "",
+      "earliestYear": 1851,
+      "latestYear": 1852,
+      "localCd": false,
+      "localNote": false,
+      "familySearch": false,
+      "comparisonStatus": "Historically verified branch; no dedicated local membership register identified",
+      "filmAndCallNumbers": "Gellifaelog Branch and branch officer ordinations; typed pages 60 and 76",
+      "relatedBranches": "",
+      "relationshipNotes": "",
+      "notes": "Explicit historical branch evidence is preserved in conference minutes, journals, Welsh Saints material, or Ronald D. Dennis publications. No dedicated Record of Members is currently identified.",
+      "sourceUrls": "",
+      "nameSources": [
+        {
+          "sourceName": "Gellifaelog",
+          "collectionTitle": "East Glamorgan Conference minutes, 1851-1852",
+          "collectionBranch": "Gellifaelog",
+          "note": "Conference reporting and officer ordinations explicitly identify Gellifaelog Branch."
+        }
+      ],
+      "leadershipOfficers": ""
     },
     {
       "canonicalName": "Georgetown",
@@ -537,7 +974,8 @@
       "relationshipNotes": "",
       "notes": "Needs human review; absence from one source is not proof the branch or record was absent.",
       "sourceUrls": "",
-      "nameSources": []
+      "nameSources": [],
+      "leadershipOfficers": ""
     },
     {
       "canonicalName": "Gilwern",
@@ -554,7 +992,34 @@
       "relationshipNotes": "",
       "notes": "Needs human review; absence from one source is not proof the branch or record was absent.",
       "sourceUrls": "",
-      "nameSources": []
+      "nameSources": [],
+      "leadershipOfficers": ""
+    },
+    {
+      "canonicalName": "Harlech",
+      "entityType": "Branch",
+      "variants": "",
+      "earliestYear": null,
+      "latestYear": null,
+      "localCd": false,
+      "localNote": false,
+      "familySearch": false,
+      "comparisonStatus": "Historically verified branch; no dedicated local membership register identified",
+      "filmAndCallNumbers": "PDF page 299; Harlech listed among represented Merionethshire branches",
+      "relatedBranches": "",
+      "relationshipNotes": "",
+      "notes": "Explicit historical branch evidence is preserved in conference minutes, journals, Welsh Saints material, or Ronald D. Dennis publications. No dedicated Record of Members is currently identified.",
+      "sourceUrls": "",
+      "nameSources": [
+        {
+          "sourceName": "Harlech",
+          "collectionTitle": "Zion's Trumpet, 1849",
+          "collectionBranch": "Harlech",
+          "evidenceType": "Conference organization/branch list",
+          "note": "PDF page 299; Harlech listed among represented Merionethshire branches"
+        }
+      ],
+      "leadershipOfficers": ""
     },
     {
       "canonicalName": "Haverfordwest",
@@ -581,7 +1046,112 @@
           "lrContext": "Photographed identifiers CR 11343 11 V.1 and CR 11343 11 V.2; project folder/filename forms LR1134321 and LR1134311 are retained separately.",
           "note": "Volume 1 contains member records 1847-1853 and historical material. Volume 2 contains historical record 1852-1854 and a separate member register 1857-1860. The exact catalog relationship among CR/LR forms is not normalized beyond the photographed evidence."
         }
-      ]
+      ],
+      "leadershipOfficers": ""
+    },
+    {
+      "canonicalName": "Hirwaun",
+      "entityType": "Branch",
+      "variants": "Hirwaen",
+      "earliestYear": 1846,
+      "latestYear": 1848,
+      "localCd": false,
+      "localNote": false,
+      "familySearch": false,
+      "comparisonStatus": "Historically verified branch; no dedicated local membership register identified",
+      "filmAndCallNumbers": "Hirwaun Branch is identified in 1846 and in later priesthood and baptism statistics; PDF page 498; Variant retained for discovery",
+      "relatedBranches": "",
+      "relationshipNotes": "",
+      "notes": "Explicit historical branch evidence is preserved in conference minutes, journals, Welsh Saints material, or Ronald D. Dennis publications. No dedicated Record of Members is currently identified.",
+      "sourceUrls": "",
+      "nameSources": [
+        {
+          "sourceName": "Hirwaun",
+          "collectionTitle": "Prophet of the Jubilee",
+          "collectionBranch": "Hirwaun",
+          "note": "The publication explicitly identifies Hirwaun Branch and preserves branch-level statistical evidence."
+        }
+      ],
+      "leadershipOfficers": ""
+    },
+    {
+      "canonicalName": "Letterston",
+      "entityType": "Branch",
+      "variants": "",
+      "earliestYear": null,
+      "latestYear": null,
+      "localCd": false,
+      "localNote": false,
+      "familySearch": false,
+      "comparisonStatus": "Historically verified branch; no dedicated local membership register identified",
+      "filmAndCallNumbers": "PDF page 212; North Pembroke conference report held at Letterston with branch representation",
+      "relatedBranches": "",
+      "relationshipNotes": "",
+      "notes": "Explicit historical branch evidence is preserved in conference minutes, journals, Welsh Saints material, or Ronald D. Dennis publications. No dedicated Record of Members is currently identified.",
+      "sourceUrls": "",
+      "nameSources": [
+        {
+          "sourceName": "Letterston",
+          "collectionTitle": "Zion's Trumpet, 1855",
+          "collectionBranch": "Letterston",
+          "evidenceType": "Explicit branch reference",
+          "note": "PDF page 212; North Pembroke conference report held at Letterston with branch representation"
+        }
+      ],
+      "leadershipOfficers": ""
+    },
+    {
+      "canonicalName": "Llanbrynmair",
+      "entityType": "Branch",
+      "variants": "",
+      "earliestYear": null,
+      "latestYear": null,
+      "localCd": false,
+      "localNote": false,
+      "familySearch": false,
+      "comparisonStatus": "Historically verified branch; no dedicated local membership register identified",
+      "filmAndCallNumbers": "PDF page 299; Llanbrynmair listed among represented Merionethshire branches",
+      "relatedBranches": "",
+      "relationshipNotes": "",
+      "notes": "Explicit historical branch evidence is preserved in conference minutes, journals, Welsh Saints material, or Ronald D. Dennis publications. No dedicated Record of Members is currently identified.",
+      "sourceUrls": "",
+      "nameSources": [
+        {
+          "sourceName": "Llanbrynmair",
+          "collectionTitle": "Zion's Trumpet, 1849",
+          "collectionBranch": "Llanbrynmair",
+          "evidenceType": "Conference organization/branch list",
+          "note": "PDF page 299; Llanbrynmair listed among represented Merionethshire branches"
+        }
+      ],
+      "leadershipOfficers": ""
+    },
+    {
+      "canonicalName": "Llanddoged",
+      "entityType": "Branch",
+      "variants": "",
+      "earliestYear": null,
+      "latestYear": null,
+      "localCd": false,
+      "localNote": false,
+      "familySearch": false,
+      "comparisonStatus": "Historically verified branch; no dedicated local membership register identified",
+      "filmAndCallNumbers": "PDF page 417 (1850) and page 705 (1854); branch established and later presiding appointment recorded",
+      "relatedBranches": "",
+      "relationshipNotes": "",
+      "notes": "Explicit historical branch evidence is preserved in conference minutes, journals, Welsh Saints material, or Ronald D. Dennis publications. No dedicated Record of Members is currently identified.",
+      "sourceUrls": "",
+      "nameSources": [
+        {
+          "sourceName": "Llanddoged",
+          "collectionTitle": "Zion's Trumpet, 1850 and 1854",
+          "collectionBranch": "Llanddoged",
+          "evidenceType": "Branch leadership/officer appointment",
+          "note": "PDF page 417 (1850) and page 705 (1854); branch established and later presiding appointment recorded",
+          "leadership": "Branch presidents: John Davies (1850); John Ellis (1854)"
+        }
+      ],
+      "leadershipOfficers": "Branch presidents: John Davies (1850); John Ellis (1854)"
     },
     {
       "canonicalName": "Llandebie",
@@ -608,7 +1178,35 @@
           "lrContext": "Project reference LR 113 7; photographed source label separately shows library number 870.",
           "note": "The photographed label states Record of Members 1849-1866. The volume contains two independently numbered membership registers, a separate renewal/reformation sequence, opening Welsh historical narrative, and an additional-remarks page."
         }
-      ]
+      ],
+      "leadershipOfficers": ""
+    },
+    {
+      "canonicalName": "Llandudno",
+      "entityType": "Branch",
+      "variants": "",
+      "earliestYear": null,
+      "latestYear": null,
+      "localCd": false,
+      "localNote": false,
+      "familySearch": false,
+      "comparisonStatus": "Historically verified branch; no dedicated local membership register identified",
+      "filmAndCallNumbers": "PDF page 417; branch established at Llandudno",
+      "relatedBranches": "",
+      "relationshipNotes": "",
+      "notes": "Explicit historical branch evidence is preserved in conference minutes, journals, Welsh Saints material, or Ronald D. Dennis publications. No dedicated Record of Members is currently identified.",
+      "sourceUrls": "",
+      "nameSources": [
+        {
+          "sourceName": "Llandudno",
+          "collectionTitle": "Zion's Trumpet, 1850",
+          "collectionBranch": "Llandudno",
+          "evidenceType": "Branch leadership/officer appointment",
+          "note": "PDF page 417; branch established at Llandudno",
+          "leadership": "Branch president: Isaac Morris"
+        }
+      ],
+      "leadershipOfficers": "Branch president: Isaac Morris"
     },
     {
       "canonicalName": "Llanelli",
@@ -635,7 +1233,8 @@
           "lrContext": "Internal source labels say 1577; recovered CD folder says LR 11757 7; all 138 retained filenames say LR 12451 7.",
           "note": "The 138-image run is one continuous physical volume and is not checksum-duplicated from the Rhymney collection. The filename/catalog identifier conflict remains unresolved."
         }
-      ]
+      ],
+      "leadershipOfficers": ""
     },
     {
       "canonicalName": "Llanelltyd",
@@ -673,7 +1272,8 @@
           "internalPage": 1,
           "note": "The source label dates the Llanelltyd Record of Members 1850-1857. The virtual collection stops at image 00035; image 00036 begins Cwm Saerbren."
         }
-      ]
+      ],
+      "leadershipOfficers": ""
     },
     {
       "canonicalName": "Llanelly 2",
@@ -690,7 +1290,8 @@
       "relationshipNotes": "",
       "notes": "Needs human review; absence from one source is not proof the branch or record was absent.",
       "sourceUrls": "",
-      "nameSources": []
+      "nameSources": [],
+      "leadershipOfficers": ""
     },
     {
       "canonicalName": "Llanfabon",
@@ -717,7 +1318,34 @@
           "lrContext": "Project reference LR1687; photographed source label separately shows 871.",
           "note": "The relationship between historical/library identifier 871 and project LR1687 is not established. The volume contains an original register, a separate Reformation register, and Welsh historical narrative on written pages 19-28."
         }
-      ]
+      ],
+      "leadershipOfficers": ""
+    },
+    {
+      "canonicalName": "Llanpumsaint",
+      "entityType": "Branch",
+      "variants": "",
+      "earliestYear": null,
+      "latestYear": null,
+      "localCd": false,
+      "localNote": false,
+      "familySearch": false,
+      "comparisonStatus": "Historically verified branch; no dedicated local membership register identified",
+      "filmAndCallNumbers": "PDF page 260; Llanpumsaint named among branches assigned to the Carmarthen Conference",
+      "relatedBranches": "",
+      "relationshipNotes": "",
+      "notes": "Explicit historical branch evidence is preserved in conference minutes, journals, Welsh Saints material, or Ronald D. Dennis publications. No dedicated Record of Members is currently identified.",
+      "sourceUrls": "",
+      "nameSources": [
+        {
+          "sourceName": "Llanpumsaint",
+          "collectionTitle": "Zion's Trumpet, 1852",
+          "collectionBranch": "Llanpumsaint",
+          "evidenceType": "Conference organization/branch list",
+          "note": "PDF page 260; Llanpumsaint named among branches assigned to the Carmarthen Conference"
+        }
+      ],
+      "leadershipOfficers": ""
     },
     {
       "canonicalName": "Llansawel (Carmarthenshire)",
@@ -744,7 +1372,8 @@
           "lrContext": "CD 14 / LR 221 7; photographed library identifier 318.",
           "note": "Dedicated register. Member residences and the CD assignment support the Carmarthenshire identity; it is distinct from the later Glamorgan section in LR 11759 7."
         }
-      ]
+      ],
+      "leadershipOfficers": ""
     },
     {
       "canonicalName": "Llansawel (Glamorgan)",
@@ -771,7 +1400,59 @@
           "lrContext": "CD 18 / LR 11759 7 compound Swansea-related volume.",
           "note": "The photographed heading explicitly identifies Glamorgan. The Llansawel section is images 00009-00048; Swansea resumes at image 00049."
         }
-      ]
+      ],
+      "leadershipOfficers": ""
+    },
+    {
+      "canonicalName": "Llantrisant",
+      "entityType": "Branch",
+      "variants": "",
+      "earliestYear": 1850,
+      "latestYear": 1851,
+      "localCd": false,
+      "localNote": false,
+      "familySearch": false,
+      "comparisonStatus": "Historically verified branch; no dedicated local membership register identified",
+      "filmAndCallNumbers": "Baptized by a priest of Llantrisant Branch and confirmed under Thomas Morgan, Branch President; Llantrisant is listed with branch-level distribution and membership figures",
+      "relatedBranches": "",
+      "relationshipNotes": "",
+      "notes": "Explicit historical branch evidence is preserved in conference minutes, journals, Welsh Saints material, or Ronald D. Dennis publications. No dedicated Record of Members is currently identified.",
+      "sourceUrls": "https://welshsaints.byu.edu/Resource_Info.aspx?id=2759",
+      "nameSources": [
+        {
+          "sourceName": "Llantrisant",
+          "collectionTitle": "Richard Jenkins journal",
+          "collectionBranch": "Llantrisant",
+          "note": "The journal directly identifies Llantrisant Branch, its priesthood activity, and its branch president in January 1851."
+        }
+      ],
+      "leadershipOfficers": ""
+    },
+    {
+      "canonicalName": "Llanybydder",
+      "entityType": "Branch",
+      "variants": "",
+      "earliestYear": null,
+      "latestYear": null,
+      "localCd": false,
+      "localNote": false,
+      "familySearch": false,
+      "comparisonStatus": "Historically verified branch; no dedicated local membership register identified",
+      "filmAndCallNumbers": "PDF page 59; explicit Llanybydder Branch report",
+      "relatedBranches": "",
+      "relationshipNotes": "",
+      "notes": "Explicit historical branch evidence is preserved in conference minutes, journals, Welsh Saints material, or Ronald D. Dennis publications. No dedicated Record of Members is currently identified.",
+      "sourceUrls": "",
+      "nameSources": [
+        {
+          "sourceName": "Llanybydder",
+          "collectionTitle": "Prophet of the Jubilee",
+          "collectionBranch": "Llanybydder",
+          "evidenceType": "Explicit branch reference",
+          "note": "PDF page 59; explicit Llanybydder Branch report"
+        }
+      ],
+      "leadershipOfficers": ""
     },
     {
       "canonicalName": "Machen",
@@ -795,7 +1476,60 @@
           "collectionBranch": "Machen",
           "note": "The local PDF is a documented direct-FHC fallback. The photographed/library identifier discrepancy 1565 versus 1765 remains unresolved."
         }
-      ]
+      ],
+      "leadershipOfficers": ""
+    },
+    {
+      "canonicalName": "Machynlleth",
+      "entityType": "Branch",
+      "variants": "",
+      "earliestYear": null,
+      "latestYear": null,
+      "localCd": false,
+      "localNote": false,
+      "familySearch": false,
+      "comparisonStatus": "Historically verified branch; no dedicated local membership register identified",
+      "filmAndCallNumbers": "PDF page 299; Machynlleth listed among represented Merionethshire branches",
+      "relatedBranches": "",
+      "relationshipNotes": "",
+      "notes": "Explicit historical branch evidence is preserved in conference minutes, journals, Welsh Saints material, or Ronald D. Dennis publications. No dedicated Record of Members is currently identified.",
+      "sourceUrls": "",
+      "nameSources": [
+        {
+          "sourceName": "Machynlleth",
+          "collectionTitle": "Zion's Trumpet, 1849",
+          "collectionBranch": "Machynlleth",
+          "evidenceType": "Conference organization/branch list",
+          "note": "PDF page 299; Machynlleth listed among represented Merionethshire branches"
+        }
+      ],
+      "leadershipOfficers": ""
+    },
+    {
+      "canonicalName": "Maesteg",
+      "entityType": "Branch",
+      "variants": "",
+      "earliestYear": null,
+      "latestYear": null,
+      "localCd": false,
+      "localNote": false,
+      "familySearch": false,
+      "comparisonStatus": "Historically verified branch; no dedicated local membership register identified",
+      "filmAndCallNumbers": "PDF page 203; William Evans explicitly identified as a member of Maesteg Branch",
+      "relatedBranches": "",
+      "relationshipNotes": "",
+      "notes": "Explicit historical branch evidence is preserved in conference minutes, journals, Welsh Saints material, or Ronald D. Dennis publications. No dedicated Record of Members is currently identified.",
+      "sourceUrls": "",
+      "nameSources": [
+        {
+          "sourceName": "Maesteg",
+          "collectionTitle": "Zion's Trumpet, 1855",
+          "collectionBranch": "Maesteg",
+          "evidenceType": "Explicit branch reference",
+          "note": "PDF page 203; William Evans explicitly identified as a member of Maesteg Branch"
+        }
+      ],
+      "leadershipOfficers": ""
     },
     {
       "canonicalName": "Merthyr Tydfil",
@@ -812,7 +1546,8 @@
       "relationshipNotes": "",
       "notes": "Needs human review; absence from one source is not proof the branch or record was absent.",
       "sourceUrls": "",
-      "nameSources": []
+      "nameSources": [],
+      "leadershipOfficers": ""
     },
     {
       "canonicalName": "Morriston",
@@ -829,7 +1564,33 @@
       "relationshipNotes": "",
       "notes": "Morriston is explicitly attested by a 1866 fast-offerings report in the enclosing conference minutes. This is contextual conference material, not a dedicated Record of Members.",
       "sourceUrls": "https://www.familysearch.org/search/catalog/results?query=film_number%3A104172",
-      "nameSources": []
+      "nameSources": [],
+      "leadershipOfficers": ""
+    },
+    {
+      "canonicalName": "Mountain Ash",
+      "entityType": "Branch",
+      "variants": "",
+      "earliestYear": 1862,
+      "latestYear": 1862,
+      "localCd": false,
+      "localNote": false,
+      "familySearch": false,
+      "comparisonStatus": "Historically verified branch; no dedicated local membership register identified",
+      "filmAndCallNumbers": "Journal entry dated 30 January 1862 states that the writer came to Mountain Ash Branch",
+      "relatedBranches": "",
+      "relationshipNotes": "",
+      "notes": "Explicit historical branch evidence is preserved in conference minutes, journals, Welsh Saints material, or Ronald D. Dennis publications. No dedicated Record of Members is currently identified.",
+      "sourceUrls": "https://welshsaints.byu.edu/Resource_Info.aspx?id=181",
+      "nameSources": [
+        {
+          "sourceName": "Mountain Ash",
+          "collectionTitle": "Thomas Evans Jeremy journal",
+          "collectionBranch": "Mountain Ash",
+          "note": "The dated journal entry explicitly identifies Mountain Ash Branch."
+        }
+      ],
+      "leadershipOfficers": ""
     },
     {
       "canonicalName": "Nantyglo",
@@ -846,7 +1607,35 @@
       "relationshipNotes": "",
       "notes": "Needs human review; absence from one source is not proof the branch or record was absent.",
       "sourceUrls": "",
-      "nameSources": []
+      "nameSources": [],
+      "leadershipOfficers": ""
+    },
+    {
+      "canonicalName": "Newmarket",
+      "entityType": "Branch",
+      "variants": "Trelawnyd",
+      "earliestYear": null,
+      "latestYear": null,
+      "localCd": false,
+      "localNote": false,
+      "familySearch": false,
+      "comparisonStatus": "Historically verified branch; no dedicated local membership register identified",
+      "filmAndCallNumbers": "PDF pages 117-118; Newmarket represented as a branch and Robert Parry set apart to preside; Modern name of historical Newmarket; historical source name remains canonical",
+      "relatedBranches": "",
+      "relationshipNotes": "",
+      "notes": "Explicit historical branch evidence is preserved in conference minutes, journals, Welsh Saints material, or Ronald D. Dennis publications. No dedicated Record of Members is currently identified.",
+      "sourceUrls": "",
+      "nameSources": [
+        {
+          "sourceName": "Newmarket",
+          "collectionTitle": "Zion's Trumpet, 1849",
+          "collectionBranch": "Newmarket",
+          "evidenceType": "Branch leadership/officer appointment",
+          "note": "PDF pages 117-118; Newmarket represented as a branch and Robert Parry set apart to preside",
+          "leadership": "Branch president: Robert Parry"
+        }
+      ],
+      "leadershipOfficers": "Branch president: Robert Parry"
     },
     {
       "canonicalName": "Newport",
@@ -863,7 +1652,8 @@
       "relationshipNotes": "",
       "notes": "Needs human review; absence from one source is not proof the branch or record was absent.",
       "sourceUrls": "",
-      "nameSources": []
+      "nameSources": [],
+      "leadershipOfficers": ""
     },
     {
       "canonicalName": "Overton",
@@ -887,7 +1677,33 @@
           "collectionBranch": "Overton",
           "note": "Overton, historically in Flintshire and now in Wrexham County Borough, was organized on 30 October 1840 after the mission of Henry Royle and Frederick Cook. Contemporary journal references continue into 1842. The historical resource explicitly states that no Overton branch record is known to have survived."
         }
-      ]
+      ],
+      "leadershipOfficers": ""
+    },
+    {
+      "canonicalName": "Pembroke",
+      "entityType": "Branch",
+      "variants": "",
+      "earliestYear": 1856,
+      "latestYear": 1857,
+      "localCd": false,
+      "localNote": false,
+      "familySearch": false,
+      "comparisonStatus": "Historically verified branch; no dedicated local membership register identified",
+      "filmAndCallNumbers": "Pembroke Branch is explicitly named in a contribution list; PDF page 974",
+      "relatedBranches": "",
+      "relationshipNotes": "",
+      "notes": "Explicit historical branch evidence is preserved in conference minutes, journals, Welsh Saints material, or Ronald D. Dennis publications. No dedicated Record of Members is currently identified.",
+      "sourceUrls": "",
+      "nameSources": [
+        {
+          "sourceName": "Pembroke",
+          "collectionTitle": "Zion's Trumpet, 1856-1857",
+          "collectionBranch": "Pembroke",
+          "note": "The periodical explicitly names Pembroke Branch in a branch contribution list."
+        }
+      ],
+      "leadershipOfficers": ""
     },
     {
       "canonicalName": "Pen-y-cae",
@@ -904,7 +1720,8 @@
       "relationshipNotes": "",
       "notes": "Needs human review; absence from one source is not proof the branch or record was absent.",
       "sourceUrls": "",
-      "nameSources": []
+      "nameSources": [],
+      "leadershipOfficers": ""
     },
     {
       "canonicalName": "Pen-y-Darran",
@@ -921,7 +1738,34 @@
       "relationshipNotes": "",
       "notes": "Needs human review; absence from one source is not proof the branch or record was absent.",
       "sourceUrls": "",
-      "nameSources": []
+      "nameSources": [],
+      "leadershipOfficers": ""
+    },
+    {
+      "canonicalName": "Pencader",
+      "entityType": "Branch",
+      "variants": "",
+      "earliestYear": null,
+      "latestYear": null,
+      "localCd": false,
+      "localNote": false,
+      "familySearch": false,
+      "comparisonStatus": "Historically verified branch; no dedicated local membership register identified",
+      "filmAndCallNumbers": "PDF page 260; Pencader named among branches assigned to the Carmarthen Conference",
+      "relatedBranches": "",
+      "relationshipNotes": "",
+      "notes": "Explicit historical branch evidence is preserved in conference minutes, journals, Welsh Saints material, or Ronald D. Dennis publications. No dedicated Record of Members is currently identified.",
+      "sourceUrls": "",
+      "nameSources": [
+        {
+          "sourceName": "Pencader",
+          "collectionTitle": "Zion's Trumpet, 1852",
+          "collectionBranch": "Pencader",
+          "evidenceType": "Conference organization/branch list",
+          "note": "PDF page 260; Pencader named among branches assigned to the Carmarthen Conference"
+        }
+      ],
+      "leadershipOfficers": ""
     },
     {
       "canonicalName": "Pendoylon",
@@ -952,14 +1796,15 @@
           "collectionBranch": "Pendoylon",
           "note": "The map identifies Pendoylon Branch, 1851-1886, as images 195-239. No matching local/original image collection was located during the 2026-08-11 recovery audit."
         }
-      ]
+      ],
+      "leadershipOfficers": ""
     },
     {
       "canonicalName": "Pontlanfraith",
       "entityType": "Branch",
       "variants": "",
-      "earliestYear": 1947,
-      "latestYear": 1947,
+      "earliestYear": null,
+      "latestYear": null,
       "localCd": false,
       "localNote": true,
       "familySearch": false,
@@ -976,7 +1821,8 @@
           "collectionBranch": "Pontlanfraith",
           "note": "Mixed members-and-children record. Source spelling Pontrlanfraith is preserved where photographed; later children/index and post-1920 material are classified separately."
         }
-      ]
+      ],
+      "leadershipOfficers": ""
     },
     {
       "canonicalName": "Pontypool",
@@ -993,7 +1839,8 @@
       "relationshipNotes": "",
       "notes": "Needs human review; absence from one source is not proof the branch or record was absent.",
       "sourceUrls": "",
-      "nameSources": []
+      "nameSources": [],
+      "leadershipOfficers": ""
     },
     {
       "canonicalName": "Pontypridd",
@@ -1010,7 +1857,34 @@
       "relationshipNotes": "",
       "notes": "Needs human review; absence from one source is not proof the branch or record was absent.",
       "sourceUrls": "",
-      "nameSources": []
+      "nameSources": [],
+      "leadershipOfficers": ""
+    },
+    {
+      "canonicalName": "Rhosllanerchrugog",
+      "entityType": "Branch",
+      "variants": "",
+      "earliestYear": null,
+      "latestYear": null,
+      "localCd": false,
+      "localNote": false,
+      "familySearch": false,
+      "comparisonStatus": "Historically verified branch; no dedicated local membership register identified",
+      "filmAndCallNumbers": "PDF page 89; Dan Jones explicitly says that he established a branch at Rhosllanerchrugog",
+      "relatedBranches": "",
+      "relationshipNotes": "",
+      "notes": "Explicit historical branch evidence is preserved in conference minutes, journals, Welsh Saints material, or Ronald D. Dennis publications. No dedicated Record of Members is currently identified.",
+      "sourceUrls": "",
+      "nameSources": [
+        {
+          "sourceName": "Rhosllanerchrugog",
+          "collectionTitle": "A Steamboat for an Eldership",
+          "collectionBranch": "Rhosllanerchrugog",
+          "evidenceType": "Branch organization statement",
+          "note": "PDF page 89; Dan Jones explicitly says that he established a branch at Rhosllanerchrugog"
+        }
+      ],
+      "leadershipOfficers": ""
     },
     {
       "canonicalName": "Rhymney",
@@ -1027,7 +1901,8 @@
       "relationshipNotes": "",
       "notes": "Needs human review; absence from one source is not proof the branch or record was absent.",
       "sourceUrls": "",
-      "nameSources": []
+      "nameSources": [],
+      "leadershipOfficers": ""
     },
     {
       "canonicalName": "Rhymney English",
@@ -1054,7 +1929,34 @@
           "lrContext": "Photographed Historian's Office/library identifier 1602; local microfilm folder 0,104,171.",
           "note": "A distinct English-language branch source. No matching recovered CD set was located; the locally created direct-FHC microfilm PDFs are the documented fallback and their embedded JPEGs were recovered losslessly."
         }
-      ]
+      ],
+      "leadershipOfficers": ""
+    },
+    {
+      "canonicalName": "St Clears",
+      "entityType": "Branch",
+      "variants": "Saint Clears",
+      "earliestYear": null,
+      "latestYear": null,
+      "localCd": false,
+      "localNote": false,
+      "familySearch": false,
+      "comparisonStatus": "Historically verified branch; no dedicated local membership register identified",
+      "filmAndCallNumbers": "PDF page 260 (Saint Clears in branch list); PDF page 627 (St. Clears branch president referenced); Expanded source spelling retained as an alias of St Clears",
+      "relatedBranches": "",
+      "relationshipNotes": "",
+      "notes": "Explicit historical branch evidence is preserved in conference minutes, journals, Welsh Saints material, or Ronald D. Dennis publications. No dedicated Record of Members is currently identified.",
+      "sourceUrls": "",
+      "nameSources": [
+        {
+          "sourceName": "St Clears",
+          "collectionTitle": "Zion's Trumpet, 1852 and 1854",
+          "collectionBranch": "St Clears",
+          "evidenceType": "Branch leadership/officer appointment",
+          "note": "PDF page 260 (Saint Clears in branch list); PDF page 627 (St. Clears branch president referenced)"
+        }
+      ],
+      "leadershipOfficers": ""
     },
     {
       "canonicalName": "Stepaside",
@@ -1071,7 +1973,8 @@
       "relationshipNotes": "",
       "notes": "Needs human review; absence from one source is not proof the branch or record was absent.",
       "sourceUrls": "",
-      "nameSources": []
+      "nameSources": [],
+      "leadershipOfficers": ""
     },
     {
       "canonicalName": "Sutton Mountain",
@@ -1088,7 +1991,8 @@
       "relationshipNotes": "",
       "notes": "",
       "sourceUrls": "https://www.familysearch.org/search/catalog/results?query=film_number%3A104171",
-      "nameSources": []
+      "nameSources": [],
+      "leadershipOfficers": ""
     },
     {
       "canonicalName": "Swansea",
@@ -1113,7 +2017,35 @@
           "lrContext": "LR 8863 10; the recovered source description states that the branch was known as Abertawe until 1866.",
           "note": "Abertawe is the Welsh/historical source name for Swansea. A Welsh heading in the source reads 'yn Nghangen Abertawe'. The separate Swansea membership volume is LR 8863 7, library number 1606, Record of Members 1872-1879."
         }
-      ]
+      ],
+      "leadershipOfficers": ""
+    },
+    {
+      "canonicalName": "Towyn",
+      "entityType": "Branch",
+      "variants": "Tywyn",
+      "earliestYear": null,
+      "latestYear": null,
+      "localCd": false,
+      "localNote": false,
+      "familySearch": false,
+      "comparisonStatus": "Historically verified branch; no dedicated local membership register identified",
+      "filmAndCallNumbers": "PDF page 299 (1849); branch represented; PDF page 417 (1850); presiding appointment; Modern spelling retained as an alias of historical source form Towyn",
+      "relatedBranches": "",
+      "relationshipNotes": "",
+      "notes": "Explicit historical branch evidence is preserved in conference minutes, journals, Welsh Saints material, or Ronald D. Dennis publications. No dedicated Record of Members is currently identified.",
+      "sourceUrls": "",
+      "nameSources": [
+        {
+          "sourceName": "Towyn",
+          "collectionTitle": "Zion's Trumpet, 1849 and 1850",
+          "collectionBranch": "Towyn",
+          "evidenceType": "Branch leadership/officer appointment",
+          "note": "PDF page 299 (1849); branch represented; PDF page 417 (1850); presiding appointment",
+          "leadership": "Branch president: John Evans"
+        }
+      ],
+      "leadershipOfficers": "Branch president: John Evans"
     },
     {
       "canonicalName": "Treboeth",
@@ -1130,7 +2062,8 @@
       "relationshipNotes": "",
       "notes": "",
       "sourceUrls": "https://www.familysearch.org/search/catalog/results?query=film_number%3A104172",
-      "nameSources": []
+      "nameSources": [],
+      "leadershipOfficers": ""
     },
     {
       "canonicalName": "Tredegar",
@@ -1147,7 +2080,8 @@
       "relationshipNotes": "",
       "notes": "",
       "sourceUrls": "https://www.familysearch.org/search/catalog/results?query=film_number%3A104172",
-      "nameSources": []
+      "nameSources": [],
+      "leadershipOfficers": ""
     },
     {
       "canonicalName": "Treforest",
@@ -1164,7 +2098,8 @@
       "relationshipNotes": "",
       "notes": "",
       "sourceUrls": "https://www.familysearch.org/search/catalog/results?query=film_number%3A104172",
-      "nameSources": []
+      "nameSources": [],
+      "leadershipOfficers": ""
     },
     {
       "canonicalName": "Treorchy",
@@ -1192,7 +2127,8 @@
           "internalPage": 25,
           "note": "Historical spelling written throughout the compound source. Early minutes appear at images 00006-00025; the member register occupies images 00074-00109; later history and children-blessed material continue at 00112-00116. Not associated with Troedyrhiw."
         }
-      ]
+      ],
+      "leadershipOfficers": ""
     },
     {
       "canonicalName": "Trinant",
@@ -1216,7 +2152,8 @@
           "collectionBranch": "Trinant",
           "note": "The Library 859 label identifies a Trinant Record of Members dated 1849-1853. Compound PDF page 5 preserves the closing register leaf, entries 19-29; entries 1-18 are not currently recovered. Candidate captures 294-295 are later member/status pages and captures 296-306 are Stepaside financial records, so they are retained as context but excluded from Trinant."
         }
-      ]
+      ],
+      "leadershipOfficers": ""
     },
     {
       "canonicalName": "Twyn-yr-Odyn",
@@ -1233,7 +2170,8 @@
       "relationshipNotes": "",
       "notes": "",
       "sourceUrls": "https://www.familysearch.org/search/catalog/results?query=film_number%3A104172",
-      "nameSources": []
+      "nameSources": [],
+      "leadershipOfficers": ""
     },
     {
       "canonicalName": "Twyncarno",
@@ -1257,7 +2195,33 @@
           "collectionBranch": "Twyncarno",
           "note": "The retained branch section begins with the printed/narrative source at capture 314; the regular register begins at capture 318. Earlier captures 308-312 belong to adjacent context, and captures 307 and 313 were not found."
         }
-      ]
+      ],
+      "leadershipOfficers": ""
+    },
+    {
+      "canonicalName": "Victoria",
+      "entityType": "Branch",
+      "variants": "",
+      "earliestYear": 1858,
+      "latestYear": 1858,
+      "localCd": false,
+      "localNote": false,
+      "familySearch": false,
+      "comparisonStatus": "Historically verified branch; no dedicated local membership register identified",
+      "filmAndCallNumbers": "Journal entry dated 31 March 1858 records a visit to Victoria Branch; 1846 Latter-day Saint meeting context at Victoria; contextual evidence only and not used to extend the verified branch date",
+      "relatedBranches": "",
+      "relationshipNotes": "",
+      "notes": "Explicit historical branch evidence is preserved in conference minutes, journals, Welsh Saints material, or Ronald D. Dennis publications. No dedicated Record of Members is currently identified.",
+      "sourceUrls": "https://welshsaints.byu.edu/Resource_Info.aspx?id=4078; https://welshsaints.byu.edu/Resource_Info.aspx?id=24026",
+      "nameSources": [
+        {
+          "sourceName": "Victoria",
+          "collectionTitle": "David John journal",
+          "collectionBranch": "Victoria",
+          "note": "The dated journal entry explicitly identifies Victoria Branch. A separate 1846 license documents earlier Latter-day Saint activity at Victoria but is not used to extend the branch date."
+        }
+      ],
+      "leadershipOfficers": ""
     },
     {
       "canonicalName": "Welsh Conference",
@@ -1281,7 +2245,33 @@
           "collectionBranch": "Welsh Conference",
           "note": "Three distinct member books and a separate 1884 minutes fragment survive locally. Library 3118 is incomplete after direct-FHC component 474. The Film 86987 convenience PDF includes Bristol Conference material and is not treated as a single Welsh Conference source."
         }
-      ]
+      ],
+      "leadershipOfficers": ""
+    },
+    {
+      "canonicalName": "Ynysgau",
+      "entityType": "Branch",
+      "variants": "",
+      "earliestYear": 1850,
+      "latestYear": 1850,
+      "localCd": false,
+      "localNote": false,
+      "familySearch": false,
+      "comparisonStatus": "Historically verified branch; no dedicated local membership register identified",
+      "filmAndCallNumbers": "Special conference on 8 March 1850 appointed John Argust president of Ynysgau Branch, Merthyr",
+      "relatedBranches": "",
+      "relationshipNotes": "",
+      "notes": "Explicit historical branch evidence is preserved in conference minutes, journals, Welsh Saints material, or Ronald D. Dennis publications. No dedicated Record of Members is currently identified.",
+      "sourceUrls": "https://welshsaints.byu.edu/Resource_Info.aspx?id=571",
+      "nameSources": [
+        {
+          "sourceName": "Ynysgau",
+          "collectionTitle": "Merthyr special conference record",
+          "collectionBranch": "Ynysgau",
+          "note": "The conference record explicitly appoints a president of Ynysgau Branch in Merthyr."
+        }
+      ],
+      "leadershipOfficers": ""
     },
     {
       "canonicalName": "Ystrad",
@@ -1298,7 +2288,8 @@
       "relationshipNotes": "",
       "notes": "Needs human review; absence from one source is not proof the branch or record was absent.",
       "sourceUrls": "https://www.familysearch.org/search/catalog/results?query=film_number%3A104172",
-      "nameSources": []
+      "nameSources": [],
+      "leadershipOfficers": ""
     }
   ],
   "evidence": [
@@ -2017,6 +3008,716 @@
       "source": "Zion's Trumpet conference report",
       "dateText": "1854",
       "reference": "Conwy Valley Conference held at Eglwysbach, 28 May 1854; five branches and 98 members reported for the conference",
+      "sourceUrl": ""
+    },
+    {
+      "rawName": "Aberaman",
+      "canonicalName": "Aberaman",
+      "relatedBranch": "",
+      "relationshipNote": "",
+      "source": "East Glamorgan typed conference transcript",
+      "dateText": "1852",
+      "reference": "Aberaman Branch council and branch business, typed transcript page 17",
+      "sourceUrl": "",
+      "provenance": {
+        "collectionTitle": "East Glamorgan branch and conference minutes",
+        "collectionBranch": "Aberaman",
+        "note": "The transcript explicitly distinguishes Aberaman Branch from Aberdare Branch and records branch council activity in 1852."
+      }
+    },
+    {
+      "rawName": "Aberamman",
+      "canonicalName": "Aberaman",
+      "relatedBranch": "",
+      "relationshipNote": "",
+      "source": "Richard Jenkins journal",
+      "dateText": "1852",
+      "reference": "Journal reference to an Aberaman Branch meeting",
+      "sourceUrl": "https://welshsaints.byu.edu/Resource_Info.aspx?id=2759"
+    },
+    {
+      "rawName": "Aberamon",
+      "canonicalName": "Aberaman",
+      "relatedBranch": "",
+      "relationshipNote": "",
+      "source": "Thomas Howells journal",
+      "dateText": "1852",
+      "reference": "Journal reference to the saints meeting at Aberaman Branch",
+      "sourceUrl": "https://welshsaints.byu.edu/Resource_Info.aspx?id=1347"
+    },
+    {
+      "rawName": "Aberdare",
+      "canonicalName": "Aberdare",
+      "relatedBranch": "",
+      "relationshipNote": "",
+      "source": "Ronald D. Dennis historical narrative",
+      "dateText": "1844",
+      "reference": "Named among the seven branches forming the Merthyr Tydfil Conference",
+      "sourceUrl": "https://welshsaints.byu.edu/Resource_Info.aspx?id=2618",
+      "provenance": {
+        "collectionTitle": "The Welsh and the Gospel",
+        "collectionBranch": "Aberdare",
+        "note": "The historical narrative names Aberdare among the seven established branches forming the Merthyr Tydfil Conference."
+      }
+    },
+    {
+      "rawName": "Aberdare",
+      "canonicalName": "Aberdare",
+      "relatedBranch": "",
+      "relationshipNote": "",
+      "source": "East Glamorgan typed conference transcript",
+      "dateText": "1852",
+      "reference": "Aberdare Branch council and branch business, typed transcript page 17",
+      "sourceUrl": ""
+    },
+    {
+      "rawName": "Aberdar",
+      "canonicalName": "Aberdare",
+      "relatedBranch": "",
+      "relationshipNote": "",
+      "source": "Historical spelling variant",
+      "dateText": "1844-1852",
+      "reference": "Variant retained for branch discovery",
+      "sourceUrl": ""
+    },
+    {
+      "rawName": "Abergavenny",
+      "canonicalName": "Abergavenny",
+      "relatedBranch": "",
+      "relationshipNote": "",
+      "source": "Ronald D. Dennis historical narrative",
+      "dateText": "1840-1844",
+      "reference": "Missionaries arrived late 1840; Abergavenny Branch later transferred from Garway Conference to Merthyr Tydfil Conference",
+      "sourceUrl": "https://welshsaints.byu.edu/Resource_Info.aspx?id=2618",
+      "provenance": {
+        "collectionTitle": "The Welsh and the Gospel",
+        "collectionBranch": "Abergavenny",
+        "note": "The narrative identifies Abergavenny as a branch, records missionary activity beginning in late 1840, and describes its later conference transfer."
+      }
+    },
+    {
+      "rawName": "Abergavenny",
+      "canonicalName": "Abergavenny",
+      "relatedBranch": "",
+      "relationshipNote": "",
+      "source": "Indefatigable Veteran",
+      "dateText": "1840",
+      "reference": "PDF page 30 describes the arrival of the first missionaries and the established branch",
+      "sourceUrl": ""
+    },
+    {
+      "rawName": "Abergyfeny",
+      "canonicalName": "Abergavenny",
+      "relatedBranch": "",
+      "relationshipNote": "",
+      "source": "Historical journal spelling",
+      "dateText": "1840-1844",
+      "reference": "Variant retained for discovery",
+      "sourceUrl": ""
+    },
+    {
+      "rawName": "Y Fenni",
+      "canonicalName": "Abergavenny",
+      "relatedBranch": "",
+      "relationshipNote": "",
+      "source": "Welsh place-name variant",
+      "dateText": "1840-1844",
+      "reference": "Variant retained for discovery",
+      "sourceUrl": ""
+    },
+    {
+      "rawName": "Beaufort",
+      "canonicalName": "Beaufort",
+      "relatedBranch": "",
+      "relationshipNote": "",
+      "source": "Ronald D. Dennis historical narrative",
+      "dateText": "1844",
+      "reference": "Named among the seven branches forming the Merthyr Tydfil Conference",
+      "sourceUrl": "https://welshsaints.byu.edu/Resource_Info.aspx?id=2618",
+      "provenance": {
+        "collectionTitle": "The Welsh and the Gospel",
+        "collectionBranch": "Beaufort",
+        "note": "The historical narrative explicitly lists Beaufort as one of the branches forming the Merthyr Tydfil Conference."
+      }
+    },
+    {
+      "rawName": "Brecon",
+      "canonicalName": "Brecon",
+      "relatedBranch": "",
+      "relationshipNote": "",
+      "source": "Zion's Trumpet",
+      "dateText": "1856-1857",
+      "reference": "A report identifies John Jones as formerly President of Brecon Branch; PDF page 445",
+      "sourceUrl": "",
+      "provenance": {
+        "collectionTitle": "Zion's Trumpet, 1856-1857",
+        "collectionBranch": "Brecon",
+        "note": "The periodical explicitly identifies an officer who had served as President of Brecon Branch."
+      }
+    },
+    {
+      "rawName": "Cefn Mawr",
+      "canonicalName": "Cefn Mawr",
+      "relatedBranch": "",
+      "relationshipNote": "",
+      "source": "Zion's Trumpet",
+      "dateText": "1854",
+      "reference": "Explicit Cefn Mawr Branch reference; PDF page 688",
+      "sourceUrl": "",
+      "provenance": {
+        "collectionTitle": "Zion's Trumpet, 1854",
+        "collectionBranch": "Cefn Mawr",
+        "note": "The periodical explicitly names Cefn Mawr Branch."
+      }
+    },
+    {
+      "rawName": "Cwmbach",
+      "canonicalName": "Cwmbach",
+      "relatedBranch": "",
+      "relationshipNote": "",
+      "source": "Welsh branch and conference typed transcript",
+      "dateText": "1851-1852",
+      "reference": "Cwmbach Branch president and council activity; typed transcript page 12",
+      "sourceUrl": "",
+      "provenance": {
+        "collectionTitle": "East Glamorgan Conference minutes, 1851-1852",
+        "collectionBranch": "Cwmbach",
+        "note": "The minutes explicitly identify Cwmbach Branch, its president, and branch council activity."
+      }
+    },
+    {
+      "rawName": "Gellifaelog",
+      "canonicalName": "Gellifaelog",
+      "relatedBranch": "",
+      "relationshipNote": "",
+      "source": "East Glamorgan Conference typed transcript",
+      "dateText": "1851-1852",
+      "reference": "Gellifaelog Branch and branch officer ordinations; typed pages 60 and 76",
+      "sourceUrl": "",
+      "provenance": {
+        "collectionTitle": "East Glamorgan Conference minutes, 1851-1852",
+        "collectionBranch": "Gellifaelog",
+        "note": "Conference reporting and officer ordinations explicitly identify Gellifaelog Branch."
+      }
+    },
+    {
+      "rawName": "Hirwaun",
+      "canonicalName": "Hirwaun",
+      "relatedBranch": "",
+      "relationshipNote": "",
+      "source": "Prophet of the Jubilee",
+      "dateText": "1846-1848",
+      "reference": "Hirwaun Branch is identified in 1846 and in later priesthood and baptism statistics; PDF page 498",
+      "sourceUrl": "",
+      "provenance": {
+        "collectionTitle": "Prophet of the Jubilee",
+        "collectionBranch": "Hirwaun",
+        "note": "The publication explicitly identifies Hirwaun Branch and preserves branch-level statistical evidence."
+      }
+    },
+    {
+      "rawName": "Hirwaen",
+      "canonicalName": "Hirwaun",
+      "relatedBranch": "",
+      "relationshipNote": "",
+      "source": "Historical spelling variant",
+      "dateText": "1846-1848",
+      "reference": "Variant retained for discovery",
+      "sourceUrl": ""
+    },
+    {
+      "rawName": "Llantrisant",
+      "canonicalName": "Llantrisant",
+      "relatedBranch": "",
+      "relationshipNote": "",
+      "source": "Richard Jenkins journal",
+      "dateText": "1851",
+      "reference": "Baptized by a priest of Llantrisant Branch and confirmed under Thomas Morgan, Branch President",
+      "sourceUrl": "https://welshsaints.byu.edu/Resource_Info.aspx?id=2759",
+      "provenance": {
+        "collectionTitle": "Richard Jenkins journal",
+        "collectionBranch": "Llantrisant",
+        "note": "The journal directly identifies Llantrisant Branch, its priesthood activity, and its branch president in January 1851."
+      }
+    },
+    {
+      "rawName": "Llantrisant",
+      "canonicalName": "Llantrisant",
+      "relatedBranch": "",
+      "relationshipNote": "",
+      "source": "Zion's Trumpet distribution table",
+      "dateText": "1850",
+      "reference": "Llantrisant is listed with branch-level distribution and membership figures",
+      "sourceUrl": ""
+    },
+    {
+      "rawName": "Mountain Ash",
+      "canonicalName": "Mountain Ash",
+      "relatedBranch": "",
+      "relationshipNote": "",
+      "source": "Thomas Evans Jeremy journal",
+      "dateText": "1862",
+      "reference": "Journal entry dated 30 January 1862 states that the writer came to Mountain Ash Branch",
+      "sourceUrl": "https://welshsaints.byu.edu/Resource_Info.aspx?id=181",
+      "provenance": {
+        "collectionTitle": "Thomas Evans Jeremy journal",
+        "collectionBranch": "Mountain Ash",
+        "note": "The dated journal entry explicitly identifies Mountain Ash Branch."
+      }
+    },
+    {
+      "rawName": "Pembroke",
+      "canonicalName": "Pembroke",
+      "relatedBranch": "",
+      "relationshipNote": "",
+      "source": "Zion's Trumpet",
+      "dateText": "1856-1857",
+      "reference": "Pembroke Branch is explicitly named in a contribution list; PDF page 974",
+      "sourceUrl": "",
+      "provenance": {
+        "collectionTitle": "Zion's Trumpet, 1856-1857",
+        "collectionBranch": "Pembroke",
+        "note": "The periodical explicitly names Pembroke Branch in a branch contribution list."
+      }
+    },
+    {
+      "rawName": "Victoria",
+      "canonicalName": "Victoria",
+      "relatedBranch": "",
+      "relationshipNote": "",
+      "source": "David John journal",
+      "dateText": "1858",
+      "reference": "Journal entry dated 31 March 1858 records a visit to Victoria Branch",
+      "sourceUrl": "https://welshsaints.byu.edu/Resource_Info.aspx?id=4078",
+      "provenance": {
+        "collectionTitle": "David John journal",
+        "collectionBranch": "Victoria",
+        "note": "The dated journal entry explicitly identifies Victoria Branch. A separate 1846 license documents earlier Latter-day Saint activity at Victoria but is not used to extend the branch date."
+      }
+    },
+    {
+      "rawName": "Victoria",
+      "canonicalName": "Victoria",
+      "relatedBranch": "",
+      "relationshipNote": "",
+      "source": "Welsh Saints Project license record",
+      "dateText": "",
+      "reference": "1846 Latter-day Saint meeting context at Victoria; contextual evidence only and not used to extend the verified branch date",
+      "sourceUrl": "https://welshsaints.byu.edu/Resource_Info.aspx?id=24026"
+    },
+    {
+      "rawName": "Ynysgau",
+      "canonicalName": "Ynysgau",
+      "relatedBranch": "",
+      "relationshipNote": "",
+      "source": "Welsh Saints Project conference record",
+      "dateText": "1850",
+      "reference": "Special conference on 8 March 1850 appointed John Argust president of Ynysgau Branch, Merthyr",
+      "sourceUrl": "https://welshsaints.byu.edu/Resource_Info.aspx?id=571",
+      "provenance": {
+        "collectionTitle": "Merthyr special conference record",
+        "collectionBranch": "Ynysgau",
+        "note": "The conference record explicitly appoints a president of Ynysgau Branch in Merthyr."
+      }
+    },
+    {
+      "rawName": "Rhosllanerchrugog",
+      "canonicalName": "Rhosllanerchrugog",
+      "relatedBranch": "",
+      "relationshipNote": "",
+      "source": "A Steamboat for an Eldership",
+      "dateText": "",
+      "reference": "PDF page 89; Dan Jones explicitly says that he established a branch at Rhosllanerchrugog",
+      "sourceUrl": "",
+      "provenance": {
+        "collectionTitle": "A Steamboat for an Eldership",
+        "collectionBranch": "Rhosllanerchrugog",
+        "evidenceType": "Branch organization statement",
+        "note": "PDF page 89; Dan Jones explicitly says that he established a branch at Rhosllanerchrugog"
+      }
+    },
+    {
+      "rawName": "Abergele",
+      "canonicalName": "Abergele",
+      "relatedBranch": "",
+      "relationshipNote": "",
+      "source": "Zion's Trumpet, 1850",
+      "dateText": "",
+      "reference": "PDF page 281; Edward Parry appointed to preside after John Parry was released",
+      "sourceUrl": "",
+      "provenance": {
+        "collectionTitle": "Zion's Trumpet, 1850",
+        "collectionBranch": "Abergele",
+        "evidenceType": "Branch leadership/officer appointment",
+        "note": "PDF page 281; Edward Parry appointed to preside after John Parry was released",
+        "leadership": "Branch president: John Parry; succeeded by Edward Parry"
+      }
+    },
+    {
+      "rawName": "Bagillt",
+      "canonicalName": "Bagillt",
+      "relatedBranch": "",
+      "relationshipNote": "",
+      "source": "Zion's Trumpet, 1849",
+      "dateText": "",
+      "reference": "PDF page 95; Bagillt explicitly identified as a branch in the Flintshire organization",
+      "sourceUrl": "",
+      "provenance": {
+        "collectionTitle": "Zion's Trumpet, 1849",
+        "collectionBranch": "Bagillt",
+        "evidenceType": "Branch leadership/officer appointment",
+        "note": "PDF page 95; Bagillt explicitly identified as a branch in the Flintshire organization",
+        "leadership": "Branch president: John Jones"
+      }
+    },
+    {
+      "rawName": "Newmarket",
+      "canonicalName": "Newmarket",
+      "relatedBranch": "",
+      "relationshipNote": "",
+      "source": "Zion's Trumpet, 1849",
+      "dateText": "",
+      "reference": "PDF pages 117-118; Newmarket represented as a branch and Robert Parry set apart to preside",
+      "sourceUrl": "",
+      "provenance": {
+        "collectionTitle": "Zion's Trumpet, 1849",
+        "collectionBranch": "Newmarket",
+        "evidenceType": "Branch leadership/officer appointment",
+        "note": "PDF pages 117-118; Newmarket represented as a branch and Robert Parry set apart to preside",
+        "leadership": "Branch president: Robert Parry"
+      }
+    },
+    {
+      "rawName": "Llandudno",
+      "canonicalName": "Llandudno",
+      "relatedBranch": "",
+      "relationshipNote": "",
+      "source": "Zion's Trumpet, 1850",
+      "dateText": "",
+      "reference": "PDF page 417; branch established at Llandudno",
+      "sourceUrl": "",
+      "provenance": {
+        "collectionTitle": "Zion's Trumpet, 1850",
+        "collectionBranch": "Llandudno",
+        "evidenceType": "Branch leadership/officer appointment",
+        "note": "PDF page 417; branch established at Llandudno",
+        "leadership": "Branch president: Isaac Morris"
+      }
+    },
+    {
+      "rawName": "Llanddoged",
+      "canonicalName": "Llanddoged",
+      "relatedBranch": "",
+      "relationshipNote": "",
+      "source": "Zion's Trumpet, 1850 and 1854",
+      "dateText": "",
+      "reference": "PDF page 417 (1850) and page 705 (1854); branch established and later presiding appointment recorded",
+      "sourceUrl": "",
+      "provenance": {
+        "collectionTitle": "Zion's Trumpet, 1850 and 1854",
+        "collectionBranch": "Llanddoged",
+        "evidenceType": "Branch leadership/officer appointment",
+        "note": "PDF page 417 (1850) and page 705 (1854); branch established and later presiding appointment recorded",
+        "leadership": "Branch presidents: John Davies (1850); John Ellis (1854)"
+      }
+    },
+    {
+      "rawName": "Harlech",
+      "canonicalName": "Harlech",
+      "relatedBranch": "",
+      "relationshipNote": "",
+      "source": "Zion's Trumpet, 1849",
+      "dateText": "",
+      "reference": "PDF page 299; Harlech listed among represented Merionethshire branches",
+      "sourceUrl": "",
+      "provenance": {
+        "collectionTitle": "Zion's Trumpet, 1849",
+        "collectionBranch": "Harlech",
+        "evidenceType": "Conference organization/branch list",
+        "note": "PDF page 299; Harlech listed among represented Merionethshire branches"
+      }
+    },
+    {
+      "rawName": "Machynlleth",
+      "canonicalName": "Machynlleth",
+      "relatedBranch": "",
+      "relationshipNote": "",
+      "source": "Zion's Trumpet, 1849",
+      "dateText": "",
+      "reference": "PDF page 299; Machynlleth listed among represented Merionethshire branches",
+      "sourceUrl": "",
+      "provenance": {
+        "collectionTitle": "Zion's Trumpet, 1849",
+        "collectionBranch": "Machynlleth",
+        "evidenceType": "Conference organization/branch list",
+        "note": "PDF page 299; Machynlleth listed among represented Merionethshire branches"
+      }
+    },
+    {
+      "rawName": "Llanbrynmair",
+      "canonicalName": "Llanbrynmair",
+      "relatedBranch": "",
+      "relationshipNote": "",
+      "source": "Zion's Trumpet, 1849",
+      "dateText": "",
+      "reference": "PDF page 299; Llanbrynmair listed among represented Merionethshire branches",
+      "sourceUrl": "",
+      "provenance": {
+        "collectionTitle": "Zion's Trumpet, 1849",
+        "collectionBranch": "Llanbrynmair",
+        "evidenceType": "Conference organization/branch list",
+        "note": "PDF page 299; Llanbrynmair listed among represented Merionethshire branches"
+      }
+    },
+    {
+      "rawName": "Towyn",
+      "canonicalName": "Towyn",
+      "relatedBranch": "",
+      "relationshipNote": "",
+      "source": "Zion's Trumpet, 1849 and 1850",
+      "dateText": "",
+      "reference": "PDF page 299 (1849); branch represented; PDF page 417 (1850); presiding appointment",
+      "sourceUrl": "",
+      "provenance": {
+        "collectionTitle": "Zion's Trumpet, 1849 and 1850",
+        "collectionBranch": "Towyn",
+        "evidenceType": "Branch leadership/officer appointment",
+        "note": "PDF page 299 (1849); branch represented; PDF page 417 (1850); presiding appointment",
+        "leadership": "Branch president: John Evans"
+      }
+    },
+    {
+      "rawName": "Llanybydder",
+      "canonicalName": "Llanybydder",
+      "relatedBranch": "",
+      "relationshipNote": "",
+      "source": "Prophet of the Jubilee",
+      "dateText": "",
+      "reference": "PDF page 59; explicit Llanybydder Branch report",
+      "sourceUrl": "",
+      "provenance": {
+        "collectionTitle": "Prophet of the Jubilee",
+        "collectionBranch": "Llanybydder",
+        "evidenceType": "Explicit branch reference",
+        "note": "PDF page 59; explicit Llanybydder Branch report"
+      }
+    },
+    {
+      "rawName": "Carmarthen",
+      "canonicalName": "Carmarthen",
+      "relatedBranch": "",
+      "relationshipNote": "",
+      "source": "Zion's Trumpet, 1852",
+      "dateText": "",
+      "reference": "PDF page 260; Carmarthen named among branches assigned to the Carmarthen Conference",
+      "sourceUrl": "",
+      "provenance": {
+        "collectionTitle": "Zion's Trumpet, 1852",
+        "collectionBranch": "Carmarthen",
+        "evidenceType": "Conference organization/branch list",
+        "note": "PDF page 260; Carmarthen named among branches assigned to the Carmarthen Conference"
+      }
+    },
+    {
+      "rawName": "St Clears",
+      "canonicalName": "St Clears",
+      "relatedBranch": "",
+      "relationshipNote": "",
+      "source": "Zion's Trumpet, 1852 and 1854",
+      "dateText": "",
+      "reference": "PDF page 260 (Saint Clears in branch list); PDF page 627 (St. Clears branch president referenced)",
+      "sourceUrl": "",
+      "provenance": {
+        "collectionTitle": "Zion's Trumpet, 1852 and 1854",
+        "collectionBranch": "St Clears",
+        "evidenceType": "Branch leadership/officer appointment",
+        "note": "PDF page 260 (Saint Clears in branch list); PDF page 627 (St. Clears branch president referenced)"
+      }
+    },
+    {
+      "rawName": "Llanpumsaint",
+      "canonicalName": "Llanpumsaint",
+      "relatedBranch": "",
+      "relationshipNote": "",
+      "source": "Zion's Trumpet, 1852",
+      "dateText": "",
+      "reference": "PDF page 260; Llanpumsaint named among branches assigned to the Carmarthen Conference",
+      "sourceUrl": "",
+      "provenance": {
+        "collectionTitle": "Zion's Trumpet, 1852",
+        "collectionBranch": "Llanpumsaint",
+        "evidenceType": "Conference organization/branch list",
+        "note": "PDF page 260; Llanpumsaint named among branches assigned to the Carmarthen Conference"
+      }
+    },
+    {
+      "rawName": "Pencader",
+      "canonicalName": "Pencader",
+      "relatedBranch": "",
+      "relationshipNote": "",
+      "source": "Zion's Trumpet, 1852",
+      "dateText": "",
+      "reference": "PDF page 260; Pencader named among branches assigned to the Carmarthen Conference",
+      "sourceUrl": "",
+      "provenance": {
+        "collectionTitle": "Zion's Trumpet, 1852",
+        "collectionBranch": "Pencader",
+        "evidenceType": "Conference organization/branch list",
+        "note": "PDF page 260; Pencader named among branches assigned to the Carmarthen Conference"
+      }
+    },
+    {
+      "rawName": "Cellan",
+      "canonicalName": "Cellan",
+      "relatedBranch": "",
+      "relationshipNote": "",
+      "source": "Zion's Trumpet, 1852",
+      "dateText": "",
+      "reference": "PDF page 65; William Evans identified as an elder in Cellan Branch",
+      "sourceUrl": "",
+      "provenance": {
+        "collectionTitle": "Zion's Trumpet, 1852",
+        "collectionBranch": "Cellan",
+        "evidenceType": "Explicit branch reference",
+        "note": "PDF page 65; William Evans identified as an elder in Cellan Branch",
+        "leadership": "Officer: William Evans, elder"
+      }
+    },
+    {
+      "rawName": "Fishguard",
+      "canonicalName": "Fishguard",
+      "relatedBranch": "",
+      "relationshipNote": "",
+      "source": "Zion's Trumpet, 1856-1857",
+      "dateText": "",
+      "reference": "PDF page 974; Fishguard appears in a branch-organized contribution list",
+      "sourceUrl": "",
+      "provenance": {
+        "collectionTitle": "Zion's Trumpet, 1856-1857",
+        "collectionBranch": "Fishguard",
+        "evidenceType": "Branch contribution/account list",
+        "note": "PDF page 974; Fishguard appears in a branch-organized contribution list"
+      }
+    },
+    {
+      "rawName": "Letterston",
+      "canonicalName": "Letterston",
+      "relatedBranch": "",
+      "relationshipNote": "",
+      "source": "Zion's Trumpet, 1855",
+      "dateText": "",
+      "reference": "PDF page 212; North Pembroke conference report held at Letterston with branch representation",
+      "sourceUrl": "",
+      "provenance": {
+        "collectionTitle": "Zion's Trumpet, 1855",
+        "collectionBranch": "Letterston",
+        "evidenceType": "Explicit branch reference",
+        "note": "PDF page 212; North Pembroke conference report held at Letterston with branch representation"
+      }
+    },
+    {
+      "rawName": "Maesteg",
+      "canonicalName": "Maesteg",
+      "relatedBranch": "",
+      "relationshipNote": "",
+      "source": "Zion's Trumpet, 1855",
+      "dateText": "",
+      "reference": "PDF page 203; William Evans explicitly identified as a member of Maesteg Branch",
+      "sourceUrl": "",
+      "provenance": {
+        "collectionTitle": "Zion's Trumpet, 1855",
+        "collectionBranch": "Maesteg",
+        "evidenceType": "Explicit branch reference",
+        "note": "PDF page 203; William Evans explicitly identified as a member of Maesteg Branch"
+      }
+    },
+    {
+      "rawName": "Garndiffaith",
+      "canonicalName": "Garndiffaith",
+      "relatedBranch": "",
+      "relationshipNote": "",
+      "source": "Zion's Trumpet, 1850",
+      "dateText": "",
+      "reference": "PDF page 197; source spelling Garnddiffaith, branch presented to the Herefordshire District",
+      "sourceUrl": "",
+      "provenance": {
+        "collectionTitle": "Zion's Trumpet, 1850",
+        "collectionBranch": "Garndiffaith",
+        "evidenceType": "Conference organization/branch list",
+        "note": "PDF page 197; source spelling Garnddiffaith, branch presented to the Herefordshire District"
+      }
+    },
+    {
+      "rawName": "Blaenavon",
+      "canonicalName": "Blaenavon",
+      "relatedBranch": "",
+      "relationshipNote": "",
+      "source": "Zion's Trumpet, 1850",
+      "dateText": "",
+      "reference": "PDF page 197; Blaenavon branch presented to the Herefordshire District",
+      "sourceUrl": "",
+      "provenance": {
+        "collectionTitle": "Zion's Trumpet, 1850",
+        "collectionBranch": "Blaenavon",
+        "evidenceType": "Conference organization/branch list",
+        "note": "PDF page 197; Blaenavon branch presented to the Herefordshire District"
+      }
+    },
+    {
+      "rawName": "Fleur-de-Lis",
+      "canonicalName": "Fleur-de-Lis",
+      "relatedBranch": "",
+      "relationshipNote": "",
+      "source": "Zion's Trumpet, 1850",
+      "dateText": "",
+      "reference": "PDF page 197; William Howells appointed to preside over Fleur-de-Lis Branch",
+      "sourceUrl": "",
+      "provenance": {
+        "collectionTitle": "Zion's Trumpet, 1850",
+        "collectionBranch": "Fleur-de-Lis",
+        "evidenceType": "Branch leadership/officer appointment",
+        "note": "PDF page 197; William Howells appointed to preside over Fleur-de-Lis Branch",
+        "leadership": "Branch president: William Howells"
+      }
+    },
+    {
+      "rawName": "Trelawnyd",
+      "canonicalName": "Newmarket",
+      "relatedBranch": "",
+      "relationshipNote": "",
+      "source": "Modern locality relationship",
+      "dateText": "",
+      "reference": "Modern name of historical Newmarket; historical source name remains canonical",
+      "sourceUrl": ""
+    },
+    {
+      "rawName": "Tywyn",
+      "canonicalName": "Towyn",
+      "relatedBranch": "",
+      "relationshipNote": "",
+      "source": "Modern Welsh spelling",
+      "dateText": "",
+      "reference": "Modern spelling retained as an alias of historical source form Towyn",
+      "sourceUrl": ""
+    },
+    {
+      "rawName": "Saint Clears",
+      "canonicalName": "St Clears",
+      "relatedBranch": "",
+      "relationshipNote": "",
+      "source": "Historical source spelling",
+      "dateText": "",
+      "reference": "Expanded source spelling retained as an alias of St Clears",
+      "sourceUrl": ""
+    },
+    {
+      "rawName": "Garnddiffaith",
+      "canonicalName": "Garndiffaith",
+      "relatedBranch": "",
+      "relationshipNote": "",
+      "source": "Zion's Trumpet source spelling",
+      "dateText": "",
+      "reference": "Source spelling retained as an alias of Garndiffaith",
       "sourceUrl": ""
     },
     {

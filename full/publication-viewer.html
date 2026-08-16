@@ -1,0 +1,58 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="robots" content="noindex,nofollow,noarchive">
+  <title>Publication Viewer · LDS Welsh Membership Records</title>
+  <link rel="stylesheet" href="styles.css">
+  <link rel="stylesheet" href="publication-viewer.css">
+  <link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
+  <link rel="icon" href="assets/favicon-32.png" sizes="32x32" type="image/png">
+  <link rel="apple-touch-icon" href="assets/apple-touch-icon.png" sizes="180x180">
+  <link rel="manifest" href="site.webmanifest">
+  <meta name="theme-color" content="#163c31">
+  <script>window.WELSH_RESEARCH_BETA=true;window.WELSH_FULL_ONLINE=true;</script>
+<meta name="apple-mobile-web-app-title" content="Welsh DEV">
+</head>
+<body class="publication-viewer-page">
+  <header class="masthead compact-masthead"><div class="site-title"><p class="eyebrow">Historical archive</p><h1>LDS Welsh Membership Records</h1><p class="date-line">Nineteenth-century branches, conferences, and minutes</p></div></header>
+  <main class="book-reader" id="bookReader">
+    <a class="book-return" href="ronald-dennis-publications.html">Ronald D. Dennis Publications</a>
+    <header class="book-heading"><h2 id="bookTitle">Loading publication…</h2><p id="bookAuthor"></p></header>
+    <section class="book-toolbar" aria-label="Publication controls">
+      <div class="book-control-group book-pages">
+        <button type="button" id="previousPage" aria-label="Previous page" title="Previous page"><span class="book-page-control-label-desktop">Previous</span><svg class="book-control-icon-mobile" viewBox="0 0 24 24" aria-hidden="true"><path d="m15 18-6-6 6-6"/></svg></button>
+        <label>Page <input id="pageNumber" type="number" min="1" inputmode="numeric" aria-label="Page number"> <span id="pageTotal">of …</span></label>
+        <button type="button" id="nextPage" aria-label="Next page" title="Next page"><span class="book-page-control-label-desktop">Next</span><svg class="book-control-icon-mobile" viewBox="0 0 24 24" aria-hidden="true"><path d="m9 6 6 6-6 6"/></svg></button>
+      </div>
+      <div class="book-control-group book-view-controls">
+        <button type="button" id="zoomOut" aria-label="Zoom out" title="Zoom out">−</button>
+        <button type="button" id="zoomIn" aria-label="Zoom in" title="Zoom in">+</button>
+        <button type="button" id="fitPage" class="book-icon-control" aria-label="Fit page" title="Fit page"><svg class="book-fit-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M8 4H5v3M16 4h3v3M8 20H5v-3M16 20h3v-3M8 7h8v10H8z"/></svg></button>
+        <button type="button" id="fitWidth" class="book-icon-control" aria-label="Fit width" title="Fit width"><svg class="book-fit-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 8V5h3M20 8V5h-3M4 16v3h3M20 16v3h-3M7 12h10M7 12l2-2M7 12l2 2M17 12l-2-2M17 12l-2 2"/></svg></button>
+        <button type="button" id="printBook" class="book-print book-icon-control" aria-label="Print" title="Print"><svg aria-hidden="true" viewBox="0 0 24 24"><path d="M7 8V3h10v5M7 17H5a2 2 0 0 1-2-2v-4a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2v4a2 2 0 0 1-2 2h-2M7 14h10v7H7z" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/></svg></button>
+      </div>
+    </section>
+    <details class="book-search" id="book-search">
+      <summary id="bookSearchHeading">Search this book</summary>
+      <div class="book-search-body">
+      <form id="bookSearchForm"><label class="sr-only" for="bookSearchInput">Search this book</label><input id="bookSearchInput" type="search" autocomplete="off"><button type="submit">Search</button></form>
+      <p class="book-search-status" id="bookSearchStatus" aria-live="polite"></p>
+      <div class="book-search-results" id="bookSearchResults" hidden></div>
+      </div>
+    </details>
+    <p class="book-load-status" id="bookLoadStatus" aria-live="polite">Loading publication…</p>
+    <section class="book-canvas-stage" id="bookCanvasStage" aria-label="Publication page">
+      <button type="button" class="book-side-turn book-side-previous" id="sidePrevious" aria-label="Previous page" title="Previous page">‹</button>
+      <canvas id="bookCanvas" tabindex="0"></canvas>
+      <button type="button" class="book-side-turn book-side-next" id="sideNext" aria-label="Next page" title="Next page">›</button>
+    </section>
+    <div class="book-auxiliary-panels" id="bookAuxiliaryPanels" data-future-panels="toc index" hidden></div>
+    <p class="book-source-note" id="bookSourceNote"></p>
+  </main>
+  <p class="research-beta-note">LOCAL DEVELOPMENT — NOT PUBLISHED</p>
+  <footer class="site-disclaimer" id="page-bottom"><details class="footer-project"><summary>Project</summary><nav aria-label="Project"><a href="about.html">About this project</a><a href="transcriptions-translations.html">Transcriptions &amp; Translations</a><a href="ronald-dennis-publications.html">Ronald D. Dennis Publications</a><span class="footer-project-unavailable">FamilySearch comparison</span></nav></details><p>Independent historical research project.</p></footer>
+  <script type="module" src="publication-viewer.js"></script>
+</body>
+</html>

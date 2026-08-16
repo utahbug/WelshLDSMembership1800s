@@ -69,8 +69,12 @@
     }
     branchSelectAll.addEventListener("click", () => setAllBranches(true));
     branchClear.addEventListener("click", () => setAllBranches(false));
+    const exactSourceAvailable = (record) => record.verified
+      && (record.onlineViewerAvailable !== false || (window.WELSH_LOCAL_DEVELOPMENT && record.collectionName === "Georgetown-production"))
+      && record.collectionId
+      && ((Number.isInteger(record.imageSequence) && record.imageSequence > 0) || record.imageFilename);
     const recordUrl = (record) => {
-      if (record.verified && record.onlineViewerAvailable !== false && record.collectionId && ((Number.isInteger(record.imageSequence) && record.imageSequence > 0) || record.imageFilename)) return `index.html?${new URLSearchParams({ branch: record.branch, collection: record.collectionId, image: record.imageSequence ? String(record.imageSequence) : "", imageFilename: record.imageFilename || "", view: "single" })}`;
+      if (exactSourceAvailable(record)) return `index.html?${new URLSearchParams({ branch: record.branch, collection: record.collectionId, image: record.imageSequence ? String(record.imageSequence) : "", imageFilename: record.imageFilename || "", view: "single" })}`;
       return `index.html?branch=${encodeURIComponent(record.branch)}`;
     };
     const historicalLabel = (record) => ({
@@ -78,6 +82,7 @@
       translation: "Translation",
       "welsh-saints": "Welsh Saints Project",
       "ron-dennis-publication": "Ron Dennis publication",
+      "historical-publication": "Historical publication",
     })[record.sourceType] || "Historical record";
     const historicalDisplayText = (value) => String(value || "")
       .replace(/local research corpus/gi, "research collection")
@@ -88,18 +93,34 @@
       if (/Production transcription/i.test(note)) return "Transcribed and verified against the source image.";
       return note.replace(/authoritative source image/gi, "source image").replace(/original image is authoritative/gi, "verified against the source image");
     };
-    const historicalArticle = (record, rawQuery = "") => {
+    const renderWelshSaintsFacts = (record) => {
+      const facts = window.WELSH_SAINTS_PERSON_DETAIL?.facts(record) || [];
+      return facts.length ? `<dl class="welsh-saints-result-facts">${facts.map(({ label, value }) => `<div><dt>${escapeHtml(label)}</dt><dd>${escapeHtml(value)}</dd></div>`).join("")}</dl>` : "";
+    };
+    const isSerializedWelshSaintsPersonSummary = (snippet, personRecord) => {
+      if (!personRecord || !Array.isArray(personRecord.cells) || !personRecord.cells.length) return false;
+      const serializedFields = normalize(personRecord.cells.filter(Boolean).join(" "));
+      return Boolean(serializedFields) && normalize(snippet) === serializedFields;
+    };
+    const historicalArticle = (record, rawQuery = "", personRecord = null) => {
       const article = document.createElement("article"); article.className = "research-result people-result all-records-result";
       if (record.sourceType === "welsh-saints") article.classList.add("welsh-saints-result");
       const sourceLink = record.viewerUrl || record.sourceUrl;
       const branchContext = (record.branches || []).length ? `<p class="people-fact"><strong>Branch/place context:</strong> ${escapeHtml(record.branches.join("; "))}</p>` : "";
       const alternates = (record.alternateTitles || []).length ? `<p class="people-source-detail"><strong>Also known as:</strong> ${escapeHtml(record.alternateTitles.join("; "))}</p>` : "";
-      const availability = sourceLink ? `<a class="people-source-link" href="${escapeHtml(sourceLink)}"${record.sourceType === "welsh-saints" ? ' target="_blank" rel="noopener noreferrer"' : ""}>${record.viewerUrl ? "Open source" : "View source"}<span class="people-source-link-icon" aria-hidden="true"></span></a>` : `<span class="people-source-status">Source text is searchable; the publication itself is not included.</span>`;
+      const isWelshSaintsPerson = record.sourceType === "welsh-saints" && record.recordSubtype === "immigrant" && personRecord;
+      const sourceActionLabel = record.sourceType === "historical-publication" ? "Open publication" : record.viewerUrl ? "Open source" : "View source";
+      const sourceAction = sourceLink ? `<a class="people-source-link" href="${escapeHtml(sourceLink)}"${record.sourceType === "welsh-saints" ? ' target="_blank" rel="noopener noreferrer"' : ""}>${sourceActionLabel}<span class="people-source-link-icon" aria-hidden="true"></span></a>` : `<span class="people-source-status">Source text is searchable; the publication itself is not included.</span>`;
+      const availability = isWelshSaintsPerson ? `<button type="button" class="people-source-link welsh-saints-view-details">View details</button>${sourceAction}` : sourceAction;
       const visibleMatchText = normalize([record.title, record.snippet, record.location, ...(record.branches || []), ...(record.alternateTitles || [])].join(" "));
       const queryWords = normalize(rawQuery).split(/\s+/).filter(Boolean);
       const matchedField = record.sourceType === "welsh-saints" && queryWords.length && !queryWords.every((word) => visibleMatchText.includes(word))
         ? `<p class="people-source-detail"><strong>Matched source material:</strong> ${escapeHtml(rawQuery)}</p>` : "";
-      article.innerHTML = `<small>${escapeHtml(historicalLabel(record))}</small><h2>${escapeHtml(record.title)}</h2>${record.author ? `<p class="people-source-detail"><strong>Author:</strong> ${escapeHtml(record.author)}</p>` : ""}${record.versionStatus ? `<p class="people-source-detail"><strong>Version:</strong> ${escapeHtml(historicalDisplayText(record.versionStatus))}</p>` : ""}${alternates}<p>${escapeHtml(record.snippet)}</p>${matchedField}<div class="people-key-facts"><p class="people-fact"><strong>Location:</strong> ${escapeHtml(record.location)}</p>${branchContext}</div><p class="people-source-detail"><strong>Source:</strong> ${escapeHtml(historicalDisplayText(record.provenance))}</p><p class="people-result-action">${availability}</p>`;
+      const summaryText = isWelshSaintsPerson && isSerializedWelshSaintsPersonSummary(record.snippet, personRecord)
+        ? ""
+        : `<p class="historical-result-summary">${escapeHtml(record.snippet)}</p>`;
+      article.innerHTML = `<small>${escapeHtml(historicalLabel(record))}</small><h2>${isWelshSaintsPerson ? `<button type="button" class="welsh-saints-detail-trigger">${escapeHtml(record.title)}</button>` : escapeHtml(record.title)}</h2>${renderWelshSaintsFacts(personRecord)}${record.author ? `<p class="people-source-detail"><strong>Author:</strong> ${escapeHtml(record.author)}</p>` : ""}${record.versionStatus ? `<p class="people-source-detail"><strong>Version:</strong> ${escapeHtml(historicalDisplayText(record.versionStatus))}</p>` : ""}${alternates}${summaryText}${matchedField}<div class="people-key-facts"><p class="people-fact"><strong>Location:</strong> ${escapeHtml(record.location)}</p>${branchContext}</div><p class="people-source-detail"><strong>Source:</strong> ${escapeHtml(historicalDisplayText(record.provenance))}</p><p class="people-result-action">${availability}</p>`;
+      if (isWelshSaintsPerson) article.dataset.welshSaintsSourceId = String(record.sourceId);
       return article;
     };
     async function renderAllRecords(rawQuery) {
@@ -109,6 +130,16 @@
       results.replaceChildren();
       try {
         const historical = await window.ALL_RECORDS_DISCOVERY.search(rawQuery, 250);
+        if (request !== historicalRequest || selectedScope() !== "all-records") return;
+        const welshPersonRecords = new Map();
+        if (historical.records.some((record) => record.sourceType === "welsh-saints" && record.recordSubtype === "immigrant")) {
+          try {
+            const fullRecords = await window.WELSH_SAINTS_PERSON_DETAIL.loadRecords();
+            fullRecords.filter((record) => record.type === "immigrant").forEach((record) => welshPersonRecords.set(String(record.sourceId), record));
+          } catch (error) {
+            console.warn(error.message);
+          }
+        }
         if (request !== historicalRequest || selectedScope() !== "all-records") return;
         const memberItems = memberMatches.map((record) => ({ kind: "member", record }));
         const historicalItems = historical.records.map((record) => ({ kind: "historical", record }));
@@ -129,7 +160,7 @@
           // exact occurrence through the same card construction below.
           return memberCard(record);
         };
-        results.replaceChildren(...visible.map((item) => item.kind === "member" ? makeMemberArticle(item.record) : historicalArticle(item.record, rawQuery)));
+        results.replaceChildren(...visible.map((item) => item.kind === "member" ? makeMemberArticle(item.record) : historicalArticle(item.record, rawQuery, welshPersonRecords.get(String(item.record.sourceId).split(":").at(-1)))));
         const total = memberMatches.length + historical.totalMatches;
         resultSummary.textContent = `${total.toLocaleString()} mixed-source result${total === 1 ? "" : "s"} found${historical.records.length < historical.totalMatches ? " (showing the highest-ranked historical matches)" : ""}`;
         if (combined.length > visible.length) {
@@ -148,7 +179,7 @@
         const collection = collections.get(record.collectionId);
         const aliases = Array.isArray(record.aliases) ? record.aliases.filter(Boolean) : [];
         const facts = [`<p class="people-fact people-branch-fact"><strong>Branch:</strong> ${escapeHtml(record.branch)}</p>`, record.birthDate ? `<p class="people-fact people-date-fact"><strong>Birth:</strong> ${escapeHtml(record.birthDate)}</p>` : "", record.baptismDate ? `<p class="people-fact people-date-fact"><strong>Baptism:</strong> ${escapeHtml(record.baptismDate)}</p>` : "", record.residence ? `<p class="people-fact"><strong>Residence:</strong> ${escapeHtml(record.residence)}</p>` : "", record.year || record.date ? `<p class="people-fact"><strong>Date:</strong> ${escapeHtml(record.year || record.date)}</p>` : "", record.entryNumber ? `<p class="people-fact"><strong>Entry:</strong> ${escapeHtml(record.entryNumber)}</p>` : "", aliases.length ? `<p class="people-fact"><strong>Also written:</strong> ${escapeHtml(aliases.join("; "))}</p>` : ""].filter(Boolean);
-        const hasImage = record.verified && record.onlineViewerAvailable !== false && record.collectionId && ((Number.isInteger(record.imageSequence) && record.imageSequence > 0) || record.imageFilename);
+        const hasImage = exactSourceAvailable(record);
         const sourceCollection = record.collectionName || collection?.name || "";
         const sourceContext = sourceCollection;
         const availabilityTitle = !hasImage && index.betaPublicIndex && record.sourceAvailability === "local-portable-only" ? "Exact source image available in the portable/reviewer edition" : "";
@@ -187,6 +218,13 @@
       if (!matches.length) results.innerHTML = "<p>No member records matched this search.</p>";
     }
     document.addEventListener("click", (event) => { if (branchFilter.open && !branchFilter.contains(event.target)) branchFilter.open = false; });
+    results.addEventListener("click", async (event) => {
+      const trigger = event.target.closest(".welsh-saints-detail-trigger, .welsh-saints-view-details");
+      if (!trigger || !results.contains(trigger)) return;
+      const card = trigger.closest("[data-welsh-saints-source-id]");
+      const record = await window.WELSH_SAINTS_PERSON_DETAIL.find(card?.dataset.welshSaintsSourceId);
+      if (record) window.WELSH_SAINTS_PERSON_DETAIL.open(record, trigger);
+    });
     const updateClearSearch = () => { clearSearch.hidden = !search.value; };
     search.addEventListener("input", () => { searchStarted = true; visibleLimit = 50; updateClearSearch(); render(); });
     clearSearch.addEventListener("click", () => { search.value = ""; searchStarted = false; visibleLimit = 50; updateClearSearch(); render(); search.focus(); });

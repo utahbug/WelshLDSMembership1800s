@@ -17,7 +17,12 @@ const archiveStorage = {
 // A local archive-relative path is not proof that the file has been published.
 // Keep newly recovered collections offline until their Archive.org upload is
 // separately verified, preventing public viewer links from silently returning 404.
-const unpublishedArchiveCollections = new Set();
+const unpublishedArchiveCollections = new Set([
+  "Welsh Conference,Record of Members,Early-1892,Library1614",
+  "Welsh Conference,Record of Members,1887-1901,Library3114",
+  "Welsh Conference,Record of Members,Early-1911,Library3118-partial",
+  "Welsh Conference,Incomplete Conference Minutes,1884,LR1001123",
+]);
 const publicCatalog = {
   edition: "public",
   generatedAt: local.generatedAt,
@@ -25,7 +30,10 @@ const publicCatalog = {
   sources: local.sources,
   stats: local.stats,
   collections: local.collections.map((collection) => {
-    const publishedTranscriptions = (collection.sources || []).includes("conference-minutes");
+    // Generated typed-PDF page images are local/portable viewer assets unless
+    // their publication is approved separately. The unchanged source PDFs
+    // retain their existing public availability.
+    const publishedTranscriptions = (collection.sources || []).includes("conference-minutes") && !collection.viewerRepresentation;
     const archivedMembershipImages = !unpublishedArchiveCollections.has(collection.name)
       && collection.images.some((item) => item.type === "image" && item.archiveRelativePath);
     const publicStorage = archivedMembershipImages
@@ -41,6 +49,11 @@ const publicCatalog = {
       sources: collection.sources || [],
       availability: { local: true, portable: true, online: Boolean(publicStorage) },
       publicStorage,
+      sourcePdf: collection.sourcePdf || null,
+      sourcePdfRelativePath: collection.sourcePdfRelativePath || null,
+      sourcePdfSha256: collection.sourcePdfSha256 || null,
+      viewerRepresentation: Boolean(collection.viewerRepresentation),
+      renderDpi: collection.renderDpi || null,
       images: collection.images.map((item) => ({
         name: item.name,
         extension: item.extension,
@@ -48,6 +61,9 @@ const publicCatalog = {
         source: item.source,
         enhancement: item.enhancement,
         archiveRelativePath: item.archiveRelativePath || null,
+        sourcePdfFilename: item.sourcePdfFilename || null,
+        sourcePdfRelativePath: item.sourcePdfRelativePath || null,
+        sourcePdfPage: item.sourcePdfPage || null,
         url: "",
         serveUrl: "",
       })),

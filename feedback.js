@@ -1,4 +1,21 @@
 (() => {
+  const masthead = document.querySelector(".masthead");
+  if (masthead && !masthead.classList.contains("masthead-home-link")) {
+    const goHome = () => { location.href = "index.html"; };
+    masthead.classList.add("masthead-home-link");
+    masthead.tabIndex = 0;
+    masthead.setAttribute("role", "link");
+    masthead.setAttribute("aria-label", "LDS Welsh Membership Records — Home");
+    masthead.addEventListener("click", (event) => {
+      if (event.target.closest("a, button, input, select, textarea, summary") && event.target !== masthead) return;
+      goHome();
+    });
+    masthead.addEventListener("keydown", (event) => {
+      if (!["Enter", " "].includes(event.key) || event.target !== masthead) return;
+      event.preventDefault();
+      goHome();
+    });
+  }
   const isLocalHost = ["", "localhost", "127.0.0.1"].includes(location.hostname);
   const isLocalFile = location.protocol === "file:";
   const catalogEdition = window.WELSH_RECORD_CATALOG?.edition;
@@ -120,17 +137,26 @@
     container.append(button);
   }
   function addContextAction(container, context) {
-    if (!container || container.querySelector(":scope > .research-feedback-link[data-feedback-action]")) return;
+    if (!container) return;
+    const contextJson = JSON.stringify(context);
+    const existing = container.querySelector(":scope > .research-feedback-link[data-feedback-action]");
+    if (existing) {
+      if (existing.dataset.feedbackContext !== contextJson) existing.dataset.feedbackContext = contextJson;
+      return;
+    }
     const button = document.createElement("button");
     button.type = "button";
     button.dataset.feedbackAction = "";
-    button.dataset.feedbackContext = JSON.stringify(context);
+    button.dataset.feedbackContext = contextJson;
     button.className = "research-feedback-link compact";
     button.textContent = "Report a correction or missing information";
     container.append(button);
   }
   function installResultActions() {
-    document.querySelectorAll(".welsh-saints-result").forEach((result) => {
+    // Welsh Saints Search uses one page-level correction action below the results.
+    // Remove any legacy per-result controls left by an older cached renderer.
+    document.querySelectorAll(".welsh-saints-result > [data-feedback-action]").forEach((action) => action.remove());
+    document.querySelectorAll(".welsh-saints-result[data-per-result-feedback-enabled]").forEach((result) => {
       const original = result.querySelector('a[href*="welshsaints"]');
       const body = clean(result.textContent);
       addContextAction(result, {
@@ -160,14 +186,40 @@
     });
   }
   const install = () => {
-    const viewerToolbar = document.querySelector("#recordViewer:not([hidden]) .view-toolbar");
-    if (viewerToolbar) addAction(viewerToolbar, true);
+    const viewer = document.querySelector("#recordViewer:not([hidden])");
+    document.querySelectorAll("#recordViewer [data-feedback-action]").forEach((action) => action.remove());
     const branchHeader = document.querySelector("#resourcePanel:not([hidden]) .branch-resource-heading");
-    if (branchHeader) addAction(branchHeader);
-    if (!viewerToolbar && !branchHeader) {
-      const pageTarget = document.querySelector("#peopleApp")
+    const branchTarget = document.querySelector("[data-branch-feedback]");
+    const homeTarget = document.querySelector("[data-home-feedback]");
+    document.querySelectorAll(".branch-resource-heading > [data-feedback-action]").forEach((action) => action.remove());
+    if (viewer && branchTarget) {
+      if (homeTarget?.childElementCount) homeTarget.replaceChildren();
+      const branchLabel = clean(text("#viewerBranchResourcesLink").replace(/^â†\s*/, "").replace(/\s+Branch Resources$/, ""));
+      const activeImage = viewer.querySelector("#recordImage, .record-page.active img, .record-page[aria-current='page'] img");
+      const imageSource = activeImage?.currentSrc || activeImage?.src || "";
+      addContextAction(branchTarget, {
+        pageType: "Records viewer",
+        branch: clean(query().get("branch") || text("#collectionTitle").split(",")[0]),
+        collection: text("#collectionTitle"),
+        source: text("#viewContext"),
+        page: text("#imagePosition"),
+        filename: text("#recordCaption") || decodeURIComponent(imageSource.split("/").pop()?.split("?")[0] || ""),
+      });
+    } else if (branchHeader && branchTarget) {
+      if (homeTarget?.childElementCount) homeTarget.replaceChildren();
+      addContextAction(branchTarget, {
+      pageType: "Branch Resource page",
+      branch: text("#branchTitle"),
+      subject: text("#branchTitle"),
+      source: text("#branchHeadingDetails"),
+    }); }
+    else if (branchTarget?.childElementCount) branchTarget.replaceChildren();
+    if (!viewer && !branchHeader) {
+      const pageTarget = document.querySelector("[data-page-feedback]")
+        || document.querySelector("[data-home-feedback]")
+        || (document.querySelector("#peopleApp")
         ? document.querySelector("#page-bottom")
-        : document.querySelector("main");
+        : document.querySelector("main"));
       addAction(pageTarget);
     }
     installResultActions();

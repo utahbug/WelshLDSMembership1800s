@@ -115,7 +115,12 @@
   const guideAngleOutput = $("#guideAngle");
   const activePageIndicator = $("#activePageIndicator");
   const imageTools = $("#imageTools");
-  const temporaryToolPopovers = [...document.querySelectorAll(".view-toolbar details.image-tools, .view-toolbar details.image-adjustments, .view-toolbar details.scale-tools")];
+  const temporaryToolPopovers = [
+    ...document.querySelectorAll(".view-toolbar details.image-tools, .view-toolbar details.image-adjustments, .view-toolbar details.scale-tools"),
+    guideControls,
+  ];
+  lineGuideTool.setAttribute("aria-controls", guideControls.id);
+  lineGuideTool.setAttribute("aria-expanded", String(!guideControls.hidden));
   const brightnessValue = $("#brightnessValue");
   const contrastValue = $("#contrastValue");
   const brightnessSlider = $("#brightnessSlider");
@@ -239,9 +244,20 @@
     scaleSummary.title = `Zoom/Scale ${target}`;
   }
 
+  function temporaryToolPopoverIsOpen(popover) {
+    return popover instanceof HTMLDetailsElement ? popover.open : !popover.hidden;
+  }
+
+  function setGuideControlsOpen(open) {
+    guideControls.hidden = !open;
+    lineGuideTool.setAttribute("aria-expanded", String(open));
+  }
+
   function closeTemporaryToolPopovers(except = null) {
     temporaryToolPopovers.forEach((popover) => {
-      if (popover !== except) popover.removeAttribute("open");
+      if (popover === except) return;
+      if (popover instanceof HTMLDetailsElement) popover.removeAttribute("open");
+      else setGuideControlsOpen(false);
     });
   }
 
@@ -414,7 +430,7 @@
     ["Crumlin,1857-1862,Library859", "Crumlin Branch Record of Members, 1857-1862"],
     ["Machen,1854-1865,Library1565-or-1765", "Machen Branch Record of Members, 1854-1865"],
     ["Twyncarno,1856-1857,Library1602", "Twyn Carno Branch Record of Members, 1856-1857"],
-    ["Pontlanfraith,Early-to-1947,Library27560", "Pontlanfraith Branch Record of Members and Children"],
+    ["Pontlanfraith,Early-to-1947,Library27560", "Record of Members — Early to 1947"],
     ["Abertillery,1861-1866,LR1957", "Abertillery Branch Record of Members, 1861-1866"],
     ["Llanfabon 1847-1869,LR1687", "Llanfabon Branch Record of Members, 1847-1869"],
     ["Llanelli,1847-1868,LR117577", "Llanelly Branch Record of Members, 1847-1868"],
@@ -566,6 +582,24 @@
     return displayTitle(collection?.name).replace(/\s*,?\s*\b(?:LR|CR)\s*\d+(?:\s+\d+)?\b/gi, "").replace(/(\b\d{4})-(\d{4}\b)/g, "$1–$2").replace(/\s*,\s*$/, "").trim();
   }
 
+  function branchResourceCardIdentity(collection, descriptor) {
+    if (collection?.name === "Pontlanfraith,Early-to-1947,Library27560") {
+      return { title: "Record of Members — Early to 1947", years: "Years not yet identified" };
+    }
+    if (descriptor.group !== "primary") {
+      const title = collectionDisplayName(collection)
+        .replace(/\s*,?\s*\b(?:LR|CR)\s*[-_]?\s*\d+(?:\s*[-_.]\s*[A-Za-z0-9]+)?\b/gi, "")
+        .replace(/\s*,\s*$/, "")
+        .trim();
+      return { title, years: "" };
+    }
+    const sourceText = `${collection.name || ""} ${collectionDisplayName(collection)}`;
+    const range = sourceText.match(/\b((?:18|19)\d{2})\s*[-–]\s*((?:18|19)\d{2})\b/);
+    const singleYear = sourceText.match(/\b((?:18|19)\d{2})\b/);
+    const years = range ? `${range[1]}–${range[2]}` : singleYear?.[1] || yearLabel(branchDetails(currentBranchName));
+    return { title: currentBranchName || collectionHeading(collection), years };
+  }
+
   function editDistance(left, right) {
     if (!left) return right.length;
     if (!right) return left.length;
@@ -711,7 +745,7 @@
     ["Crumlin", "Record of Members, 1857-1862, in the compound library-859 source packet. Only the four Crumlin register frames are exposed in the bounded viewer; preceding structural and Trinant material remains source context."],
     ["Machen", "Direct-FHC microfilm fallback for the Machen Record of Members, 1854-1865. The photographed/catalog identifier is unclear between 1565 and 1765, so both readings remain preserved pending further evidence."],
     ["Twyncarno", "Direct-FHC microfilm source internally using Twyn Carno. The recoverable source section begins with the printed/narrative material at capture 314 and the regular register at capture 318; the source supports 1856-1857 rather than the broader inherited range."],
-    ["Pontlanfraith", "Library 27560 source titled Record of Members and Children. Member cards, later children/index pages, and post-1920 material are preserved as distinct record types; source spelling Pontrlanfraith is retained where photographed."],
+    ["Pontlanfraith", "Library 27560 preserves a register extending into the twentieth century, including nineteenth-century birth and baptism information. Some individuals may have lived into recent decades; images are restricted to Local Development and offline/reviewer editions. Source spelling Pontrlanfraith is retained where photographed."],
     ["Abertillery", "Record of Members, 1861-1866, preserved on images 00046-00057 of the compound CD 19 / LR 195 7 physical volume. Cwm Celyn occupies the preceding source section and Tredegar begins at image 00058."],
     ["Alltwen", "Membership register 1849–1859; children-blessed register and a separate rebaptism-of-members sequence are preserved in the same LR2257 volume."],
     ["Brechfa", "Welsh branch historical narrative; main membership register 1846–1856; separately numbered later baptism/member register 1857–1868; later historical notes through 1875 are preserved in the same LR110007 volume."],
@@ -858,6 +892,7 @@
         button.className = "resource-card";
         button.dataset.collectionId = collection.id;
         const descriptor = resourceDescriptor(collection);
+        const cardIdentity = branchResourceCardIdentity(collection, descriptor);
         button.dataset.resourceGroup = descriptor.group;
         const detailedProvenance = resourceProvenance(collection);
         const conciseProvenance = conciseResourceProvenance(collection);
@@ -865,9 +900,13 @@
         button.dataset.provenanceDetail = detailedProvenance;
         button.dataset.provenanceSummary = mixedReviewHolding ? "" : conciseProvenance;
         if (mixedReviewHolding) button.dataset.workRemaining = "Review and establish the internal source boundaries before treating this holding as separate record groups.";
-        button.innerHTML = `<span class="resource-kind">${descriptor.label}</span><strong>${collectionDisplayName(collection)}</strong><small>${number.format(records.length)} item${records.length === 1 ? "" : "s"}</small>${mixedReviewHolding ? "" : `<span class="resource-provenance">${conciseProvenance}</span>`}`;
+        const scopeNote = collection.name === "Pontlanfraith,Early-to-1947,Library27560"
+          ? '<span class="resource-scope-note">This register extends into the twentieth century and preserves nineteenth-century birth and baptism information. Some individuals may have lived into recent decades; images are restricted to Local Development and offline/reviewer editions. This register contains 15 member entries. Five names are currently represented in the searchable member data; the remaining entries require further review/extraction.</span>'
+          : "";
+        const cardProvenance = descriptor.group === "primary" || mixedReviewHolding ? "" : `<span class="resource-provenance">${conciseProvenance}</span>`;
+        button.innerHTML = `<span class="resource-kind">${descriptor.label}</span><strong>${cardIdentity.title}</strong>${cardIdentity.years ? `<small class="resource-years">${cardIdentity.years}</small>` : ""}<small>${number.format(records.length)} item${records.length === 1 ? "" : "s"}</small>${scopeNote}${cardProvenance}`;
         const online = catalog.edition !== "public" || (collection.availability?.online && collection.publicStorage);
-        if (online) button.addEventListener("click", () => openCollection(collection, { keepResources: true, initialView: records.some((record) => record.type === "image") ? "continuous" : "index", initialImage: collection.preferredInitialPage ? collection.preferredInitialPage - 1 : null }));
+        if (online) button.addEventListener("click", () => openCollection(collection, { keepResources: true, initialView: collection.preferredInitialPage ? "single" : records.some((record) => record.type === "image") ? "continuous" : "index", initialImage: collection.preferredInitialPage ? collection.preferredInitialPage - 1 : null }));
         else {
           button.classList.add("unavailable");
           button.disabled = true;
@@ -1684,8 +1723,8 @@
     branchResourceBreadcrumbs.hidden = true;
     if (!keepResources) resourcePanel.classList.remove("compact");
     $(".viewer").classList.add("record-open");
-    viewerBranchResourcesLink.textContent = `← ${currentBranchName} Branch Resources`;
-    viewerBranchResourcesLink.textContent = currentBranchName ? `\u2190 ${currentBranchName} Branch Resources` : "\u2190 All Branches";
+    viewerBranchResourcesLink.textContent = `${currentBranchName} Branch Resources`;
+    viewerBranchResourcesLink.textContent = currentBranchName ? `${currentBranchName} Branch Resources` : "All Branches";
     viewerBranchResourcesLink.href = currentBranchName ? `index.html?branch=${encodeURIComponent(currentBranchName)}` : "index.html?view=branches";
     viewer.hidden = false;
     title.textContent = collectionHeading(collection);
@@ -1780,11 +1819,11 @@
   closePageIndex.addEventListener("click", () => closePageIndexPanel());
   $("#pageIndexBackdrop").addEventListener("click", () => closePageIndexPanel());
   document.addEventListener("keydown", (event) => { if (event.key === "Escape" && !pageIndexPanel.hidden) closePageIndexPanel(); });
-  temporaryToolPopovers.forEach((popover) => popover.addEventListener("toggle", () => {
+  temporaryToolPopovers.filter((popover) => popover instanceof HTMLDetailsElement).forEach((popover) => popover.addEventListener("toggle", () => {
     if (popover.open) closeTemporaryToolPopovers(popover);
   }));
   document.addEventListener("pointerdown", (event) => {
-    const openPopover = temporaryToolPopovers.find((popover) => popover.open);
+    const openPopover = temporaryToolPopovers.find(temporaryToolPopoverIsOpen);
     if (openPopover && !openPopover.contains(event.target)) closeTemporaryToolPopovers();
   });
   document.addEventListener("keydown", (event) => {
@@ -1809,10 +1848,16 @@
   });
   panTool.addEventListener("click", () => setPanEnabled(!panEnabled));
   lineGuideTool.addEventListener("click", () => {
+    if (lineGuidesEnabled && guideControls.hidden) {
+      closeTemporaryToolPopovers(guideControls);
+      setGuideControlsOpen(true);
+      return;
+    }
     lineGuidesEnabled = !lineGuidesEnabled;
     lineGuideTool.classList.toggle("active", lineGuidesEnabled);
     lineGuideTool.setAttribute("aria-pressed", String(lineGuidesEnabled));
-    guideControls.hidden = !lineGuidesEnabled;
+    if (lineGuidesEnabled) closeTemporaryToolPopovers(guideControls);
+    setGuideControlsOpen(lineGuidesEnabled);
     renderLineGuides();
   });
   rotationTarget.addEventListener("change", () => selectFacingSide(rotationTarget.value === "right" ? 1 : 0));

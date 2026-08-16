@@ -53,8 +53,7 @@
   }
   function closePicker(refocus = true) { if (!picker || !branchPagePicker) return; picker.hidden = true; picker.classList.remove("compact-popover"); branchPagePicker.setAttribute("aria-expanded", "false"); if (refocus && !branchPagePicker.hidden) branchPagePicker.focus(); }
   function sourceText(collection) { const text = [collection.name, ...(collection.images || []).slice(0, 10).map((item) => item.name)].join(" "); const cd = text.match(/(?:^|\D)(?:CD\s*)?(\d{1,2})(?:\s*[-–]|\b)/i)?.[1]; const call = text.match(/\b(?:LR|CR)\s*\d+(?:\s+\d+)?/i)?.[0]; return [cd && `CD ${cd}`, call].filter(Boolean).join(" · ") || "Source CD not yet identified"; }
-  function searchCatalog(query) {
-    searchResults.hidden = !query; if (!query) { resultList.replaceChildren(); return; }
+  function catalogHits(query) {
     const branchHits = names().filter((name) => matches(query, [name, detailsFor(name)?.variants, detailsFor(name)?.relatedBranches, detailsFor(name)?.filmAndCallNumbers, years(detailsFor(name))].join(" "))).map((name) => {
       const historicalMatch = historicalNames.find((item) => item.canonicalName === name && normalize(item.name) !== normalize(name) && matches(query, item.name));
       return { type: "BRANCH", name, action: () => routeBranch(name), note: historicalMatch ? `${historicalMatch.name} — ${historicalMatch.relationship}` : years(detailsFor(name)) };
@@ -65,7 +64,12 @@
       .slice(0, 20)
       .map((item) => ({ type: "HISTORICAL NAME", name: item.name, note: item.canonicalName ? `${item.relationship} of ${item.canonicalName}` : item.relationship, action: () => item.canonicalName ? routeBranch(item.canonicalName) : location.href = `historical-names.html?q=${encodeURIComponent(item.name)}` }));
     const collectionHits = catalog.collections.filter((collection) => matches(query, [collection.name, collection.category, sourceText(collection), ...(collection.aliases || []), ...(collection.images || []).map((item) => item.name)].join(" "))).map((collection) => ({ type: "COLLECTION", name: displayTitle(collection.name), note: `${sourceText(collection)} · ${(collection.images || []).length} items`, action: () => { const branch = names().find((name) => normalize(collection.name).includes(normalize(name))); if (branch) routeBranch(branch); else window.WELSH_OPEN_COLLECTION?.(collection); } }));
-    const hits = [...branchHits, ...historicalHits, ...collectionHits].slice(0, 60); if (!hits.length) { resultList.innerHTML = `<p class="no-results">No matches were found for “${query}”. Try another spelling, CD number, call number, or date.</p>`; return; }
+    return [...branchHits, ...historicalHits, ...collectionHits].slice(0, 60);
+  }
+  window.WELSH_ARCHIVE_SEARCH = { hits: catalogHits };
+  function searchCatalog(query) {
+    searchResults.hidden = !query; if (!query) { resultList.replaceChildren(); return; }
+    const hits = catalogHits(query); if (!hits.length) { resultList.innerHTML = `<p class="no-results">No matches were found for “${query}”. Try another spelling, CD number, call number, or date.</p>`; return; }
     resultList.replaceChildren(...hits.map((hit) => { const button = document.createElement("button"); button.type = "button"; button.className = "search-result"; button.innerHTML = `<span>${hit.type}</span><strong>${hit.name}</strong><small>${hit.note}</small>`; button.addEventListener("click", hit.action); return button; }));
   }
   function organizeResources(name) {
@@ -92,7 +96,7 @@
     }
     const info = document.createElement("section"); info.className = "branch-information";
     const nameSources = (d?.nameSources || []).map((source) => {
-      const location = [source.filename, `viewer sequence ${source.viewerSequence}`, source.internalPage ? `internal page ${source.internalPage}` : "", source.lrContext].filter(Boolean).join(" · ");
+      const location = [source.evidenceType, source.filename, source.viewerSequence ? `viewer sequence ${source.viewerSequence}` : "", source.internalPage ? `internal page ${source.internalPage}` : "", source.lrContext].filter(Boolean).join(" · ");
       // A source citation that names the current branch is evidence, not a
       // destination. Only render a branch-resource link when it genuinely
       // leads to a different branch page (for example, a compound source held
@@ -108,11 +112,12 @@
     const detailedCardProvenance = cards.filter((card) => card.dataset.provenanceDetail && card.dataset.provenanceDetail !== card.dataset.provenanceSummary)
       .map((card) => `<li><strong>${card.querySelector("strong")?.textContent || "Resource"}:</strong> ${card.dataset.provenanceDetail}</li>`).join("");
     const alternateNames = [d?.variants, d?.relatedBranches].filter(Boolean).join(" · ");
+    const leadership = d?.leadershipOfficers ? `<section class="branch-detail-expanded branch-leadership"><h3>Branch leadership / officers</h3><p>${d.leadershipOfficers}</p></section>` : "";
     const workRemaining = [...new Set(cards.map((card) => card.dataset.workRemaining).filter(Boolean))];
     const disclosure = (title, content) => `<details class="branch-detail-disclosure"><summary aria-expanded="false">${title}</summary><div class="branch-detail-content">${content}</div></details>`;
     info.innerHTML = (alternateNames ? `<section class="branch-detail-expanded"><h3>Alternate names and branch relationships</h3><p>${alternateNames}</p></section>` : "")
-      + disclosure("Sources and Evidence", `${sourceEvidence}${detailedCardProvenance ? `<ul class="source-evidence-list">${detailedCardProvenance}</ul>` : ""}`)
-      + (nameSources ? disclosure("Sources for branch name", `<ul class="branch-name-sources">${nameSources}</ul>`) : "")
+      + leadership
+      + disclosure("Sources and Evidence", `${sourceEvidence}${nameSources ? `<ul class="branch-name-sources">${nameSources}</ul>` : ""}${detailedCardProvenance ? `<ul class="source-evidence-list">${detailedCardProvenance}</ul>` : ""}`)
       + disclosure("Registry and technical details", `<p><a href="branch-registry.html">Consult the branch coverage matrix</a></p>`)
       + disclosure("Work remaining", `<p>${workRemaining.join(" ") || (cards.length ? "Review source coverage, transcription status, and discrepancies." : "Locate and connect records for this identified branch.")}</p>`);
     info.querySelectorAll(".branch-detail-disclosure").forEach((section) => section.addEventListener("toggle", () => section.querySelector("summary")?.setAttribute("aria-expanded", String(section.open))));

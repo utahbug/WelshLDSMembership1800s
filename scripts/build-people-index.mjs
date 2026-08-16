@@ -9,7 +9,13 @@ const jsPath = path.join(privateDir, "people-index.local.js");
 const jsonPath = path.join(privateDir, "people-index.local.json");
 const reportPath = path.join(privateDir, "people-index-report.local.json");
 const allowedTypes = new Set(["member", "associated"]);
-const requiredColumns = ["nameAsWritten", "aliases", "branch", "sourceBranchSpelling", "baptismDate", "residence", "entryNumber", "imageRef", "imageFilename", "pageNumber", "notes", "verified", "occurrenceType"];
+const requiredColumns = ["nameAsWritten", "aliases", "branch", "sourceBranchSpelling", "birthDate", "baptismDate", "residence", "entryNumber", "imageRef", "imageFilename", "pageNumber", "notes", "verified", "occurrenceType"];
+const optionalStructuredColumns = [
+  "baptismPlace", "confirmationDate", "reconfirmationDate", "rebaptismDate",
+  "priesthoodOffice", "ordinationDate", "parents", "spouse", "children",
+  "officiator", "branchTransfer", "removal", "emigration", "death",
+  "membershipStatus", "childBlessing", "associatedPersons",
+];
 
 function parseCsv(text) {
   const rows = []; let row = []; let field = ""; let quoted = false;
@@ -60,6 +66,12 @@ if (fs.existsSync(catalogPath)) { const context = { window: {} }; vm.runInNewCon
 // source collection intact while allowing a branch occurrence to open its exact
 // image inside that compound volume.
 const compoundBranchCollectionNames = new Map([
+  [normalize("Cwmtillery"), normalize("Cwmtillery,1847-1857,LR1887")],
+  [normalize("Trinant"), normalize("Trinant,1849-1853,Library859")],
+  [normalize("Crumlin"), normalize("Crumlin,1857-1862,Library859")],
+  [normalize("Machen"), normalize("Machen,1854-1865,Library1565-or-1765")],
+  [normalize("Twyncarno"), normalize("Twyncarno,1856-1857,Library1602")],
+  [normalize("Pontlanfraith"), normalize("Pontlanfraith,Early-to-1947,Library27560")],
   [normalize("Abertillery"), normalize("Cwm Celyn,1851-1883,LR1957")],
   [normalize("Cogan"), normalize("Cog,1848-1876,LR1097")],
   [normalize("Ebbw Vale"), normalize("Ebbro Vale,1847-1864,LR98467")],
@@ -70,6 +82,8 @@ const compoundBranchCollectionNames = new Map([
   [normalize("Llandebie"), normalize("Llandebie,1849-1886,LR1137")],
   [normalize("Castell Nedd (Neath)"), normalize("Castell Nedd,1879-1884,LR1967")],
   [normalize("Coalbrookvale"), normalize("Coalbrookvale,1856-1867,LR1747")],
+  [normalize("Llansawel (Carmarthenshire)"), normalize("Llansawel,1849-1855,LR2217")],
+  [normalize("Llansawel (Glamorgan)"), normalize("Llansawel (Glamorgan),1850-1889,LR117597")],
   [normalize("Tredegar"), normalize("Cwm Celyn,1851-1883,LR1957")],
 ]);
 const collectionForBranch = (branch, imageFilename = "") => {
@@ -101,7 +115,7 @@ for (let rowIndex = 1; rowIndex < parsed.length; rowIndex += 1) {
   const branch = canonicalBranch || source.branch;
   const occurrenceType = normalize(source.occurrenceType || "member");
   if (!allowedTypes.has(occurrenceType)) { errors.push(`Row ${rowNumber}: invalid occurrenceType “${source.occurrenceType}”; use member or associated.`); continue; }
-  for (const [field, value] of [["baptismDate", source.baptismDate]]) {
+  for (const [field, value] of [["birthDate", source.birthDate], ["baptismDate", source.baptismDate]]) {
     for (const yearText of String(value || "").match(/\b\d{4}\b/g) || []) if (Number(yearText) > 1920) errors.push(`Row ${rowNumber}: ${field} contains year ${yearText}, after the 1920 limit.`);
   }
   const imageSequence = /^\d+$/.test(source.imageRef) ? Number(source.imageRef) : null;
@@ -111,7 +125,9 @@ for (let rowIndex = 1; rowIndex < parsed.length; rowIndex += 1) {
     aliases: splitAliases(source.aliases),
     branch,
     sourceBranchSpelling: source.sourceBranchSpelling || (normalize(source.branch) !== normalize(branch) ? source.branch : ""),
+    birthDate: source.birthDate || null,
     baptismDate: source.baptismDate || null,
+    ...Object.fromEntries(optionalStructuredColumns.map((field) => [field, source[field] || null])),
     residence: source.residence || null,
     entryNumber: source.entryNumber || null,
     imageRef: source.imageRef || null,
@@ -123,7 +139,7 @@ for (let rowIndex = 1; rowIndex < parsed.length; rowIndex += 1) {
     verified: booleanValue(source.verified, rowNumber, errors),
     occurrenceType,
   };
-  const duplicateKey = normalize([record.nameAsWritten, record.branch, record.baptismDate, record.residence, record.entryNumber, record.imageRef, record.imageFilename, record.occurrenceType].join("|"));
+  const duplicateKey = normalize([record.nameAsWritten, record.branch, record.birthDate, record.baptismDate, record.residence, record.entryNumber, record.imageRef, record.imageFilename, record.occurrenceType].join("|"));
   if (duplicateKeys.has(duplicateKey)) warnings.push(`Rows ${duplicateKeys.get(duplicateKey)} and ${rowNumber} look like duplicate occurrences.`);
   else duplicateKeys.set(duplicateKey, rowNumber);
   if ((record.imageRef || record.imageFilename) && !record.collectionId) warnings.push(`Row ${rowNumber}: image reference is present, but a unique branch collection could not be identified.`);
@@ -131,7 +147,8 @@ for (let rowIndex = 1; rowIndex < parsed.length; rowIndex += 1) {
 }
 
 if (errors.length) { console.error(errors.join("\n")); process.exit(1); }
-const payload = { privateLocalIndex: true, version: 2, generatedAt: new Date().toISOString(), branchAliases: { Ffestiniog: ["Festiniog"] }, counts: { occurrences: records.length, members: records.filter((record) => record.occurrenceType === "member").length, associated: records.filter((record) => record.occurrenceType === "associated").length }, records };
+const structuredCounts = Object.fromEntries(["birthDate", "baptismDate", "residence", ...optionalStructuredColumns].map((field) => [`with${field[0].toUpperCase()}${field.slice(1)}`, records.filter((record) => record[field]).length]));
+const payload = { privateLocalIndex: true, version: 4, generatedAt: new Date().toISOString(), branchAliases: { Ffestiniog: ["Festiniog"] }, counts: { occurrences: records.length, members: records.filter((record) => record.occurrenceType === "member").length, associated: records.filter((record) => record.occurrenceType === "associated").length, ...structuredCounts }, records };
 fs.mkdirSync(privateDir, { recursive: true });
 fs.writeFileSync(jsonPath, `${JSON.stringify(payload, null, 2)}\n`, "utf8");
 fs.writeFileSync(jsPath, `window.WELSH_PEOPLE_PRIVATE_INDEX = ${JSON.stringify(payload)};\n`, "utf8");

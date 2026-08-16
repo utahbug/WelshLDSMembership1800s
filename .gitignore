@@ -11,6 +11,7 @@ outputs/branch-registry/*.png
 outputs/branch-registry/*.inspect.ndjson
 tmp/
 _github_upload/
+build/
 resources/source-cds/**
 resources/transcriptions/*
 !resources/transcriptions/*.pdf

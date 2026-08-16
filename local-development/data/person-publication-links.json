@@ -1,0 +1,23 @@
+{
+  "schemaVersion": 1,
+  "relationships": [
+    {
+      "id": "david-roberts-ffestiniog-hymnal-dr",
+      "personMatch": {
+        "recordType": "member",
+        "nameAsWritten": "David Roberts",
+        "branch": "Ffestiniog",
+        "collectionId": "collection-41",
+        "entryNumber": "1"
+      },
+      "heading": "Related historical material",
+      "publicationId": "welsh-hymnal-1852",
+      "publicationTitle": "Casgliad o Hymnau, Caniadau, ac Odlau Ysbrydol, at Wasanaeth Saint y Dyddiau Diweddaf, yn Nghymru",
+      "pageNumber": 265,
+      "reference": "Hymn credited D.R.",
+      "researchNote": "Possible D.R. connection. Ronald D. Dennis identified a wording match between this D.R.-credited hymn and a hymn preserved in Roberts family material.",
+      "evidenceNote": "The printed source supplies the initials D.R.; the wording match is a researcher identification and does not by itself establish authorship.",
+      "viewerUrl": "publication-viewer.html?id=welsh-hymnal-1852&page=265"
+    }
+  ]
+}

@@ -1,5 +1,55 @@
 (() => {
   const catalog = window.WELSH_RECORD_CATALOG;
+  const typedSourceCollection = catalog.collections.find((collection) => collection.name === "General transcriptions and indexes"
+    && collection.images.some((record) => record.name === "A - CDs 60-62 - Typed Transcripts.pdf"));
+
+  function addContextualDocumentCollection({ id, name, aliases, sourceFile, page }) {
+    if (!typedSourceCollection || catalog.collections.some((collection) => collection.id === id)) return;
+    const sourceRecord = typedSourceCollection.images.find((record) => record.name === sourceFile);
+    if (!sourceRecord) return;
+    const pageCollection = catalog.collections.find((collection) => collection.sourcePdf === sourceFile && collection.viewerRepresentation);
+    if (pageCollection && catalog.edition !== "public") {
+      catalog.collections.push({ ...pageCollection, id, name, aliases, virtualSourceCollection: pageCollection.id, preferredInitialPage: page || 1 });
+      return;
+    }
+    const pageFragment = page ? `#page=${page}` : "";
+    catalog.collections.push({
+      id,
+      name,
+      aliases,
+      category: "LDS conference and district minutes",
+      sources: typedSourceCollection.sources,
+      availability: { ...typedSourceCollection.availability },
+      publicStorage: typedSourceCollection.publicStorage,
+      images: [{
+        ...sourceRecord,
+        url: sourceRecord.url ? `${sourceRecord.url}${pageFragment}` : sourceRecord.url,
+        serveUrl: sourceRecord.serveUrl ? `${sourceRecord.serveUrl}${pageFragment}` : sourceRecord.serveUrl,
+      }],
+    });
+  }
+
+  addContextualDocumentCollection({
+    id: "context-cwmbran-minutes",
+    name: "Cwmbran reports in Pontypool/Abersychan General Minutes, 1857-1889",
+    aliases: ["Cwmbran branch condition reports", "Cwmbran baptisms and additions", "CDs 60-62", "CD 62", "LR708611"],
+    sourceFile: "A - CDs 60-62 - Typed Transcripts.pdf",
+    page: 129,
+  });
+  addContextualDocumentCollection({
+    id: "context-morriston-conference",
+    name: "Morriston report in Western Glamorgan Conference Minutes, 1851-1870",
+    aliases: ["Morriston fast offerings 1866", "Western Glamorgan Conference", "CD 41", "LR1761721"],
+    sourceFile: "A - CDs 40-43 (2 of 2) - Typed Transcripts.pdf",
+    page: 83,
+  });
+  addContextualDocumentCollection({
+    id: "context-welsh-conference-minutes",
+    name: "Welsh District and Conference General Minutes, 1849-1911 (typed extract)",
+    aliases: ["Welsh Conference minutes", "Welsh District general minutes", "CD 43", "LR1001111"],
+    sourceFile: "A - CDs 40-43 (2 of 2) - Typed Transcripts.pdf",
+    page: 105,
+  });
   const $ = (selector) => document.querySelector(selector);
   const list = $("#collectionList");
   const branchList = $("#branchList");
@@ -32,6 +82,9 @@
   const caption = $("#recordCaption");
   const strip = $("#thumbnailStrip");
   const pageIndexButton = $("#pageIndexButton");
+  pageIndexButton.textContent = "▦";
+  const tiltIcon = $("#imageTools summary svg");
+  if (tiltIcon) tiltIcon.innerHTML = '<path d="M3 13.9 21 10.1"/>';
   const pageIndexPanel = $("#pageIndexPanel");
   const closePageIndex = $("#closePageIndex");
   const continuousView = $("#continuousView");
@@ -62,20 +115,44 @@
   const guideAngleOutput = $("#guideAngle");
   const activePageIndicator = $("#activePageIndicator");
   const imageTools = $("#imageTools");
-  const temporaryToolPopovers = [...document.querySelectorAll(".view-toolbar details.image-tools, .view-toolbar details.image-adjustments, .view-toolbar details.scale-tools")];
+  const temporaryToolPopovers = [
+    ...document.querySelectorAll(".view-toolbar details.image-tools, .view-toolbar details.image-adjustments, .view-toolbar details.scale-tools"),
+    guideControls,
+  ];
+  lineGuideTool.setAttribute("aria-controls", guideControls.id);
+  lineGuideTool.setAttribute("aria-expanded", String(!guideControls.hidden));
   const brightnessValue = $("#brightnessValue");
   const contrastValue = $("#contrastValue");
   const brightnessSlider = $("#brightnessSlider");
   const contrastSlider = $("#contrastSlider");
   const enhanceStatus = $("#enhanceStatus");
   const rotationTarget = $("#rotationTarget");
-  const backToResources = $("#backToResources");
-  const viewerBreadcrumbs = $("#viewerBreadcrumbs");
-  const breadcrumbCurrentPage = $("#breadcrumbCurrentPage");
+  const viewerBranchResourcesLink = $("#viewerBranchResourcesLink");
+  const viewerStickyHeader = $(".viewer-sticky-header");
+  const viewerStickySentinel = $("#viewerStickySentinel");
   const branchResourceBreadcrumbs = $("#branchResourceBreadcrumbs");
   const branchBreadcrumbName = $("#branchBreadcrumbName");
   const viewContext = $("#viewContext");
   const number = new Intl.NumberFormat("en-US");
+  let stickyStateFrame = 0;
+  function updateViewerStickyState() {
+    stickyStateFrame = 0;
+    if (viewer.hidden) {
+      viewerStickyHeader.classList.remove("is-stuck");
+      return;
+    }
+    const triggerTop = viewerStickySentinel.getBoundingClientRect().top;
+    if (!viewerStickyHeader.classList.contains("is-stuck") && triggerTop <= 0) {
+      viewerStickyHeader.classList.add("is-stuck");
+    } else if (viewerStickyHeader.classList.contains("is-stuck") && (triggerTop >= 96 || window.scrollY <= 1)) {
+      viewerStickyHeader.classList.remove("is-stuck");
+    }
+  }
+  function queueViewerStickyState() {
+    if (!stickyStateFrame) stickyStateFrame = requestAnimationFrame(updateViewerStickyState);
+  }
+  window.addEventListener("scroll", queueViewerStickyState, { passive: true });
+  window.addEventListener("resize", queueViewerStickyState);
   const minutesCdByCall = new Map(Object.entries({
     "141622": "35", "122087": "36", "241210": "37", "1761621": "38", "984611": "39",
     "1761622": "40", "1761721": "41", "1175711": "42/55", "1001111": "43/60",
@@ -86,6 +163,23 @@
   }));
 
   let registry = window.WELSH_BRANCH_REGISTRY?.registry || [];
+  const contextualBranchMetadata = new Map([
+    ["Cwmbran", {
+      localCd: true,
+      localNote: true,
+      comparisonStatus: "Contextual typed minutes evidence; dedicated member register not recovered",
+      filmAndCallNumbers: "CD 62 within source group CDs 60-62; LR 70861 1; Pontypool/Abersychan General Minutes, 1857-1889; Cwmbran reports on typed PDF pages 129, 167, 169, 171-172, 176; Film 104168 Item 13 retained as legacy discovery metadata",
+      notes: "Cwmbran is repeatedly attested in branch-condition, missionary, baptism/addition, and appointment reports. This is contextual minutes evidence, not a dedicated Record of Members.",
+    }],
+    ["Morriston", {
+      localCd: true,
+      localNote: true,
+      comparisonStatus: "Contextual conference-minutes evidence; dedicated member register not recovered",
+      filmAndCallNumbers: "CD 41; LR 17617 21; Western Glamorgan Conference Minutes, 1851-1870; Morriston fast-offerings report, 1866; Film 104172 Item 5 retained as legacy discovery metadata",
+      notes: "Morriston is explicitly attested by a 1866 fast-offerings report in the enclosing conference minutes. This is contextual conference material, not a dedicated Record of Members.",
+    }],
+  ]);
+  registry.forEach((branch) => Object.assign(branch, contextualBranchMetadata.get(branch.canonicalName) || {}));
   let currentCollection = null;
   let currentRecords = [];
   let currentImage = 0;
@@ -150,9 +244,20 @@
     scaleSummary.title = `Zoom/Scale ${target}`;
   }
 
+  function temporaryToolPopoverIsOpen(popover) {
+    return popover instanceof HTMLDetailsElement ? popover.open : !popover.hidden;
+  }
+
+  function setGuideControlsOpen(open) {
+    guideControls.hidden = !open;
+    lineGuideTool.setAttribute("aria-expanded", String(open));
+  }
+
   function closeTemporaryToolPopovers(except = null) {
     temporaryToolPopovers.forEach((popover) => {
-      if (popover !== except) popover.removeAttribute("open");
+      if (popover === except) return;
+      if (popover instanceof HTMLDetailsElement) popover.removeAttribute("open");
+      else setGuideControlsOpen(false);
     });
   }
 
@@ -233,20 +338,20 @@
     image.addEventListener("error", () => {
       image.parentElement?.classList.remove("image-loading");
       image.parentElement?.classList.add("image-load-error");
-      message.textContent = "Image could not be loaded.";
+      message.textContent = "Record image could not be loaded.";
       retryButton.hidden = false;
       status.hidden = false;
     });
   }
 
-  function loadRecordImage(image, source, retry = () => loadRecordImage(image, source)) {
+  function loadRecordImage(image, source, retry = () => loadRecordImage(image, source), loadingText = "Loading record image…") {
     prepareImageLoadFeedback(image, retry);
     const status = image.parentElement?.querySelector(":scope > .image-load-status");
     const message = status?.querySelector("span");
     const retryButton = status?.querySelector("button");
     image.parentElement?.classList.remove("image-load-error");
     image.parentElement?.classList.add("image-loading");
-    if (message) message.textContent = "Loading image…";
+    if (message) message.textContent = loadingText;
     if (retryButton) retryButton.hidden = true;
     if (status) status.hidden = false;
     if (!source) {
@@ -269,11 +374,32 @@
   }
 
   const collectionBranchAssignments = new Map([
+    ["Cwmbran reports in Pontypool/Abersychan General Minutes, 1857-1889", new Set(["Cwmbran"])],
+    ["Morriston report in Western Glamorgan Conference Minutes, 1851-1870", new Set(["Morriston"])],
+    ["Welsh Conference,Record of Members,Early-1892,Library1614", new Set(["Welsh Conference"])],
+    ["Welsh Conference,Record of Members,1887-1901,Library3114", new Set(["Welsh Conference"])],
+    ["Welsh Conference,Record of Members,Early-1911,Library3118-partial", new Set(["Welsh Conference"])],
+    ["Welsh Conference,Incomplete Conference Minutes,1884,LR1001123", new Set(["Welsh Conference"])],
+    ["Welsh District and Conference General Minutes, 1849-1911 (typed extract)", new Set(["Welsh Conference"])],
+    ["Cwmtillery,1847-1857,LR1887", new Set(["Cwmtillery"])],
+    ["Trinant,1849-1853,Library859", new Set(["Trinant"])],
+    ["Crumlin,1857-1862,Library859", new Set(["Crumlin"])],
+    ["Machen,1854-1865,Library1565-or-1765", new Set(["Machen"])],
+    ["Twyncarno,1856-1857,Library1602", new Set(["Twyncarno"])],
+    ["Pontlanfraith,Early-to-1947,Library27560", new Set(["Pontlanfraith"])],
+    ["Abertillery,1861-1866,LR1957", new Set(["Abertillery"])],
     ["Cog,1848-1876,LR1097", new Set(["Cogan"])],
+    ["Ebbro Vale,1847-1864,LR98467", new Set(["Ebbw Vale"])],
     ["Llanelli,1847-1868,LR117577", new Set(["Llanelli"])],
     ["Treorchy,1874-1882,LR1727", new Set(["Treorchy"])],
     ["Llanelltyd,1850-1857,LR1727", new Set(["Llanelltyd"])],
     ["Cwm Saerbren,1858-1874,LR1727", new Set(["Cwm Saerbren"])],
+    ["Llansawel,1849-1855,LR2217", new Set(["Llansawel (Carmarthenshire)"])],
+    ["Llansawel (Glamorgan),1850-1889,LR117597", new Set(["Llansawel (Glamorgan)"])],
+    // Retain the complete physical holding in the catalog for provenance, but
+    // do not present it as a second branch resource. The bounded virtual
+    // collection above is the researcher-facing Glamorgan section.
+    ["Llansawel,1850-1889,LR117597", new Set()],
     ["Nantyglo,1846-1867,LR1747", new Set(["Nantyglo"])],
     ["Coalbrookvale,1856-1867,LR1747", new Set(["Coalbrookvale"])],
     ["Haverfordwest,1847-1853,LR1134321", new Set(["Haverfordwest"])],
@@ -285,6 +411,27 @@
   ]);
 
   const collectionDisplayNames = new Map([
+    ["A - CDs 35-39 (1 of 2) - Typed Transcripts - Viewer Pages", "Cardiff Donations and Branch Records"],
+    ["A - CDs 35-39 (2 of 2) - Typed Transcripts - Viewer Pages", "East Glamorgan Conference Minutes, 1853–1863"],
+    ["A - CDs 39 - Typed Transcripts - Viewer Pages", "Ebbw Vale General Minutes, 1852–1854"],
+    ["A - CDs 40-43 (1 of 2) - Typed Transcripts - Viewer Pages", "Welsh Branch and Conference Records, 1851–1870"],
+    ["A - CDs 40-43 (2 of 2) - Typed Transcripts - Viewer Pages", "East Glamorgan Conference, 1851–1852"],
+    ["A - CDs 44-59 - Typed Transcripts - Viewer Pages", "Welsh Branch and Conference Records"],
+    ["A - CDs 60-62 - Typed Transcripts - Viewer Pages", "Welsh District and General Minutes"],
+    ["Cwmbran reports in Pontypool/Abersychan General Minutes, 1857-1889", "Cwmbran reports in Pontypool/Abersychan General Minutes, 1857-1889"],
+    ["Morriston report in Western Glamorgan Conference Minutes, 1851-1870", "Morriston report in Western Glamorgan Conference Minutes, 1851-1870"],
+    ["Welsh Conference,Record of Members,Early-1892,Library1614", "Welsh Conference Record of Members, early to 1892"],
+    ["Welsh Conference,Record of Members,1887-1901,Library3114", "Welsh Conference Record of Members, 1887-1901"],
+    ["Welsh Conference,Record of Members,Early-1911,Library3118-partial", "Welsh Conference Record of Members, early to 1911 (partial local capture)"],
+    ["Welsh Conference,Incomplete Conference Minutes,1884,LR1001123", "Welsh Conference incomplete semi-annual conference minutes, 1884"],
+    ["Welsh District and Conference General Minutes, 1849-1911 (typed extract)", "Welsh District and Conference General Minutes, 1849-1911 (typed extract)"],
+    ["Cwmtillery,1847-1857,LR1887", "Cwmtillery Branch Record of Members, 1847-1857"],
+    ["Trinant,1849-1853,Library859", "Trinant Branch surviving Record of Members page, 1849-1853"],
+    ["Crumlin,1857-1862,Library859", "Crumlin Branch Record of Members, 1857-1862"],
+    ["Machen,1854-1865,Library1565-or-1765", "Machen Branch Record of Members, 1854-1865"],
+    ["Twyncarno,1856-1857,Library1602", "Twyn Carno Branch Record of Members, 1856-1857"],
+    ["Pontlanfraith,Early-to-1947,Library27560", "Record of Members — Early to 1947"],
+    ["Abertillery,1861-1866,LR1957", "Abertillery Branch Record of Members, 1861-1866"],
     ["Llanfabon 1847-1869,LR1687", "Llanfabon Branch Record of Members, 1847-1869"],
     ["Llanelli,1847-1868,LR117577", "Llanelly Branch Record of Members, 1847-1868"],
     ["Llanelltyd,1850-1882,LR1727", "Compound volume: Llanelltyd, Cwm Saerbren, and Treorky, 1850-1882"],
@@ -297,10 +444,27 @@
     ["Llandebie,1849-1886,LR1137", "Llandebie Branch Record of Members, 1849-1866"],
     ["Castell Nedd,1879-1884,LR1967", "Castell Nedd Branch Record of Members, 1849-1884"],
     ["Rhymney English,1851-1887,LIB1602-direct-FHC", "Rhymney English Branch Record of Members, 1851-1887"],
-    ["Llanelly-production", "Llanelly-production source holding (review required)"],
+    ["Llanelly-production", "Llanelly mixed source holding"],
+    ["Llansawel,1849-1855,LR2217", "Llansawel Branch Record of Members, 1849-1855 (Carmarthenshire)"],
+    ["Llansawel (Glamorgan),1850-1889,LR117597", "Llansawel Branch Record, 1850-1889 (Glamorgan section)"],
+    ["Cardiff Confererence,1857-1869,LR241210", "Cardiff Conference, 1857-1869, LR241210"],
   ]);
 
   const collectionProvenanceOverrides = new Map([
+    ["Cwmbran reports in Pontypool/Abersychan General Minutes, 1857-1889", "Typed branch reports in Pontypool/Abersychan General Minutes · CD 62 within source group CDs 60-62 · LR708611 · PDF pages 129, 167, 169, 171-172, and 176"],
+    ["Morriston report in Western Glamorgan Conference Minutes, 1851-1870", "Western Glamorgan Conference Minutes · CD 41 · LR1761721 · explicit Morriston fast-offerings report, 1866 · typed source page 83"],
+    ["Welsh Conference,Record of Members,Early-1892,Library1614", "Direct-FHC microfilm components 345-393 · Library 1614 · Film 104172 context · 49 permanent viewer images"],
+    ["Welsh Conference,Record of Members,1887-1901,Library3114", "Direct-FHC microfilm components 394-444 · Library 3114 · component 428 absent from the recovered local sequence · 50 permanent viewer images"],
+    ["Welsh Conference,Record of Members,Early-1911,Library3118-partial", "Direct-FHC microfilm components 445-474 · Library 3118 · component 462 and continuation after 474 not recovered · 29 permanent viewer images"],
+    ["Welsh Conference,Incomplete Conference Minutes,1884,LR1001123", "LR1001123 · incomplete semi-annual district-conference minutes · two authoritative full-resolution images; thumbnail excluded"],
+    ["Welsh District and Conference General Minutes, 1849-1911 (typed extract)", "Typed branch-record extract · CD 43 · LR1001111 · source PDF begins at page 105"],
+    ["Cwmtillery,1847-1857,LR1887", "CD 8 / LR 188 7 / photographed library identifier 859 / recovered full-resolution images"],
+    ["Trinant,1849-1853,Library859", "Direct-FHC microfilm PDF fallback / photographed library identifier 859 / source label and surviving closing register page"],
+    ["Crumlin,1857-1862,Library859", "Direct-FHC microfilm PDF / photographed library identifier 859 / bounded Crumlin register pages"],
+    ["Machen,1854-1865,Library1565-or-1765", "Source: direct-FHC microfilm · Library 1565/1765 unresolved"],
+    ["Twyncarno,1856-1857,Library1602", "Source: direct-FHC microfilm · Library 1602"],
+    ["Pontlanfraith,Early-to-1947,Library27560", "Direct-FHC microfilm PDF / photographed library identifier 27560 / mixed members-and-children source"],
+    ["Abertillery,1861-1866,LR1957", "CD 19 / LR 195 7 compound section / images 00046-00057 / 12 images"],
     ["Llanfabon 1847-1869,LR1687", "CD 15 / project LR1687 / photographed historical-library identifier 871 / 60 images"],
     ["Cwm Saerbren,1858-1874,LR1727", "CD 34 / LR 172 7 compound section / internal pages 6-24 / 38 images"],
     ["Treorchy,1874-1882,LR1727", "CD 34 / LR 172 7 compound sections / Treorky minutes and member register / 68 images"],
@@ -314,10 +478,91 @@
     ["Llanelli,1847-1868,LR117577", "CD 11 · source label 1577 · recovered folder LR 11757 7 · image filename prefix LR 12451 7 (unresolved)"],
     ["Llanelltyd,1850-1882,LR1727", "CD 34 · LR 172 7 · internal starts: Llanelltyd page 1; Cwm Saerbren page 6; Treorky page 25"],
     ["Llanelly-production", "319 images · CR 11757 10 / source label 1578; CR 11757 11 / source label 1576; translation manuscript · boundaries unresolved"],
+    ["Llansawel,1849-1855,LR2217", "CD 14 / LR 221 7 / photographed library identifier 318 / 28 full-resolution images"],
+    ["Llansawel (Glamorgan),1850-1889,LR117597", "CD 18 / LR 11759 7 compound source / explicit Llansawel section images 00009-00048 / 40 images"],
+  ]);
+
+  const collectionResourceDescriptors = new Map([
+    ["Cwmbran reports in Pontypool/Abersychan General Minutes, 1857-1889", { label: "Branch Reports in General Minutes", group: "historical" }],
+    ["Morriston report in Western Glamorgan Conference Minutes, 1851-1870", { label: "Conference Report and Fast Offerings", group: "historical" }],
+    ["Welsh Conference,Record of Members,Early-1892,Library1614", { label: "Record of Members", group: "primary" }],
+    ["Welsh Conference,Record of Members,1887-1901,Library3114", { label: "Record of Members", group: "primary" }],
+    ["Welsh Conference,Record of Members,Early-1911,Library3118-partial", { label: "Record of Members (Partial Local Capture)", group: "primary" }],
+    ["Welsh Conference,Incomplete Conference Minutes,1884,LR1001123", { label: "Conference Minutes", group: "historical" }],
+    ["Welsh District and Conference General Minutes, 1849-1911 (typed extract)", { label: "Typed Conference Minutes", group: "transcription" }],
+    ["Cwmtillery,1847-1857,LR1887", { label: "Record of Members", group: "primary" }],
+    ["Trinant,1849-1853,Library859", { label: "Surviving Record of Members", group: "primary" }],
+    ["Crumlin,1857-1862,Library859", { label: "Record of Members", group: "primary" }],
+    ["Machen,1854-1865,Library1565-or-1765", { label: "Record of Members", group: "primary" }],
+    ["Twyncarno,1856-1857,Library1602", { label: "Record of Members", group: "primary" }],
+    ["Pontlanfraith,Early-to-1947,Library27560", { label: "Members and Children", group: "primary" }],
+    ["Abersychan,1849-1898,LR104687", { label: "Record of Members", group: "primary" }],
+    ["Abertillery,1861-1866,LR1957", { label: "Record of Members", group: "primary" }],
+    ["Alltwen,1849-1859,LR2257", { label: "Branch Record", group: "primary" }],
+    ["Brechfa,1846-1875,LR110007", { label: "Branch Record", group: "primary" }],
+    ["Britonferry,1850-1853,LR117597", { label: "Branch Record", group: "primary" }],
+    ["Brynmawr,1848-1868,LR2157", { label: "Branch Record", group: "primary" }],
+    ["Bryntroedgam,1847-1860,LR1297", { label: "Branch Record", group: "primary" }],
+    ["Cardiff (1851-1867) - Donations, Expenditures, Minutes, Records", { label: "Mixed Historical Records", group: "historical" }],
+    ["Cardiff Confererence,1857-1869,LR241210", { label: "Conference Record", group: "historical" }],
+    ["Cardiff,1847-1876,LR14167", { label: "Record of Members", group: "primary" }],
+    ["Cardiff,1851-1867,Donations,LR141622", { label: "Donations Record", group: "historical" }],
+    ["Castell Nedd,1879-1884,LR1967", { label: "Record of Members", group: "primary" }],
+    ["Cefn Coed-y-Cymmer,1847-1864,LR1767", { label: "Branch Record", group: "primary" }],
+    ["Coalbrookvale,1856-1867,LR1747", { label: "Branch Record", group: "primary" }],
+    ["Cog,1848-1876,LR1097", { label: "Record of Members", group: "primary" }],
+    ["Cuffern Mountain,1849-1876,LR1987", { label: "Branch Record", group: "primary" }],
+    ["Cwm Celyn,1851-1883,LR1957", { label: "Record of Members", group: "primary" }],
+    ["Cwm Saerbren,1858-1874,LR1727", { label: "Record of Members", group: "primary" }],
+    ["Dinas,1848-1879,LR1827", { label: "Branch Record", group: "primary" }],
+    ["Dowlais,1851-1872,LR1287", { label: "Record of Members", group: "primary" }],
+    ["Ebbro Vale,1847-1864,LR98467", { label: "Branch Record", group: "primary" }],
+    ["Ffestiniog membership record", { label: "Record of Members", group: "primary" }],
+    ["Georgetown-production", { label: "Branch Record", group: "primary" }],
+    ["Gilwern,1849-1858,LR13987", { label: "Record of Members", group: "primary" }],
+    ["Glamorgan East Conference,1853-1863,LR1761621", { label: "Conference Record", group: "historical" }],
+    ["Gymner (1852-1857, 1863) - Minutes", { label: "Branch Minutes", group: "historical" }],
+    ["Haverfordwest,1847-1853,LR1134321", { label: "Members and Historical Record", group: "primary" }],
+    ["Haverfordwest,1852-1860,CR1134311-v2", { label: "Historical Record and Record of Members", group: "primary" }],
+    ["Llanelltyd,1850-1882,LR1727", { label: "Compound Branch Volume", group: "historical" }],
+    ["Llanelli,1847-1868,LR117577", { label: "Record of Members", group: "primary" }],
+    ["Llanelltyd,1850-1857,LR1727", { label: "Record of Members", group: "primary" }],
+    ["Llanelly-production", { label: "Mixed Historical Source Holding", group: "historical" }],
+    ["Llanfabon 1847-1869,LR1687", { label: "Branch Record", group: "primary" }],
+    ["Llandebie,1849-1886,LR1137", { label: "Record of Members", group: "primary" }],
+    ["Llansawel,1849-1855,LR2217", { label: "Record of Members", group: "primary" }],
+    ["Llansawel (Glamorgan),1850-1889,LR117597", { label: "Branch Record", group: "primary" }],
+    ["Merthr Tydfil (1849-1857, 1861-1896)", { label: "Record of Members", group: "primary" }],
+    ["Merthyr Tydfil,1843-1857 1861-1896,LR54507", { label: "Record of Members", group: "primary" }],
+    ["Nantyglo,1846-1867,LR1747", { label: "Branch Record", group: "primary" }],
+    ["Newport,1848-1857 1863-1866,LR60717", { label: "Branch Records", group: "primary" }],
+    ["Pen-y-cae,1844-1866,LR2307", { label: "Branch Record", group: "primary" }],
+    ["Pen-Y-Darran,1843-1844,Baptisms,LR122087", { label: "Baptism Record", group: "primary" }],
+    ["Pontypool (and minutes from Abersychan) -2", { label: "Branch Minutes and Historical Record", group: "historical" }],
+    ["Pontypridd,1877-1895,Library1612", { label: "Record of Members", group: "primary" }],
+    ["Rhymney English,1851-1887,LIB1602-direct-FHC", { label: "Record of Members", group: "primary" }],
+    ["Rhymney,1850-1887,LR124517", { label: "Record of Members", group: "primary" }],
+    ["Stepaside,1848-1860,LR1272711", { label: "Members and Historical Record", group: "primary" }],
+    ["Sutton Mountain,1853-1859,LR1277011", { label: "Members and Historical Record", group: "primary" }],
+    ["Swansea-production", { label: "Historical Material and Record of Members", group: "historical" }],
+    ["Swansea,1872-1879,LR88637", { label: "Record of Members", group: "primary" }],
+    ["Treboth,1844-1880,LR2287", { label: "Record of Members", group: "primary" }],
+    ["Tredegar District (1879-1882) - Confidential Minutes", { label: "District Minutes", group: "historical" }],
+    ["Treorchy,1874-1882,LR1727", { label: "Members, Minutes, and Historical Record", group: "primary" }],
+    ["Treforis,1853-1868,LR128867", { label: "Record of Members", group: "primary" }],
+    ["Twynyrodyn,1852-1892,LR1657", { label: "Record of Members", group: "primary" }],
+    ["Ystrad (1902-1910) - General Minutes", { label: "General Minutes", group: "historical" }],
   ]);
 
   function collectionDisplayName(collection) {
-    return collectionDisplayNames.get(collection?.name) || displayTitle(collection?.name);
+    if (collectionDisplayNames.has(collection?.name)) return collectionDisplayNames.get(collection.name);
+    if (collection?.viewerRepresentation && /Typed Transcripts/i.test(collection?.name || "")) {
+      return displayTitle(collection.name)
+        .replace(/^A\s*-\s*/i, "")
+        .replace(/\s*-\s*Viewer Pages$/i, "")
+        .replace(/\((\d+) of (\d+)\)/i, "Part $1 of $2");
+    }
+    return displayTitle(collection?.name);
   }
 
   function collectionReference(collection = currentCollection) {
@@ -326,12 +571,33 @@
     if (collection?.name === "Llanelltyd,1850-1857,LR1727") return "LR1727 · Llanelltyd section";
     if (collection?.name === "Llanelly-production") return "CR11757 10 · CR11757 11 · manuscript 1576";
     if (collection?.name === "Treorchy,1874-1882,LR1727") return "LR1727 - Treorky / Treorchy sections";
+    const library = collection?.name?.match(/Library\s*(\d+)/i)?.[1];
+    if (library) return `Library ${library}`;
     return displayTitle(collection?.name).match(/\b(?:LR|CR)\s*\d+(?:\s+\d+)?\b/i)?.[0].replace(/\s+/g, "") || "Source reference not identified";
   }
 
   function collectionHeading(collection) {
+    if (collection?.viewerRepresentation && /Typed Transcripts/i.test(collection?.name || "")) return collectionDisplayName(collection);
     if (collectionDisplayNames.has(collection?.name)) return collectionDisplayName(collection).replace(/(\b\d{4})-(\d{4}\b)/g, "$1–$2");
     return displayTitle(collection?.name).replace(/\s*,?\s*\b(?:LR|CR)\s*\d+(?:\s+\d+)?\b/gi, "").replace(/(\b\d{4})-(\d{4}\b)/g, "$1–$2").replace(/\s*,\s*$/, "").trim();
+  }
+
+  function branchResourceCardIdentity(collection, descriptor) {
+    if (collection?.name === "Pontlanfraith,Early-to-1947,Library27560") {
+      return { title: "Record of Members — Early to 1947", years: "Years not yet identified" };
+    }
+    if (descriptor.group !== "primary") {
+      const title = collectionDisplayName(collection)
+        .replace(/\s*,?\s*\b(?:LR|CR)\s*[-_]?\s*\d+(?:\s*[-_.]\s*[A-Za-z0-9]+)?\b/gi, "")
+        .replace(/\s*,\s*$/, "")
+        .trim();
+      return { title, years: "" };
+    }
+    const sourceText = `${collection.name || ""} ${collectionDisplayName(collection)}`;
+    const range = sourceText.match(/\b((?:18|19)\d{2})\s*[-–]\s*((?:18|19)\d{2})\b/);
+    const singleYear = sourceText.match(/\b((?:18|19)\d{2})\b/);
+    const years = range ? `${range[1]}–${range[2]}` : singleYear?.[1] || yearLabel(branchDetails(currentBranchName));
+    return { title: currentBranchName || collectionHeading(collection), years };
   }
 
   function editDistance(left, right) {
@@ -364,6 +630,14 @@
       .map((name) => nameScore(query, name)));
   }
 
+  // Branch assignment and directory counts only need collection-level metadata.
+  // Searching every image filename here makes initial directory rendering scale as
+  // branches × images; retain that deeper scan for the explicit catalog search only.
+  function collectionBranchScore(collection, query) {
+    return Math.min(...[collection.name, ...(collection.aliases || [])]
+      .map((name) => nameScore(query, name)));
+  }
+
   function visibleRecords(collection) {
     const hasImages = collection.images.some((record) => record.type === "image");
     return collection.images.filter((record) => {
@@ -376,18 +650,25 @@
     });
   }
 
-  function resourceKind(collection) {
-    if (collection.name === "Llanelltyd,1850-1882,LR1727") return "Compound branch volume";
-    if (collection.name === "Llanelly-production") return "Mixed historical source holding";
+  function resourceDescriptor(collection) {
+    const explicit = collectionResourceDescriptors.get(collection.name);
+    if (explicit) return explicit;
     const records = visibleRecords(collection);
     const images = records.filter((record) => record.type === "image").length;
     const documents = records.length - images;
-    if (/transcription/i.test(collection.category) || records.some((record) => /transcript/i.test(record.name))) return "Transcription";
-    if (/minute|conference/i.test(collection.category + collection.name)) return "Minutes";
-    if (images) return "Membership Records";
-    if (documents) return "Documents";
-    return "Resource";
+    if (/transcription|translation/i.test(collection.category) || records.some((record) => /transcript|translation/i.test(record.name))) return { label: "Transcription or Translation", group: "transcription" };
+    if (/minutes?/i.test(collection.name)) return { label: "Minutes", group: "historical" };
+    if (/conference/i.test(collection.name)) return { label: "Conference Record", group: "historical" };
+    if (images) return { label: "Branch Record", group: "primary" };
+    if (documents) return { label: "Research Documents", group: "research" };
+    return { label: "Resource", group: "research" };
   }
+
+  function resourceKind(collection) {
+    return resourceDescriptor(collection).label;
+  }
+
+  window.WELSH_RESOURCE_DESCRIPTOR = resourceDescriptor;
 
   function transcriptionPdfRange(cdText) {
     const firstCd = Number.parseInt(cdText, 10);
@@ -418,6 +699,19 @@
     return "CD source not yet identified";
   }
 
+  function conciseResourceProvenance(collection) {
+    const detailed = resourceProvenance(collection);
+    const searchable = `${collection.name} ${detailed}`;
+    const cd = searchable.match(/\b(?:Source\s+)?CD\s*(\d+)/i)?.[1];
+    const reference = collection.name.match(/\b((?:LR|CR)\s*[-_]?\s*\d+(?:\s*[-_.]\s*[A-Za-z0-9]+)?)/i)?.[1]
+      ?.replace(/\s+/g, "")
+      .replace(/_/g, "-");
+    const libraryNumber = collection.name.match(/\bLIB(?:RARY)?\s*(\d+)/i)?.[1];
+    const library = libraryNumber ? `Library ${libraryNumber}` : "";
+    const parts = [cd ? `CD ${cd}` : "", reference || library || ""].filter(Boolean);
+    return parts.length ? `Source: ${parts.join(" · ")}` : detailed;
+  }
+
   const nonBranchLabels = new Set(["branches", "assets", "general transcriptions and indexes", "master branch registry"]);
   const derivedBranches = [...new Set(catalog.collections
     .filter((collection) => /membership|branch/i.test(collection.category + collection.name))
@@ -441,6 +735,18 @@
   }
 
   const branchSourceStructure = new Map([
+    ["Cwmbran", "Historically attested in the typed Pontypool/Abersychan General Minutes, with reports concerning branch condition, missionary activity, baptisms/additions, and appointments. No dedicated Cwmbran member register has been recovered."],
+    ["Morriston", "Historically attested within the Western Glamorgan Conference minutes, including an explicit Morriston fast-offerings report dated 1866. The conference minutes are contextual historical material, not a dedicated Morriston member register."],
+    ["Welsh Conference", "The surviving local material comprises separate conference-level sources rather than one continuous volume: Record of Members books identified as Library 1614 (early-1892), Library 3114 (1887-1901), and Library 3118 (early-1911, incomplete local capture), plus incomplete 1884 conference minutes and typed Welsh District/Conference minutes. The similarly titled Film 86987 convenience PDF includes Bristol Conference material after its opening Welsh index and is not treated as one Welsh Conference collection."],
+    ["Llansawel (Carmarthenshire)", "Dedicated CD 14 / LR 221 7 Record of Members, 1849-1855, photographed under library identifier 318. Its member residences cluster around Llansawel-area Carmarthenshire localities. This is distinct from the later Glamorgan section in LR 11759 7."],
+    ["Llansawel (Glamorgan)", "Explicitly headed Llansawel section within the CD 18 / LR 11759 7 compound Swansea-related physical volume. The source heading identifies Glamorgan; the bounded viewer reuses images 00009-00048 in place. Swansea resumes at image 00049."],
+    ["Cwmtillery", "CD 8 / LR1887, photographed library identifier 859. The source heading dates the Record of Members 1847-1857; later deaths, children, narrative, blank and structural material remain separately preserved and the broader inherited 1847-1862 range is not presented as the member-register range."],
+    ["Trinant", "Library 859 catalog material identifies a Trinant Record of Members, 1849-1853. The surviving bounded local source consists of the compound source label and one closing register page containing entries 19-29. Earlier entries 1-18 are not currently recovered. Candidate captures 294-295 are later member/status pages, while 296-306 are Stepaside financial records, so none are assigned to Trinant."],
+    ["Crumlin", "Record of Members, 1857-1862, in the compound library-859 source packet. Only the four Crumlin register frames are exposed in the bounded viewer; preceding structural and Trinant material remains source context."],
+    ["Machen", "Direct-FHC microfilm fallback for the Machen Record of Members, 1854-1865. The photographed/catalog identifier is unclear between 1565 and 1765, so both readings remain preserved pending further evidence."],
+    ["Twyncarno", "Direct-FHC microfilm source internally using Twyn Carno. The recoverable source section begins with the printed/narrative material at capture 314 and the regular register at capture 318; the source supports 1856-1857 rather than the broader inherited range."],
+    ["Pontlanfraith", "Library 27560 preserves a register extending into the twentieth century, including nineteenth-century birth and baptism information. Some individuals may have lived into recent decades; images are restricted to Local Development and offline/reviewer editions. Source spelling Pontrlanfraith is retained where photographed."],
+    ["Abertillery", "Record of Members, 1861-1866, preserved on images 00046-00057 of the compound CD 19 / LR 195 7 physical volume. Cwm Celyn occupies the preceding source section and Tredegar begins at image 00058."],
     ["Alltwen", "Membership register 1849–1859; children-blessed register and a separate rebaptism-of-members sequence are preserved in the same LR2257 volume."],
     ["Brechfa", "Welsh branch historical narrative; main membership register 1846–1856; separately numbered later baptism/member register 1857–1868; later historical notes through 1875 are preserved in the same LR110007 volume."],
     ["Cuffern Mountain", "One CD 6 / LR1987 physical volume containing three independently numbered membership sequences: entries 1–14, entries 1–25, and a reformation-style register numbered 1–252 with the source gap at entry 177 preserved. Later special lists, statistics, and a detached handwritten narrative/list are preserved separately."],
@@ -468,18 +774,20 @@
   function relatedCollections(name) {
     return catalog.collections.map((collection) => ({
       collection,
-      score: collectionBranchAssignments.get(collection.name)?.has(name) ? 0 : collectionScore(collection, name),
+      score: collectionBranchAssignments.get(collection.name)?.has(name) ? 0 : collectionBranchScore(collection, name),
     }))
       .filter(({ collection, score }) => Number.isFinite(score)
         && (!collectionBranchAssignments.has(collection.name) || collectionBranchAssignments.get(collection.name).has(name))
-        && visibleRecords(collection).length
-        && !nonBranchLabels.has(collection.name.toLowerCase()))
+      && visibleRecords(collection).length
+      && !nonBranchLabels.has(collection.name.toLowerCase()))
       .sort((a, b) => {
-        const kindDifference = (resourceKind(a.collection) === "Membership Records" ? 0 : 1) - (resourceKind(b.collection) === "Membership Records" ? 0 : 1);
+        const groupOrder = new Map([["primary", 0], ["transcription", 1], ["historical", 2], ["research", 3]]);
+        const kindDifference = (groupOrder.get(resourceDescriptor(a.collection).group) ?? 4) - (groupOrder.get(resourceDescriptor(b.collection).group) ?? 4);
         return kindDifference || a.score - b.score || a.collection.name.localeCompare(b.collection.name);
       })
       .map(({ collection }) => collection);
   }
+  window.WELSH_RELATED_COLLECTIONS = relatedCollections;
 
   function renderSuggestions(value) {
     const names = [...new Set([...branchNames(), ...catalog.collections.flatMap((collection) => [collection.name, ...(collection.aliases || [])])])];
@@ -540,8 +848,6 @@
   function openBranch(name, selectedButton) {
     currentBranchName = name;
     directoryPanel.hidden = true;
-    backToResources.hidden = true;
-    viewerBreadcrumbs.hidden = true;
     branchBreadcrumbName.textContent = name;
     branchResourceBreadcrumbs.hidden = false;
     [...branchList.children].forEach((button) => button.classList.toggle("active", button === selectedButton));
@@ -565,17 +871,19 @@
     if (name === "Rhymney English") branchReference = "Direct-FHC microfilm · source label 1602";
     branchHeadingDetails.textContent = branchReference;
     branchHeadingDetails.hidden = !branchReference;
+    branchHeadingDetails.textContent = "";
+    branchHeadingDetails.hidden = true;
     const facts = [];
     if (yearLabel(details)) facts.push(`<span><strong>Years found:</strong> ${yearLabel(details)}</span>`);
     if (branchSourceStructure.has(name)) facts.push(`<span><strong>Source structure:</strong> ${branchSourceStructure.get(name)}</span>`);
     if (details?.variants) facts.push(`<span><strong>Known variants:</strong> ${details.variants}</span>`);
     if (details?.relatedBranches) facts.push(`<span><strong>Related branch:</strong> ${details.relatedBranches}</span>`);
     branchMeta.innerHTML = facts.join("");
-    branchMeta.hidden = !facts.length;
+    branchMeta.hidden = true;
     const matches = relatedCollections(name);
     if (!matches.length || (matches.length === 1 && matches[0].id === "public-branch-registry")) {
       viewer.hidden = true;
-      resourceList.innerHTML = `<div class="empty-resource"><strong>Branch recorded</strong><p>Membership records for this branch are not yet included in the online starter. Its name and evidence remain available in the branch registry.</p><a href="branch-registry.html">Open branch registry</a></div>`;
+      resourceList.innerHTML = `<div class="empty-resource"><strong>No local record collection recovered yet.</strong><p>The branch and its surviving source evidence remain documented below.</p></div>`;
     } else {
       resourceList.replaceChildren(...matches.map((collection) => {
         const records = visibleRecords(collection);
@@ -583,13 +891,26 @@
         button.type = "button";
         button.className = "resource-card";
         button.dataset.collectionId = collection.id;
-        button.innerHTML = `<span class="resource-kind">${resourceKind(collection)}</span><strong>${collectionDisplayName(collection)}</strong><small>${number.format(records.length)} item${records.length === 1 ? "" : "s"}</small><span class="resource-provenance">${resourceProvenance(collection)}</span>`;
+        const descriptor = resourceDescriptor(collection);
+        const cardIdentity = branchResourceCardIdentity(collection, descriptor);
+        button.dataset.resourceGroup = descriptor.group;
+        const detailedProvenance = resourceProvenance(collection);
+        const conciseProvenance = conciseResourceProvenance(collection);
+        const mixedReviewHolding = /(?:review required|boundar(?:y|ies) unresolved)/i.test(`${collection.name} ${detailedProvenance}`);
+        button.dataset.provenanceDetail = detailedProvenance;
+        button.dataset.provenanceSummary = mixedReviewHolding ? "" : conciseProvenance;
+        if (mixedReviewHolding) button.dataset.workRemaining = "Review and establish the internal source boundaries before treating this holding as separate record groups.";
+        const scopeNote = collection.name === "Pontlanfraith,Early-to-1947,Library27560"
+          ? '<span class="resource-scope-note">This register extends into the twentieth century and preserves nineteenth-century birth and baptism information. Some individuals may have lived into recent decades; images are restricted to Local Development and offline/reviewer editions. This register contains 15 member entries. Five names are currently represented in the searchable member data; the remaining entries require further review/extraction.</span>'
+          : "";
+        const cardProvenance = descriptor.group === "primary" || mixedReviewHolding ? "" : `<span class="resource-provenance">${conciseProvenance}</span>`;
+        button.innerHTML = `<span class="resource-kind">${descriptor.label}</span><strong>${cardIdentity.title}</strong>${cardIdentity.years ? `<small class="resource-years">${cardIdentity.years}</small>` : ""}<small>${number.format(records.length)} item${records.length === 1 ? "" : "s"}</small>${scopeNote}${cardProvenance}`;
         const online = catalog.edition !== "public" || (collection.availability?.online && collection.publicStorage);
-        if (online) button.addEventListener("click", () => openCollection(collection, { keepResources: true, initialView: records.some((record) => record.type === "image") ? "continuous" : "index" }));
+        if (online) button.addEventListener("click", () => openCollection(collection, { keepResources: true, initialView: collection.preferredInitialPage ? "single" : records.some((record) => record.type === "image") ? "continuous" : "index", initialImage: collection.preferredInitialPage ? collection.preferredInitialPage - 1 : null }));
         else {
           button.classList.add("unavailable");
           button.disabled = true;
-          button.insertAdjacentHTML("beforeend", '<span class="availability-note">Images are preserved in the local and portable editions but are not yet published online.</span>');
+          button.insertAdjacentHTML("beforeend", '<span class="availability-note">Record recovered; images currently available in the portable/reviewer edition.</span>');
         }
         return button;
       }));
@@ -611,7 +932,7 @@
       if (record.type === "image") {
         const thumbnail = document.createElement("img");
         prepareRecordImage(thumbnail, record);
-        thumbnail.src = recordUrl(record);
+        thumbnail.dataset.src = recordUrl(record);
         thumbnail.alt = "";
         thumbnail.loading = "lazy";
         thumbnail.decoding = "async";
@@ -627,6 +948,10 @@
 
   function openPageIndex() {
     pageIndexPanel.hidden = false;
+    strip.querySelectorAll("img[data-src]").forEach((thumbnail) => {
+      thumbnail.src = thumbnail.dataset.src;
+      delete thumbnail.dataset.src;
+    });
     pageIndexButton.classList.add("active");
     pageIndexButton.setAttribute("aria-expanded", "true");
     requestAnimationFrame(() => strip.querySelector(`[data-page-index="${selectedImageIndex ?? currentImage}"]`)?.focus() || closePageIndex.focus());
@@ -693,7 +1018,7 @@
       pageImage.dataset.imageContrast = String(state.contrast);
       applyImageTransform(pageImage);
       figure.append(pageImage);
-      prepareImageLoadFeedback(pageImage, () => loadRecordImage(pageImage, recordUrl(record)));
+      prepareImageLoadFeedback(pageImage, () => loadRecordImage(pageImage, recordUrl(record), undefined, `Loading page ${index + 1}…`));
     } else {
       const link = document.createElement("a");
       link.className = "document-card";
@@ -709,18 +1034,40 @@
 
   function startLazyLoading() {
     lazyObserver?.disconnect();
-    const pending = continuousView.querySelectorAll("img[data-src]");
+    const pending = [...continuousView.querySelectorAll("img[data-src]")];
     if (!("IntersectionObserver" in window)) {
       pending.forEach((item) => { loadRecordImage(item, item.dataset.src); delete item.dataset.src; });
       return;
     }
     lazyObserver = new IntersectionObserver((entries, observer) => entries.forEach((entry) => {
       if (!entry.isIntersecting) return;
-      loadRecordImage(entry.target, entry.target.dataset.src);
+      const index = Number(entry.target.closest("[data-page-index]")?.dataset.pageIndex);
+      loadRecordImage(entry.target, entry.target.dataset.src, undefined, Number.isFinite(index) ? `Loading page ${index + 1}…` : "Loading record image…");
       delete entry.target.dataset.src;
       observer.unobserve(entry.target);
-    }), { rootMargin: "1200px 0px" });
-    pending.forEach((item) => lazyObserver.observe(item));
+    }), { rootMargin: "360px 0px" });
+    const priorityIndexes = viewMode === "facing"
+      ? new Set(facingIndexes(currentImage).filter((index) => index != null))
+      : new Set([currentImage]);
+    const priority = pending.filter((item) => priorityIndexes.has(Number(item.closest("[data-page-index]")?.dataset.pageIndex)));
+    const observeRemaining = () => pending.filter((item) => item.dataset.src).forEach((item) => lazyObserver.observe(item));
+    if (!priority.length) {
+      observeRemaining();
+      return;
+    }
+    let nearbyLoadingStarted = false;
+    const startNearbyLoading = () => {
+      if (nearbyLoadingStarted) return;
+      nearbyLoadingStarted = true;
+      observeRemaining();
+    };
+    priority.forEach((item) => {
+      item.addEventListener("load", startNearbyLoading, { once: true });
+      item.addEventListener("error", startNearbyLoading, { once: true });
+      const index = Number(item.closest("[data-page-index]")?.dataset.pageIndex);
+      loadRecordImage(item, item.dataset.src, undefined, Number.isFinite(index) ? `Loading page ${index + 1}…` : "Loading record image…");
+      delete item.dataset.src;
+    });
   }
 
   function renderScrollable(targetIndex = currentImage) {
@@ -1375,21 +1722,20 @@
     branchResourceBreadcrumbs.hidden = true;
     if (!keepResources) resourcePanel.classList.remove("compact");
     $(".viewer").classList.add("record-open");
-    viewerBreadcrumbs.hidden = !keepResources;
-    backToResources.hidden = !keepResources;
-    backToResources.textContent = keepResources ? `${currentBranchName} Resources` : "Branch Resources";
-    backToResources.href = keepResources ? `?branch=${encodeURIComponent(currentBranchName)}` : "./";
-    const kind = resourceKind(collection);
-    breadcrumbCurrentPage.textContent = kind === "Membership Records" ? "Membership Record" : kind;
+    viewerBranchResourcesLink.textContent = `← ${currentBranchName} Branch Resources`;
+    viewerBranchResourcesLink.textContent = currentBranchName ? `\u2190 ${currentBranchName} Branch Resources` : "\u2190 All Branches";
+    viewerBranchResourcesLink.href = currentBranchName ? `index.html?branch=${encodeURIComponent(currentBranchName)}` : "index.html?view=branches";
     viewer.hidden = false;
     title.textContent = collectionHeading(collection);
     viewContext.innerHTML = keepResources
-      ? `<small>${displayTitle(collection.name)}</small>`
-      : `<strong>${displayTitle(collection.name)}</strong>`;
+      ? `<small>${collectionHeading(collection)}</small>`
+      : `<strong>${collectionHeading(collection)}</strong>`;
     buildPageIndex();
     setView(initialView);
     resourceList.querySelectorAll(".resource-card").forEach((button) => button.classList.toggle("active", button.dataset.collectionId === collection.id));
-    position.textContent = `${number.format(currentRecords.length)} available item${currentRecords.length === 1 ? "" : "s"} · ${collectionReference(collection)}`;
+    position.textContent = collection?.viewerRepresentation && /Typed Transcripts/i.test(collection?.name || "")
+      ? `${number.format(currentRecords.length)} page${currentRecords.length === 1 ? "" : "s"}`
+      : `${number.format(currentRecords.length)} available item${currentRecords.length === 1 ? "" : "s"} · ${collectionReference(collection)}`;
     renderCollections();
     sidebar.classList.remove("open");
     menu.setAttribute("aria-expanded", "false");
@@ -1402,9 +1748,10 @@
     const collection = catalog.collections.find((item) => item.id === collectionId);
     const records = collection ? visibleRecords(collection) : [];
     const imageIndex = imageFilename ? records.findIndex((record) => record.name === imageFilename) : Number(imageSequence) - 1;
-    if (!branch || !collection || !Number.isInteger(imageIndex) || imageIndex < 0 || imageIndex >= records.length) return false;
-    openBranch(branch);
-    openCollection(collection, { keepResources: true, initialView: ["single", "continuous", "facing"].includes(view) ? view : "single", initialImage: imageIndex });
+    if (!collection || !Number.isInteger(imageIndex) || imageIndex < 0 || imageIndex >= records.length) return false;
+    if (branch) openBranch(branch);
+    else currentBranchName = "";
+    openCollection(collection, { keepResources: Boolean(branch), initialView: ["single", "continuous", "facing"].includes(view) ? view : "single", initialImage: imageIndex });
     return true;
   };
 
@@ -1418,7 +1765,7 @@
     documentPreview.hidden = isImage;
     if (isImage) {
       prepareRecordImage(image, record);
-      loadRecordImage(image, recordUrl(record), () => showImage(currentImage));
+      loadRecordImage(image, recordUrl(record), () => showImage(currentImage), `Loading page ${currentImage + 1}…`);
       image.alt = `${currentCollection.name}, record image ${currentImage + 1}`;
       const state = pageState(currentImage);
       image.dataset.rotation = String(state.rotation);
@@ -1472,11 +1819,11 @@
   closePageIndex.addEventListener("click", () => closePageIndexPanel());
   $("#pageIndexBackdrop").addEventListener("click", () => closePageIndexPanel());
   document.addEventListener("keydown", (event) => { if (event.key === "Escape" && !pageIndexPanel.hidden) closePageIndexPanel(); });
-  temporaryToolPopovers.forEach((popover) => popover.addEventListener("toggle", () => {
+  temporaryToolPopovers.filter((popover) => popover instanceof HTMLDetailsElement).forEach((popover) => popover.addEventListener("toggle", () => {
     if (popover.open) closeTemporaryToolPopovers(popover);
   }));
   document.addEventListener("pointerdown", (event) => {
-    const openPopover = temporaryToolPopovers.find((popover) => popover.open);
+    const openPopover = temporaryToolPopovers.find(temporaryToolPopoverIsOpen);
     if (openPopover && !openPopover.contains(event.target)) closeTemporaryToolPopovers();
   });
   document.addEventListener("keydown", (event) => {
@@ -1501,10 +1848,16 @@
   });
   panTool.addEventListener("click", () => setPanEnabled(!panEnabled));
   lineGuideTool.addEventListener("click", () => {
+    if (lineGuidesEnabled && guideControls.hidden) {
+      closeTemporaryToolPopovers(guideControls);
+      setGuideControlsOpen(true);
+      return;
+    }
     lineGuidesEnabled = !lineGuidesEnabled;
     lineGuideTool.classList.toggle("active", lineGuidesEnabled);
     lineGuideTool.setAttribute("aria-pressed", String(lineGuidesEnabled));
-    guideControls.hidden = !lineGuidesEnabled;
+    if (lineGuidesEnabled) closeTemporaryToolPopovers(guideControls);
+    setGuideControlsOpen(lineGuidesEnabled);
     renderLineGuides();
   });
   rotationTarget.addEventListener("change", () => selectFacingSide(rotationTarget.value === "right" ? 1 : 0));
@@ -1523,14 +1876,6 @@
   enableDragPan(continuousView);
   enableImageWheelZoom(stage);
   enableImageWheelZoom(continuousView);
-  backToResources.addEventListener("click", (event) => {
-    event.preventDefault();
-    viewer.hidden = true;
-    viewerBreadcrumbs.hidden = true;
-    resourcePanel.hidden = false;
-    $(".viewer").classList.remove("record-open");
-    window.scrollTo({ top: 0, behavior: "smooth" });
-  });
   previous.addEventListener("click", () => navigatePages(-1));
   next.addEventListener("click", () => navigatePages(1));
   menu.addEventListener("click", () => {

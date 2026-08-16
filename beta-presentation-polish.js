@@ -130,7 +130,7 @@
     const clear = () => input.classList.remove("home-search-emphasis");
     input.addEventListener("pointerdown", clear, { once: true });
     input.addEventListener("keydown", clear, { once: true });
-    setTimeout(clear, 1500);
+    setTimeout(clear, 1000);
   }
 
   function initializeBranchReviewPopover() {
