@@ -34,9 +34,8 @@ button, input { font: inherit; }
 }
 
 .masthead h1, .masthead p { margin: 0; }
-.masthead-home-link { cursor: pointer; }
+.masthead-home-link { flex: 1 1 auto; min-width: 0; cursor: pointer; }
 .masthead-home-link:focus-visible { outline: 3px solid #f1d48d; outline-offset: -6px; }
-.masthead-home-link .global-nav { display: none; }
 .masthead h1 { font-size: clamp(1.7rem, 3vw, 2.8rem); font-weight: 500; }
 .eyebrow { margin: 0 0 7px; color: var(--gold); font: 700 .76rem/1.2 Arial, sans-serif; letter-spacing: .15em; text-transform: uppercase; }
 .masthead .eyebrow { color: #e8cb88; }
@@ -137,12 +136,10 @@ button, input { font: inherit; }
   .home-path-card { min-height: 0; }
 }
 .site-disclaimer > p { margin: 10px 0 0; }
-.footer-project { width: fit-content; font: .78rem/1.4 Arial, sans-serif; }
-.footer-project summary { width: fit-content; color: var(--green-dark); cursor: pointer; font-weight: 700; }
-.footer-project nav { display: flex; flex-wrap: wrap; gap: 5px 14px; margin-top: 7px; }
-.footer-project a { color: var(--green-dark); text-decoration: none; }
-.footer-project a:hover, .footer-project a:focus-visible { text-decoration: underline; }
-.footer-project-unavailable { color: var(--muted); }
+.footer-reference-links { display: flex; flex-wrap: wrap; gap: 6px 16px; font: 500 .78rem/1.4 Arial, sans-serif; }
+.footer-reference-links a { min-height: 36px; display: inline-flex; align-items: center; color: var(--green-dark); text-decoration: none; }
+.footer-reference-links a:hover, .footer-reference-links a:focus-visible { text-decoration: underline; text-underline-offset: 3px; }
+.footer-reference-links a:focus-visible { outline: 2px solid var(--gold); outline-offset: 2px; }
 .branch-page-picker:hover, .branch-page-picker:focus-visible { border-color: var(--green); background: #eee5d2; }
 .resource-panel > summary { display: flex; align-items: baseline; gap: 12px; padding: 10px 13px; color: var(--green-dark); border: 1px solid var(--line); background: #eee8da; cursor: pointer; list-style: none; }
 .resource-panel > summary::-webkit-details-marker { display: none; }

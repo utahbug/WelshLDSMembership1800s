@@ -7,6 +7,7 @@ const root = path.resolve(import.meta.dirname, "..");
 const source = path.join(root, "outputs/local-development");
 const target = path.join(root, "full");
 const staging = path.join(root, "build/full-approved-staging");
+const stageOnly = process.argv.includes("--stage-only");
 
 if (!process.argv.includes("--approved")) {
   throw new Error("Publication is intentionally blocked. Re-run with --approved only after explicit user approval.");
@@ -64,6 +65,58 @@ fs.writeFileSync(
   fs.readFileSync(publicationViewerRuntime, "utf8").replaceAll("Local Development reading copy", "Full Online reading copy"),
   "utf8",
 );
+const feedbackRuntime = path.join(staging, "feedback.js");
+fs.writeFileSync(
+  feedbackRuntime,
+  fs.readFileSync(feedbackRuntime, "utf8").replace(
+    'const isLocalHost = ["", "localhost", "127.0.0.1"].includes(location.hostname);',
+    "const isLocalHost = false;",
+  ),
+  "utf8",
+);
+
+// Production never ships the Local Development original-CD override. Keep
+// only the packaged transcript mapping required by the Full Online edition.
+fs.writeFileSync(path.join(staging, "local-catalog-overrides.js"), `(function () {
+  "use strict";
+  const catalog = window.WELSH_RECORD_CATALOG;
+  if (!catalog || window.WELSH_FULL_ONLINE !== true) return;
+  catalog.collections
+    .filter((item) => item.viewerRepresentation && item.sources?.includes("typed-viewer-pages"))
+    .forEach((item) => {
+      item.availability = { ...(item.availability || {}), local: true, online: true };
+      item.publicStorage = { provider: "full-online" };
+      item.images.forEach((record) => {
+        const relativeUrl = \`resources/typed-viewer-pages/\${encodeURIComponent(item.name)}/\${encodeURIComponent(record.name)}\`;
+        record.url = relativeUrl;
+        record.serveUrl = relativeUrl;
+      });
+    });
+})();
+`, "utf8");
+
+fs.writeFileSync(path.join(staging, "site.webmanifest"), `${JSON.stringify({
+  name: "LDS Welsh Membership Records — Full Online Archive Edition",
+  short_name: "Welsh Records",
+  description: "Full Online Archive Edition of LDS Welsh Membership Records.",
+  start_url: "./",
+  scope: "./",
+  display: "standalone",
+  background_color: "#f4f0e6",
+  theme_color: "#163c31",
+  icons: [
+    { src: "assets/app-icon-192.png", sizes: "192x192", type: "image/png" },
+    { src: "assets/app-icon-512.png", sizes: "512x512", type: "image/png" },
+  ],
+}, null, 2)}\n`, "utf8");
+for (const file of fs.readdirSync(staging).filter((name) => name.endsWith(".html"))) {
+  const filePath = path.join(staging, file);
+  const html = fs.readFileSync(filePath, "utf8").replace(
+    '<meta name="apple-mobile-web-app-title" content="Welsh DEV">',
+    '<meta name="apple-mobile-web-app-title" content="Welsh Records">',
+  );
+  fs.writeFileSync(filePath, html, "utf8");
+}
 
 const catalogPath = path.join(staging, "data/catalog.public.js");
 const context = { window: {} };
@@ -92,8 +145,12 @@ fs.writeFileSync(path.join(staging, "README-FULL-ONLINE.txt"), [
   "",
 ].join("\n"), "utf8");
 
-// This is the only destructive promotion step and is unreachable without
-// both an approved flag and a passing local-development validation.
-fs.rmSync(target, { recursive: true, force: true });
-fs.renameSync(staging, target);
-console.log(JSON.stringify({ target, edition: report.edition, promotedFromTestedLocalDevelopment: true }, null, 2));
+if (stageOnly) {
+  console.log(JSON.stringify({ staging, edition: report.edition, promotedFromTestedLocalDevelopment: true, stageOnly: true }, null, 2));
+} else {
+  // This is the only destructive promotion step and is unreachable without
+  // both an approved flag and a passing local-development validation.
+  fs.rmSync(target, { recursive: true, force: true });
+  fs.renameSync(staging, target);
+  console.log(JSON.stringify({ target, edition: report.edition, promotedFromTestedLocalDevelopment: true }, null, 2));
+}

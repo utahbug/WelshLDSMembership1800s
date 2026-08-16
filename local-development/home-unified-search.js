@@ -124,5 +124,4 @@
   function queueRender() { clearTimeout(debounceTimer); debounceTimer = setTimeout(render, 190); }
   input.addEventListener("input", (event) => { event.stopImmediatePropagation(); queueRender(); }, true);
   sourcePicker.addEventListener("change", queueRender);
-  document.addEventListener("pointerdown", (event) => { if (sourcePicker.open && !sourcePicker.contains(event.target)) sourcePicker.open = false; });
 })();

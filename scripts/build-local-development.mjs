@@ -34,6 +34,7 @@ fs.copyFileSync(path.join(root, "local-development/home-unified-search.js"), pat
 fs.copyFileSync(path.join(root, "local-development/hymnal-discovery-extension.js"), path.join(output, "hymnal-discovery-extension.js"));
 fs.copyFileSync(path.join(root, "local-development/person-historical-material.js"), path.join(output, "person-historical-material.js"));
 fs.copyFileSync(path.join(root, "branch-export.js"), path.join(output, "branch-export.js"));
+fs.copyFileSync(path.join(root, "masthead-home.js"), path.join(output, "masthead-home.js"));
 
 // Package exactly the original-CD files referenced by the generated catalog.
 // Hard links keep Local Development complete without duplicating several GB on
@@ -122,15 +123,15 @@ homeHtml = homeHtml
   )
   .replace(
     'aria-describedby="searchHelp"><p class="search-help"',
-    'aria-describedby="searchHelp"><details class="home-search-sources"><summary>Search in</summary><div class="home-search-source-choices"><label><input type="checkbox" value="archive" checked><span><strong>Archive resources</strong><small>Branches, collections, CD numbers, call numbers, dates, filenames</small></span></label><label><input type="checkbox" value="members"><span><strong>Member records</strong></span></label><label><input type="checkbox" value="welsh-saints"><span><strong>Welsh Saints Project</strong></span></label><label><input type="checkbox" value="publications"><span><strong>Integrated publications</strong><small>Ronald D. Dennis works and historical publications currently integrated</small></span></label></div></details></div><p class="search-help"',
+    'aria-describedby="searchHelp homeSearchSourcesLabel"></div><fieldset class="home-search-sources" aria-labelledby="homeSearchSourcesLabel"><legend id="homeSearchSourcesLabel" class="visually-hidden">Search sources</legend><div class="home-search-source-choices"><label title="Search branches, collections, CD numbers, call numbers, dates, and filenames"><input type="checkbox" value="archive" checked><span>Archive resources</span></label><label title="Search indexed membership records"><input type="checkbox" value="members"><span>Member records</span></label><label title="Search locally indexed Welsh Saints Project material"><input type="checkbox" value="welsh-saints"><span>Welsh Saints Project</span></label><label title="Search currently integrated historical publications"><input type="checkbox" value="publications"><span>Integrated publications</span></label></div></fieldset><p class="search-help"',
   );
 homeHtml = homeHtml.replace(
   /(<nav class="home-paths"[\s\S]*?<\/nav>)/,
-  '$1<section class="home-secondary-resources" aria-labelledby="homeHistoryResourcesTitle"><h3 id="homeHistoryResourcesTitle">Learn about early Welsh LDS history</h3><div class="home-secondary-resource-links"><a href="ronald-dennis-publications.html">Ronald D. Dennis Publications</a><a href="welsh-historical-publications.html">Welsh LDS Historical Publications</a><a href="resources.html">Resources</a></div></section>',
+  '$1<section class="home-secondary-resources" aria-labelledby="homeHistoryResourcesTitle"><h3 id="homeHistoryResourcesTitle">Learn about early Welsh LDS history</h3><div class="home-secondary-resource-links"><a href="ronald-dennis-publications.html">Ronald D. Dennis Publications</a><a href="welsh-historical-publications.html">Welsh LDS Historical Publications</a></div></section>',
 );
 homeHtml = homeHtml.replace(
   '<a class="home-path-card" href="welsh-saints-research.html" data-local-feature hidden><span class="home-category-label">Welsh Saints Project</span><strong>Welsh Saints Search</strong><small>Search people, places, dates, voyages, and historical material from the Welsh Saints Project.</small></a>',
-  '<a class="home-path-card home-welsh-saints-card" href="welsh-saints-research.html" data-local-feature hidden><span class="home-category-label">Welsh Saints Project</span><strong>Welsh Saints Search</strong><small>Search people, places, dates, voyages, and historical material from the Welsh Saints Project website.</small></a>',
+  '<a class="home-path-card home-resources-card" href="resources.html"><span class="home-category-label">Research</span><strong>Resources</strong><small>Find research sites, project searches, and partial branch and conference transcripts.</small></a>',
 );
 homeHtml = homeHtml.replace(
   /(<nav class="branch-grid" id="branchList"[^>]*><\/nav>)\s*<\/section>\s*<div class="presentation-research-links">[\s\S]*?<\/div>\s*<\/div>/,
@@ -138,7 +139,6 @@ homeHtml = homeHtml.replace(
       <div class="branch-directory-utilities" aria-label="Branch directory tools">
         <details class="welsh-names-explainer directory-welsh-names-explainer"><summary>Welsh names and spelling</summary><div><p>Welsh place names may appear with different first letters because Welsh grammar can change the opening consonant of a word. For example, a name beginning with <strong>C</strong> may appear with <strong>G</strong> in some contexts. Historical spelling, anglicized forms, and transcription or OCR differences can also create variants.</p><p>This site preserves these source forms and links them to the same place when the evidence supports that relationship.</p></div></details>
         <div class="branch-export-slot"></div>
-        <div class="presentation-transcript-link"><a href="transcriptions-translations.html">Transcriptions &amp; Translations</a></div>
       </div>
     </section>`,
 );
@@ -213,14 +213,24 @@ for (const file of fs.readdirSync(output).filter((name) => name.endsWith(".html"
       <h2>Continue or improve this project with AI</h2>
       <p>The project files are intended to be available to future researchers and developers. An AI Continuation Guide will provide practical instructions for using ChatGPT and Codex to understand the project, make controlled changes, test them, and continue the work.</p>
       <p class="ai-guide-status" role="status">AI Continuation Guide — coming later</p>
+      <section class="about-future-work" aria-labelledby="futureEnhancementsHeading">
+        <h3 id="futureEnhancementsHeading">Future enhancements and unfinished work</h3>
+        <p>The current search tools do not yet comprehensively index every paragraph, narrative note, blessing record, meeting entry, branch history, or other free-form historical text visible in the original CD and microfilm images.</p>
+        <p>Many structured member records and selected transcriptions, publications, and historical sources are searchable, but some historical content remains available only by viewing the original source images.</p>
+        <p>A future enhancement should audit the CD and microfilm collections page by page, identify historical text that is not yet searchable, and add verified transcriptions or other searchable text while preserving the original images as the authoritative source.</p>
+        <p>Some of this work may overlap with broader unresolved and improvement items already documented on the <a href="work-remaining.html">Unfinished Work</a> page. Future maintainers should review both the historical-text coverage issue and the Unfinished Work list before deciding what to tackle next; completing one does not automatically complete the other.</p>
+      </section>
     </section>
   </main>`);
   }
   html = html
+    .replace(/\s*<nav class="global-nav" aria-label="Site navigation">\s*<button class="header-icon" id="headerSearchButton"[\s\S]*?<\/button>\s*<\/nav>/i, "")
+    .replace(/<details class="footer-project">[\s\S]*?<\/details>/gi, '<nav class="footer-reference-links" aria-label="Project information"><a href="about.html">About</a><a href="historical-names.html">Historical Names and Variants</a><a href="familysearch-comparison.html">FamilySearch Comparisons</a></nav>')
     .replace("window.WELSH_RESEARCH_BETA=true;", "window.WELSH_RESEARCH_BETA=true;window.WELSH_LOCAL_DEVELOPMENT=true;")
     .replace(/(<p class="research-beta-note">)[\s\S]*?(<\/p>)/, "$1LOCAL DEVELOPMENT — NOT PUBLISHED$2")
     .replace(/styles\.css\?v=[^"]+/g, "styles.css?v=local-dev-20260815-wsdetail")
     .replace(/welsh-saints-research\.js\?v=[^"]+/g, "welsh-saints-research.js?v=local-dev-20260815-full-search-detail")
+    .replace("</body>", '<script src="masthead-home.js"></script>\n</body>')
     .replace("</head>", '<meta name="apple-mobile-web-app-title" content="Welsh DEV">\n</head>');
   html = stripDecorativeTopNavigationArrows(html);
   fs.writeFileSync(target, html, "utf8");
@@ -251,21 +261,14 @@ fs.appendFileSync(path.join(output, "styles.css"), `
 .home-secondary-resources a, .home-secondary-resources a:visited { display: flex; width: fit-content; align-items: center; min-height: 38px; padding: 4px 0; color: var(--green-dark); font: 500 .9rem/1.4 Arial, sans-serif; text-decoration: none; }
 .home-secondary-resources a:hover, .home-secondary-resources a:focus-visible { text-decoration: underline; text-underline-offset: 3px; }
 .home-secondary-resources a:focus-visible { outline: 2px solid var(--gold); outline-offset: 3px; }
-.home-unified-search-row { display: flex; align-items: flex-start; gap: 8px; max-width: 760px; }
+.home-unified-search-row { display: flex; align-items: flex-start; max-width: 760px; }
 .home-unified-search-row > #collectionSearch { flex: 1 1 520px; width: auto; min-width: 0; max-width: none; }
-.home-search-sources { position: relative; flex: 0 0 178px; font-family: Arial, sans-serif; }
-.home-search-sources > summary { box-sizing: border-box; min-height: 42px; display: flex; align-items: center; justify-content: space-between; gap: 10px; padding: 8px 11px; color: var(--green-dark); border: 1px solid var(--line-strong); border-radius: 4px; background: var(--panel); cursor: pointer; list-style: none; font: 500 .9rem/1.3 Arial, sans-serif; }
-.home-search-sources > summary::after { content: "▾"; color: var(--muted); }
-.home-search-sources[open] > summary::after { content: "▴"; }
-.home-search-sources > summary::-webkit-details-marker { display: none; }
-.home-search-sources > summary:focus-visible { outline: 2px solid var(--gold); outline-offset: 2px; }
-.home-search-source-choices { position: absolute; z-index: 12; top: calc(100% + 5px); right: 0; width: min(340px, calc(100vw - 28px)); padding: 9px 11px; border: 1px solid var(--line); border-radius: 4px; background: var(--panel); box-shadow: 0 10px 24px rgba(25,43,36,.18); }
-.home-search-source-choices label { display: flex; align-items: flex-start; gap: 9px; min-height: 42px; padding: 7px 3px; cursor: pointer; }
-.home-search-source-choices label + label { border-top: 1px solid var(--line); }
-.home-search-source-choices input { flex: 0 0 auto; width: 18px; min-height: 18px; margin: 2px 0 0; accent-color: var(--green); }
-.home-search-source-choices span, .home-search-source-choices strong, .home-search-source-choices small { display: block; }
-.home-search-source-choices strong { font: 500 .88rem/1.3 Arial, sans-serif; }
-.home-search-source-choices small { margin-top: 2px; color: var(--muted); font: 400 .76rem/1.35 Arial, sans-serif; }
+.home-search-sources { max-width: 900px; margin: 3px 0 2px; padding: 0; border: 0; font-family: Arial, sans-serif; }
+.home-search-source-choices { display: flex; flex-wrap: wrap; align-items: center; gap: 0 18px; }
+.home-search-source-choices label { display: inline-flex; align-items: center; gap: 7px; min-height: 42px; padding: 1px 0; color: var(--green-dark); cursor: pointer; font: 500 .84rem/1.3 Arial, sans-serif; }
+.home-search-source-choices input { flex: 0 0 auto; width: 18px; height: 18px; margin: 0; accent-color: var(--green); }
+.home-search-source-choices input:focus-visible { outline: 2px solid var(--gold); outline-offset: 3px; }
+.home-search-source-choices span { display: inline; }
 .home-unified-result { display: block; width: 100%; box-sizing: border-box; margin: 0; padding: 12px 14px; text-align: left; color: var(--ink); border: 0; border-top: 1px solid var(--line); background: transparent; text-decoration: none; }
 .home-unified-result-type { display: block; margin-bottom: 3px; color: var(--gold-dark, #805f1d); font: 600 .7rem/1.3 Arial, sans-serif; letter-spacing: .055em; text-transform: uppercase; }
 .home-unified-result strong { display: block; color: var(--green-dark); font: 600 .98rem/1.35 Georgia, serif; }
@@ -297,6 +300,12 @@ fs.appendFileSync(path.join(output, "styles.css"), `
 .external-resource-card:hover { border-color: var(--line-strong); background: color-mix(in srgb, var(--gold) 6%, var(--panel)); }
 .external-resource-card:hover h3 { text-decoration: underline; text-underline-offset: 3px; }
 .external-resource-card:focus-visible { outline: 2px solid var(--gold); outline-offset: 3px; }
+.resource-link-group:hover { border-color: var(--line); background: var(--panel); }
+.resource-link-group:hover h3 { text-decoration: none; }
+.resource-sub-links { display: grid; gap: 2px; margin: 9px 0 0 20px; }
+.resource-sub-links a { width: fit-content; min-height: 40px; display: inline-flex; align-items: center; color: var(--green-dark); font: 600 .86rem/1.35 Arial, sans-serif; text-decoration: none; }
+.resource-sub-links a:hover, .resource-sub-links a:focus-visible { text-decoration: underline; text-underline-offset: 3px; }
+.resource-sub-links a:focus-visible { outline: 2px solid var(--gold); outline-offset: 2px; }
 .resources-secondary-notices { max-width: 74ch; margin-top: 24px; padding-top: 17px; border-top: 1px solid var(--line); }
 .resources-secondary-notices section h3 { margin: 0 0 6px; color: var(--green-dark); font: 500 1.05rem/1.35 Georgia, serif; }
 .resources-secondary-notices section p, .resources-ai-pointer { margin: 5px 0 0; color: var(--muted); font: 400 .9rem/1.55 Arial, sans-serif; }
@@ -307,6 +316,9 @@ fs.appendFileSync(path.join(output, "styles.css"), `
 .about-reuse-section, .about-ai-continuation { max-width: 78ch; }
 .about-reuse-section p, .about-ai-continuation p { max-width: 74ch; }
 .ai-guide-status { width: fit-content; margin-top: 10px !important; padding: 5px 9px; border-left: 3px solid var(--gold); background: var(--panel); color: var(--muted); font: 600 .82rem/1.4 Arial, sans-serif !important; }
+.about-future-work { margin-top: 22px; padding-top: 18px; border-top: 1px solid var(--line); }
+.about-future-work h3 { margin: 0 0 10px; color: var(--green-dark); font-weight: 500; }
+.about-future-work p:last-child { margin-bottom: 0; }
 .publication-page-intro { max-width: 76ch; margin-bottom: 18px; }
 .publication-page-intro:has(.publication-about) { margin-bottom: 2px; }
 .publication-page-intro h2 { margin: 3px 0 8px; }
@@ -407,7 +419,7 @@ fs.appendFileSync(path.join(output, "styles.css"), `
 @media (prefers-reduced-motion: reduce) { .historical-publication-information-clickable { transition: none; } }
 @media (prefers-reduced-motion: reduce) { .ronald-publication-information-clickable { transition: none; } }
 @media (max-width: 700px) { .publication-source-filter, .publication-collection-search-row input { width: 100%; } .publication-source-popover { width: min(430px, calc(100vw - 52px)); } .publication-collection-search-results { margin-left: 12px; } }
-@media (max-width: 520px) { .home-unified-search-row { flex-wrap: wrap; } .home-unified-search-row > #collectionSearch { flex-basis: 100%; } .home-search-sources { flex: 0 1 178px; } .home-search-source-choices { right: auto; left: 0; } .home-secondary-resource-links { margin-left: 16px; } .publication-page, .resources-page { width: min(100% - 24px, 1120px); padding-top: 12px; } .publication-page-nav { margin-bottom: 10px; gap: 6px 14px; } .publication-page-intro, .resources-page-intro { margin-bottom: 12px; } .publication-page-intro:has(.publication-about) { margin-bottom: 2px; } .publication-page-intro h2 { margin-bottom: 3px; } .publication-about summary, .publication-collection-search > summary { min-height: 44px; padding-block: 8px; } .publication-about p { margin-left: 12px; } .publication-entry, .external-resource-card { padding: 13px 14px; } .publication-subtitle { margin-left: 10px; } .publication-related-subworks { margin-left: 12px; padding-left: 10px; } .publication-link { min-height: 40px; padding-block: 8px; } .publication-collection-search { margin-bottom: 12px; } .publication-collection-search-body { padding: 12px 13px; } }
+@media (max-width: 520px) { .home-unified-search-row > #collectionSearch { flex-basis: 100%; } .home-search-source-choices { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 0 12px; } .home-search-source-choices label { min-width: 0; min-height: 44px; font-size: .8rem; } .home-secondary-resource-links { margin-left: 16px; } .publication-page, .resources-page { width: min(100% - 24px, 1120px); padding-top: 12px; } .publication-page-nav { margin-bottom: 10px; gap: 6px 14px; } .publication-page-intro, .resources-page-intro { margin-bottom: 12px; } .publication-page-intro:has(.publication-about) { margin-bottom: 2px; } .publication-page-intro h2 { margin-bottom: 3px; } .publication-about summary, .publication-collection-search > summary { min-height: 44px; padding-block: 8px; } .publication-about p { margin-left: 12px; } .publication-entry, .external-resource-card { padding: 13px 14px; } .publication-subtitle { margin-left: 10px; } .publication-related-subworks { margin-left: 12px; padding-left: 10px; } .publication-link { min-height: 40px; padding-block: 8px; } .publication-collection-search { margin-bottom: 12px; } .publication-collection-search-body { padding: 12px 13px; } }
 @media (max-width: 700px) { .publication-page, .resources-page, .guide-page { margin-inline: auto; } }
 
 /* Local Development: compact membership/source viewer on small screens only. */

@@ -1,21 +1,4 @@
 (() => {
-  const masthead = document.querySelector(".masthead");
-  if (masthead && !masthead.classList.contains("masthead-home-link")) {
-    const goHome = () => { location.href = "index.html"; };
-    masthead.classList.add("masthead-home-link");
-    masthead.tabIndex = 0;
-    masthead.setAttribute("role", "link");
-    masthead.setAttribute("aria-label", "LDS Welsh Membership Records — Home");
-    masthead.addEventListener("click", (event) => {
-      if (event.target.closest("a, button, input, select, textarea, summary") && event.target !== masthead) return;
-      goHome();
-    });
-    masthead.addEventListener("keydown", (event) => {
-      if (!["Enter", " "].includes(event.key) || event.target !== masthead) return;
-      event.preventDefault();
-      goHome();
-    });
-  }
   const isLocalHost = ["", "localhost", "127.0.0.1"].includes(location.hostname);
   const isLocalFile = location.protocol === "file:";
   const catalogEdition = window.WELSH_RECORD_CATALOG?.edition;

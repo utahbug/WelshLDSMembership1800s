@@ -94,7 +94,7 @@
       const query = search.value.trim();
       const matches = registry.map((item) => ({ item, score: itemScore(item, query) })).filter(({ score }) => !query || Number.isFinite(score)).sort((a, b) => a.score - b.score || a.item.canonicalName.localeCompare(b.item.canonicalName)).map(({ item }) => item);
       count.textContent = `${matches.length} of ${registry.length} entries`;
-      rows.innerHTML = matches.map((item) => `<tr><td><strong>${safe(item.canonicalName)}</strong><br><small>${safe(item.entityType)}</small></td><td>${safe(item.variants)}</td><td>${safe(item.earliestYear)}${item.latestYear && item.latestYear !== item.earliestYear ? `â€“${safe(item.latestYear)}` : ""}</td><td class="status">${safe(item.comparisonStatus)}</td><td>${safe(item.relatedBranches)}</td><td class="relationship">${safe(item.relationshipNotes)}</td><td>${safe(item.filmAndCallNumbers)}</td></tr>`).join("");
+      rows.innerHTML = matches.map((item) => `<tr><td><strong>${safe(item.canonicalName)}</strong><br><small>${safe(item.entityType)}</small></td><td>${safe(item.variants)}</td><td>${safe(item.earliestYear)}${item.latestYear && item.latestYear !== item.earliestYear ? `–${safe(item.latestYear)}` : ""}</td><td class="status">${safe(item.comparisonStatus)}</td><td>${safe(item.relatedBranches)}</td><td class="relationship">${safe(item.relationshipNotes)}</td><td>${safe(item.filmAndCallNumbers)}</td></tr>`).join("");
       const likelyNames = registry.map((item) => item.canonicalName).filter((name) => Number.isFinite(score(query, name))).slice(0, 12);
       suggestions.replaceChildren(...likelyNames.map((name) => { const option = document.createElement("option"); option.value = name; return option; }));
     }

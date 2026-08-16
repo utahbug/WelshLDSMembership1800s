@@ -23,28 +23,63 @@ for (const file of htmlFiles) {
   if (!html.includes("LOCAL DEVELOPMENT — NOT PUBLISHED")) throw new Error(`${file}: local-development identity missing`);
   if (!html.includes("window.WELSH_LOCAL_DEVELOPMENT=true;")) throw new Error(`${file}: local-development runtime marker missing`);
   if (!html.includes('<meta name="apple-mobile-web-app-title" content="Welsh DEV">')) throw new Error(`${file}: Welsh DEV Home Screen title missing`);
+  if (!html.includes('<script src="masthead-home.js"></script>')) throw new Error(`${file}: shared masthead Home navigation missing`);
+  if (html.includes('id="headerSearchButton"') || html.includes('class="footer-project"')) throw new Error(`${file}: masthead search icon or footer Project menu remains`);
+  for (const [href, label] of [["about.html", "About"], ["historical-names.html", "Historical Names and Variants"], ["familysearch-comparison.html", "FamilySearch Comparisons"]]) {
+    if (!html.includes(`<a href="${href}">${label}</a>`)) throw new Error(`${file}: lower project-information link missing: ${label}`);
+  }
   const topNavigation = [...html.matchAll(/<nav class="(?:research-page-nav|publication-page-nav)"[\s\S]*?<\/nav>/gi)].map((match) => match[0]).join("\n");
   if (/(?:←|&larr;|&#8592;)\s*(?:Home|Ronald D\. Dennis Publications)/i.test(topNavigation)) throw new Error(`${file}: decorative top-navigation arrow remains`);
 }
+const mastheadHomeRuntime = fs.readFileSync(path.join(output, "masthead-home.js"), "utf8");
+for (const required of ['setAttribute("role", "link")', 'setAttribute("aria-label", "Home")', '!["Enter", " "].includes(event.key)', 'location.href = "index.html"']) {
+  if (!mastheadHomeRuntime.includes(required)) throw new Error(`Shared masthead Home behavior is incomplete: ${required}`);
+}
+if (!mastheadHomeRuntime.includes('event.target.closest("a, button, input, select, textarea, summary")')) throw new Error("Shared masthead Home runtime does not protect nested controls");
+const navigationRuntime = fs.readFileSync(path.join(output, "navigation.js"), "utf8");
+if (navigationRuntime.includes('masthead.setAttribute("role", "link")')) throw new Error("Legacy whole-header masthead link remains in navigation.js");
 const manifest = JSON.parse(fs.readFileSync(path.join(output, "site.webmanifest"), "utf8"));
 if (manifest.short_name !== "Welsh DEV" || !manifest.icons?.every((icon) => /app-icon-beta-/.test(icon.src))) throw new Error("Local-development Home Screen manifest identity invalid");
 const localHomeHtml = fs.readFileSync(path.join(output, "index.html"), "utf8");
+if (localHomeHtml.includes("<summary>Search in</summary>") || localHomeHtml.includes("home-search-sources > summary")) throw new Error("Home Search in dropdown remains present");
+if (!localHomeHtml.includes('<fieldset class="home-search-sources"') || !localHomeHtml.includes('<legend id="homeSearchSourcesLabel" class="visually-hidden">Search sources</legend>')) throw new Error("Visible Home source checkbox group is missing");
+for (const [value, label] of [["archive", "Archive resources"], ["members", "Member records"], ["welsh-saints", "Welsh Saints Project"], ["publications", "Integrated publications"]]) {
+  if (!localHomeHtml.includes(`value="${value}"`) || !localHomeHtml.includes(`<span>${label}</span>`)) throw new Error(`Home source checkbox is missing: ${label}`);
+}
+if (!localHomeHtml.includes('<input type="checkbox" value="archive" checked>')) throw new Error("Archive resources is not the default Home search source");
+for (const value of ["members", "welsh-saints", "publications"]) {
+  if (localHomeHtml.includes(`<input type="checkbox" value="${value}" checked>`)) throw new Error(`Unexpected default Home search source: ${value}`);
+}
 const branchNamesExplainer = '<details class="welsh-names-explainer directory-welsh-names-explainer"><summary>Welsh names and spelling</summary>';
 if (!localHomeHtml.includes(branchNamesExplainer) || /<details class="welsh-names-explainer directory-welsh-names-explainer"[^>]*\sopen(?:\s|>)/.test(localHomeHtml)) throw new Error("Welsh branches names-and-spelling disclosure is missing or not initially collapsed");
 if (!localHomeHtml.includes("Welsh place names may appear with different first letters because Welsh grammar can change the opening consonant of a word.") || !localHomeHtml.includes("This site preserves these source forms and links them to the same place when the evidence supports that relationship.")) throw new Error("Welsh branches names-and-spelling explanation is incomplete");
-if (!localHomeHtml.includes('<a class="home-path-card home-welsh-saints-card" href="welsh-saints-research.html" data-local-feature hidden>') || !localHomeHtml.includes('Search people, places, dates, voyages, and historical material from the Welsh Saints Project website.</small></a>')) throw new Error("Home Welsh Saints card is not a single link with the approved description");
-if (/home-welsh-saints-card[\s\S]*?Welsh Saints Project website<\/a>[\s\S]*?<\/a>/.test(localHomeHtml) || localHomeHtml.includes("home-external-source-link")) throw new Error("Home Welsh Saints card contains a nested or external source link");
-if (!localHomeHtml.includes('<strong>Welsh Saints Search</strong>') || !localHomeHtml.includes('<span class="home-category-label">Welsh Saints Project</span>')) throw new Error("Established Welsh Saints Home title/category label changed");
-if (!localHomeHtml.includes('<div class="home-secondary-resource-links"><a href="ronald-dennis-publications.html">Ronald D. Dennis Publications</a><a href="welsh-historical-publications.html">Welsh LDS Historical Publications</a><a href="resources.html">Resources</a></div>')) throw new Error("Home secondary research links are missing or incorrectly routed");
+if (!localHomeHtml.includes('<a class="home-path-card home-resources-card" href="resources.html">') || !localHomeHtml.includes('<strong>Resources</strong>')) throw new Error("Home Resources card is missing or incorrectly routed");
+if (localHomeHtml.includes("home-welsh-saints-card") || localHomeHtml.includes('<strong>Welsh Saints Search</strong>')) throw new Error("The former Welsh Saints Home card remains");
+if (!localHomeHtml.includes('<div class="home-secondary-resource-links"><a href="ronald-dennis-publications.html">Ronald D. Dennis Publications</a><a href="welsh-historical-publications.html">Welsh LDS Historical Publications</a></div>')) throw new Error("Home historical-learning links are missing or still duplicate Resources");
+const branchUtilities = localHomeHtml.match(/<div class="branch-directory-utilities"[\s\S]*?<\/div>\s*<\/section>/)?.[0] || "";
+if (!branchUtilities || branchUtilities.includes("transcriptions-translations.html")) throw new Error("Transcripts link remains on the Welsh branches page");
 const resourcesHtml = fs.readFileSync(path.join(output, "resources.html"), "utf8");
 for (const url of ["https://www.familysearch.org/", "https://churchhistorylibrary.churchofjesuschrist.org/?lang=eng", "https://www.library.wales/", "https://welshsaints.byu.edu/"]) {
   if (!resourcesHtml.includes(`href="${url}" target="_blank" rel="noopener noreferrer"`)) throw new Error(`Resources external link is missing or unsafe: ${url}`);
 }
 if (!resourcesHtml.includes('<a href="index.html">Home</a>') || resourcesHtml.includes("← Home")) throw new Error("Resources Home navigation is invalid");
 if (!resourcesHtml.includes("Use and reuse") || !resourcesHtml.includes('href="about.html#ai-continuation"')) throw new Error("Resources reuse or AI-guide pointer is missing");
+if (!resourcesHtml.includes('<a href="welsh-saints-research.html">Search within the project</a>') || !resourcesHtml.includes('href="https://welshsaints.byu.edu/" target="_blank" rel="noopener noreferrer"') || !resourcesHtml.includes('>Visit the site ')) throw new Error("Resources Welsh Saints internal/external choices are missing");
+if (!resourcesHtml.includes('<a class="external-resource-card" href="transcriptions-translations.html">') || !resourcesHtml.includes("Partial Branch and Conference Transcripts")) throw new Error("Renamed partial transcripts resource is missing");
 const localAboutHtml = fs.readFileSync(path.join(output, "about.html"), "utf8");
+const aboutProjectInformation = localAboutHtml.match(/<h2>Project information<\/h2>[\s\S]*?<\/section>/)?.[0] || "";
+const expectedAboutProjectLinks = [
+  '<a href="branch-registry.html">Branch coverage matrix</a>',
+  '<a href="historical-names.html">Historical Names and Variants</a>',
+  '<a href="familysearch-comparison.html">FamilySearch Branch Comparison</a>',
+  '<a href="work-remaining.html">Unmatched branches and work remaining</a>',
+];
+if (!aboutProjectInformation || !expectedAboutProjectLinks.every((link) => aboutProjectInformation.includes(link))) throw new Error("About Project information links are incomplete");
+if (expectedAboutProjectLinks.some((link, index) => index && aboutProjectInformation.indexOf(link) < aboutProjectInformation.indexOf(expectedAboutProjectLinks[index - 1]))) throw new Error("About Project information links are out of order");
 if (!localAboutHtml.includes("Free to use and improve") || !localAboutHtml.includes('id="ai-continuation"') || !localAboutHtml.includes("AI Continuation Guide — coming later")) throw new Error("About reuse or AI Continuation Guide placeholder is missing");
 if (/\bopen source\b/i.test(localAboutHtml) || /href=["'][^"']*ai-continuation-guide/i.test(localAboutHtml)) throw new Error("About claims a formal open-source status or exposes a dead AI-guide link");
+if (!localAboutHtml.includes("Future enhancements and unfinished work") || !localAboutHtml.includes("do not yet comprehensively index every paragraph") || !localAboutHtml.includes("original images as the authoritative source")) throw new Error("About historical-text coverage guidance is missing");
+if (!localAboutHtml.includes('<a href="work-remaining.html">Unfinished Work</a>') || !localAboutHtml.includes("completing one does not automatically complete the other")) throw new Error("About Unfinished Work relationship or link is missing");
 const historicalPublicationsHtml = fs.readFileSync(path.join(output, "welsh-historical-publications.html"), "utf8");
 if (!historicalPublicationsHtml.includes("Welsh LDS Historical Publications") || !historicalPublicationsHtml.includes('id="historicalPublicationCatalog"') || !historicalPublicationsHtml.includes("welsh-historical-publications.js")) throw new Error("Welsh LDS Historical Publications page is invalid");
 if (!fs.existsSync(path.join(output, "welsh-historical-publications.js"))) throw new Error("Welsh historical-publications runtime missing");

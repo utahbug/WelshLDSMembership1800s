@@ -11,7 +11,6 @@
   const branchList = $("#branchList");
   const count = $("#collectionCount");
   const search = $("#collectionSearch");
-  const masthead = $(".masthead");
   const searchResults = $("#searchResults");
   const resultList = $("#searchResultList");
   const picker = $("#branchPicker");
@@ -130,15 +129,6 @@
   listen($("#closeBranchPicker"), "click", () => closePicker());
   listen($("#pickerBackdrop"), "click", () => closePicker());
   listen(search, "input", syncSearch);
-  const goHomeFromMasthead = () => { location.href = "index.html"; };
-  if (masthead && !masthead.classList.contains("masthead-home-link")) {
-    masthead.classList.add("masthead-home-link");
-    masthead.tabIndex = 0;
-    masthead.setAttribute("role", "link");
-    masthead.setAttribute("aria-label", "LDS Welsh Membership Records — Home");
-    listen(masthead, "click", goHomeFromMasthead);
-    listen(masthead, "keydown", (event) => { if (["Enter", " "].includes(event.key)) { event.preventDefault(); goHomeFromMasthead(); } });
-  }
   document.addEventListener("keydown", (event) => { if (!picker || !pickerList) return; if (event.key === "Escape" && !picker.hidden) closePicker(); if (!picker.hidden && ["ArrowDown", "ArrowUp"].includes(event.key)) { const buttons = [...pickerList.querySelectorAll("button")]; const index = buttons.indexOf(document.activeElement); buttons[Math.max(0, Math.min(buttons.length - 1, index + (event.key === "ArrowDown" ? 1 : -1)))]?.focus(); event.preventDefault(); } });
   function routeFromLocation() { const parameters = new URLSearchParams(location.search); const branch = parameters.get("branch"); const collectionId = parameters.get("collection"); const imageSequence = Number(parameters.get("image")); const imageFilename = parameters.get("imageFilename"); if (collectionId && ((Number.isInteger(imageSequence) && imageSequence > 0) || imageFilename)) { home.hidden = true; directory.hidden = true; resetMainPanels(); window.WELSH_OPEN_INDEXED_RECORD?.({ branch, collectionId, imageSequence, imageFilename, view: parameters.get("view") || "single" }); } else if (branch && names().includes(branch)) routeBranch(branch, false); else if (parameters.get("view") === "branches") showAllBranches(false); else showHome(false, parameters.has("search")); }
   window.addEventListener("popstate", routeFromLocation);

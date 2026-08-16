@@ -34,8 +34,9 @@ const leakPatterns = [
   /LOCAL DEVELOPMENT\s*[—-]\s*NOT PUBLISHED/i,
   /Local Development reading copy/i,
   /data[\\/]private/i,
-  /C:\\Users\\kenro/i,
-  /D:\\Users\\kenro/i,
+  /[A-Z]:\\Users\\/i,
+  /(?:127\.0\.0\.1|192\.168\.\d{1,3}\.\d{1,3})/i,
+  /resources[\\/]original-cds/i,
   /:codex-file-citation/i,
   /member-data-completeness-(?:report|review-queue)\.local\.(?:json|csv)/i,
   /(?:^|["'])file:\/\//i,
@@ -45,6 +46,14 @@ for (const file of textFiles) {
   const text = fs.readFileSync(file, "utf8");
   for (const pattern of leakPatterns) if (pattern.test(text)) leaks.push({ file: path.relative(root, file), pattern: String(pattern) });
 }
+
+const mojibake = [];
+for (const file of htmlFiles) {
+  const html = fs.readFileSync(file, "utf8");
+  if (/(?:â€|Â(?:©|»|›|\s)|Ã[\x80-\xBF])/.test(html)) mojibake.push(path.relative(root, file));
+}
+
+const oversizedFiles = files.filter((file) => fs.statSync(file).size >= 100_000_000).map((file) => path.relative(root, file));
 
 const catalogContext = { window: {} };
 vm.runInNewContext(fs.readFileSync(path.join(root, "data/catalog.public.js"), "utf8"), catalogContext);
@@ -63,9 +72,14 @@ const failures = [
   ...noIndexFailures.map((file) => `Missing noindex: ${file}`),
   ...leaks.map((item) => `Private/local leak: ${item.file} (${item.pattern})`),
   ...missingPages.map((file) => `Missing page: ${file}`),
+  ...mojibake.map((file) => `Visible mojibake: ${file}`),
+  ...oversizedFiles.map((file) => `GitHub file-size limit exceeded: ${file}`),
 ];
 if (catalog.edition !== "public" || catalog.fullOnline !== true) failures.push("Catalog is not marked as the full public-storage edition.");
 if (fs.existsSync(path.join(root, "resources/original-cds"))) failures.push("Local original-CD files were published; Full Online must use Archive.org and preserve reviewer-only exclusions.");
+const manifest = JSON.parse(fs.readFileSync(path.join(root, "site.webmanifest"), "utf8"));
+if (manifest.short_name === "Welsh DEV" || /Local Development|not published/i.test(`${manifest.name} ${manifest.description}`)) failures.push("Local Development web-app identity reached Full Online.");
+if (!htmlFiles.every((file) => !fs.readFileSync(file, "utf8").includes('content="Welsh DEV"'))) failures.push("Welsh DEV mobile title reached Full Online.");
 const runtimeContext = { window: { WELSH_FULL_ONLINE: true } };
 vm.runInNewContext(fs.readFileSync(path.join(root, "data/catalog.public.js"), "utf8"), runtimeContext);
 vm.runInNewContext(fs.readFileSync(path.join(root, "local-catalog-overrides.js"), "utf8"), runtimeContext);
@@ -87,6 +101,8 @@ const report = {
   brokenLinks: brokenLinks.length,
   noIndexFailures: noIndexFailures.length,
   privateOrLocalLeaks: leaks.length,
+  visibleMojibake: mojibake.length,
+  oversizedFiles: oversizedFiles.length,
   canonicalBranches: JSON.parse(fs.readFileSync(path.join(root, "FULL_ONLINE_BUILD_REPORT.json"), "utf8")).branchRoutes.canonicalBranches,
   memberRecords: people.records.length,
   fullSearchRecords: discovery.counts.allRecords,
