@@ -47,11 +47,6 @@ async function loadIntegratedSearchPages() {
 }
 
 function populateIntegratedPublicationChoices() {
-  const addHeading = (text) => {
-    const heading = document.createElement("h4");
-    heading.textContent = text;
-    collectionSearch.sourceChoices.append(heading);
-  };
   const addChoice = (value, labelText, checked = false) => {
     const label = document.createElement("label");
     const checkbox = document.createElement("input");
@@ -64,16 +59,13 @@ function populateIntegratedPublicationChoices() {
     label.append(checkbox, text);
     collectionSearch.sourceChoices.append(label);
   };
-  addHeading("All integrated publications");
-  addChoice("all", "All integrated publications", true);
+  addChoice("all", "All publications", true);
   const sets = catalogData.collectionSearch.publicationSets || [];
   if (sets.length) {
-    addHeading("Publication sets");
     sets.forEach((set) => {
       addChoice(`set:${set.id}`, set.label);
     });
   }
-  addHeading("Individual publications");
   catalogData.collectionSearch.integratedPublicationIds.forEach((id) => {
     const publication = catalogData.publications.find((item) => item.id === id);
     addChoice(`publication:${id}`, publication.title);
@@ -97,7 +89,7 @@ function selectedIntegratedPublicationIds() {
 
 function updatePublicationScopeSummary() {
   if (selectedPublicationScopes.has("all")) {
-    collectionSearch.sourceSummary.textContent = "All integrated publications";
+    collectionSearch.sourceSummary.textContent = "All publications";
     return;
   }
   const ids = selectedIntegratedPublicationIds();
@@ -160,7 +152,7 @@ async function searchIntegratedPublications(event) {
     collectionSearch.message.textContent = "Select at least one publication to search.";
     return;
   }
-  collectionSearch.message.textContent = `Searching ${selectedIds.length === 1 ? "the selected publication" : `${selectedIds.length} integrated publications`}…`;
+  collectionSearch.message.textContent = `Searching ${selectedIds.length === 1 ? "the selected publication" : `${selectedIds.length} publications`}…`;
   try {
     const normalizedQuery = normalizeSearchText(query);
     const pages = await loadIntegratedSearchPages();
@@ -300,6 +292,13 @@ function publicationEntry(publication, relatedSubworks = []) {
     const meta = document.createElement("p");
     meta.className = "publication-meta";
     meta.textContent = details.join(" · ");
+    if (publication.comingSoon) {
+      meta.append(" — ");
+      const status = document.createElement("span");
+      status.className = "publication-coming-soon";
+      status.textContent = "(coming soon)";
+      meta.append(status);
+    }
     information.append(meta);
   }
   if (publication.description && !(publication.id === "on-trial-welsh-press" && publication.description === "The final published edition.")) {

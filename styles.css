@@ -34,7 +34,7 @@ button, input { font: inherit; }
 }
 
 .masthead h1, .masthead p { margin: 0; }
-.masthead-home-link { flex: 1 1 auto; min-width: 0; cursor: pointer; }
+.masthead-home-link { flex: 0 0 auto; width: 100%; min-width: 0; cursor: pointer; }
 .masthead-home-link:focus-visible { outline: 3px solid #f1d48d; outline-offset: -6px; }
 .masthead h1 { font-size: clamp(1.7rem, 3vw, 2.8rem); font-weight: 500; }
 .eyebrow { margin: 0 0 7px; color: var(--gold); font: 700 .76rem/1.2 Arial, sans-serif; letter-spacing: .15em; text-transform: uppercase; }
@@ -386,7 +386,7 @@ button, input { font: inherit; }
   background: white;
 }
 
-.compact-masthead { min-height: 105px; }
+.compact-masthead { min-height: 105px; align-items: center; }
 .guide-page { width: min(1180px, calc(100% - 32px)); margin: 0 auto; padding: 24px 0 60px; }
 .breadcrumb { margin-bottom: 20px; font: .9rem Arial, sans-serif; }
 .breadcrumb a, .work-table a { color: var(--green); }
@@ -563,7 +563,8 @@ button, input { font: inherit; }
 .ledger-guide::after { top: calc(50% - 5px); left: auto; right: 3px; width: 10px; height: 10px; border: 2px solid white; border-radius: 50%; background: #d4212f; box-shadow: 0 1px 3px #0008; }
 .record-stage > .ledger-guide { left: 14px; right: 14px; width: auto; }
 @media (max-width: 760px) {
-  .masthead { align-items: flex-start; flex-wrap: wrap; }
+  .masthead { align-items: center; flex-wrap: wrap; }
+  .masthead.compact-masthead { align-items: center; flex-wrap: nowrap; }
   .site-title { min-width: 0; flex: 1; }
   .global-nav { width: 100%; margin-left: 0; }
   .header-search { flex: 1; }

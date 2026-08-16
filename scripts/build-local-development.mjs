@@ -123,7 +123,7 @@ homeHtml = homeHtml
   )
   .replace(
     'aria-describedby="searchHelp"><p class="search-help"',
-    'aria-describedby="searchHelp homeSearchSourcesLabel"></div><fieldset class="home-search-sources" aria-labelledby="homeSearchSourcesLabel"><legend id="homeSearchSourcesLabel" class="visually-hidden">Search sources</legend><div class="home-search-source-choices"><label title="Search branches, collections, CD numbers, call numbers, dates, and filenames"><input type="checkbox" value="archive" checked><span>Archive resources</span></label><label title="Search indexed membership records"><input type="checkbox" value="members"><span>Member records</span></label><label title="Search locally indexed Welsh Saints Project material"><input type="checkbox" value="welsh-saints"><span>Welsh Saints Project</span></label><label title="Search currently integrated historical publications"><input type="checkbox" value="publications"><span>Integrated publications</span></label></div></fieldset><p class="search-help"',
+    'aria-describedby="searchHelp homeSearchSourcesLabel"></div><fieldset class="home-search-sources" aria-labelledby="homeSearchSourcesLabel"><legend id="homeSearchSourcesLabel" class="visually-hidden">Search sources</legend><div class="home-search-source-choices"><label title="Search branches, collections, CD numbers, call numbers, dates, and filenames"><input type="checkbox" value="archive" checked><span>Archive resources</span></label><label title="Search indexed membership records"><input type="checkbox" value="members"><span>Member records</span></label><label title="Search locally indexed Welsh Saints Project material"><input type="checkbox" value="welsh-saints"><span>Welsh Saints Project</span></label><label title="Search historical publications"><input type="checkbox" value="publications"><span>Publications</span></label></div></fieldset><p class="search-help"',
   );
 homeHtml = homeHtml.replace(
   /(<nav class="home-paths"[\s\S]*?<\/nav>)/,
@@ -190,6 +190,53 @@ function stripDecorativeTopNavigationArrows(html) {
     .replace(/(<a\b[^>]*class="[^"]*\b(?:standalone-home-link|viewer-branch-resources-link|book-return)\b[^"]*"[^>]*>)(?:←|&larr;|&#8592;)\s*/gi, "$1");
 }
 
+// Large Local Development search datasets are JavaScript payloads. Loading
+// them as ordinary end-of-body scripts still makes their download, parse, and
+// initialization compete with the browser's first rendered frame. Preserve
+// script order and existing search behavior, but begin that work immediately
+// after the static page shell has had an opportunity to paint.
+function loadScriptsAfterFirstPaint(html, scriptPatterns) {
+  let updated = html;
+  for (const pattern of scriptPatterns) {
+    updated = updated.replace(pattern, (_match, before, src, after) =>
+      `<script type="text/plain" data-after-paint-src="${src}"${before || ""}${after || ""}></script>`,
+    );
+  }
+  if (!updated.includes("data-after-paint-src=")) return updated;
+  return updated.replace("</body>", `<script>
+    (() => {
+      const startSearchBootstrap = () => {
+        const pending = [...document.querySelectorAll("script[data-after-paint-src]")];
+        document.documentElement.dataset.searchBootstrap = "loading";
+        let remaining = pending.length;
+        if (!remaining) {
+          document.documentElement.dataset.searchBootstrap = "ready";
+          return;
+        }
+        const markComplete = () => {
+          remaining -= 1;
+          if (remaining === 0) document.documentElement.dataset.searchBootstrap = "ready";
+        };
+        for (const placeholder of pending) {
+          const script = document.createElement("script");
+          script.src = placeholder.dataset.afterPaintSrc;
+          script.async = false;
+          script.addEventListener("load", markComplete, { once: true });
+          script.addEventListener("error", markComplete, { once: true });
+          document.head.append(script);
+          placeholder.remove();
+        }
+      };
+      const afterFirstPaint = () => requestAnimationFrame(startSearchBootstrap);
+      if (document.readyState === "loading") {
+        requestAnimationFrame(afterFirstPaint);
+      } else {
+        afterFirstPaint();
+      }
+    })();
+  </script>\n</body>`);
+}
+
 for (const file of fs.readdirSync(output).filter((name) => name.endsWith(".html"))) {
   const target = path.join(output, file);
   let html = fs.readFileSync(target, "utf8");
@@ -227,12 +274,46 @@ for (const file of fs.readdirSync(output).filter((name) => name.endsWith(".html"
     .replace(/\s*<nav class="global-nav" aria-label="Site navigation">\s*<button class="header-icon" id="headerSearchButton"[\s\S]*?<\/button>\s*<\/nav>/i, "")
     .replace(/<details class="footer-project">[\s\S]*?<\/details>/gi, '<nav class="footer-reference-links" aria-label="Project information"><a href="about.html">About</a><a href="historical-names.html">Historical Names and Variants</a><a href="familysearch-comparison.html">FamilySearch Comparisons</a></nav>')
     .replace("window.WELSH_RESEARCH_BETA=true;", "window.WELSH_RESEARCH_BETA=true;window.WELSH_LOCAL_DEVELOPMENT=true;")
-    .replace(/(<p class="research-beta-note">)[\s\S]*?(<\/p>)/, "$1LOCAL DEVELOPMENT — NOT PUBLISHED$2")
+    .replace(/\s*<p class="research-beta-note">[\s\S]*?<\/p>/gi, "")
     .replace(/styles\.css\?v=[^"]+/g, "styles.css?v=local-dev-20260815-wsdetail")
     .replace(/welsh-saints-research\.js\?v=[^"]+/g, "welsh-saints-research.js?v=local-dev-20260815-full-search-detail")
     .replace("</body>", '<script src="masthead-home.js"></script>\n</body>')
     .replace("</head>", '<meta name="apple-mobile-web-app-title" content="Welsh DEV">\n</head>');
   html = stripDecorativeTopNavigationArrows(html);
+  if (file === "index.html") {
+    html = loadScriptsAfterFirstPaint(html, [
+      /<script([^>]*)src="(data\/catalog\.public\.js[^"]*)"([^>]*)><\/script>/i,
+      /<script([^>]*)src="(local-catalog-overrides\.js[^"]*)"([^>]*)><\/script>/i,
+      /<script([^>]*)src="(data\/branch-registry\.js[^"]*)"([^>]*)><\/script>/i,
+      /<script([^>]*)src="(data\/historical-names\.js[^"]*)"([^>]*)><\/script>/i,
+      /<script([^>]*)src="(source-transition\.js[^"]*)"([^>]*)><\/script>/i,
+      /<script([^>]*)src="(app\.js[^"]*)"([^>]*)><\/script>/i,
+      /<script([^>]*)src="(navigation\.js[^"]*)"([^>]*)><\/script>/i,
+      /<script([^>]*)src="(data\/beta\/people-index\.beta\.js[^"]*)"([^>]*)><\/script>/i,
+      /<script([^>]*)src="(branch-members\.js[^"]*)"([^>]*)><\/script>/i,
+      /<script([^>]*)src="(beta-presentation-polish\.js[^"]*)"([^>]*)><\/script>/i,
+      /<script([^>]*)src="(local-private-features\.js[^"]*)"([^>]*)><\/script>/i,
+      /<script([^>]*)src="(feedback\.js[^"]*)"([^>]*)><\/script>/i,
+      /<script([^>]*)src="(people-search-core\.js[^"]*)"([^>]*)><\/script>/i,
+      /<script([^>]*)src="(all-records-discovery\.js[^"]*)"([^>]*)><\/script>/i,
+      /<script([^>]*)src="(hymnal-discovery-extension\.js[^"]*)"([^>]*)><\/script>/i,
+      /<script([^>]*)src="(person-historical-material\.js[^"]*)"([^>]*)><\/script>/i,
+      /<script([^>]*)src="(welsh-saints-person-detail\.js[^"]*)"([^>]*)><\/script>/i,
+      /<script([^>]*)src="(home-unified-search\.js[^"]*)"([^>]*)><\/script>/i,
+      /<script([^>]*)src="(data\/branch-export-data\.js[^"]*)"([^>]*)><\/script>/i,
+      /<script([^>]*)src="(branch-export\.js[^"]*)"([^>]*)><\/script>/i,
+    ]);
+  }
+  if (file === "people-search.html") {
+    html = loadScriptsAfterFirstPaint(html, [
+      /<script([^>]*)src="((?:data\/catalog\.public|data\/historical-names|local-private-features|people-search-core|all-records-discovery|hymnal-discovery-extension|welsh-saints-person-detail|data\/branch-registry|data\/beta\/people-index\.beta|source-transition|people-search|beta-presentation-polish|search-page-navigation|feedback|person-historical-material)\.js[^"]*)"([^>]*)><\/script>/gi,
+    ]);
+  }
+  if (file === "welsh-saints-research.html") {
+    html = loadScriptsAfterFirstPaint(html, [
+      /<script([^>]*)src="((?:data\/catalog\.public|data\/historical-names|local-private-features|data\/beta\/welsh-saints-index\.beta|welsh-saints-person-detail|welsh-saints-research|search-page-navigation|beta-presentation-polish|feedback)\.js[^"]*)"([^>]*)><\/script>/gi,
+    ]);
+  }
   fs.writeFileSync(target, html, "utf8");
 }
 
@@ -306,6 +387,9 @@ fs.appendFileSync(path.join(output, "styles.css"), `
 .resource-sub-links a { width: fit-content; min-height: 40px; display: inline-flex; align-items: center; color: var(--green-dark); font: 600 .86rem/1.35 Arial, sans-serif; text-decoration: none; }
 .resource-sub-links a:hover, .resource-sub-links a:focus-visible { text-decoration: underline; text-underline-offset: 3px; }
 .resource-sub-links a:focus-visible { outline: 2px solid var(--gold); outline-offset: 2px; }
+.archive-publication-resources { display: grid; gap: 10px; margin-top: 6px; }
+.archive-publication-resources > h3 { margin: 2px 0 0; color: var(--green-dark); font: 500 .98rem/1.4 Georgia, serif; }
+.internal-resource-card { border-left-color: var(--green-mid); }
 .resources-secondary-notices { max-width: 74ch; margin-top: 24px; padding-top: 17px; border-top: 1px solid var(--line); }
 .resources-secondary-notices section h3 { margin: 0 0 6px; color: var(--green-dark); font: 500 1.05rem/1.35 Georgia, serif; }
 .resources-secondary-notices section p, .resources-ai-pointer { margin: 5px 0 0; color: var(--muted); font: 400 .9rem/1.55 Arial, sans-serif; }
@@ -345,6 +429,7 @@ fs.appendFileSync(path.join(output, "styles.css"), `
 .publication-subentry .publication-subtitle { margin-left: 12px; font-size: .86rem; }
 .publication-subentry p { margin-top: 3px; font-size: .84rem; }
 .publication-meta { color: var(--muted); font: 400 .86rem/1.45 Arial, sans-serif; }
+.publication-coming-soon { color: #7b3f3f; font: inherit; font-weight: 400; }
 .publication-availability { color: var(--muted); font: 400 .84rem/1.45 Arial, sans-serif; }
 .publication-relationship { color: var(--green-dark); font: 400 .86rem/1.45 Arial, sans-serif; }
 .publication-relationship a, .publication-relationship a:visited { color: var(--green-dark); text-decoration: none; }
@@ -360,11 +445,8 @@ fs.appendFileSync(path.join(output, "styles.css"), `
 .person-related-historical-material h3 { margin: 0 0 5px; color: var(--green-dark); font: 600 .9rem/1.35 Georgia, serif; }
 .person-related-historical-material p { margin: 4px 0 0; font: 400 .84rem/1.45 Arial, sans-serif; }
 .person-related-historical-material .person-related-evidence { color: var(--muted); }
-.publication-collection-search { max-width: 820px; margin: 2px 0 14px; }
-.publication-collection-search > summary { width: fit-content; min-height: 40px; box-sizing: border-box; padding: 8px 2px; color: var(--green-dark); cursor: pointer; font: 500 .92rem/1.45 Arial, sans-serif; }
-.publication-collection-search > summary:hover { text-decoration: underline; text-underline-offset: 3px; }
-.publication-collection-search > summary:focus-visible { outline: 2px solid var(--gold); outline-offset: 3px; }
-.publication-collection-search-body { margin-top: 4px; padding: 13px 16px; border: 1px solid var(--line); border-left: 3px solid var(--gold); background: var(--panel); }
+.publication-collection-search { max-width: 802px; margin: 7px 0 14px 18px; }
+.publication-collection-search-body { padding: 2px 0 0; }
 .publication-collection-scope, .publication-collection-search-status { margin: 4px 0 0; color: var(--muted); font: 400 .88rem/1.45 Arial, sans-serif; }
 .publication-collection-search-status:empty { display: none; }
 .publication-collection-search-status button { display: inline-flex; align-items: center; gap: 7px; min-height: 38px; padding: 5px 2px; border: 0; background: transparent; color: var(--green-dark); font: 600 .88rem/1.4 Arial, sans-serif; text-align: left; cursor: pointer; }
@@ -374,9 +456,14 @@ fs.appendFileSync(path.join(output, "styles.css"), `
 .publication-collection-search-status button:hover { text-decoration: underline; text-underline-offset: 3px; }
 .publication-collection-search-status button:focus-visible { outline: 2px solid var(--gold); outline-offset: 2px; }
 .publication-collection-search-form { margin-top: 6px; }
-.publication-collection-search-form label { display: block; margin: 0; color: var(--ink); font: 500 .88rem/1.35 Arial, sans-serif; }
+.publication-collection-search-form label { display: block; margin: 0; color: var(--muted); font: italic 400 .88rem/1.35 Arial, sans-serif; }
 .publication-collection-search-filter { display: flex; flex-direction: column; align-items: flex-start; gap: 4px; margin-bottom: 7px; }
 .publication-collection-search-filter-label { color: var(--ink); font: 500 .88rem/1.35 Arial, sans-serif; }
+.publication-search-parameters { margin-top: 3px; }
+.publication-search-parameters > summary { width: fit-content; min-height: 42px; box-sizing: border-box; display: list-item; margin-left: -15px; padding: 10px 2px 8px; color: var(--green-dark); cursor: pointer; font: 500 .88rem/1.4 Arial, sans-serif; }
+.publication-search-parameters > summary:hover { text-decoration: underline; text-underline-offset: 3px; }
+.publication-search-parameters > summary:focus-visible { outline: 2px solid var(--gold); outline-offset: 2px; }
+.publication-search-parameters-body { padding: 2px 0 4px; }
 .publication-source-filter { position: relative; width: 44%; max-width: 100%; min-width: 0; }
 .publication-source-filter > summary { min-height: 40px; box-sizing: border-box; display: flex; align-items: center; justify-content: space-between; gap: 8px; padding: 7px 9px; border: 1px solid #a99f89; border-radius: 5px; background: #fff; color: var(--ink); cursor: pointer; list-style: none; font: 400 .9rem/1.3 Arial, sans-serif; white-space: nowrap; overflow: hidden; }
 .publication-source-filter > summary::-webkit-details-marker { display: none; }
@@ -389,13 +476,11 @@ fs.appendFileSync(path.join(output, "styles.css"), `
 .publication-source-actions button { padding: 5px 9px; border: 1px solid var(--line); border-radius: 4px; background: var(--paper); color: inherit; cursor: pointer; }
 .publication-source-actions button:focus-visible { outline: 2px solid var(--gold); outline-offset: 2px; }
 .publication-source-choices { display: grid; gap: 3px; }
-.publication-source-choices h4 { margin: 8px 2px 3px; color: var(--muted); font: 600 .72rem/1.35 Arial, sans-serif; letter-spacing: .045em; text-transform: uppercase; }
-.publication-source-choices h4:first-of-type { margin-top: 1px; }
-.publication-source-choices label { display: flex; align-items: flex-start; gap: 8px; min-height: 34px; padding: 5px 2px; color: var(--ink); font: 400 .86rem/1.4 Arial, sans-serif; cursor: pointer; }
-.publication-source-choices input { flex: none; min-height: 0; margin: 2px 0 0; padding: 0; }
+.publication-source-choices label { display: flex; align-items: flex-start; gap: 10px; min-height: 40px; box-sizing: border-box; padding: 7px 2px; color: var(--ink); font: 400 .9rem/1.45 Arial, sans-serif; cursor: pointer; }
+.publication-source-choices input { flex: 0 0 16px; width: 16px; height: 16px; min-height: 0; margin: 2px 0 0; padding: 0; }
 .publication-source-choices span { min-width: 0; overflow-wrap: anywhere; }
 .publication-collection-search-row { display: flex; flex-direction: column; align-items: flex-start; gap: 4px; }
-.publication-collection-search-row input { width: 44%; max-width: 100%; min-width: 0; min-height: 42px; box-sizing: border-box; padding: 7px 10px; border: 1px solid #a99f89; border-radius: 5px; background: #fff; color: var(--ink); font: 400 1rem/1.3 Arial, sans-serif; cursor: text; }
+.publication-collection-search-row input { width: min(100%, 680px); min-width: 0; min-height: 42px; box-sizing: border-box; padding: 7px 10px; border: 1px solid #a99f89; border-radius: 5px; background: #fff; color: var(--ink); font: 400 1rem/1.3 Arial, sans-serif; cursor: text; }
 .publication-collection-search-row input:focus-visible { outline: 2px solid var(--gold); outline-offset: 2px; }
 .publication-collection-search-results { display: grid; gap: 8px; max-height: 540px; margin: 8px 0 0 22px; overflow: auto; }
 .publication-collection-search-results[hidden] { display: none; }
@@ -418,8 +503,8 @@ fs.appendFileSync(path.join(output, "styles.css"), `
 .ronald-publication-information-clickable:focus-visible { outline: 2px solid var(--gold); outline-offset: 2px; box-shadow: 0 0 0 3px rgba(171, 132, 50, .12); }
 @media (prefers-reduced-motion: reduce) { .historical-publication-information-clickable { transition: none; } }
 @media (prefers-reduced-motion: reduce) { .ronald-publication-information-clickable { transition: none; } }
-@media (max-width: 700px) { .publication-source-filter, .publication-collection-search-row input { width: 100%; } .publication-source-popover { width: min(430px, calc(100vw - 52px)); } .publication-collection-search-results { margin-left: 12px; } }
-@media (max-width: 520px) { .home-unified-search-row > #collectionSearch { flex-basis: 100%; } .home-search-source-choices { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 0 12px; } .home-search-source-choices label { min-width: 0; min-height: 44px; font-size: .8rem; } .home-secondary-resource-links { margin-left: 16px; } .publication-page, .resources-page { width: min(100% - 24px, 1120px); padding-top: 12px; } .publication-page-nav { margin-bottom: 10px; gap: 6px 14px; } .publication-page-intro, .resources-page-intro { margin-bottom: 12px; } .publication-page-intro:has(.publication-about) { margin-bottom: 2px; } .publication-page-intro h2 { margin-bottom: 3px; } .publication-about summary, .publication-collection-search > summary { min-height: 44px; padding-block: 8px; } .publication-about p { margin-left: 12px; } .publication-entry, .external-resource-card { padding: 13px 14px; } .publication-subtitle { margin-left: 10px; } .publication-related-subworks { margin-left: 12px; padding-left: 10px; } .publication-link { min-height: 40px; padding-block: 8px; } .publication-collection-search { margin-bottom: 12px; } .publication-collection-search-body { padding: 12px 13px; } }
+@media (max-width: 700px) { .publication-source-filter, .publication-collection-search-row input { width: 100%; } .publication-source-popover { width: min(430px, calc(100vw - 52px)); } .publication-source-choices label { min-height: 44px; } .publication-collection-search-results { margin-left: 12px; } }
+@media (max-width: 520px) { .home-unified-search-row > #collectionSearch { flex-basis: 100%; } .home-search-source-choices { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 0 12px; } .home-search-source-choices label { min-width: 0; min-height: 44px; font-size: .8rem; } .home-secondary-resource-links { margin-left: 16px; } .publication-page, .resources-page { width: min(100% - 24px, 1120px); padding-top: 12px; } .publication-page-nav { margin-bottom: 10px; gap: 6px 14px; } .publication-page-intro, .resources-page-intro { margin-bottom: 12px; } .publication-page-intro:has(.publication-about) { margin-bottom: 2px; } .publication-page-intro h2 { margin-bottom: 3px; } .publication-about summary { min-height: 44px; padding-block: 8px; } .publication-about p { margin-left: 12px; } .publication-entry, .external-resource-card { padding: 13px 14px; } .publication-subtitle { margin-left: 10px; } .publication-related-subworks { margin-left: 12px; padding-left: 10px; } .publication-link { min-height: 40px; padding-block: 8px; } .publication-collection-search { max-width: calc(100% - 18px); margin: 7px 0 12px 18px; } .publication-collection-search-body { padding: 0; } }
 @media (max-width: 700px) { .publication-page, .resources-page, .guide-page { margin-inline: auto; } }
 
 /* Local Development: compact membership/source viewer on small screens only. */
@@ -478,7 +563,7 @@ fs.appendFileSync(path.join(output, "styles.css"), `
 .branch-directory-utilities .welsh-names-explainer { max-width: 48rem; }
 .branch-directory-utilities .welsh-names-explainer summary,
 .branch-directory-utilities .branch-export-control > summary,
-.branch-directory-utilities .presentation-transcript-link a { min-height: 40px; box-sizing: border-box; display: inline-flex; align-items: center; padding-block: 5px; }
+.branch-directory-utilities .presentation-transcript-link a { min-height: 40px; box-sizing: border-box; display: inline-flex; align-items: center; padding-block: 5px; color: var(--green-dark); font: 500 .84rem/1.3 Arial, sans-serif; }
 .branch-directory-utilities .welsh-names-explainer[open] { flex-basis: 100%; margin-bottom: 4px; }
 .branch-directory-utilities .welsh-names-explainer[open] + .branch-export-slot { margin-left: 0; padding-left: 0; border-left: 0; }
 .branch-directory-utilities .presentation-transcript-link a { color: var(--green-dark); font: 500 .84rem/1.3 Arial, sans-serif; text-decoration: none; }
@@ -491,7 +576,7 @@ fs.appendFileSync(path.join(output, "styles.css"), `
 .branch-export-control[open] > summary::after { content: "▴"; }
 .branch-export-control > summary::-webkit-details-marker { display: none; }
 .branch-export-control > summary:focus-visible { outline: 2px solid var(--gold); outline-offset: 3px; }
-.branch-export-menu { position: absolute; z-index: 24; top: calc(100% + 3px); right: 0; width: min(310px, calc(100vw - 36px)); padding: 10px; border: 1px solid var(--line); border-radius: 5px; background: var(--panel); box-shadow: 0 10px 24px rgba(25,43,36,.18); }
+.branch-export-menu { position: fixed; z-index: 24; box-sizing: border-box; width: min(310px, calc(100vw - 24px)); max-height: calc(100vh - 24px); overflow-y: auto; padding: 10px; border: 1px solid var(--line); border-radius: 5px; background: var(--panel); box-shadow: 0 10px 24px rgba(25,43,36,.18); }
 .branch-export-menu fieldset { display: grid; gap: 3px; margin: 0 0 8px; padding: 0 0 8px; border: 0; border-bottom: 1px solid var(--line); }
 .branch-export-menu legend { margin-bottom: 3px; color: var(--muted); font: 600 .72rem/1.3 Arial, sans-serif; text-transform: uppercase; letter-spacing: .05em; }
 .branch-export-menu label, .branch-export-menu button { min-height: 40px; box-sizing: border-box; }
@@ -500,7 +585,7 @@ fs.appendFileSync(path.join(output, "styles.css"), `
 .branch-export-menu button:hover, .branch-export-menu button:focus-visible { background: var(--paper); text-decoration: underline; text-underline-offset: 3px; }
 .branch-export-menu button:focus-visible { outline: 2px solid var(--gold); outline-offset: -2px; }
 .branch-export-status { display: block; min-height: 1.2em; margin: 4px 8px 0; color: var(--green-dark); font: 600 .76rem/1.2 Arial, sans-serif; }
-@media (max-width: 700px) { .branch-directory-utilities { margin-top: 12px; } .branch-directory-utilities > * { flex: 0 1 auto; } .branch-directory-utilities > :not(:first-child) { margin-left: 10px; padding-left: 10px; } .branch-directory-utilities .welsh-names-explainer summary, .branch-directory-utilities .branch-export-control > summary, .branch-directory-utilities .presentation-transcript-link a { min-height: 44px; } .branch-export-menu { right: auto; left: 0; } }
+@media (max-width: 700px) { .branch-directory-utilities { margin-top: 12px; } .branch-directory-utilities > * { flex: 0 1 auto; } .branch-directory-utilities > :not(:first-child) { margin-left: 10px; padding-left: 10px; } .branch-directory-utilities .welsh-names-explainer summary, .branch-directory-utilities .branch-export-control > summary, .branch-directory-utilities .presentation-transcript-link a { min-height: 44px; } }
 @media (max-width: 430px) { .branch-directory-utilities { gap: 0 12px; } .branch-directory-utilities > * { flex-basis: 100%; } .branch-directory-utilities > :not(:first-child) { margin-left: 0; padding-left: 0; border-left: 0; border-top: 1px solid var(--line); } }
 `, "utf8");
 

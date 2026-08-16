@@ -10,7 +10,9 @@ const elements = {
   zoomOut: $("#zoomOut"), zoomIn: $("#zoomIn"), fitPage: $("#fitPage"), fitWidth: $("#fitWidth"), print: $("#printBook"),
   searchSection: $("#book-search"), searchForm: $("#bookSearchForm"), searchInput: $("#bookSearchInput"), searchStatus: $("#bookSearchStatus"), searchResults: $("#bookSearchResults"), sourceNote: $("#bookSourceNote"),
 };
-elements.searchSection.open = !matchMedia("(max-width: 700px)").matches || location.hash === "#book-search";
+// Keep the existing in-book search immediately available at every viewport.
+// Non-searchable publications hide the entire section after catalog loading.
+elements.searchSection.open = true;
 
 let publication;
 let pdf;
@@ -261,7 +263,7 @@ async function start() {
   elements.author.textContent = [publication.author, publication.year].filter(Boolean).join(" · ");
   elements.searchSection.hidden = !publication.searchable;
   const suppliedSource = publication.suppliedPublicUrl || publication.publicSource;
-  const readingCopyLabel = window.WELSH_FULL_ONLINE === true ? "Full Online reading copy" : "Local Development reading copy";
+  const readingCopyLabel = "Reading copy";
   elements.sourceNote.innerHTML = suppliedSource ? `${readingCopyLabel}. <a href="${escapeHtml(suppliedSource)}" target="_blank" rel="noopener">Original publication source</a>` : `${readingCopyLabel}.`;
   pdf = await pdfjsLib.getDocument({ url: publication.localDocument || publication.pdf, standardFontDataUrl: "assets/pdfjs/standard_fonts/" }).promise;
   elements.pageTotal.textContent = `of ${pdf.numPages}`;

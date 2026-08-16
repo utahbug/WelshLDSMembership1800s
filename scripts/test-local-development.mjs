@@ -20,11 +20,11 @@ if (test.status !== 0) {
 const htmlFiles = fs.readdirSync(output).filter((name) => name.endsWith(".html"));
 for (const file of htmlFiles) {
   const html = fs.readFileSync(path.join(output, file), "utf8");
-  if (!html.includes("LOCAL DEVELOPMENT — NOT PUBLISHED")) throw new Error(`${file}: local-development identity missing`);
   if (!html.includes("window.WELSH_LOCAL_DEVELOPMENT=true;")) throw new Error(`${file}: local-development runtime marker missing`);
   if (!html.includes('<meta name="apple-mobile-web-app-title" content="Welsh DEV">')) throw new Error(`${file}: Welsh DEV Home Screen title missing`);
   if (!html.includes('<script src="masthead-home.js"></script>')) throw new Error(`${file}: shared masthead Home navigation missing`);
   if (html.includes('id="headerSearchButton"') || html.includes('class="footer-project"')) throw new Error(`${file}: masthead search icon or footer Project menu remains`);
+  if (/FULL ONLINE ARCHIVE EDITION|LOCAL DEVELOPMENT\s*[—-]\s*NOT PUBLISHED|Research beta/i.test(html)) throw new Error(`${file}: visible environment/build wording remains`);
   for (const [href, label] of [["about.html", "About"], ["historical-names.html", "Historical Names and Variants"], ["familysearch-comparison.html", "FamilySearch Comparisons"]]) {
     if (!html.includes(`<a href="${href}">${label}</a>`)) throw new Error(`${file}: lower project-information link missing: ${label}`);
   }
@@ -32,6 +32,10 @@ for (const file of htmlFiles) {
   if (/(?:←|&larr;|&#8592;)\s*(?:Home|Ronald D\. Dennis Publications)/i.test(topNavigation)) throw new Error(`${file}: decorative top-navigation arrow remains`);
 }
 const mastheadHomeRuntime = fs.readFileSync(path.join(output, "masthead-home.js"), "utf8");
+const sharedStyles = fs.readFileSync(path.join(output, "styles.css"), "utf8");
+if (!sharedStyles.includes(".masthead-home-link { flex: 0 0 auto; width: 100%;")) throw new Error("Clickable masthead can still grow inside flex-column search pages");
+if (!sharedStyles.includes(".masthead { align-items: center; flex-wrap: wrap; }")) throw new Error("Shared mobile masthead title alignment is not vertically centered");
+if (sharedStyles.includes(".masthead { align-items: flex-start; flex-wrap: wrap; }")) throw new Error("Legacy top-aligned mobile masthead override remains");
 for (const required of ['setAttribute("role", "link")', 'setAttribute("aria-label", "Home")', '!["Enter", " "].includes(event.key)', 'location.href = "index.html"']) {
   if (!mastheadHomeRuntime.includes(required)) throw new Error(`Shared masthead Home behavior is incomplete: ${required}`);
 }
@@ -41,9 +45,19 @@ if (navigationRuntime.includes('masthead.setAttribute("role", "link")')) throw n
 const manifest = JSON.parse(fs.readFileSync(path.join(output, "site.webmanifest"), "utf8"));
 if (manifest.short_name !== "Welsh DEV" || !manifest.icons?.every((icon) => /app-icon-beta-/.test(icon.src))) throw new Error("Local-development Home Screen manifest identity invalid");
 const localHomeHtml = fs.readFileSync(path.join(output, "index.html"), "utf8");
+const branchExportRuntime = fs.readFileSync(path.join(output, "branch-export.js"), "utf8");
+if (!branchExportRuntime.includes('<summary aria-expanded="false">Export branch data</summary>') || branchExportRuntime.includes('<summary aria-expanded="false">Export</summary>')) throw new Error("Branch export utility label is not current");
+if (!branchExportRuntime.includes('checked>Identified branches</label>') || branchExportRuntime.includes('checked>Canonical branches</label>')) throw new Error("Branch export scope wording is not current");
+if (!branchExportRuntime.includes('const positionMenu = () =>') || !branchExportRuntime.includes('window.innerWidth - (margin * 2)')) throw new Error("Branch export menu is not viewport-positioned");
+if (!localHomeHtml.includes('data-after-paint-src="data/beta/people-index.beta.js') || !localHomeHtml.includes('data-after-paint-src="home-unified-search.js')) throw new Error("Home search datasets are not deferred until after the first paint");
+if (!localHomeHtml.includes('dataset.searchBootstrap = "ready"')) throw new Error("After-paint search bootstrap loader missing");
+const peopleSearchHtml = fs.readFileSync(path.join(output, "people-search.html"), "utf8");
+if (!peopleSearchHtml.includes('data-after-paint-src="data/beta/people-index.beta.js')) throw new Error("Member Search index is still render-blocking");
+const welshSaintsSearchHtml = fs.readFileSync(path.join(output, "welsh-saints-research.html"), "utf8");
+if (!welshSaintsSearchHtml.includes('data-after-paint-src="data/beta/welsh-saints-index.beta.js')) throw new Error("Welsh Saints index is still render-blocking");
 if (localHomeHtml.includes("<summary>Search in</summary>") || localHomeHtml.includes("home-search-sources > summary")) throw new Error("Home Search in dropdown remains present");
 if (!localHomeHtml.includes('<fieldset class="home-search-sources"') || !localHomeHtml.includes('<legend id="homeSearchSourcesLabel" class="visually-hidden">Search sources</legend>')) throw new Error("Visible Home source checkbox group is missing");
-for (const [value, label] of [["archive", "Archive resources"], ["members", "Member records"], ["welsh-saints", "Welsh Saints Project"], ["publications", "Integrated publications"]]) {
+for (const [value, label] of [["archive", "Archive resources"], ["members", "Member records"], ["welsh-saints", "Welsh Saints Project"], ["publications", "Publications"]]) {
   if (!localHomeHtml.includes(`value="${value}"`) || !localHomeHtml.includes(`<span>${label}</span>`)) throw new Error(`Home source checkbox is missing: ${label}`);
 }
 if (!localHomeHtml.includes('<input type="checkbox" value="archive" checked>')) throw new Error("Archive resources is not the default Home search source");
@@ -100,8 +114,21 @@ const personPublicationLinks = JSON.parse(fs.readFileSync(path.join(output, "dat
 const davidRobertsLink = personPublicationLinks.relationships?.find((item) => item.id === "david-roberts-ffestiniog-hymnal-dr");
 if (!davidRobertsLink || davidRobertsLink.personMatch?.branch !== "Ffestiniog" || davidRobertsLink.pageNumber !== 265 || !/does not by itself establish authorship/i.test(davidRobertsLink.evidenceNote)) throw new Error("David Roberts historical-material relationship is invalid");
 if (!publicationsHtml.includes('id="publicationCatalog"') || !publicationsHtml.includes("ronald-dennis-publications.js")) throw new Error("Structured publication catalog runtime missing");
-if (!publicationsHtml.includes('<details class="publication-collection-search" id="publicationCollectionSearch" hidden>') || !publicationsHtml.includes('<summary id="publicationCollectionSearchHeading">Search all integrated publications</summary>')) throw new Error("Collapsed integrated-publication search disclosure missing");
-if (/<details class="publication-collection-search"[^>]*\sopen(?:\s|>)/.test(publicationsHtml)) throw new Error("Integrated-publication search must start collapsed");
+if (!publicationsHtml.includes('<section class="publication-collection-search" id="publicationCollectionSearch" aria-label="Search publications" hidden>')) throw new Error("Always-visible publication search region missing");
+if (publicationsHtml.includes("Search all available publications")) throw new Error("Redundant parent publication-search disclosure remains");
+if (!publicationsHtml.includes('<label for="publicationCollectionSearchInput">Search for...</label>') || !publicationsHtml.includes('placeholder="Search names, places, words, or phrases"')) throw new Error("Primary integrated-publication search field is incomplete");
+if (!publicationsHtml.includes('<details class="publication-search-parameters" id="publicationCollectionSearchParameters">') || !publicationsHtml.includes('<summary><span>Search parameters</span></summary>')) throw new Error("Collapsed integrated-publication Search parameters disclosure missing");
+if (/<details class="publication-search-parameters"[^>]*\sopen(?:\s|>)/.test(publicationsHtml)) throw new Error("Integrated-publication Search parameters must start collapsed");
+const localStyles = fs.readFileSync(path.join(output, "styles.css"), "utf8");
+if (!localStyles.includes('.branch-directory-utilities .presentation-transcript-link a { min-height: 40px; box-sizing: border-box; display: inline-flex; align-items: center; padding-block: 5px; color: var(--green-dark); font: 500 .84rem/1.3 Arial, sans-serif; }')) throw new Error("Branch utility-row controls do not share typography");
+if (!localStyles.includes('.publication-collection-search { max-width: 802px; margin: 7px 0 14px 18px; }')) throw new Error("Publication search block is not aligned with the About disclosure text");
+if (!localStyles.includes('.publication-search-parameters > summary { width: fit-content; min-height: 42px; box-sizing: border-box; display: list-item; margin-left: -15px;')) throw new Error("Search parameters does not align its text with the expanded parameter controls");
+if (/\.publication-search-parameters[^\n]*::after\s*\{[^}]*content:/i.test(localStyles)) throw new Error("Search parameters still uses a custom text arrow instead of the native disclosure marker");
+if (!publicationsHtml.includes('<span id="publicationCollectionSearchSourceSummary">All publications</span>')) throw new Error("Publication selector summary wording is not simplified");
+const publicationsSelectorRuntime = fs.readFileSync(path.join(output, "ronald-dennis-publications.js"), "utf8");
+if (!publicationsSelectorRuntime.includes('addChoice("all", "All publications", true)') || !publicationsSelectorRuntime.includes('collectionSearch.sourceSummary.textContent = "All publications"')) throw new Error("All publications scope wording is incomplete");
+if (/addHeading\(|All integrated publications|Publication sets|Individual publications/.test(publicationsSelectorRuntime)) throw new Error("Redundant publication-selector headings remain");
+if (!publicationsHtml.includes('aria-label="Search publications"') || !publicationsHtml.includes('>Search publications</button>') || /Searching [^`\n]*integrated publications/.test(publicationsSelectorRuntime)) throw new Error("Visible publication-search wording still uses Integrated publications");
 if (!publicationsHtml.includes('id="publicationCollectionScope" class="publication-collection-scope" hidden')) throw new Error("Integrated-publication scope text must remain non-visible");
 if (!publicationsHtml.includes('<details class="publication-about"><summary>About these publications</summary>')) throw new Error("Publications About disclosure missing");
 if (/<details class="publication-about"[^>]*\sopen(?:\s|>)/.test(publicationsHtml)) throw new Error("Publications About disclosure must start collapsed");
@@ -141,7 +168,7 @@ const welshPeriodicals = publicationCatalog.publications.find((item) => item.id 
 const onTrialSearch = JSON.parse(fs.readFileSync(path.join(output, "data/publication-search/on-trial-welsh-press.json"), "utf8"));
 if (!onTrial?.viewerAvailable || !onTrial?.searchable || onTrial.publicationStatus !== "final published version" || onTrialSearch.publicationId !== "on-trial-welsh-press" || onTrialSearch.pageCount !== 944 || onTrialSearch.pages.length !== 944) throw new Error("On Trial in the Welsh Press prototype/index is invalid");
 if (publicationCatalog.publications.some((item) => item.id === "opposition-gospel-message-wales-prepublication" || item.title === "Opposition to the Gospel Message in Wales")) throw new Error("Opposition prepublication title remains exposed in the visible catalog");
-if (!onTrialSupplemental || onTrialSupplemental.category !== "major-works" || onTrialSupplemental.showPublicationStatus !== false || onTrialSupplemental.viewerAvailable || onTrialSupplemental.searchable) throw new Error("On Trial Supplemental visible catalog treatment is invalid");
+if (!onTrialSupplemental || onTrialSupplemental.category !== "major-works" || onTrialSupplemental.showPublicationStatus !== false || onTrialSupplemental.comingSoon !== true || onTrialSupplemental.viewerAvailable || onTrialSupplemental.searchable) throw new Error("On Trial Supplemental visible catalog treatment is invalid");
 if (welshNewspapers?.parentPublicationId !== "on-trial-supplemental" || welshPeriodicals?.parentPublicationId !== "on-trial-supplemental" || welshNewspapers.viewerAvailable || welshNewspapers.searchable || welshPeriodicals.viewerAvailable || welshPeriodicals.searchable) throw new Error("On Trial Supplemental subwork relationships are invalid");
 for (const id of zionsTrumpetIds) {
   const publication = publicationCatalog.publications.find((item) => item.id === id);
@@ -161,8 +188,10 @@ for (const file of fs.readdirSync(output, { recursive: true }).filter((name) => 
 }
 if (!callOfZion || callOfZion.pageCount !== 256 || callOfZion.author !== "Ronald D. Dennis" || !callOfZion.viewerAvailable || !callOfZion.searchable) throw new Error("Call of Zion viewer configuration invalid");
 const publicationViewerHtml = fs.readFileSync(path.join(output, "publication-viewer.html"), "utf8");
-if (!publicationViewerHtml.includes("LOCAL DEVELOPMENT — NOT PUBLISHED") || !publicationViewerHtml.includes("publication-viewer.js")) throw new Error("Publication viewer identity/runtime missing");
+if (!publicationViewerHtml.includes("publication-viewer.js") || !publicationViewerHtml.includes("window.WELSH_LOCAL_DEVELOPMENT=true;")) throw new Error("Publication viewer internal identity/runtime missing");
 if (!publicationViewerHtml.includes('<details class="book-search" id="book-search">') || !publicationViewerHtml.includes('<summary id="bookSearchHeading">Search this book</summary>')) throw new Error("Publication viewer Search this book disclosure missing");
+const publicationViewerRuntime = fs.readFileSync(path.join(output, "publication-viewer.js"), "utf8");
+if (!publicationViewerRuntime.includes("elements.searchSection.open = true;") || !publicationViewerHtml.includes('placeholder="Search this book"')) throw new Error("Publication viewer search is not visibly expanded and identifiable");
 for (const [id, label] of [["previousPage", "Previous page"], ["nextPage", "Next page"], ["fitPage", "Fit page"], ["fitWidth", "Fit width"], ["printBook", "Print"]]) {
   const controlPattern = new RegExp(`id="${id}"[^>]*aria-label="${label}"[^>]*title="${label}"`);
   if (!controlPattern.test(publicationViewerHtml)) throw new Error(`Publication viewer icon control is missing accessible naming: ${label}`);
@@ -175,7 +204,8 @@ if (localAppRuntime.includes('`← ${currentBranchName} Branch Resources`')) thr
 if (!localHomeHtml.includes('id="previousImage">&larr; Previous</button>') || !localHomeHtml.includes('id="nextImage">Next &rarr;</button>')) throw new Error("Functional source-viewer Previous/Next controls were altered");
 const publicationViewerJs = fs.readFileSync(path.join(output, "publication-viewer.js"), "utf8");
 const publicationsJs = fs.readFileSync(path.join(output, "ronald-dennis-publications.js"), "utf8");
-if (!publicationsHtml.includes("Search all integrated publications") || !publicationsJs.includes("searchIntegratedPublications")) throw new Error("Integrated-publication search UI/runtime missing");
+if (!publicationsJs.includes('status.className = "publication-coming-soon"') || !publicationsJs.includes('status.textContent = "(coming soon)"')) throw new Error("Supplemental coming-soon metadata rendering missing");
+if (!publicationsHtml.includes("Search parameters") || !publicationsJs.includes("searchIntegratedPublications")) throw new Error("Integrated-publication search UI/runtime missing");
 if (!publicationsHtml.includes('id="publicationCollectionSearchSource"') || !publicationsHtml.includes('id="publicationCollectionSearchSelectAll"') || !publicationsHtml.includes('id="publicationCollectionSearchClear"') || !publicationsJs.includes("selectedIntegratedPublicationIds") || !publicationsJs.includes("selectedPublicationScopes")) throw new Error("Integrated-publication multi-select source filter missing");
 if (!publicationsHtml.includes('id="publicationCollectionSearchToggle"') || !publicationsJs.includes("toggleIntegratedSearchResults")) throw new Error("Integrated-publication result disclosure missing");
 if (!publicationViewerJs.includes('parameters.get("page")')) throw new Error("Publication viewer exact-page routing missing");
