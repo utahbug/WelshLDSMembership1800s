@@ -122,7 +122,7 @@ if (/<details class="publication-search-parameters"[^>]*\sopen(?:\s|>)/.test(pub
 const localStyles = fs.readFileSync(path.join(output, "styles.css"), "utf8");
 if (!localStyles.includes('.branch-directory-utilities .presentation-transcript-link a { min-height: 40px; box-sizing: border-box; display: inline-flex; align-items: center; padding-block: 5px; color: var(--green-dark); font: 500 .84rem/1.3 Arial, sans-serif; }')) throw new Error("Branch utility-row controls do not share typography");
 if (!localStyles.includes('.publication-collection-search { max-width: 802px; margin: 7px 0 14px 18px; }')) throw new Error("Publication search block is not aligned with the About disclosure text");
-if (!localStyles.includes('.publication-search-parameters > summary { width: fit-content; min-height: 42px; box-sizing: border-box; display: list-item; margin-left: -15px;')) throw new Error("Search parameters does not align its text with the expanded parameter controls");
+if (!localStyles.includes('.publication-search-parameters > summary { width: fit-content; min-height: 42px; box-sizing: border-box; display: list-item; margin-left: 12px;')) throw new Error("Search parameters does not retain its subtle inset from the search input left edge");
 if (/\.publication-search-parameters[^\n]*::after\s*\{[^}]*content:/i.test(localStyles)) throw new Error("Search parameters still uses a custom text arrow instead of the native disclosure marker");
 if (!publicationsHtml.includes('<span id="publicationCollectionSearchSourceSummary">All publications</span>')) throw new Error("Publication selector summary wording is not simplified");
 const publicationsSelectorRuntime = fs.readFileSync(path.join(output, "ronald-dennis-publications.js"), "utf8");

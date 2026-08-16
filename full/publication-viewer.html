@@ -46,6 +46,10 @@
     <section class="book-canvas-stage" id="bookCanvasStage" aria-label="Publication page">
       <button type="button" class="book-side-turn book-side-previous" id="sidePrevious" aria-label="Previous page" title="Previous page">‹</button>
       <canvas id="bookCanvas" tabindex="0"></canvas>
+      <div class="book-page-turn-hint" id="bookPageTurnHint" aria-hidden="true" hidden>
+        <div class="book-page-turn-hint-side book-page-turn-hint-previous" data-page-turn-hint-direction="previous"><span><span class="book-page-turn-hint-primary">Previous page</span><small>Click this side</small></span></div>
+        <div class="book-page-turn-hint-side book-page-turn-hint-next" data-page-turn-hint-direction="next"><span><span class="book-page-turn-hint-primary">Next page</span><small>Click this side</small></span></div>
+      </div>
       <button type="button" class="book-side-turn book-side-next" id="sideNext" aria-label="Next page" title="Next page">›</button>
     </section>
     <div class="book-auxiliary-panels" id="bookAuxiliaryPanels" data-future-panels="toc index" hidden></div>

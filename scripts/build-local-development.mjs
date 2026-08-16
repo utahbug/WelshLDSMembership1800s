@@ -411,6 +411,7 @@ fs.appendFileSync(path.join(output, "styles.css"), `
 .publication-about summary:hover { text-decoration: underline; text-underline-offset: 3px; }
 .publication-about summary:focus-visible { outline: 2px solid var(--gold); outline-offset: 3px; }
 .publication-about p { max-width: 72ch; margin: 5px 0 3px 18px; }
+.publication-thanks + .publication-about { margin-top: 20px; }
 .publication-group { margin: 0 0 34px; }
 .publication-group > h3 { margin: 0 0 12px; padding-bottom: 7px; border-bottom: 1px solid var(--line); color: var(--green-dark); font: 500 1.25rem/1.3 Georgia, serif; }
 .publication-list { display: grid; gap: 10px; }
@@ -460,10 +461,10 @@ fs.appendFileSync(path.join(output, "styles.css"), `
 .publication-collection-search-filter { display: flex; flex-direction: column; align-items: flex-start; gap: 4px; margin-bottom: 7px; }
 .publication-collection-search-filter-label { color: var(--ink); font: 500 .88rem/1.35 Arial, sans-serif; }
 .publication-search-parameters { margin-top: 3px; }
-.publication-search-parameters > summary { width: fit-content; min-height: 42px; box-sizing: border-box; display: list-item; margin-left: -15px; padding: 10px 2px 8px; color: var(--green-dark); cursor: pointer; font: 500 .88rem/1.4 Arial, sans-serif; }
+.publication-search-parameters > summary { width: fit-content; min-height: 42px; box-sizing: border-box; display: list-item; margin-left: 12px; padding: 10px 2px 8px; color: var(--green-dark); cursor: pointer; font: 500 .88rem/1.4 Arial, sans-serif; }
 .publication-search-parameters > summary:hover { text-decoration: underline; text-underline-offset: 3px; }
 .publication-search-parameters > summary:focus-visible { outline: 2px solid var(--gold); outline-offset: 2px; }
-.publication-search-parameters-body { padding: 2px 0 4px; }
+.publication-search-parameters-body { box-sizing: border-box; padding: 2px 0 4px 24px; }
 .publication-source-filter { position: relative; width: 44%; max-width: 100%; min-width: 0; }
 .publication-source-filter > summary { min-height: 40px; box-sizing: border-box; display: flex; align-items: center; justify-content: space-between; gap: 8px; padding: 7px 9px; border: 1px solid #a99f89; border-radius: 5px; background: #fff; color: var(--ink); cursor: pointer; list-style: none; font: 400 .9rem/1.3 Arial, sans-serif; white-space: nowrap; overflow: hidden; }
 .publication-source-filter > summary::-webkit-details-marker { display: none; }
@@ -480,7 +481,7 @@ fs.appendFileSync(path.join(output, "styles.css"), `
 .publication-source-choices input { flex: 0 0 16px; width: 16px; height: 16px; min-height: 0; margin: 2px 0 0; padding: 0; }
 .publication-source-choices span { min-width: 0; overflow-wrap: anywhere; }
 .publication-collection-search-row { display: flex; flex-direction: column; align-items: flex-start; gap: 4px; }
-.publication-collection-search-row input { width: min(100%, 680px); min-width: 0; min-height: 42px; box-sizing: border-box; padding: 7px 10px; border: 1px solid #a99f89; border-radius: 5px; background: #fff; color: var(--ink); font: 400 1rem/1.3 Arial, sans-serif; cursor: text; }
+.publication-collection-search-row input { width: min(100%, 650px); min-width: 0; min-height: 42px; box-sizing: border-box; padding: 7px 10px; border: 1px solid #a99f89; border-radius: 5px; background: #fff; color: var(--ink); font: 400 1rem/1.3 Arial, sans-serif; cursor: text; }
 .publication-collection-search-row input:focus-visible { outline: 2px solid var(--gold); outline-offset: 2px; }
 .publication-collection-search-results { display: grid; gap: 8px; max-height: 540px; margin: 8px 0 0 22px; overflow: auto; }
 .publication-collection-search-results[hidden] { display: none; }

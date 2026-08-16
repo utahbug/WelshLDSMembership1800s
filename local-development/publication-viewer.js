@@ -7,6 +7,7 @@ const elements = {
   title: $("#bookTitle"), author: $("#bookAuthor"), canvas: $("#bookCanvas"), stage: $("#bookCanvasStage"),
   loadStatus: $("#bookLoadStatus"), pageNumber: $("#pageNumber"), pageTotal: $("#pageTotal"), previous: $("#previousPage"), next: $("#nextPage"),
   sidePrevious: $("#sidePrevious"), sideNext: $("#sideNext"),
+  pageTurnHint: $("#bookPageTurnHint"),
   zoomOut: $("#zoomOut"), zoomIn: $("#zoomIn"), fitPage: $("#fitPage"), fitWidth: $("#fitWidth"), print: $("#printBook"),
   searchSection: $("#book-search"), searchForm: $("#bookSearchForm"), searchInput: $("#bookSearchInput"), searchStatus: $("#bookSearchStatus"), searchResults: $("#bookSearchResults"), sourceNote: $("#bookSourceNote"),
 };
@@ -25,6 +26,7 @@ let touchStart = null;
 let touchWasMulti = false;
 let lastTouchActionAt = 0;
 let desktopPointerStart = null;
+let pageTurnHintTimer = null;
 
 const SWIPE_MINIMUM_PX = 68;
 const SWIPE_DIRECTION_RATIO = 1.35;
@@ -33,10 +35,45 @@ const TAP_MAXIMUM_PX = 12;
 const TAP_MAXIMUM_MS = 420;
 const DESKTOP_CLICK_MAXIMUM_PX = 8;
 const PAGE_TURN_ANIMATION_MS = 220;
+const PAGE_TURN_HINT_DURATION_MS = 7000;
 
 const clamp = (value, min, max) => Math.max(min, Math.min(max, value));
 const escapeHtml = (value) => String(value).replace(/[&<>"']/g, (character) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[character]));
 const normalize = (value) => String(value || "").normalize("NFD").replace(/[\u0300-\u036f]/g, "").toLowerCase().replace(/[’‘]/g, "'").replace(/\s+/g, " ").trim();
+
+function pageTurnHintStorageKey() {
+  return publication ? `welsh-publication-page-turn-hint:${publication.id}` : "";
+}
+
+function desktopPageTurnHintsAvailable() {
+  return window.matchMedia("(min-width: 620px) and (hover: hover) and (pointer: fine)").matches;
+}
+
+function pageTurnHintWasDismissed() {
+  try { return localStorage.getItem(pageTurnHintStorageKey()) === "dismissed"; } catch { return false; }
+}
+
+function positionPageTurnHint() {
+  if (elements.pageTurnHint.hidden) return;
+  elements.pageTurnHint.style.left = `${elements.canvas.offsetLeft}px`;
+  elements.pageTurnHint.style.top = `${elements.canvas.offsetTop}px`;
+  elements.pageTurnHint.style.width = `${elements.canvas.clientWidth}px`;
+  elements.pageTurnHint.style.height = `${elements.canvas.clientHeight}px`;
+}
+
+function dismissPageTurnHint() {
+  if (elements.pageTurnHint.hidden) return;
+  elements.pageTurnHint.hidden = true;
+  clearTimeout(pageTurnHintTimer);
+  try { localStorage.setItem(pageTurnHintStorageKey(), "dismissed"); } catch { /* Storage may be unavailable. */ }
+}
+
+function showPageTurnHint() {
+  if (!desktopPageTurnHintsAvailable() || pageTurnHintWasDismissed()) return;
+  elements.pageTurnHint.hidden = false;
+  positionPageTurnHint();
+  pageTurnHintTimer = window.setTimeout(dismissPageTurnHint, PAGE_TURN_HINT_DURATION_MS);
+}
 
 async function renderPage() {
   if (!pdf) return;
@@ -79,6 +116,7 @@ function animatePageTurn(direction) {
 }
 
 async function goToPage(value) {
+  dismissPageTurnHint();
   const page = clamp(Number.parseInt(value, 10) || 1, 1, pdf.numPages);
   const direction = Math.sign(page - currentPage);
   if (!direction) return;
@@ -272,7 +310,17 @@ async function start() {
   const catalogPages = publication.pageCount || publication.catalogPageCount;
   if (catalogPages !== pdf.numPages) elements.loadStatus.textContent = `Catalog lists ${catalogPages} pages; PDF contains ${pdf.numPages}.`;
   await renderPage();
+  showPageTurnHint();
 }
+
+elements.pageTurnHint.addEventListener("click", (event) => {
+  const side = event.target.closest("[data-page-turn-hint-direction]");
+  if (!side) return;
+  const direction = side.dataset.pageTurnHintDirection;
+  dismissPageTurnHint();
+  if (direction === "previous" && currentPage > 1) goToPage(currentPage - 1);
+  if (direction === "next" && currentPage < pdf.numPages) goToPage(currentPage + 1);
+});
 
 elements.previous.addEventListener("click", () => goToPage(currentPage - 1));
 elements.next.addEventListener("click", () => goToPage(currentPage + 1));
@@ -296,6 +344,12 @@ elements.canvas.addEventListener("pointerup", endDesktopPageClick);
 elements.canvas.addEventListener("pointercancel", () => { desktopPointerStart = null; });
 document.addEventListener("keydown", keyboardPageTurn);
 let resizeTimer;
-window.addEventListener("resize", () => { if (fitMode === "custom") return; clearTimeout(resizeTimer); resizeTimer = setTimeout(renderPage, 120); });
+window.addEventListener("resize", () => {
+  if (!desktopPageTurnHintsAvailable()) dismissPageTurnHint();
+  else positionPageTurnHint();
+  if (fitMode === "custom") return;
+  clearTimeout(resizeTimer);
+  resizeTimer = setTimeout(renderPage, 120);
+});
 
 start().catch((error) => { console.error(error); elements.loadStatus.hidden = false; elements.loadStatus.textContent = "This publication could not be loaded."; });
