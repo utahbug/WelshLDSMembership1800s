@@ -53,7 +53,8 @@ for (const file of fs.readdirSync(staging).filter((name) => name.endsWith(".html
   const filePath = path.join(staging, file);
   let html = fs.readFileSync(filePath, "utf8")
     .replace("window.WELSH_RESEARCH_BETA=true;window.WELSH_LOCAL_DEVELOPMENT=true;", "window.WELSH_RESEARCH_BETA=true;window.WELSH_FULL_ONLINE=true;")
-    .replace("Development build — not published.", "Full online edition — records, classifications, and source relationships continue to be reviewed and expanded.");
+    .replace("Development build — not published.", "Full online edition — records, classifications, and source relationships continue to be reviewed and expanded.")
+    .replaceAll("LOCAL DEVELOPMENT — NOT PUBLISHED", "FULL ONLINE ARCHIVE EDITION");
   for (const [betaIcon, mainIcon] of icons) html = html.replaceAll(betaIcon, mainIcon);
   fs.writeFileSync(filePath, html, "utf8");
 }

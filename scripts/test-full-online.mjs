@@ -31,6 +31,7 @@ for (const file of htmlFiles) {
 
 const textFiles = files.filter((file) => /\.(?:html|js|json|css|txt|csv)$/i.test(file));
 const leakPatterns = [
+  /LOCAL DEVELOPMENT\s*[—-]\s*NOT PUBLISHED/i,
   /data[\\/]private/i,
   /C:\\Users\\kenro/i,
   /D:\\Users\\kenro/i,
