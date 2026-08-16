@@ -12,7 +12,10 @@ const local = context.window.WELSH_RECORD_CATALOG;
 const archiveStorage = {
   provider: "internet-archive",
   identifier: "ldswelshmembership",
-  baseUrl: "https://archive.org/download/ldswelshmembership/",
+  // Use Archive.org's public delivery broker. The /download/ route can pin
+  // this large, directory-based item to a stale storage node after a server
+  // migration, while /serve/ resolves the currently workable copy.
+  baseUrl: "https://archive.org/serve/ldswelshmembership/",
 };
 // A local archive-relative path is not proof that the file has been published.
 // Keep newly recovered collections offline until their Archive.org upload is

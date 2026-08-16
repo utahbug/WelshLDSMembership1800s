@@ -85,9 +85,27 @@ vm.runInNewContext(fs.readFileSync(path.join(root, "data/catalog.public.js"), "u
 vm.runInNewContext(fs.readFileSync(path.join(root, "local-catalog-overrides.js"), "utf8"), runtimeContext);
 const runtimeCatalog = runtimeContext.window.WELSH_RECORD_CATALOG;
 const pontlanfraith = runtimeCatalog.collections.find((collection) => collection.id === "collection-47");
-const archiveCollection = runtimeCatalog.collections.find((collection) => collection.publicStorage?.provider === "internet-archive" && collection.availability?.online);
+const archiveCollections = runtimeCatalog.collections.filter((collection) => collection.publicStorage?.provider === "internet-archive" && collection.availability?.online);
 const transcriptCollection = runtimeCatalog.collections.find((collection) => collection.viewerRepresentation && collection.sources?.includes("typed-viewer-pages"));
-if (runtimeCatalog.edition !== "public" || !archiveCollection) failures.push("Full Online runtime no longer preserves public Archive.org source routing.");
+if (runtimeCatalog.edition !== "public" || !archiveCollections.length) failures.push("Full Online runtime no longer preserves public Archive.org source routing.");
+const archiveInventoryPath = path.resolve(import.meta.dirname, "../tmp/archive-remote-paths-ldswelshmembership.txt");
+if (!fs.existsSync(archiveInventoryPath)) {
+  failures.push("Archive.org path inventory is unavailable for complete public-image validation.");
+} else {
+  const archivePaths = new Set(fs.readFileSync(archiveInventoryPath, "utf8").split(/\r?\n/).filter(Boolean));
+  for (const collection of archiveCollections) {
+    if (collection.publicStorage.baseUrl !== "https://archive.org/serve/ldswelshmembership/") {
+      failures.push(`Archive.org collection uses an unapproved delivery route: ${collection.name}`);
+    }
+    const images = collection.images.filter((record) => record.type === "image");
+    if (!images.length) failures.push(`Online Archive.org collection has no image records: ${collection.name}`);
+    for (const record of images) {
+      if (!record.archiveRelativePath || !archivePaths.has(record.archiveRelativePath)) {
+        failures.push(`Archive.org mapping is absent from the approved inventory: ${collection.name} / ${record.name}`);
+      }
+    }
+  }
+}
 if (pontlanfraith?.availability?.online || pontlanfraith?.publicStorage) failures.push("Pontlanfraith reviewer-only source images became publicly available.");
 if (!transcriptCollection?.availability?.online || transcriptCollection?.publicStorage?.provider !== "full-online") failures.push("Packaged transcript viewer mappings are unavailable in Full Online.");
 if (people.records?.length !== 11473) failures.push(`Member count is ${people.records?.length}, expected 11473.`);

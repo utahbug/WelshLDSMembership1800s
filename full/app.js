@@ -8,7 +8,9 @@
     const sourceRecord = typedSourceCollection.images.find((record) => record.name === sourceFile);
     if (!sourceRecord) return;
     const pageCollection = catalog.collections.find((collection) => collection.sourcePdf === sourceFile && collection.viewerRepresentation);
-    if (pageCollection && catalog.edition !== "public") {
+    const pageCollectionAvailable = catalog.edition !== "public"
+      || Boolean(pageCollection?.availability?.online && pageCollection?.publicStorage);
+    if (pageCollection && pageCollectionAvailable) {
       catalog.collections.push({ ...pageCollection, id, name, aliases, virtualSourceCollection: pageCollection.id, preferredInitialPage: page || 1 });
       return;
     }
