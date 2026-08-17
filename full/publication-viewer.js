@@ -9,11 +9,11 @@ const elements = {
   sidePrevious: $("#sidePrevious"), sideNext: $("#sideNext"),
   pageTurnHint: $("#bookPageTurnHint"),
   zoomOut: $("#zoomOut"), zoomIn: $("#zoomIn"), fitPage: $("#fitPage"), fitWidth: $("#fitWidth"), print: $("#printBook"),
-  searchSection: $("#book-search"), searchForm: $("#bookSearchForm"), searchInput: $("#bookSearchInput"), searchStatus: $("#bookSearchStatus"), searchResults: $("#bookSearchResults"), sourceNote: $("#bookSourceNote"),
+  returnLink: $("#bookReturn"), searchSection: $("#book-search"), searchHeading: $("#bookSearchHeading"), searchForm: $("#bookSearchForm"), searchInput: $("#bookSearchInput"), searchStatus: $("#bookSearchStatus"), searchResults: $("#bookSearchResults"), sourceNote: $("#bookSourceNote"),
 };
-// Keep the existing in-book search immediately available at every viewport.
-// Non-searchable publications hide the entire section after catalog loading.
-elements.searchSection.open = true;
+// Keep the search disclosure visible for searchable publications without
+// making readers scroll past the form before reaching the opening page.
+elements.searchSection.open = false;
 
 let publication;
 let pdf;
@@ -35,41 +35,67 @@ const TAP_MAXIMUM_PX = 12;
 const TAP_MAXIMUM_MS = 420;
 const DESKTOP_CLICK_MAXIMUM_PX = 8;
 const PAGE_TURN_ANIMATION_MS = 220;
-const PAGE_TURN_HINT_DURATION_MS = 7000;
+const PAGE_TURN_HINT_DURATION_MS = 15000;
 
 const clamp = (value, min, max) => Math.max(min, Math.min(max, value));
 const escapeHtml = (value) => String(value).replace(/[&<>"']/g, (character) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[character]));
 const normalize = (value) => String(value || "").normalize("NFD").replace(/[\u0300-\u036f]/g, "").toLowerCase().replace(/[’‘]/g, "'").replace(/\s+/g, " ").trim();
+const searchableTranscriptPdfs = new Set([
+  "A - CDs 35-39 (2 of 2) - Typed Transcripts.pdf",
+  "A - CDs 39 - Typed Transcripts.pdf",
+  "A - CDs 40-43 (1 of 2) - Typed Transcripts.pdf",
+  "A - CDs 40-43 (2 of 2) - Typed Transcripts.pdf",
+  "A - CDs 44-59 - Typed Transcripts.pdf",
+  "A - CDs 60-62 - Typed Transcripts.pdf",
+]);
 
-function pageTurnHintStorageKey() {
-  return publication ? `welsh-publication-page-turn-hint:${publication.id}` : "";
+function transcriptPublication(parameters) {
+  const collectionId = parameters.get("collection");
+  if (!collectionId) return null;
+  const collection = window.WELSH_RECORD_CATALOG?.collections?.find((item) => item.id === collectionId && item.viewerRepresentation && item.sourcePdf);
+  if (!collection) throw new Error("Transcript collection is not configured for this viewer.");
+  const branch = parameters.get("branch")?.trim();
+  const title = parameters.get("title")?.trim() || collection.name.replace(/\s+-\s+Viewer Pages$/i, "");
+  const searchable = searchableTranscriptPdfs.has(collection.sourcePdf);
+  elements.returnLink.href = branch ? `index.html?branch=${encodeURIComponent(branch)}` : "transcriptions-translations.html";
+  elements.returnLink.textContent = branch ? `${branch} Branch Resources` : "Partial Branch and Conference Transcripts";
+  elements.searchHeading.textContent = "Search this document";
+  elements.searchInput.previousElementSibling.textContent = "Search this document";
+  elements.searchInput.placeholder = "Search this document";
+  return {
+    id: collection.id,
+    title,
+    author: parameters.get("type")?.trim() || "Typed transcript or translation",
+    localDocument: `books/transcripts/${encodeURIComponent(collection.sourcePdf)}`,
+    pageCount: collection.images.length,
+    searchable,
+    searchableTextSource: searchable ? "embedded-pdf-text" : null,
+    transcriptSource: collection.sourcePdf,
+  };
 }
 
 function desktopPageTurnHintsAvailable() {
   return window.matchMedia("(min-width: 620px) and (hover: hover) and (pointer: fine)").matches;
 }
 
-function pageTurnHintWasDismissed() {
-  try { return localStorage.getItem(pageTurnHintStorageKey()) === "dismissed"; } catch { return false; }
-}
-
 function positionPageTurnHint() {
   if (elements.pageTurnHint.hidden) return;
+  const topInset = Math.round(clamp(elements.canvas.clientHeight * .08, 28, 76));
   elements.pageTurnHint.style.left = `${elements.canvas.offsetLeft}px`;
   elements.pageTurnHint.style.top = `${elements.canvas.offsetTop}px`;
   elements.pageTurnHint.style.width = `${elements.canvas.clientWidth}px`;
   elements.pageTurnHint.style.height = `${elements.canvas.clientHeight}px`;
+  elements.pageTurnHint.style.setProperty("--book-page-turn-hint-top", `${topInset}px`);
 }
 
 function dismissPageTurnHint() {
   if (elements.pageTurnHint.hidden) return;
   elements.pageTurnHint.hidden = true;
   clearTimeout(pageTurnHintTimer);
-  try { localStorage.setItem(pageTurnHintStorageKey(), "dismissed"); } catch { /* Storage may be unavailable. */ }
 }
 
 function showPageTurnHint() {
-  if (!desktopPageTurnHintsAvailable() || pageTurnHintWasDismissed()) return;
+  if (currentPage !== 1 || !desktopPageTurnHintsAvailable()) return;
   elements.pageTurnHint.hidden = false;
   positionPageTurnHint();
   pageTurnHintTimer = window.setTimeout(dismissPageTurnHint, PAGE_TURN_HINT_DURATION_MS);
@@ -290,19 +316,26 @@ function keyboardPageTurn(event) {
 }
 
 async function start() {
-  const catalog = await fetch("data/publications.json").then((response) => response.json());
   const parameters = new URLSearchParams(location.search);
+  const transcript = transcriptPublication(parameters);
+  const catalog = transcript ? null : await fetch("data/publications.json").then((response) => response.json());
   const requestedId = parameters.get("id") || "call-of-zion";
   const requestedPage = Number.parseInt(parameters.get("page"), 10);
-  publication = catalog.publications.find((item) => item.id === requestedId && item.viewerAvailable);
+  publication = transcript || catalog.publications.find((item) => item.id === requestedId && item.viewerAvailable);
   if (!publication) throw new Error("Publication is not configured for this viewer.");
-  document.title = `${publication.title} · Ronald D. Dennis Publications`;
+  document.title = `${publication.title} · LDS Welsh Membership Records`;
+  if (!transcript) {
+    elements.returnLink.href = "ronald-dennis-publications.html";
+    elements.returnLink.textContent = "Ronald D. Dennis Publications";
+  }
   elements.title.textContent = publication.title;
   elements.author.textContent = [publication.author, publication.year].filter(Boolean).join(" · ");
   elements.searchSection.hidden = !publication.searchable;
   const suppliedSource = publication.suppliedPublicUrl || publication.publicSource;
   const readingCopyLabel = "Reading copy";
-  elements.sourceNote.innerHTML = suppliedSource ? `${readingCopyLabel}. <a href="${escapeHtml(suppliedSource)}" target="_blank" rel="noopener">Original publication source</a>` : `${readingCopyLabel}.`;
+  elements.sourceNote.innerHTML = publication.transcriptSource
+    ? `Packaged document viewer. Source: ${escapeHtml(publication.transcriptSource)}.`
+    : suppliedSource ? `${readingCopyLabel}. <a href="${escapeHtml(suppliedSource)}" target="_blank" rel="noopener">Original publication source</a>` : `${readingCopyLabel}.`;
   pdf = await pdfjsLib.getDocument({ url: publication.localDocument || publication.pdf, standardFontDataUrl: "assets/pdfjs/standard_fonts/" }).promise;
   elements.pageTotal.textContent = `of ${pdf.numPages}`;
   elements.pageNumber.max = pdf.numPages;

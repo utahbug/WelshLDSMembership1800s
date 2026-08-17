@@ -38,7 +38,7 @@ fs.rmSync(output, { recursive: true, force: true });
 fs.mkdirSync(output, { recursive: true });
 
 const rootFiles = [
-  ".nojekyll", "about.html", "app.js", "branch-registry.html", "feedback.js", "historical-names.html", "index.html",
+  ".nojekyll", "about.html", "app.js", "branch-registry.html", "feedback.js", "historical-names.html", "index.html", "research-status.html",
   "local-private-features.js", "navigation.js", "branch-members.js", "source-transition.js", "people-search-core.js", "people-search.html", "people-search.js",
   "all-records-discovery.js", "welsh-saints-person-detail.js", "search-page-navigation.js",
   "research-page-nav.css", "site.webmanifest", "styles.css", "transcriptions-translations.html", "welsh-saints-research.html", "welsh-saints-research.js", "beta-presentation-polish.js",
@@ -285,7 +285,7 @@ for (const file of fs.readdirSync(output).filter((name) => name.endsWith(".html"
             <li><strong>Drym</strong><span>Named branch evidence; locality unresolved.</span></li>
             <li><strong>Eglwysnewydd</strong><span>Historical branch-like reference; identity unresolved.</span></li>
             <li><strong>Ffynnon Tydfil</strong><span>Named branch evidence; relationship to Merthyr-area branches unresolved.</span></li>
-            <li><strong>Gog</strong><span>Historical branch-like reference; locality unresolved.</span></li>
+            <li><strong>Gog</strong><span>Probable source variant of Cog/Cogan; exact cause of the spelling difference unresolved.</span></li>
             <li><strong>Gostwng</strong><span>Historical branch-like reference; locality unresolved.</span></li>
             <li><strong>Llandaff</strong><span>Branch-like evidence; relationship to Cardiff-area organization unresolved.</span></li>
             <li><strong>Llwyni</strong><span>Named branch evidence; locality unresolved.</span></li>
@@ -397,8 +397,8 @@ body:has(#directoryPanel:not([hidden])) .presentation-research-links { display: 
 .presentation-branch-candidates li span { color: var(--muted); font-size: .76rem; line-height: 1.35; }
 .presentation-strong-candidates { max-height: 280px; overflow: auto; padding-right: 6px; }
 .presentation-footer-feedback { margin-top: 10px; }
-.directory-home-link, .directory-home-link:visited { color: var(--green-dark); font: 500 .8rem/1.25 Arial, sans-serif; text-decoration: none; }
-.directory-home-link:hover, .directory-home-link:focus-visible { text-decoration: underline; text-underline-offset: 3px; }
+.directory-home-link, .directory-home-link:visited, .directory-member-search-link, .directory-member-search-link:visited { color: var(--green-dark); font: 500 .8rem/1.25 Arial, sans-serif; text-decoration: none; }
+.directory-home-link:hover, .directory-home-link:focus-visible, .directory-member-search-link:hover, .directory-member-search-link:focus-visible { text-decoration: underline; text-underline-offset: 3px; }
 .search-sticky-nav { padding-block: 3px; background: #fbf7ec; }
 .search-sticky-nav.is-stuck { border-bottom: 1px solid var(--gold); box-shadow: 0 3px 8px rgba(42, 49, 42, .12); }
 .people-date-interpretations { margin: 8px 0 0; }
@@ -454,7 +454,7 @@ const report = {
   memberSearch: { records: memberRecords.length, viewerAvailability: memberAvailability, collections: memberCollections },
   welshSaints: { records: saintsRecords.length, categories: saintsCounts, completeProseIncluded: false },
   branchRoutes: { canonicalBranches: branchRegistry.length, audited: branchRoutes.length, routes: branchRoutes },
-  researchSupportPages: ["about.html", "branch-registry.html", "historical-names.html", "work-remaining.html", "familysearch-comparison.html"],
+  researchSupportPages: ["about.html", "branch-registry.html", "historical-names.html", "research-status.html", "work-remaining.html", "familysearch-comparison.html"],
   fullSearch: { counts: discoveryManifest.counts, artifactFiles: fs.readdirSync(discoveryDataDir).length, rightsNote: discoveryManifest.rightsNote },
   typedExtractSearchIncluded: true,
   localOnlyCollections,

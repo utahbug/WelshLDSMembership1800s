@@ -1740,6 +1740,17 @@
 
   function openCollection(collection, options = {}) {
     const { keepResources = false, initialView = "index", initialImage = null } = options;
+    if (collection?.viewerRepresentation && collection?.sourcePdf) {
+      const parameters = new URLSearchParams({
+        collection: collection.virtualSourceCollection || collection.id,
+        title: collectionDisplayName(collection),
+        type: resourceDescriptor(collection).label,
+        page: String(initialImage != null ? Math.max(1, Number(initialImage) + 1) : collection.preferredInitialPage || 1),
+      });
+      if (keepResources && currentBranchName) parameters.set("branch", currentBranchName);
+      window.location.href = `publication-viewer.html?${parameters}`;
+      return;
+    }
     currentCollection = collection;
     currentRecords = visibleRecords(collection);
     const hasInitialImage = initialImage != null && Number.isFinite(Number(initialImage));

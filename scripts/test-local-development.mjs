@@ -25,14 +25,21 @@ for (const file of htmlFiles) {
   if (!html.includes('<script src="masthead-home.js"></script>')) throw new Error(`${file}: shared masthead Home navigation missing`);
   if (html.includes('id="headerSearchButton"') || html.includes('class="footer-project"')) throw new Error(`${file}: masthead search icon or footer Project menu remains`);
   if (/FULL ONLINE ARCHIVE EDITION|LOCAL DEVELOPMENT\s*[—-]\s*NOT PUBLISHED|Research beta/i.test(html)) throw new Error(`${file}: visible environment/build wording remains`);
-  for (const [href, label] of [["about.html", "About"], ["historical-names.html", "Historical Names and Variants"], ["familysearch-comparison.html", "FamilySearch Comparisons"]]) {
+  for (const [href, label] of [["about.html", "About"], ["research-status.html", "Research Status"]]) {
     if (!html.includes(`<a href="${href}">${label}</a>`)) throw new Error(`${file}: lower project-information link missing: ${label}`);
   }
+  const footer = html.match(/<footer[\s\S]*?<\/footer>/i)?.[0] || "";
+  if (footer.includes('href="historical-names.html"')) throw new Error(`${file}: Historical Names link remains in the footer`);
+  if (footer.includes('href="familysearch-comparison.html"')) throw new Error(`${file}: FamilySearch Comparison link remains in the footer`);
   const topNavigation = [...html.matchAll(/<nav class="(?:research-page-nav|publication-page-nav)"[\s\S]*?<\/nav>/gi)].map((match) => match[0]).join("\n");
   if (/(?:←|&larr;|&#8592;)\s*(?:Home|Ronald D\. Dennis Publications)/i.test(topNavigation)) throw new Error(`${file}: decorative top-navigation arrow remains`);
 }
 const mastheadHomeRuntime = fs.readFileSync(path.join(output, "masthead-home.js"), "utf8");
 const sharedStyles = fs.readFileSync(path.join(output, "styles.css"), "utf8");
+if (!sharedStyles.includes('.directory-member-search-link { color: var(--green-dark); font: 500 .8rem/1.25 Arial, sans-serif; text-decoration: none; }') || !sharedStyles.includes('.directory-member-search-link:hover, .directory-member-search-link:focus-visible { text-decoration: underline; text-underline-offset: 3px; }')) throw new Error("Welsh branches navigation links do not share the approved restrained typography");
+if (!sharedStyles.includes('.research-status-page .guide-section { margin-bottom: 24px; padding-block: 28px; }')) throw new Error("Research Status page-specific compact card spacing is missing");
+if (!sharedStyles.includes('.site-disclaimer > .research-feedback-link { margin: 2px 0 0; }') || !sharedStyles.includes('.site-disclaimer [data-page-feedback] > .research-feedback-link { margin-top: 2px; }') || !sharedStyles.includes('.presentation-footer-feedback > .research-feedback-link { margin-top: 0; }')) throw new Error("Shared footer feedback-link spacing is missing");
+if (!sharedStyles.includes('body:has(.search-sticky-nav) .research-index-page { flex: 0 0 auto; min-height: 0; padding-bottom: 116px; }') || !sharedStyles.includes('body:has(.search-sticky-nav) .footer-reference-links a { min-height: 44px; }')) throw new Error("Search-page footer spacing or mobile tap-target treatment is missing");
 if (!sharedStyles.includes(".masthead-home-link { flex: 0 0 auto; width: 100%;")) throw new Error("Clickable masthead can still grow inside flex-column search pages");
 if (!sharedStyles.includes(".masthead { align-items: center; flex-wrap: wrap; }")) throw new Error("Shared mobile masthead title alignment is not vertically centered");
 if (sharedStyles.includes(".masthead { align-items: flex-start; flex-wrap: wrap; }")) throw new Error("Legacy top-aligned mobile masthead override remains");
@@ -66,12 +73,20 @@ for (const value of ["members", "welsh-saints", "publications"]) {
 }
 const branchNamesExplainer = '<details class="welsh-names-explainer directory-welsh-names-explainer"><summary>Welsh names and spelling</summary>';
 if (!localHomeHtml.includes(branchNamesExplainer) || /<details class="welsh-names-explainer directory-welsh-names-explainer"[^>]*\sopen(?:\s|>)/.test(localHomeHtml)) throw new Error("Welsh branches names-and-spelling disclosure is missing or not initially collapsed");
+if (!localHomeHtml.includes('<nav class="directory-page-nav" aria-label="Branch directory navigation"><a class="directory-home-link" href="index.html">Home</a><a class="directory-member-search-link" href="people-search.html?scope=all-records">Member Search</a></nav>\n      <h2>Welsh branches</h2>')) throw new Error("Welsh branches Home and Full Search links are missing or incorrectly placed");
 if (!localHomeHtml.includes("Welsh place names may appear with different first letters because Welsh grammar can change the opening consonant of a word.") || !localHomeHtml.includes("This site preserves these source forms and links them to the same place when the evidence supports that relationship.")) throw new Error("Welsh branches names-and-spelling explanation is incomplete");
 if (!localHomeHtml.includes('<a class="home-path-card home-resources-card" href="resources.html">') || !localHomeHtml.includes('<strong>Resources</strong>')) throw new Error("Home Resources card is missing or incorrectly routed");
 if (localHomeHtml.includes("home-welsh-saints-card") || localHomeHtml.includes('<strong>Welsh Saints Search</strong>')) throw new Error("The former Welsh Saints Home card remains");
 if (!localHomeHtml.includes('<div class="home-secondary-resource-links"><a href="ronald-dennis-publications.html">Ronald D. Dennis Publications</a><a href="welsh-historical-publications.html">Welsh LDS Historical Publications</a></div>')) throw new Error("Home historical-learning links are missing or still duplicate Resources");
 const branchUtilities = localHomeHtml.match(/<div class="branch-directory-utilities"[\s\S]*?<\/div>\s*<\/section>/)?.[0] || "";
-if (!branchUtilities || branchUtilities.includes("transcriptions-translations.html")) throw new Error("Transcripts link remains on the Welsh branches page");
+const expectedBranchUtilityOrder = [
+  '<a class="branch-directory-historical-names" href="historical-names.html">Historical Names and Variants</a>',
+  '<summary>Welsh names and spelling</summary>',
+  '<div class="branch-export-slot"></div>',
+  '<a href="transcriptions-translations.html">Transcriptions &amp; Translations</a>',
+];
+if (!branchUtilities || !expectedBranchUtilityOrder.every((item) => branchUtilities.includes(item))) throw new Error("Welsh branches utility links are incomplete");
+if (expectedBranchUtilityOrder.some((item, index) => index && branchUtilities.indexOf(item) < branchUtilities.indexOf(expectedBranchUtilityOrder[index - 1]))) throw new Error("Welsh branches utility links are out of order");
 const resourcesHtml = fs.readFileSync(path.join(output, "resources.html"), "utf8");
 for (const url of ["https://www.familysearch.org/", "https://churchhistorylibrary.churchofjesuschrist.org/?lang=eng", "https://www.library.wales/", "https://welshsaints.byu.edu/"]) {
   if (!resourcesHtml.includes(`href="${url}" target="_blank" rel="noopener noreferrer"`)) throw new Error(`Resources external link is missing or unsafe: ${url}`);
@@ -80,11 +95,13 @@ if (!resourcesHtml.includes('<a href="index.html">Home</a>') || resourcesHtml.in
 if (!resourcesHtml.includes("Use and reuse") || !resourcesHtml.includes('href="about.html#ai-continuation"')) throw new Error("Resources reuse or AI-guide pointer is missing");
 if (!resourcesHtml.includes('<a href="welsh-saints-research.html">Search within the project</a>') || !resourcesHtml.includes('href="https://welshsaints.byu.edu/" target="_blank" rel="noopener noreferrer"') || !resourcesHtml.includes('>Visit the site ')) throw new Error("Resources Welsh Saints internal/external choices are missing");
 if (!resourcesHtml.includes('<a class="external-resource-card" href="transcriptions-translations.html">') || !resourcesHtml.includes("Partial Branch and Conference Transcripts")) throw new Error("Renamed partial transcripts resource is missing");
+const resourcesHistorical = '<a class="external-resource-card internal-resource-card" href="historical-names.html">';
+const resourcesTranscripts = '<a class="external-resource-card" href="transcriptions-translations.html">';
+if (!resourcesHtml.includes(resourcesHistorical) || resourcesHtml.indexOf(resourcesHistorical) > resourcesHtml.indexOf(resourcesTranscripts)) throw new Error("Resources Historical Names link is missing or not immediately before Partial Transcripts");
 const localAboutHtml = fs.readFileSync(path.join(output, "about.html"), "utf8");
 const aboutProjectInformation = localAboutHtml.match(/<h2>Project information<\/h2>[\s\S]*?<\/section>/)?.[0] || "";
 const expectedAboutProjectLinks = [
   '<a href="branch-registry.html">Branch coverage matrix</a>',
-  '<a href="historical-names.html">Historical Names and Variants</a>',
   '<a href="familysearch-comparison.html">FamilySearch Branch Comparison</a>',
   '<a href="work-remaining.html">Unmatched branches and work remaining</a>',
 ];
@@ -94,6 +111,18 @@ if (!localAboutHtml.includes("Free to use and improve") || !localAboutHtml.inclu
 if (/\bopen source\b/i.test(localAboutHtml) || /href=["'][^"']*ai-continuation-guide/i.test(localAboutHtml)) throw new Error("About claims a formal open-source status or exposes a dead AI-guide link");
 if (!localAboutHtml.includes("Future enhancements and unfinished work") || !localAboutHtml.includes("do not yet comprehensively index every paragraph") || !localAboutHtml.includes("original images as the authoritative source")) throw new Error("About historical-text coverage guidance is missing");
 if (!localAboutHtml.includes('<a href="work-remaining.html">Unfinished Work</a>') || !localAboutHtml.includes("completing one does not automatically complete the other")) throw new Error("About Unfinished Work relationship or link is missing");
+const researchStatusHtml = fs.readFileSync(path.join(output, "research-status.html"), "utf8");
+for (const heading of ["Member Search status", "Branch names, spellings, and variants", "FamilySearch comparison", "Untranscribed material and partial transcripts", "Source quality", "Corrections and additions"]) {
+  if (!researchStatusHtml.includes(heading)) throw new Error(`Research Status section missing: ${heading}`);
+}
+if ((researchStatusHtml.match(/<h2>Untranscribed material and partial transcripts<\/h2>/g) || []).length !== 1 || researchStatusHtml.includes("<h2>Transcriptions &amp; Translations</h2>")) throw new Error("Research Status transcript coverage must use one combined section");
+if ((researchStatusHtml.match(/<h2>Member Search status<\/h2>/g) || []).length !== 1 || researchStatusHtml.includes("<h2>Possible duplicate member entries</h2>") || researchStatusHtml.includes("<h2>Member Search details</h2>")) throw new Error("Research Status member caveats must use one combined section");
+if (!researchStatusHtml.includes('<a href="index.html">Home</a>') || researchStatusHtml.includes("← Home")) throw new Error("Research Status Home navigation is invalid");
+if (!researchStatusHtml.includes('<a href="familysearch-comparison.html">FamilySearch Branch Comparison</a>') || !researchStatusHtml.includes('<a href="transcriptions-translations.html">Transcriptions &amp; Translations</a>') || !researchStatusHtml.includes('See also: <a href="work-remaining.html">Unfinished Work</a>')) throw new Error("Research Status internal links are incomplete");
+if (!researchStatusHtml.includes("Individual member names and details have not been systematically compared with FamilySearch person records.")) throw new Error("Research Status FamilySearch person-comparison scope clarification is missing");
+if (!researchStatusHtml.includes('<a href="people-search.html?scope=all-records">Search page</a>')) throw new Error("Research Status Full Search link is missing or incorrectly routed");
+const peopleSearchRuntime = fs.readFileSync(path.join(output, "people-search.js"), "utf8");
+if (!peopleSearchRuntime.includes('requestedScope === "all-records"') || !peopleSearchRuntime.includes("requestedScopeControl.checked = true")) throw new Error("Member Search does not honor the Full Search deep-link scope");
 const historicalPublicationsHtml = fs.readFileSync(path.join(output, "welsh-historical-publications.html"), "utf8");
 if (!historicalPublicationsHtml.includes("Welsh LDS Historical Publications") || !historicalPublicationsHtml.includes('id="historicalPublicationCatalog"') || !historicalPublicationsHtml.includes("welsh-historical-publications.js")) throw new Error("Welsh LDS Historical Publications page is invalid");
 if (!fs.existsSync(path.join(output, "welsh-historical-publications.js"))) throw new Error("Welsh historical-publications runtime missing");
@@ -120,7 +149,8 @@ if (!publicationsHtml.includes('<label for="publicationCollectionSearchInput">Se
 if (!publicationsHtml.includes('<details class="publication-search-parameters" id="publicationCollectionSearchParameters">') || !publicationsHtml.includes('<summary><span>Search parameters</span></summary>')) throw new Error("Collapsed integrated-publication Search parameters disclosure missing");
 if (/<details class="publication-search-parameters"[^>]*\sopen(?:\s|>)/.test(publicationsHtml)) throw new Error("Integrated-publication Search parameters must start collapsed");
 const localStyles = fs.readFileSync(path.join(output, "styles.css"), "utf8");
-if (!localStyles.includes('.branch-directory-utilities .presentation-transcript-link a { min-height: 40px; box-sizing: border-box; display: inline-flex; align-items: center; padding-block: 5px; color: var(--green-dark); font: 500 .84rem/1.3 Arial, sans-serif; }')) throw new Error("Branch utility-row controls do not share typography");
+if (!localStyles.includes('.workspace:has(#homePanel:not([hidden])) { min-height: 0; }') || !localStyles.includes('.workspace:has(#homePanel:not([hidden])) > .viewer { padding-bottom: 43px; }') || !localStyles.includes('body:has(#homePanel:not([hidden])) .footer-reference-links a { min-height: 44px; }')) throw new Error("Home-specific footer spacing or mobile tap-target override is missing");
+if (!localStyles.includes('.branch-directory-utilities .branch-directory-historical-names,\n.branch-directory-utilities .presentation-transcript-link a { min-height: 40px; box-sizing: border-box; display: inline-flex; align-items: center; padding-block: 5px; color: var(--green-dark); font: 500 .84rem/1.3 Arial, sans-serif; }')) throw new Error("Branch utility-row controls do not share typography");
 if (!localStyles.includes('.publication-collection-search { max-width: 802px; margin: 7px 0 14px 18px; }')) throw new Error("Publication search block is not aligned with the About disclosure text");
 if (!localStyles.includes('.publication-search-parameters > summary { width: fit-content; min-height: 42px; box-sizing: border-box; display: list-item; margin-left: 12px;')) throw new Error("Search parameters does not retain its subtle inset from the search input left edge");
 if (/\.publication-search-parameters[^\n]*::after\s*\{[^}]*content:/i.test(localStyles)) throw new Error("Search parameters still uses a custom text arrow instead of the native disclosure marker");
@@ -191,7 +221,10 @@ const publicationViewerHtml = fs.readFileSync(path.join(output, "publication-vie
 if (!publicationViewerHtml.includes("publication-viewer.js") || !publicationViewerHtml.includes("window.WELSH_LOCAL_DEVELOPMENT=true;")) throw new Error("Publication viewer internal identity/runtime missing");
 if (!publicationViewerHtml.includes('<details class="book-search" id="book-search">') || !publicationViewerHtml.includes('<summary id="bookSearchHeading">Search this book</summary>')) throw new Error("Publication viewer Search this book disclosure missing");
 const publicationViewerRuntime = fs.readFileSync(path.join(output, "publication-viewer.js"), "utf8");
-if (!publicationViewerRuntime.includes("elements.searchSection.open = true;") || !publicationViewerHtml.includes('placeholder="Search this book"')) throw new Error("Publication viewer search is not visibly expanded and identifiable");
+const publicationViewerStyles = fs.readFileSync(path.join(output, "publication-viewer.css"), "utf8");
+if (!publicationViewerRuntime.includes("elements.canvas.clientHeight * .08") || !publicationViewerRuntime.includes('--book-page-turn-hint-top')) throw new Error("Publication viewer page-turn guidance is not positioned from the rendered page height");
+if (!publicationViewerStyles.includes(".book-page-turn-hint-previous { justify-items: start;") || !publicationViewerStyles.includes(".book-page-turn-hint-next { justify-items: end;")) throw new Error("Publication viewer page-turn guidance is not aligned to the upper page corners");
+if (!publicationViewerRuntime.includes("elements.searchSection.open = false;") || !publicationViewerHtml.includes('placeholder="Search this book"')) throw new Error("Publication viewer search is not collapsed by default and identifiable when opened");
 for (const [id, label] of [["previousPage", "Previous page"], ["nextPage", "Next page"], ["fitPage", "Fit page"], ["fitWidth", "Fit width"], ["printBook", "Print"]]) {
   const controlPattern = new RegExp(`id="${id}"[^>]*aria-label="${label}"[^>]*title="${label}"`);
   if (!controlPattern.test(publicationViewerHtml)) throw new Error(`Publication viewer icon control is missing accessible naming: ${label}`);
@@ -223,6 +256,14 @@ if (!localOverrides.includes("resources/typed-viewer-pages/") || !localOverrides
 if (!localOverrides.includes('catalog.edition = "local-development"') || !localOverrides.includes("resources/original-cds/")) throw new Error("Local original-CD runtime mappings are missing");
 const catalogContext = { window: {} };
 vm.runInNewContext(fs.readFileSync(path.join(output, "data/catalog.public.js"), "utf8"), catalogContext);
+const transcriptViewerCollections = catalogContext.window.WELSH_RECORD_CATALOG.collections.filter((collection) => collection.viewerRepresentation && collection.sourcePdf);
+if (transcriptViewerCollections.length !== 7) throw new Error(`Expected 7 typed transcript viewer collections; found ${transcriptViewerCollections.length}`);
+for (const collection of transcriptViewerCollections) {
+  const transcriptPdf = path.join(output, "books/transcripts", collection.sourcePdf);
+  if (!fs.existsSync(transcriptPdf)) throw new Error(`Packaged transcript PDF missing: ${collection.sourcePdf}`);
+}
+if (!localAppRuntime.includes("publication-viewer.html?${parameters}") || !publicationViewerJs.includes("function transcriptPublication(parameters)")) throw new Error("Typed transcripts are not routed through the shared publication viewer");
+if (!publicationViewerHtml.includes('id="bookReturn"') || !publicationViewerHtml.includes('src="data/catalog.public.js"')) throw new Error("Publication viewer transcript catalog/context support is missing");
 const expectedLocalImages = new Set(catalogContext.window.WELSH_RECORD_CATALOG.collections
   .filter((collection) => collection.sources?.includes("original-cds"))
   .flatMap((collection) => collection.images || [])

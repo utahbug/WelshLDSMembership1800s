@@ -81,6 +81,14 @@ if (!fs.existsSync(transcriptPagesSource)) {
   throw new Error(`Local Development transcript viewer pages were not found: ${transcriptPagesSource}`);
 }
 fs.cpSync(transcriptPagesSource, transcriptPagesOutput, { recursive: true });
+const transcriptPdfOutput = path.join(output, "books/transcripts");
+fs.mkdirSync(transcriptPdfOutput, { recursive: true });
+for (const collection of localCatalog.collections.filter((item) => item.viewerRepresentation && item.sourcePdfRelativePath)) {
+  const source = path.join(root, collection.sourcePdfRelativePath);
+  const destination = path.join(transcriptPdfOutput, collection.sourcePdf);
+  if (!fs.existsSync(source)) throw new Error(`Transcript source PDF is missing: ${collection.sourcePdfRelativePath}`);
+  fs.copyFileSync(source, destination);
+}
 fs.mkdirSync(path.join(output, "data"), { recursive: true });
 fs.copyFileSync(path.join(root, "local-development/data/publications.json"), path.join(output, "data/publications.json"));
 fs.copyFileSync(path.join(root, "local-development/data/person-publication-links.json"), path.join(output, "data/person-publication-links.json"));
@@ -137,8 +145,10 @@ homeHtml = homeHtml.replace(
   /(<nav class="branch-grid" id="branchList"[^>]*><\/nav>)\s*<\/section>\s*<div class="presentation-research-links">[\s\S]*?<\/div>\s*<\/div>/,
   `$1
       <div class="branch-directory-utilities" aria-label="Branch directory tools">
+        <a class="branch-directory-historical-names" href="historical-names.html">Historical Names and Variants</a>
         <details class="welsh-names-explainer directory-welsh-names-explainer"><summary>Welsh names and spelling</summary><div><p>Welsh place names may appear with different first letters because Welsh grammar can change the opening consonant of a word. For example, a name beginning with <strong>C</strong> may appear with <strong>G</strong> in some contexts. Historical spelling, anglicized forms, and transcription or OCR differences can also create variants.</p><p>This site preserves these source forms and links them to the same place when the evidence supports that relationship.</p></div></details>
         <div class="branch-export-slot"></div>
+        <div class="presentation-transcript-link"><a href="transcriptions-translations.html">Transcriptions &amp; Translations</a></div>
       </div>
     </section>`,
 );
@@ -272,7 +282,7 @@ for (const file of fs.readdirSync(output).filter((name) => name.endsWith(".html"
   }
   html = html
     .replace(/\s*<nav class="global-nav" aria-label="Site navigation">\s*<button class="header-icon" id="headerSearchButton"[\s\S]*?<\/button>\s*<\/nav>/i, "")
-    .replace(/<details class="footer-project">[\s\S]*?<\/details>/gi, '<nav class="footer-reference-links" aria-label="Project information"><a href="about.html">About</a><a href="historical-names.html">Historical Names and Variants</a><a href="familysearch-comparison.html">FamilySearch Comparisons</a></nav>')
+    .replace(/<details class="footer-project">[\s\S]*?<\/details>/gi, '<nav class="footer-reference-links" aria-label="Project information"><a href="about.html">About</a><a href="research-status.html">Research Status</a></nav>')
     .replace("window.WELSH_RESEARCH_BETA=true;", "window.WELSH_RESEARCH_BETA=true;window.WELSH_LOCAL_DEVELOPMENT=true;")
     .replace(/\s*<p class="research-beta-note">[\s\S]*?<\/p>/gi, "")
     .replace(/styles\.css\?v=[^"]+/g, "styles.css?v=local-dev-20260815-wsdetail")
@@ -342,6 +352,9 @@ fs.appendFileSync(path.join(output, "styles.css"), `
 .home-secondary-resources a, .home-secondary-resources a:visited { display: flex; width: fit-content; align-items: center; min-height: 38px; padding: 4px 0; color: var(--green-dark); font: 500 .9rem/1.4 Arial, sans-serif; text-decoration: none; }
 .home-secondary-resources a:hover, .home-secondary-resources a:focus-visible { text-decoration: underline; text-underline-offset: 3px; }
 .home-secondary-resources a:focus-visible { outline: 2px solid var(--gold); outline-offset: 3px; }
+.workspace:has(#homePanel:not([hidden])) { min-height: 0; }
+.workspace:has(#homePanel:not([hidden])) > .viewer { padding-bottom: 43px; }
+@media (max-width: 700px) { body:has(#homePanel:not([hidden])) .footer-reference-links a { min-height: 44px; } }
 .home-unified-search-row { display: flex; align-items: flex-start; max-width: 760px; }
 .home-unified-search-row > #collectionSearch { flex: 1 1 520px; width: auto; min-width: 0; max-width: none; }
 .home-search-sources { max-width: 900px; margin: 3px 0 2px; padding: 0; border: 0; font-family: Arial, sans-serif; }
@@ -564,12 +577,17 @@ fs.appendFileSync(path.join(output, "styles.css"), `
 .branch-directory-utilities .welsh-names-explainer { max-width: 48rem; }
 .branch-directory-utilities .welsh-names-explainer summary,
 .branch-directory-utilities .branch-export-control > summary,
+.branch-directory-utilities .branch-directory-historical-names,
 .branch-directory-utilities .presentation-transcript-link a { min-height: 40px; box-sizing: border-box; display: inline-flex; align-items: center; padding-block: 5px; color: var(--green-dark); font: 500 .84rem/1.3 Arial, sans-serif; }
 .branch-directory-utilities .welsh-names-explainer[open] { flex-basis: 100%; margin-bottom: 4px; }
 .branch-directory-utilities .welsh-names-explainer[open] + .branch-export-slot { margin-left: 0; padding-left: 0; border-left: 0; }
+.branch-directory-utilities .branch-directory-historical-names,
 .branch-directory-utilities .presentation-transcript-link a { color: var(--green-dark); font: 500 .84rem/1.3 Arial, sans-serif; text-decoration: none; }
+.branch-directory-utilities .branch-directory-historical-names:hover,
+.branch-directory-utilities .branch-directory-historical-names:focus-visible,
 .branch-directory-utilities .presentation-transcript-link a:hover,
 .branch-directory-utilities .presentation-transcript-link a:focus-visible { text-decoration: underline; text-underline-offset: 3px; }
+.branch-directory-utilities .branch-directory-historical-names:focus-visible,
 .branch-directory-utilities .presentation-transcript-link a:focus-visible { outline: 2px solid var(--gold); outline-offset: 3px; }
 .branch-export-slot .branch-export-control { position: relative; font-family: Arial, sans-serif; }
 .branch-export-control > summary { min-height: 40px; display: flex; align-items: center; gap: 7px; padding: 5px 2px; color: var(--green-dark); cursor: pointer; list-style: none; font: 500 .84rem/1.3 Arial, sans-serif; }
@@ -586,7 +604,7 @@ fs.appendFileSync(path.join(output, "styles.css"), `
 .branch-export-menu button:hover, .branch-export-menu button:focus-visible { background: var(--paper); text-decoration: underline; text-underline-offset: 3px; }
 .branch-export-menu button:focus-visible { outline: 2px solid var(--gold); outline-offset: -2px; }
 .branch-export-status { display: block; min-height: 1.2em; margin: 4px 8px 0; color: var(--green-dark); font: 600 .76rem/1.2 Arial, sans-serif; }
-@media (max-width: 700px) { .branch-directory-utilities { margin-top: 12px; } .branch-directory-utilities > * { flex: 0 1 auto; } .branch-directory-utilities > :not(:first-child) { margin-left: 10px; padding-left: 10px; } .branch-directory-utilities .welsh-names-explainer summary, .branch-directory-utilities .branch-export-control > summary, .branch-directory-utilities .presentation-transcript-link a { min-height: 44px; } }
+@media (max-width: 700px) { .branch-directory-utilities { margin-top: 12px; } .branch-directory-utilities > * { flex: 0 1 auto; } .branch-directory-utilities > :not(:first-child) { margin-left: 10px; padding-left: 10px; } .branch-directory-utilities .branch-directory-historical-names, .branch-directory-utilities .welsh-names-explainer summary, .branch-directory-utilities .branch-export-control > summary, .branch-directory-utilities .presentation-transcript-link a { min-height: 44px; } }
 @media (max-width: 430px) { .branch-directory-utilities { gap: 0 12px; } .branch-directory-utilities > * { flex-basis: 100%; } .branch-directory-utilities > :not(:first-child) { margin-left: 0; padding-left: 0; border-left: 0; border-top: 1px solid var(--line); } }
 `, "utf8");
 

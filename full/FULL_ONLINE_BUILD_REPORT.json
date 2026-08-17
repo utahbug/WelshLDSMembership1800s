@@ -1,6 +1,6 @@
 {
   "edition": "unlisted-full-online",
-  "generatedAt": "2026-08-16T20:44:31.935Z",
+  "generatedAt": "2026-08-17T16:22:52.726Z",
   "output": "full",
   "noIndex": true,
   "memberSearch": {
@@ -444,6 +444,7 @@
     "about.html",
     "branch-registry.html",
     "historical-names.html",
+    "research-status.html",
     "work-remaining.html",
     "familysearch-comparison.html"
   ],
@@ -677,7 +678,7 @@
     "dataPrivateIncluded": false,
     "privateLeaks": []
   },
-  "files": 148,
+  "files": 149,
   "archiveInventory": {
     "item": "ldswelshmembership",
     "remoteFiles": 6030

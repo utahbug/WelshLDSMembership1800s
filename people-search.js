@@ -53,6 +53,11 @@
     const allRecordsEnabled = Boolean(window.ALL_RECORDS_DISCOVERY?.search);
     const fullSearchChoice = document.querySelector("[data-full-search-choice]");
     if (fullSearchChoice && !allRecordsEnabled) fullSearchChoice.remove();
+    const requestedScope = new URLSearchParams(window.location.search).get("scope");
+    if (requestedScope === "all-records" && allRecordsEnabled) {
+      const requestedScopeControl = occurrenceTypes.find((control) => control.value === requestedScope);
+      if (requestedScopeControl) requestedScopeControl.checked = true;
+    }
     for (const branch of branches) {
       const label = document.createElement("label");
       const checkbox = document.createElement("input");
