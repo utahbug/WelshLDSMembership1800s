@@ -146,12 +146,14 @@ homeHtml = homeHtml.replace(
   `$1
       <div class="branch-directory-utilities" aria-label="Branch directory tools">
         <a class="branch-directory-historical-names" href="historical-names.html">Historical Names and Variants</a>
-        <details class="welsh-names-explainer directory-welsh-names-explainer"><summary>Welsh names and spelling</summary><div><p>Welsh place names may appear with different first letters because Welsh grammar can change the opening consonant of a word. For example, a name beginning with <strong>C</strong> may appear with <strong>G</strong> in some contexts. Historical spelling, anglicized forms, and transcription or OCR differences can also create variants.</p><p>This site preserves these source forms and links them to the same place when the evidence supports that relationship.</p></div></details>
+        <div class="presentation-transcript-link"><a href="transcriptions-translations.html">Transcriptions</a></div>
         <div class="branch-export-slot"></div>
-        <div class="presentation-transcript-link"><a href="transcriptions-translations.html">Transcriptions &amp; Translations</a></div>
       </div>
     </section>`,
 );
+homeHtml = homeHtml
+  .replace('<details class="presentation-branch-review">', '<div class="presentation-branch-tools"><details class="presentation-branch-review">')
+  .replace('</details>\n    </div><nav class="branch-grid" id="branchList"', '</details><div class="branch-export-top-slot"></div></div>\n    </div><nav class="branch-grid" id="branchList"');
 homeHtml = homeHtml
   .replace(
     '<div class="view-toolbar" aria-label="Record viewing mode"><strong>View:</strong>',
@@ -402,6 +404,7 @@ fs.appendFileSync(path.join(output, "styles.css"), `
 .resource-sub-links a:focus-visible { outline: 2px solid var(--gold); outline-offset: 2px; }
 .archive-publication-resources { display: grid; gap: 10px; margin-top: 6px; }
 .archive-publication-resources > h3 { margin: 2px 0 0; color: var(--green-dark); font: 500 .98rem/1.4 Georgia, serif; }
+.archive-publication-resources .internal-resource-card h3 { font-weight: 400; }
 .internal-resource-card { border-left-color: var(--green-mid); }
 .resources-secondary-notices { max-width: 74ch; margin-top: 24px; padding-top: 17px; border-top: 1px solid var(--line); }
 .resources-secondary-notices section h3 { margin: 0 0 6px; color: var(--green-dark); font: 500 1.05rem/1.35 Georgia, serif; }
@@ -595,6 +598,13 @@ fs.appendFileSync(path.join(output, "styles.css"), `
 .branch-export-control[open] > summary::after { content: "▴"; }
 .branch-export-control > summary::-webkit-details-marker { display: none; }
 .branch-export-control > summary:focus-visible { outline: 2px solid var(--gold); outline-offset: 3px; }
+.presentation-branch-tools { display: flex; align-items: flex-start; gap: 6px; margin-top: 1em; }
+.presentation-branch-tools .presentation-branch-review { flex: 1 1 auto; min-width: 0; margin-top: 0; }
+.branch-export-top-slot { flex: 0 0 44px; }
+.branch-export-top-trigger { width: 44px; height: 44px; display: inline-grid; place-items: center; padding: 0; border: 0; border-radius: 3px; color: var(--green-dark); background: transparent; cursor: pointer; }
+.branch-export-top-trigger svg { width: 21px; height: 21px; fill: none; stroke: currentColor; stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round; }
+.branch-export-top-trigger:hover { background: var(--paper); }
+.branch-export-top-trigger:focus-visible { outline: 2px solid var(--gold); outline-offset: 2px; }
 .branch-export-menu { position: fixed; z-index: 24; box-sizing: border-box; width: min(310px, calc(100vw - 24px)); max-height: calc(100vh - 24px); overflow-y: auto; padding: 10px; border: 1px solid var(--line); border-radius: 5px; background: var(--panel); box-shadow: 0 10px 24px rgba(25,43,36,.18); }
 .branch-export-menu fieldset { display: grid; gap: 3px; margin: 0 0 8px; padding: 0 0 8px; border: 0; border-bottom: 1px solid var(--line); }
 .branch-export-menu legend { margin-bottom: 3px; color: var(--muted); font: 600 .72rem/1.3 Arial, sans-serif; text-transform: uppercase; letter-spacing: .05em; }
@@ -604,6 +614,7 @@ fs.appendFileSync(path.join(output, "styles.css"), `
 .branch-export-menu button:hover, .branch-export-menu button:focus-visible { background: var(--paper); text-decoration: underline; text-underline-offset: 3px; }
 .branch-export-menu button:focus-visible { outline: 2px solid var(--gold); outline-offset: -2px; }
 .branch-export-status { display: block; min-height: 1.2em; margin: 4px 8px 0; color: var(--green-dark); font: 600 .76rem/1.2 Arial, sans-serif; }
+@media (max-width: 820px) { .presentation-branch-tools { width: 100%; margin-top: 0; } }
 @media (max-width: 700px) { .branch-directory-utilities { margin-top: 12px; } .branch-directory-utilities > * { flex: 0 1 auto; } .branch-directory-utilities > :not(:first-child) { margin-left: 10px; padding-left: 10px; } .branch-directory-utilities .branch-directory-historical-names, .branch-directory-utilities .welsh-names-explainer summary, .branch-directory-utilities .branch-export-control > summary, .branch-directory-utilities .presentation-transcript-link a { min-height: 44px; } }
 @media (max-width: 430px) { .branch-directory-utilities { gap: 0 12px; } .branch-directory-utilities > * { flex-basis: 100%; } .branch-directory-utilities > :not(:first-child) { margin-left: 0; padding-left: 0; border-left: 0; border-top: 1px solid var(--line); } }
 `, "utf8");

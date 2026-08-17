@@ -455,8 +455,10 @@ button, input { font: inherit; }
 .branch-card, .picker-branch, .search-result { text-align: left; color: var(--ink); border: 1px solid var(--line); background: var(--panel); cursor: pointer; }
 .branch-card { display: block; width: 100%; min-height: 88px; margin: 0; padding: 15px; border-top: 3px solid var(--gold); }
 
-.historical-names-page .guide-intro label { display: block; margin: 1rem 0 .35rem; font-weight: 700; }
-.historical-names-page input[type="search"] { width: min(100%, 38rem); padding: .7rem .8rem; border: 1px solid var(--line); border-radius: 5px; font: inherit; }
+.historical-names-page .guide-intro { --historical-search-inset: 16px; padding-bottom: 22px; }
+.historical-names-page .guide-intro label { display: block; margin: 1rem 0 .35rem var(--historical-search-inset); font-weight: 700; }
+.historical-names-page input[type="search"] { width: min(calc(100% - var(--historical-search-inset)), 38rem); margin-left: var(--historical-search-inset); padding: .7rem .8rem; border: 1px solid var(--line); border-radius: 5px; font: inherit; }
+.historical-names-page #historicalNameCount { margin-left: var(--historical-search-inset); margin-bottom: 0; }
 .welsh-names-explainer { max-width: 48rem; margin: .55rem 0 .35rem; }
 .welsh-names-explainer summary { width: fit-content; min-height: 40px; box-sizing: border-box; padding: .45rem .1rem; color: var(--green-dark); cursor: pointer; font-weight: 600; }
 .welsh-names-explainer summary:hover { text-decoration: underline; text-underline-offset: 3px; }

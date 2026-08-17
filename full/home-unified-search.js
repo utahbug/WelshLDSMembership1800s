@@ -34,7 +34,7 @@
     return link;
   }
 
-  function integratedPublicationTarget(record) {
+  function integratedPublicationTarget(record, query = "") {
     const title = normalize(record.title);
     let id = title.includes("call of zion") ? "call-of-zion"
       : title.includes("welsh mormon writings") ? "welsh-mormon-writings"
@@ -46,7 +46,7 @@
     }
     if (!id) return "";
     const page = Number(record.pageNumber) || Number(String(record.location || "").match(/(?:pdf\s*)?page\s*(\d+)/i)?.[1]) || 1;
-    return `publication-viewer.html?id=${encodeURIComponent(id)}&page=${page}#book-search`;
+    return `publication-viewer.html?id=${encodeURIComponent(id)}&page=${page}${query ? `&q=${encodeURIComponent(query)}` : ""}`;
   }
 
   function renderArchive(query) {
@@ -72,7 +72,7 @@
     });
   }
 
-  function discoveryArticle(record, personRecords) {
+  function discoveryArticle(record, personRecords, query) {
     if (record.sourceType === "welsh-saints") {
       const person = personRecords.get(String(record.sourceId).split(":").at(-1));
       const facts = person && window.WELSH_SAINTS_PERSON_DETAIL ? window.WELSH_SAINTS_PERSON_DETAIL.facts(person).map(({ label, value }) => `${label}: ${value}`).join(" · ") : record.snippet;
@@ -82,7 +82,7 @@
       appendActions(article, [details, record.sourceUrl ? actionLink("View source", record.sourceUrl, true) : null]); return article;
     }
     const article = resultArticle(record.sourceType === "historical-publication" ? "Historical publication" : "Ronald D. Dennis Publication", record.title, [record.location, record.snippet].filter(Boolean).join(" · "));
-    const integratedTarget = integratedPublicationTarget(record);
+    const integratedTarget = integratedPublicationTarget(record, query);
     const href = integratedTarget || record.viewerUrl || record.sourceUrl;
     appendActions(article, [href ? actionLink(integratedTarget || record.viewerUrl ? "Open publication" : "View source", href, Boolean(record.sourceUrl && !integratedTarget && !record.viewerUrl)) : null]); return article;
   }
@@ -110,7 +110,7 @@
           if (request !== requestNumber) return;
           records.filter((record) => record.type === "immigrant").forEach((record) => people.set(String(record.sourceId), record));
         }
-        items.push(...selected.slice(0, 60).map((record) => discoveryArticle(record, people)));
+        items.push(...selected.slice(0, 60).map((record) => discoveryArticle(record, people, query)));
       } catch (error) {
         console.error(error); resultList.innerHTML = '<p class="no-results">The selected historical sources could not be searched.</p>'; return;
       }

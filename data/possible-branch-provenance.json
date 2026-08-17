@@ -1,0 +1,292 @@
+{
+  "schemaVersion": 1,
+  "description": "Previously established source evidence for noncanonical branch candidates. This file preserves audit provenance separately from the compact public status text.",
+  "groups": [
+    {
+      "id": "strong",
+      "heading": "Strong candidates needing locality/identity review",
+      "ariaLabel": "Strong branch candidates needing locality or identity review"
+    },
+    {
+      "id": "other",
+      "heading": "Other candidates under review",
+      "ariaLabel": "Other branch candidates under review"
+    },
+    {
+      "id": "border",
+      "heading": "Early border/locality names needing resolution",
+      "ariaLabel": "Early border and locality names needing resolution"
+    }
+  ],
+  "candidates": [
+    {
+      "candidateName": "Cap Coch",
+      "group": "strong",
+      "status": "Branch-like source evidence; identity unresolved.",
+      "provenanceStatus": "page-level-evidence",
+      "sources": [
+        { "title": "Zion’s Trumpet", "yearVolume": "1852", "pageLabel": "PDF p. 420", "page": 420, "publicationId": "zions-trumpet-1852", "evidenceType": "Accounting entry", "note": "The source form appears beside the periodical’s payment accounts." },
+        { "title": "Zion’s Trumpet", "yearVolume": "1853", "pageLabel": "PDF pp. 188, 252, 332, 476, 552", "page": 188, "publicationId": "zions-trumpet-1853", "evidenceType": "Repeated independent accounting entries", "note": "The name recurs in separate payment reports; locality identity remains unresolved." }
+      ]
+    },
+    {
+      "candidateName": "Coed-y-garth",
+      "group": "strong",
+      "status": "Named branch evidence; relationship to nearby branches unresolved.",
+      "provenanceStatus": "page-level-evidence",
+      "sources": [
+        { "title": "Zion’s Trumpet", "yearVolume": "1849", "pageLabel": "PDF p. 159", "page": 159, "publicationId": "zions-trumpet-1849", "sourceForm": "Coedygarth", "evidenceType": "Conference organization/branch list", "note": "Listed among the branches forming the West Glamorgan Conference." }
+      ]
+    },
+    {
+      "candidateName": "Cowbridge",
+      "group": "strong",
+      "status": "Branch-like source evidence; identity unresolved.",
+      "provenanceStatus": "page-level-evidence",
+      "sources": [
+        { "title": "Zion’s Trumpet", "yearVolume": "1852", "pageLabel": "PDF p. 420", "page": 420, "publicationId": "zions-trumpet-1852", "evidenceType": "Accounting entry", "note": "Named separately from neighboring branches in a payment report." }
+      ]
+    },
+    {
+      "candidateName": "Cwm Nedd",
+      "group": "strong",
+      "status": "Historical branch name; relationship to Neath-area identities unresolved.",
+      "provenanceStatus": "page-level-evidence",
+      "sources": [
+        { "title": "Zion’s Trumpet", "yearVolume": "1852", "pageLabel": "PDF pp. 212, 420", "page": 212, "publicationId": "zions-trumpet-1852", "sourceForm": "Cwmnedd", "evidenceType": "Branch accounting entries", "note": "The source form is listed under Branches and recurs in a later payment report." }
+      ]
+    },
+    {
+      "candidateName": "Cwmbychan",
+      "group": "strong",
+      "status": "Named branch evidence; locality unresolved.",
+      "provenanceStatus": "page-level-evidence",
+      "sources": [
+        { "title": "Zion’s Trumpet", "yearVolume": "1849", "pageLabel": "PDF p. 159", "page": 159, "publicationId": "zions-trumpet-1849", "evidenceType": "Conference organization/branch list", "note": "Listed among the branches forming the West Glamorgan Conference." },
+        { "title": "Prophet of the Jubilee", "pageLabel": "PDF p. 611", "page": 611, "publicationId": "prophet-of-the-jubilee", "evidenceType": "Historical statistical table", "note": "The table lists Cwmbychan with T. Pugh and historical statistics." }
+      ]
+    },
+    {
+      "candidateName": "Cyfyng",
+      "group": "strong",
+      "status": "Historical branch-like reference; locality/spelling unresolved.",
+      "provenanceStatus": "page-level-evidence",
+      "sources": [
+        { "title": "Zion’s Trumpet", "yearVolume": "1849", "pageLabel": "PDF p. 159", "page": 159, "publicationId": "zions-trumpet-1849", "evidenceType": "Conference organization/branch list", "note": "Listed among the branches forming the West Glamorgan Conference." },
+        { "title": "Prophet of the Jubilee", "pageLabel": "PDF pp. 322, 498, 611", "page": 322, "publicationId": "prophet-of-the-jubilee", "evidenceType": "Locality context and historical statistics", "note": "The source places Cyfyng near Ystradgynlais and records separate historical membership figures." }
+      ]
+    },
+    {
+      "candidateName": "Drym",
+      "group": "strong",
+      "status": "Named branch evidence; locality unresolved.",
+      "provenanceStatus": "page-level-evidence",
+      "sources": [
+        { "title": "Zion’s Trumpet", "yearVolume": "1849", "pageLabel": "PDF p. 159", "page": 159, "publicationId": "zions-trumpet-1849", "evidenceType": "Conference organization/branch list", "note": "Listed among the branches forming the West Glamorgan Conference." }
+      ]
+    },
+    {
+      "candidateName": "Eglwysnewydd",
+      "group": "strong",
+      "status": "Historical branch-like reference; identity unresolved.",
+      "provenanceStatus": "page-level-evidence",
+      "sources": [
+        { "title": "Zion’s Trumpet", "yearVolume": "1852", "pageLabel": "PDF pp. 212, 420", "page": 212, "publicationId": "zions-trumpet-1852", "evidenceType": "Branch accounting entries", "note": "Named under Branches and again in a later payment report; identity remains unresolved." }
+      ]
+    },
+    {
+      "candidateName": "Ffynnon Tydfil",
+      "group": "strong",
+      "status": "Named branch evidence; relationship to Merthyr-area branches unresolved.",
+      "provenanceStatus": "page-level-evidence",
+      "sources": [
+        { "title": "Zion’s Trumpet", "yearVolume": "1852", "pageLabel": "PDF pp. 212, 228, 308", "page": 212, "publicationId": "zions-trumpet-1852", "evidenceType": "Repeated branch accounting entries", "note": "Listed separately from Merthyr, Pen-y-Darran, Dowlais, and Troedyrhiw in branch accounts." }
+      ]
+    },
+    {
+      "candidateName": "Gog",
+      "group": "strong",
+      "status": "Probable source variant of Cog/Cogan; exact cause of the spelling difference unresolved.",
+      "provenanceStatus": "page-level-evidence",
+      "sources": [
+        { "title": "Zion’s Trumpet", "yearVolume": "1852", "pageLabel": "PDF p. 212", "page": 212, "publicationId": "zions-trumpet-1852", "evidenceType": "Source-form accounting entry", "note": "The form Gog appears in a list headed Branches. Its relationship to Cog/Cogan remains provisional; mutation, transcription, typesetting, or OCR may explain the form." }
+      ]
+    },
+    {
+      "candidateName": "Gostwng",
+      "group": "strong",
+      "status": "Historical branch-like reference; locality unresolved.",
+      "provenanceStatus": "page-level-evidence",
+      "sources": [
+        { "title": "Zion’s Trumpet", "yearVolume": "1852", "pageLabel": "PDF pp. 100, 212", "page": 100, "publicationId": "zions-trumpet-1852", "evidenceType": "Repeated branch accounting entries", "note": "The name recurs in periodical accounts and is listed under Branches on PDF page 212." }
+      ]
+    },
+    {
+      "candidateName": "Llandaff",
+      "group": "strong",
+      "status": "Branch-like evidence; relationship to Cardiff-area organization unresolved.",
+      "provenanceStatus": "page-level-evidence",
+      "sources": [
+        { "title": "Zion’s Trumpet", "yearVolume": "1850", "pageLabel": "PDF pp. 436, 440", "page": 436, "publicationId": "zions-trumpet-1850", "evidenceType": "Independent branch accounting entries", "note": "Llandaff/Llandaf is reported separately from Cardiff." },
+        { "title": "Zion’s Trumpet", "yearVolume": "1852", "pageLabel": "PDF pp. 212, 228", "page": 212, "publicationId": "zions-trumpet-1852", "evidenceType": "Branch accounting entries", "note": "Listed under Branches, with the historical source form Llandaf also retained elsewhere in the volume." }
+      ]
+    },
+    {
+      "candidateName": "Llwyni",
+      "group": "strong",
+      "status": "Named branch evidence; locality unresolved.",
+      "provenanceStatus": "page-level-evidence",
+      "sources": [
+        { "title": "Zion’s Trumpet", "yearVolume": "1849", "pageLabel": "PDF p. 159", "page": 159, "publicationId": "zions-trumpet-1849", "evidenceType": "Conference organization/branch list", "note": "Listed among the branches forming the West Glamorgan Conference." },
+        { "title": "Prophet of the Jubilee", "pageLabel": "PDF p. 611", "page": 611, "publicationId": "prophet-of-the-jubilee", "evidenceType": "Historical statistical table", "note": "The table lists Llwyni with S. Davies and historical statistics." }
+      ]
+    },
+    {
+      "candidateName": "Peel",
+      "group": "strong",
+      "status": "Named branch evidence; locality and Welsh-registry scope unresolved.",
+      "provenanceStatus": "page-level-evidence",
+      "sources": [
+        { "title": "Zion’s Trumpet", "yearVolume": "1849", "pageLabel": "PDF p. 159", "page": 159, "publicationId": "zions-trumpet-1849", "sourceForm": "Peel", "evidenceType": "Conference organization/branch list", "note": "Listed among the branches forming the West Glamorgan Conference." },
+        { "title": "Prophet of the Jubilee", "pageLabel": "PDF p. 611", "page": 611, "publicationId": "prophet-of-the-jubilee", "sourceForm": "Peele", "evidenceType": "Historical statistical table", "note": "The alternate source form Peele appears with J. Bowen and historical statistics." }
+      ]
+    },
+    {
+      "candidateName": "Pontfaen",
+      "group": "strong",
+      "status": "Named branch evidence; locality/identity unresolved.",
+      "provenanceStatus": "page-level-evidence",
+      "sources": [
+        { "title": "Zion’s Trumpet", "yearVolume": "1849", "pageLabel": "PDF pp. 90, 159", "page": 90, "publicationId": "zions-trumpet-1849", "evidenceType": "Branch and conference-list references", "note": "Pontfaen is named as a branch and appears in the West Glamorgan Conference list." },
+        { "title": "Zion’s Trumpet", "yearVolume": "1850", "pageLabel": "PDF p. 111", "page": 111, "publicationId": "zions-trumpet-1850", "evidenceType": "Explicit branch/district transfer", "note": "The source explicitly identifies Pontfaen Branch and its transfer to the East Glamorgan District." }
+      ]
+    },
+    {
+      "candidateName": "Troed-y-rhiw",
+      "group": "strong",
+      "status": "Historical branch-like reference; relationship to existing identities unresolved.",
+      "provenanceStatus": "page-level-evidence",
+      "sources": [
+        { "title": "Zion’s Trumpet", "yearVolume": "1852", "pageLabel": "PDF pp. 196, 212, 228, 308", "page": 196, "publicationId": "zions-trumpet-1852", "sourceForm": "Troedyrhiw", "evidenceType": "Repeated independent branch accounts", "note": "Reported independently from Merthyr, Pen-y-Darran, Ffynnon Tydfil, and Dowlais." },
+        { "title": "Zion’s Trumpet", "yearVolume": "1853", "pageLabel": "PDF pp. 252, 332, 476, 552", "page": 252, "publicationId": "zions-trumpet-1853", "sourceForm": "Troedyrhiw", "evidenceType": "Repeated independent accounting entries", "note": "The source form continues to recur independently in later accounts." }
+      ]
+    },
+    {
+      "candidateName": "Wern",
+      "group": "strong",
+      "status": "Explicit branch references; which Wern locality is intended remains unresolved.",
+      "provenanceStatus": "page-level-evidence",
+      "sources": [
+        { "title": "Zion’s Trumpet", "yearVolume": "1850", "pageLabel": "PDF p. 259", "page": 259, "publicationId": "zions-trumpet-1850", "evidenceType": "Explicit branch reference", "note": "Mary Jones is identified as being from Wern Branch." },
+        { "title": "Zion’s Trumpet", "yearVolume": "1852", "pageLabel": "PDF p. 260", "page": 260, "publicationId": "zions-trumpet-1852", "evidenceType": "Conference organization/branch list", "note": "Wern is listed among the branches forming the Carmarthen Conference; the exact Wern locality remains unresolved." }
+      ]
+    },
+    {
+      "candidateName": "Wig",
+      "group": "strong",
+      "status": "Historical branch-like reference; locality unresolved.",
+      "provenanceStatus": "page-level-evidence",
+      "sources": [
+        { "title": "Zion’s Trumpet", "yearVolume": "1849", "pageLabel": "PDF p. 159", "page": 159, "publicationId": "zions-trumpet-1849", "evidenceType": "Conference organization/branch list", "note": "Listed among the branches forming the West Glamorgan Conference." }
+      ]
+    },
+    {
+      "candidateName": "Ystradgynlais",
+      "group": "strong",
+      "status": "Named branch evidence; identity and source scope need confirmation.",
+      "provenanceStatus": "page-level-evidence",
+      "sources": [
+        { "title": "Zion’s Trumpet", "yearVolume": "1849", "pageLabel": "PDF p. 159", "page": 159, "publicationId": "zions-trumpet-1849", "evidenceType": "Conference organization/branch list", "note": "Listed among the branches forming the West Glamorgan Conference." },
+        { "title": "On Trial in the Welsh Press", "pageLabel": "PDF pp. 189, 234", "page": 189, "publicationId": "on-trial-welsh-press", "evidenceType": "Independent locality/congregation references", "note": "The publication records Latter-day Saint activity in Ystradgynlais; Cyfyng is separately identified nearby in other evidence." }
+      ]
+    },
+    {
+      "candidateName": "Broadway",
+      "group": "other",
+      "status": "Place references only; branch organization not yet confirmed.",
+      "provenanceStatus": "recovery-needed",
+      "provenanceNote": "The retained audit classification records locality-only evidence; the original page-level provenance still needs recovery.",
+      "sources": []
+    },
+    {
+      "candidateName": "Freystrop",
+      "group": "other",
+      "status": "Place references only; branch organization not yet confirmed.",
+      "provenanceStatus": "recovery-needed",
+      "provenanceNote": "The retained audit classification records locality-only evidence; the original page-level provenance still needs recovery.",
+      "sources": []
+    },
+    {
+      "candidateName": "Lawrenny",
+      "group": "other",
+      "status": "Place references only; branch organization not yet confirmed.",
+      "provenanceStatus": "recovery-needed",
+      "provenanceNote": "The retained audit classification records locality-only evidence; the original page-level provenance still needs recovery.",
+      "sources": []
+    },
+    {
+      "candidateName": "Manorbier",
+      "group": "other",
+      "status": "Place references only; branch organization not yet confirmed.",
+      "provenanceStatus": "recovery-needed",
+      "provenanceNote": "The retained audit classification records locality-only evidence; the original page-level provenance still needs recovery.",
+      "sources": []
+    },
+    {
+      "candidateName": "Hewshovell",
+      "group": "border",
+      "status": "Early border name; locality/spelling unresolved.",
+      "provenanceStatus": "recovery-needed",
+      "provenanceNote": "Early border/locality context is retained from the completed audit. Original provenance still needs recovery.",
+      "sources": []
+    },
+    {
+      "candidateName": "Lancathy",
+      "group": "border",
+      "status": "Early border name; locality/spelling unresolved.",
+      "provenanceStatus": "recovery-needed",
+      "provenanceNote": "Early border/locality context is retained from the completed audit. Original provenance still needs recovery.",
+      "sources": []
+    },
+    {
+      "candidateName": "Llanellen",
+      "group": "border",
+      "status": "Early border name; organizational identity unresolved.",
+      "provenanceStatus": "recovery-needed",
+      "provenanceNote": "Early border/locality context is retained from the completed audit. Original provenance still needs recovery.",
+      "sources": []
+    },
+    {
+      "candidateName": "Llanfoist",
+      "group": "border",
+      "status": "Early border name; organizational identity unresolved.",
+      "provenanceStatus": "recovery-needed",
+      "provenanceNote": "Early border/locality context is retained from the completed audit. Original provenance still needs recovery.",
+      "sources": []
+    },
+    {
+      "candidateName": "Llantoney Abbey",
+      "group": "border",
+      "status": "Early border name; locality/spelling unresolved.",
+      "provenanceStatus": "recovery-needed",
+      "provenanceNote": "Early border/locality context is retained from the completed audit. Original provenance still needs recovery.",
+      "sources": []
+    },
+    {
+      "candidateName": "Longtown",
+      "group": "border",
+      "status": "Early border name; Welsh-registry scope unresolved.",
+      "provenanceStatus": "recovery-needed",
+      "provenanceNote": "Early border/locality context is retained from the completed audit. Original provenance still needs recovery.",
+      "sources": []
+    },
+    {
+      "candidateName": "Welsh Iron Works",
+      "group": "border",
+      "status": "Early industrial locality; branch identity unresolved.",
+      "provenanceStatus": "recovery-needed",
+      "provenanceNote": "Early industrial-locality context is retained from the completed audit. Original provenance still needs recovery.",
+      "sources": []
+    }
+  ]
+}

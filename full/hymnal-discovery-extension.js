@@ -35,7 +35,7 @@
       branches: [],
       provenance: "Historical Welsh publication",
       versionStatus: "Historical Welsh publication",
-      viewerUrl: `publication-viewer.html?id=welsh-hymnal-1852&page=${page.pageNumber}#book-search`,
+      viewerUrl: `publication-viewer.html?id=welsh-hymnal-1852&page=${page.pageNumber}&q=${encodeURIComponent(query)}`,
       viewerAvailability: true,
     }));
     const records = [...hymnal, ...(base.records || [])].slice(0, limit);

@@ -178,8 +178,8 @@ async function searchIntegratedPublications(event) {
     visibleMatches.forEach((match) => {
       const link = document.createElement("a");
       link.className = "publication-collection-result";
-      link.href = `publication-viewer.html?id=${encodeURIComponent(match.publication.id)}&page=${match.pageNumber}#book-search`;
-      link.innerHTML = `<strong>${escapeHtml(match.publication.title)}</strong><span>Page ${match.pageNumber}</span><span>${escapeHtml(matchExcerpt(match.text, normalizedQuery))}</span>`;
+      link.href = `publication-viewer.html?id=${encodeURIComponent(match.publication.id)}&page=${match.pageNumber}&q=${encodeURIComponent(query)}`;
+      link.innerHTML = `<strong>${escapeHtml(match.publication.title)}</strong><span>PDF page ${match.pageNumber}</span><span>${escapeHtml(matchExcerpt(match.text, normalizedQuery))}</span>`;
       fragment.append(link);
     });
     collectionSearch.results.append(fragment);

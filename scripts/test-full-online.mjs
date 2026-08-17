@@ -16,9 +16,13 @@ walk(root);
 const htmlFiles = files.filter((file) => file.endsWith(".html"));
 const brokenLinks = [];
 const noIndexFailures = [];
+const missingFullRuntimeMarkers = [];
+const localRuntimeMarkerLeaks = [];
 for (const file of htmlFiles) {
   const html = fs.readFileSync(file, "utf8");
   if (!/<meta name="robots" content="noindex,nofollow,noarchive">/i.test(html)) noIndexFailures.push(path.relative(root, file));
+  if (!html.includes("WELSH_FULL_ONLINE")) missingFullRuntimeMarkers.push(path.relative(root, file));
+  if (html.includes("WELSH_LOCAL_DEVELOPMENT")) localRuntimeMarkerLeaks.push(path.relative(root, file));
   const attributes = [...html.matchAll(/(?:href|src)="([^"]+)"/g)].map((match) => match[1]);
   for (const reference of attributes) {
     if (!reference || reference.includes("${") || /^(?:https?:|mailto:|#|data:|javascript:)/i.test(reference)) continue;
@@ -70,6 +74,8 @@ const missingPages = requiredPages.filter((file) => !fs.existsSync(path.join(roo
 const failures = [
   ...brokenLinks.map((item) => `Broken link: ${item.page} -> ${item.reference}`),
   ...noIndexFailures.map((file) => `Missing noindex: ${file}`),
+  ...missingFullRuntimeMarkers.map((file) => `Missing Full Online runtime marker: ${file}`),
+  ...localRuntimeMarkerLeaks.map((file) => `Local Development runtime marker reached Full Online: ${file}`),
   ...leaks.map((item) => `Private/local leak: ${item.file} (${item.pattern})`),
   ...missingPages.map((file) => `Missing page: ${file}`),
   ...mojibake.map((file) => `Visible mojibake: ${file}`),
@@ -122,6 +128,8 @@ const report = {
   bytes: files.reduce((sum, file) => sum + fs.statSync(file).size, 0),
   brokenLinks: brokenLinks.length,
   noIndexFailures: noIndexFailures.length,
+  missingFullRuntimeMarkers: missingFullRuntimeMarkers.length,
+  localRuntimeMarkerLeaks: localRuntimeMarkerLeaks.length,
   privateOrLocalLeaks: leaks.length,
   visibleMojibake: mojibake.length,
   oversizedFiles: oversizedFiles.length,

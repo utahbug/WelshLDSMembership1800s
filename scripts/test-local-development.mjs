@@ -52,8 +52,15 @@ if (navigationRuntime.includes('masthead.setAttribute("role", "link")')) throw n
 const manifest = JSON.parse(fs.readFileSync(path.join(output, "site.webmanifest"), "utf8"));
 if (manifest.short_name !== "Welsh DEV" || !manifest.icons?.every((icon) => /app-icon-beta-/.test(icon.src))) throw new Error("Local-development Home Screen manifest identity invalid");
 const localHomeHtml = fs.readFileSync(path.join(output, "index.html"), "utf8");
+const possibleBranchProvenance = JSON.parse(fs.readFileSync(path.join(output, "data/possible-branch-provenance.json"), "utf8"));
+if (possibleBranchProvenance.candidates.length !== 30) throw new Error(`Expected 30 possible-branch provenance records; found ${possibleBranchProvenance.candidates.length}`);
+if (possibleBranchProvenance.candidates.filter((candidate) => candidate.provenanceStatus === "page-level-evidence").length !== 19) throw new Error("Possible-branch page-level provenance count is invalid");
+if (possibleBranchProvenance.candidates.filter((candidate) => candidate.provenanceStatus === "recovery-needed").length !== 11) throw new Error("Possible-branch provenance-recovery count is invalid");
+if ((localHomeHtml.match(/<details class="candidate-source-evidence">/g) || []).length !== possibleBranchProvenance.candidates.length) throw new Error("Not every possible branch has a Source evidence disclosure");
+if (!localHomeHtml.includes('publication-viewer.html?id=zions-trumpet-1853&amp;page=252') || !localHomeHtml.includes("Original provenance still needs recovery")) throw new Error("Possible-branch exact-page links or provenance-recovery labels are missing");
 const branchExportRuntime = fs.readFileSync(path.join(output, "branch-export.js"), "utf8");
 if (!branchExportRuntime.includes('<summary aria-expanded="false">Export branch data</summary>') || branchExportRuntime.includes('<summary aria-expanded="false">Export</summary>')) throw new Error("Branch export utility label is not current");
+if (!branchExportRuntime.includes('aria-label", "Export branch data"') || !branchExportRuntime.includes("branch-export-top-trigger") || !branchExportRuntime.includes("activeTrigger")) throw new Error("Top branch export trigger is missing or does not share the existing export control");
 if (!branchExportRuntime.includes('checked>Identified branches</label>') || branchExportRuntime.includes('checked>Canonical branches</label>')) throw new Error("Branch export scope wording is not current");
 if (!branchExportRuntime.includes('const positionMenu = () =>') || !branchExportRuntime.includes('window.innerWidth - (margin * 2)')) throw new Error("Branch export menu is not viewport-positioned");
 if (!localHomeHtml.includes('data-after-paint-src="data/beta/people-index.beta.js') || !localHomeHtml.includes('data-after-paint-src="home-unified-search.js')) throw new Error("Home search datasets are not deferred until after the first paint");
@@ -72,21 +79,25 @@ for (const value of ["members", "welsh-saints", "publications"]) {
   if (localHomeHtml.includes(`<input type="checkbox" value="${value}" checked>`)) throw new Error(`Unexpected default Home search source: ${value}`);
 }
 const branchNamesExplainer = '<details class="welsh-names-explainer directory-welsh-names-explainer"><summary>Welsh names and spelling</summary>';
-if (!localHomeHtml.includes(branchNamesExplainer) || /<details class="welsh-names-explainer directory-welsh-names-explainer"[^>]*\sopen(?:\s|>)/.test(localHomeHtml)) throw new Error("Welsh branches names-and-spelling disclosure is missing or not initially collapsed");
+if (localHomeHtml.includes(branchNamesExplainer)) throw new Error("Welsh branches still includes a separate names-and-spelling disclosure");
 if (!localHomeHtml.includes('<nav class="directory-page-nav" aria-label="Branch directory navigation"><a class="directory-home-link" href="index.html">Home</a><a class="directory-member-search-link" href="people-search.html?scope=all-records">Member Search</a></nav>\n      <h2>Welsh branches</h2>')) throw new Error("Welsh branches Home and Full Search links are missing or incorrectly placed");
-if (!localHomeHtml.includes("Welsh place names may appear with different first letters because Welsh grammar can change the opening consonant of a word.") || !localHomeHtml.includes("This site preserves these source forms and links them to the same place when the evidence supports that relationship.")) throw new Error("Welsh branches names-and-spelling explanation is incomplete");
+const welshEndingVariationExplanation = "The endings of Welsh place names may also vary between historical sources. These differences can result from older spelling conventions, grammatical or plural forms, dialect, anglicized spellings, or later standardization. A different ending therefore does not necessarily indicate a different place.";
+const historicalNamesHtml = fs.readFileSync(path.join(output, "historical-names.html"), "utf8");
+if (!historicalNamesHtml.includes("Welsh place names may appear with different first letters because Welsh grammar can change the opening consonant of a word.") || !historicalNamesHtml.includes(welshEndingVariationExplanation) || !historicalNamesHtml.includes("This site preserves these source forms and links them to the same place when the evidence supports that relationship.")) throw new Error("Historical Names explanation is incomplete");
+const historicalNamesStyles = fs.readFileSync(path.join(output, "styles.css"), "utf8");
+if (!historicalNamesStyles.includes("--historical-search-inset: 16px") || !historicalNamesStyles.includes(".historical-names-page .guide-intro { --historical-search-inset: 16px; padding-bottom: 22px; }") || !historicalNamesStyles.includes(".historical-names-page #historicalNameCount")) throw new Error("Historical Names page-specific search inset or compact bottom spacing is missing");
 if (!localHomeHtml.includes('<a class="home-path-card home-resources-card" href="resources.html">') || !localHomeHtml.includes('<strong>Resources</strong>')) throw new Error("Home Resources card is missing or incorrectly routed");
 if (localHomeHtml.includes("home-welsh-saints-card") || localHomeHtml.includes('<strong>Welsh Saints Search</strong>')) throw new Error("The former Welsh Saints Home card remains");
 if (!localHomeHtml.includes('<div class="home-secondary-resource-links"><a href="ronald-dennis-publications.html">Ronald D. Dennis Publications</a><a href="welsh-historical-publications.html">Welsh LDS Historical Publications</a></div>')) throw new Error("Home historical-learning links are missing or still duplicate Resources");
 const branchUtilities = localHomeHtml.match(/<div class="branch-directory-utilities"[\s\S]*?<\/div>\s*<\/section>/)?.[0] || "";
 const expectedBranchUtilityOrder = [
   '<a class="branch-directory-historical-names" href="historical-names.html">Historical Names and Variants</a>',
-  '<summary>Welsh names and spelling</summary>',
+  '<a href="transcriptions-translations.html">Transcriptions</a>',
   '<div class="branch-export-slot"></div>',
-  '<a href="transcriptions-translations.html">Transcriptions &amp; Translations</a>',
 ];
 if (!branchUtilities || !expectedBranchUtilityOrder.every((item) => branchUtilities.includes(item))) throw new Error("Welsh branches utility links are incomplete");
 if (expectedBranchUtilityOrder.some((item, index) => index && branchUtilities.indexOf(item) < branchUtilities.indexOf(expectedBranchUtilityOrder[index - 1]))) throw new Error("Welsh branches utility links are out of order");
+if (!localHomeHtml.includes('<div class="presentation-branch-tools"><details class="presentation-branch-review">') || !localHomeHtml.includes('<div class="branch-export-top-slot"></div></div>')) throw new Error("Top branch export slot is not placed beside Possible branches under review");
 const resourcesHtml = fs.readFileSync(path.join(output, "resources.html"), "utf8");
 for (const url of ["https://www.familysearch.org/", "https://churchhistorylibrary.churchofjesuschrist.org/?lang=eng", "https://www.library.wales/", "https://welshsaints.byu.edu/"]) {
   if (!resourcesHtml.includes(`href="${url}" target="_blank" rel="noopener noreferrer"`)) throw new Error(`Resources external link is missing or unsafe: ${url}`);
@@ -220,11 +231,18 @@ if (!callOfZion || callOfZion.pageCount !== 256 || callOfZion.author !== "Ronald
 const publicationViewerHtml = fs.readFileSync(path.join(output, "publication-viewer.html"), "utf8");
 if (!publicationViewerHtml.includes("publication-viewer.js") || !publicationViewerHtml.includes("window.WELSH_LOCAL_DEVELOPMENT=true;")) throw new Error("Publication viewer internal identity/runtime missing");
 if (!publicationViewerHtml.includes('<details class="book-search" id="book-search">') || !publicationViewerHtml.includes('<summary id="bookSearchHeading">Search this book</summary>')) throw new Error("Publication viewer Search this book disclosure missing");
+if (!publicationViewerHtml.includes('PDF page <input id="pageNumber"') || !publicationViewerHtml.includes('aria-label="PDF page number"')) throw new Error("Publication viewer PDF-sequence page label is not explicit");
+if (!publicationViewerHtml.includes('id="bookSearchMatch"') || !publicationViewerHtml.includes('id="bookTextHighlights"')) throw new Error("Publication viewer search-match presentation layers are missing");
 const publicationViewerRuntime = fs.readFileSync(path.join(output, "publication-viewer.js"), "utf8");
 const publicationViewerStyles = fs.readFileSync(path.join(output, "publication-viewer.css"), "utf8");
 if (!publicationViewerRuntime.includes("elements.canvas.clientHeight * .08") || !publicationViewerRuntime.includes('--book-page-turn-hint-top')) throw new Error("Publication viewer page-turn guidance is not positioned from the rendered page height");
 if (!publicationViewerStyles.includes(".book-page-turn-hint-previous { justify-items: start;") || !publicationViewerStyles.includes(".book-page-turn-hint-next { justify-items: end;")) throw new Error("Publication viewer page-turn guidance is not aligned to the upper page corners");
 if (!publicationViewerRuntime.includes("elements.searchSection.open = false;") || !publicationViewerHtml.includes('placeholder="Search this book"')) throw new Error("Publication viewer search is not collapsed by default and identifiable when opened");
+for (const required of ['parameters.get("q")', "page.getTextContent()", "pdfjsLib.Util.transform", "book-text-highlight", "showSearchMatchFallback", "PDF page ${match.pageNumber}"]) {
+  if (!publicationViewerRuntime.includes(required)) throw new Error(`Publication viewer query highlighting is incomplete: ${required}`);
+}
+if (!publicationViewerRuntime.includes("bringFirstHighlightIntoView") || !publicationViewerRuntime.includes("lastAutoScrolledMatchKey")) throw new Error("Publication viewer first-match auto-scroll behavior is missing");
+if (!publicationViewerStyles.includes(".book-text-highlight {") || !publicationViewerStyles.includes(".book-search-match {")) throw new Error("Publication viewer match-highlight styling is missing");
 for (const [id, label] of [["previousPage", "Previous page"], ["nextPage", "Next page"], ["fitPage", "Fit page"], ["fitWidth", "Fit width"], ["printBook", "Print"]]) {
   const controlPattern = new RegExp(`id="${id}"[^>]*aria-label="${label}"[^>]*title="${label}"`);
   if (!controlPattern.test(publicationViewerHtml)) throw new Error(`Publication viewer icon control is missing accessible naming: ${label}`);
@@ -239,6 +257,7 @@ const publicationViewerJs = fs.readFileSync(path.join(output, "publication-viewe
 const publicationsJs = fs.readFileSync(path.join(output, "ronald-dennis-publications.js"), "utf8");
 if (!publicationsJs.includes('status.className = "publication-coming-soon"') || !publicationsJs.includes('status.textContent = "(coming soon)"')) throw new Error("Supplemental coming-soon metadata rendering missing");
 if (!publicationsHtml.includes("Search parameters") || !publicationsJs.includes("searchIntegratedPublications")) throw new Error("Integrated-publication search UI/runtime missing");
+if (!publicationsJs.includes("<span>PDF page ${match.pageNumber}</span>") || !publicationsJs.includes("&q=${encodeURIComponent(query)}")) throw new Error("Collection publication results do not identify PDF pages or carry their query");
 if (!publicationsHtml.includes('id="publicationCollectionSearchSource"') || !publicationsHtml.includes('id="publicationCollectionSearchSelectAll"') || !publicationsHtml.includes('id="publicationCollectionSearchClear"') || !publicationsJs.includes("selectedIntegratedPublicationIds") || !publicationsJs.includes("selectedPublicationScopes")) throw new Error("Integrated-publication multi-select source filter missing");
 if (!publicationsHtml.includes('id="publicationCollectionSearchToggle"') || !publicationsJs.includes("toggleIntegratedSearchResults")) throw new Error("Integrated-publication result disclosure missing");
 if (!publicationViewerJs.includes('parameters.get("page")')) throw new Error("Publication viewer exact-page routing missing");

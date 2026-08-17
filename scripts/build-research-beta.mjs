@@ -53,6 +53,8 @@ copy(path.join(root, "outputs/branch-registry/Welsh-LDS-Branch-Registry.xlsx"), 
 for (const file of ["catalog.public.js", "historical-names.js", "historical-names.json"]) {
   copy(path.join(root, "data", file), path.join(output, "data", file));
 }
+const possibleBranchProvenance = readJson(path.join(root, "data/possible-branch-provenance.json"));
+copy(path.join(root, "data/possible-branch-provenance.json"), path.join(output, "data/possible-branch-provenance.json"));
 const sanitizePublicValue = (value) => {
   if (Array.isArray(value)) return value.map(sanitizePublicValue);
   if (!value || typeof value !== "object") return value;
@@ -233,6 +235,34 @@ fs.writeFileSync(path.join(betaDataDir, "welsh-saints-index.beta.js"), `window.W
 const betaFlag = '<script>window.WELSH_RESEARCH_BETA=true;</script>';
 const robots = '<meta name="robots" content="noindex,nofollow,noarchive">';
 const note = '<p class="research-beta-note">Research beta — records, classifications, and source relationships continue to be reviewed and expanded.</p>';
+const renderCandidateSource = (candidate, source) => {
+  const citationPrefix = [source.title, source.yearVolume].filter(Boolean).map(escapeHtml).join(", ");
+  const citedPages = String(source.pageLabel || "").match(/\d+/g)?.map(Number) || [];
+  const pageWord = citedPages.length === 1 ? "PDF p. " : "PDF pp. ";
+  const pageLinks = citedPages.map((page) => {
+    const url = `publication-viewer.html?id=${encodeURIComponent(source.publicationId)}&page=${page}`;
+    const label = `${source.title}${source.yearVolume ? `, ${source.yearVolume}` : ""}, PDF page ${page}`;
+    return `<a href="${escapeHtml(url)}" aria-label="${escapeHtml(label)}">${page}</a>`;
+  }).join(", ");
+  const citation = source.publicationId && citedPages.length
+    ? `${citationPrefix} — ${pageWord}${pageLinks}`
+    : `${citationPrefix}${source.pageLabel ? ` — ${escapeHtml(source.pageLabel)}` : ""}`;
+  return `<div class="candidate-source-item"><p class="candidate-source-citation">${citation}</p>${source.sourceForm ? `<p><strong>Source form:</strong> ${escapeHtml(source.sourceForm)}</p>` : ""}<p><strong>Evidence type:</strong> ${escapeHtml(source.evidenceType)}</p><p>${escapeHtml(source.note)}</p></div>`;
+};
+const renderPossibleBranchCandidate = (candidate) => {
+  const sourceContent = candidate.sources?.length
+    ? candidate.sources.map((source) => renderCandidateSource(candidate, source)).join("")
+    : `<p class="candidate-provenance-missing">${escapeHtml(candidate.provenanceNote || "Original provenance still needs recovery.")}</p>`;
+  return `<li><strong>${escapeHtml(candidate.candidateName)}</strong><span>${escapeHtml(candidate.status)}</span><details class="candidate-source-evidence"><summary aria-expanded="false">Source evidence</summary><div class="candidate-source-evidence-content">${sourceContent}</div></details></li>`;
+};
+const possibleBranchReviewGroupsMarkup = possibleBranchProvenance.groups.map((group) => {
+  const candidates = possibleBranchProvenance.candidates.filter((candidate) => candidate.group === group.id);
+  if (!candidates.length) throw new Error(`Possible-branch provenance group has no candidates: ${group.id}`);
+  return `<h3>${escapeHtml(group.heading)}</h3><ul class="presentation-branch-candidates presentation-${escapeHtml(group.id)}-candidates" aria-label="${escapeHtml(group.ariaLabel)}">${candidates.map(renderPossibleBranchCandidate).join("")}</ul>`;
+}).join("");
+if (new Set(possibleBranchProvenance.candidates.map((candidate) => candidate.candidateName)).size !== possibleBranchProvenance.candidates.length) {
+  throw new Error("Duplicate possible-branch candidate names in provenance data");
+}
 for (const file of fs.readdirSync(output).filter((name) => name.endsWith(".html"))) {
   const target = path.join(output, file);
   let html = fs.readFileSync(target, "utf8");
@@ -274,45 +304,7 @@ for (const file of fs.readdirSync(output).filter((name) => name.endsWith(".html"
         <summary aria-expanded="false">Possible branches under review</summary>
         <div class="presentation-branch-review-content">
           <p>Historically documented branch candidates not yet added to the canonical branch list.</p>
-          <h3>Strong candidates needing locality/identity review</h3>
-          <ul class="presentation-branch-candidates presentation-strong-candidates" aria-label="Strong branch candidates needing locality or identity review">
-            <li><strong>Cap Coch</strong><span>Branch-like source evidence; identity unresolved.</span></li>
-            <li><strong>Coed-y-garth</strong><span>Named branch evidence; relationship to nearby branches unresolved.</span></li>
-            <li><strong>Cowbridge</strong><span>Branch-like source evidence; identity unresolved.</span></li>
-            <li><strong>Cwm Nedd</strong><span>Historical branch name; relationship to Neath-area identities unresolved.</span></li>
-            <li><strong>Cwmbychan</strong><span>Named branch evidence; locality unresolved.</span></li>
-            <li><strong>Cyfyng</strong><span>Historical branch-like reference; locality/spelling unresolved.</span></li>
-            <li><strong>Drym</strong><span>Named branch evidence; locality unresolved.</span></li>
-            <li><strong>Eglwysnewydd</strong><span>Historical branch-like reference; identity unresolved.</span></li>
-            <li><strong>Ffynnon Tydfil</strong><span>Named branch evidence; relationship to Merthyr-area branches unresolved.</span></li>
-            <li><strong>Gog</strong><span>Probable source variant of Cog/Cogan; exact cause of the spelling difference unresolved.</span></li>
-            <li><strong>Gostwng</strong><span>Historical branch-like reference; locality unresolved.</span></li>
-            <li><strong>Llandaff</strong><span>Branch-like evidence; relationship to Cardiff-area organization unresolved.</span></li>
-            <li><strong>Llwyni</strong><span>Named branch evidence; locality unresolved.</span></li>
-            <li><strong>Peel</strong><span>Named branch evidence; locality and Welsh-registry scope unresolved.</span></li>
-            <li><strong>Pontfaen</strong><span>Named branch evidence; locality/identity unresolved.</span></li>
-            <li><strong>Troed-y-rhiw</strong><span>Historical branch-like reference; relationship to existing identities unresolved.</span></li>
-            <li><strong>Wern</strong><span>Explicit branch references; which Wern locality is intended remains unresolved.</span></li>
-            <li><strong>Wig</strong><span>Historical branch-like reference; locality unresolved.</span></li>
-            <li><strong>Ystradgynlais</strong><span>Named branch evidence; identity and source scope need confirmation.</span></li>
-          </ul>
-          <h3>Other candidates under review</h3>
-          <ul class="presentation-branch-candidates" aria-label="Other branch candidates under review">
-            <li><strong>Broadway</strong><span>Place references only; branch organization not yet confirmed.</span></li>
-            <li><strong>Freystrop</strong><span>Place references only; branch organization not yet confirmed.</span></li>
-            <li><strong>Lawrenny</strong><span>Place references only; branch organization not yet confirmed.</span></li>
-            <li><strong>Manorbier</strong><span>Place references only; branch organization not yet confirmed.</span></li>
-          </ul>
-          <h3>Early border/locality names needing resolution</h3>
-          <ul class="presentation-branch-candidates presentation-border-candidates">
-            <li><strong>Hewshovell</strong><span>Early border name; locality/spelling unresolved.</span></li>
-            <li><strong>Lancathy</strong><span>Early border name; locality/spelling unresolved.</span></li>
-            <li><strong>Llanellen</strong><span>Early border name; organizational identity unresolved.</span></li>
-            <li><strong>Llanfoist</strong><span>Early border name; organizational identity unresolved.</span></li>
-            <li><strong>Llantoney Abbey</strong><span>Early border name; locality/spelling unresolved.</span></li>
-            <li><strong>Longtown</strong><span>Early border name; Welsh-registry scope unresolved.</span></li>
-            <li><strong>Welsh Iron Works</strong><span>Early industrial locality; branch identity unresolved.</span></li>
-          </ul>
+          ${possibleBranchReviewGroupsMarkup}
         </div>
       </details>
     </div><nav class="branch-grid" id="branchList"`)
@@ -325,6 +317,12 @@ for (const file of fs.readdirSync(output).filter((name) => name.endsWith(".html"
     .replace("</footer>", `</footer><div class="pre-footer-feedback presentation-footer-feedback" data-home-feedback></div>
     <script>
       document.querySelectorAll(".presentation-branch-review").forEach((disclosure) => {
+        const summary = disclosure.querySelector("summary");
+        const syncExpanded = () => summary.setAttribute("aria-expanded", disclosure.open ? "true" : "false");
+        disclosure.addEventListener("toggle", syncExpanded);
+        syncExpanded();
+      });
+      document.querySelectorAll(".candidate-source-evidence").forEach((disclosure) => {
         const summary = disclosure.querySelector("summary");
         const syncExpanded = () => summary.setAttribute("aria-expanded", disclosure.open ? "true" : "false");
         disclosure.addEventListener("toggle", syncExpanded);
@@ -382,11 +380,11 @@ fs.appendFileSync(path.join(output, "styles.css"), `
 body:has(#directoryPanel:not([hidden])) .presentation-research-links { display: block; }
 .presentation-transcript-link a { color: var(--green-dark); font: 500 .9rem/1.4 Arial, sans-serif; text-decoration: none; }
 .presentation-transcript-link a:hover, .presentation-transcript-link a:focus-visible { text-decoration: underline; text-underline-offset: 3px; }
-.presentation-transcript-link a:focus-visible, .presentation-branch-review summary:focus-visible { outline: 2px solid var(--gold); outline-offset: 3px; border-radius: 2px; }
+.presentation-transcript-link a:focus-visible, .presentation-branch-review > summary:focus-visible, .candidate-source-evidence summary:focus-visible { outline: 2px solid var(--gold); outline-offset: 3px; border-radius: 2px; }
 .presentation-directory-top { display: grid; grid-template-columns: minmax(0, 1fr) max-content; align-items: start; gap: 18px clamp(24px, 4vw, 52px); }
 .presentation-directory-top .directory-heading { min-width: 0; }
 .presentation-branch-review { position: relative; width: max-content; max-width: min(620px, 48vw); margin-top: 1em; color: var(--ink); background: var(--panel); box-shadow: 0 1px 0 #d6cfbf; z-index: 8; }
-.presentation-branch-review summary { color: var(--green-dark); cursor: pointer; font: 500 .9rem/1.4 Arial, sans-serif; min-height: 44px; padding: 11px 28px 10px 18px; }
+.presentation-branch-review > summary { color: var(--green-dark); cursor: pointer; font: 500 .9rem/1.4 Arial, sans-serif; min-height: 44px; padding: 11px 28px 10px 18px; }
 .presentation-branch-review-content { position: absolute; top: 100%; right: 0; box-sizing: border-box; width: min(620px, calc(100vw - 48px)); border: 1px solid #d6cfbf; border-top: 2px solid var(--gold); margin: 0; padding: 12px 18px 14px; background: var(--panel); box-shadow: 0 10px 24px rgba(42, 49, 42, .18); }
 .presentation-branch-review-content p { font: 400 .88rem/1.5 Arial, sans-serif; margin: 0 0 8px; max-width: 62ch; }
 .presentation-branch-review-content h3 { color: var(--ink); font: 600 .82rem/1.45 Arial, sans-serif; margin: 12px 0 5px; }
@@ -395,6 +393,15 @@ body:has(#directoryPanel:not([hidden])) .presentation-research-links { display: 
 .presentation-branch-candidates li strong, .presentation-branch-candidates li span { display: block; }
 .presentation-branch-candidates li strong { color: var(--ink); font-weight: 500; }
 .presentation-branch-candidates li span { color: var(--muted); font-size: .76rem; line-height: 1.35; }
+.presentation-branch-candidates li:has(.candidate-source-evidence[open]) { grid-column: 1 / -1; }
+.candidate-source-evidence { margin-top: 2px; }
+.candidate-source-evidence summary { box-sizing: border-box; width: fit-content; min-height: 32px; padding: 6px 4px 5px 0; color: var(--green-dark); cursor: pointer; font: 500 .74rem/1.35 Arial, sans-serif; }
+.candidate-source-evidence-content { max-width: 68ch; margin: 1px 0 8px 12px; padding: 7px 10px; border-left: 2px solid color-mix(in srgb, var(--gold) 55%, var(--line)); background: color-mix(in srgb, var(--gold) 4%, var(--panel)); }
+.candidate-source-item + .candidate-source-item { margin-top: 8px; padding-top: 8px; border-top: 1px solid var(--line); }
+.candidate-source-evidence-content p { margin: 2px 0; color: var(--muted); font: 400 .76rem/1.4 Arial, sans-serif; }
+.candidate-source-evidence-content .candidate-source-citation { color: var(--ink); font-weight: 500; }
+.candidate-source-evidence-content a { color: var(--green-dark); text-underline-offset: 2px; }
+.candidate-provenance-missing { font-style: italic !important; }
 .presentation-strong-candidates { max-height: 280px; overflow: auto; padding-right: 6px; }
 .presentation-footer-feedback { margin-top: 10px; }
 .directory-home-link, .directory-home-link:visited, .directory-member-search-link, .directory-member-search-link:visited { color: var(--green-dark); font: 500 .8rem/1.25 Arial, sans-serif; text-decoration: none; }
@@ -415,7 +422,7 @@ body .research-beta-note + .site-disclaimer { margin-top: 0; padding-top: 10px; 
 body:has(.search-sticky-nav) .research-beta-note { margin-top: 10px; }
 body:has(.search-sticky-nav) .research-beta-note + .site-disclaimer { margin: 0; padding: 10px clamp(18px, 4vw, 52px) 20px; }
 @media (prefers-reduced-motion: reduce) { .home-search input { transition: none; } }
-@media (max-width: 820px) { .presentation-directory-top { grid-template-columns: minmax(0, 1fr); gap: 10px; } .presentation-branch-review, .presentation-branch-review[open] { width: 100%; max-width: none; margin: 0 0 6px; } .presentation-branch-review-content { position: static; width: auto; border-inline: 0; border-bottom: 0; box-shadow: none; } .presentation-branch-candidates { grid-template-columns: minmax(0, 1fr); } }
+@media (max-width: 820px) { .presentation-directory-top { grid-template-columns: minmax(0, 1fr); gap: 10px; } .presentation-branch-review, .presentation-branch-review[open] { width: 100%; max-width: none; margin: 0 0 6px; } .presentation-branch-review-content { position: static; width: auto; border-inline: 0; border-bottom: 0; box-shadow: none; } .presentation-branch-candidates { grid-template-columns: minmax(0, 1fr); } .candidate-source-evidence summary { min-height: 44px; display: flex; align-items: center; } .candidate-source-evidence-content { margin-left: 8px; } }
 @media (max-width: 520px) { .branch-member-record-details { padding-left: 8px; } .branch-member-record-details dl div { grid-template-columns: 1fr; gap: 0; } }
 `, "utf8");
 fs.writeFileSync(path.join(output, "local-private-features.js"), `(() => {

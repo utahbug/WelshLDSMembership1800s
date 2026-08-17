@@ -107,10 +107,16 @@
       const serializedFields = normalize(personRecord.cells.filter(Boolean).join(" "));
       return Boolean(serializedFields) && normalize(snippet) === serializedFields;
     };
+    const publicationViewerSearchLink = (value, query) => {
+      if (!value || !query || !String(value).includes("publication-viewer.html")) return value;
+      const url = new URL(value, location.href);
+      url.searchParams.set("q", query);
+      return `${url.pathname.split("/").pop()}${url.search}${url.hash}`;
+    };
     const historicalArticle = (record, rawQuery = "", personRecord = null) => {
       const article = document.createElement("article"); article.className = "research-result people-result all-records-result";
       if (record.sourceType === "welsh-saints") article.classList.add("welsh-saints-result");
-      const sourceLink = record.viewerUrl || record.sourceUrl;
+      const sourceLink = publicationViewerSearchLink(record.viewerUrl || record.sourceUrl, rawQuery);
       const branchContext = (record.branches || []).length ? `<p class="people-fact"><strong>Branch/place context:</strong> ${escapeHtml(record.branches.join("; "))}</p>` : "";
       const alternates = (record.alternateTitles || []).length ? `<p class="people-source-detail"><strong>Also known as:</strong> ${escapeHtml(record.alternateTitles.join("; "))}</p>` : "";
       const isWelshSaintsPerson = record.sourceType === "welsh-saints" && record.recordSubtype === "immigrant" && personRecord;

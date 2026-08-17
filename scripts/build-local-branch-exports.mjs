@@ -10,7 +10,7 @@ const loadWindowData = async (file, key) => { const context = { window: {} }; vm
 const registry = (await loadWindowData(path.join(output, "data/branch-registry.js"), "WELSH_BRANCH_REGISTRY")).registry;
 const catalog = await loadWindowData(path.join(output, "data/catalog.public.js"), "WELSH_RECORD_CATALOG");
 const people = await loadWindowData(path.join(output, "data/beta/people-index.beta.js"), "WELSH_PEOPLE_BETA_INDEX");
-const html = await fs.readFile(path.join(output, "index.html"), "utf8");
+const possibleBranchProvenance = JSON.parse(await fs.readFile(path.join(output, "data/possible-branch-provenance.json"), "utf8"));
 const clean = (value) => String(value || "").replace(/<[^>]+>/g, " ").replace(/&amp;/g, "&").replace(/&ndash;|&#8211;/g, "–").replace(/\s+/g, " ").trim();
 const normalize = (value) => clean(value).normalize("NFD").replace(/[\u0300-\u036f]/g, "").toLowerCase().replace(/[^a-z0-9]+/g, " ").trim();
 const years = (row) => row.earliestYear ? row.latestYear && row.latestYear !== row.earliestYear ? `${row.earliestYear}–${row.latestYear}` : String(row.earliestYear) : "";
@@ -18,9 +18,8 @@ const memberCounts = new Map();
 for (const record of people.records.filter((row) => row.verified && row.occurrenceType === "member")) memberCounts.set(record.branch, (memberCounts.get(record.branch) || 0) + 1);
 const collectionCount = (row) => { const names = [row.canonicalName, ...String(row.variants || "").split(";")].map(normalize).filter(Boolean); return catalog.collections.filter((collection) => { const title = normalize(collection.name); return names.some((name) => title === name || title.startsWith(`${name} `)); }).length; };
 const canonical = registry.map((row) => ({ Branch: row.canonicalName, Years: years(row), Members: memberCounts.get(row.canonicalName) || "", "Record collections": collectionCount(row) || "", "Sources and Evidence": [row.filmAndCallNumbers, row.notes, ...(row.nameSources || []).map((item) => [item.collectionTitle, item.note].filter(Boolean).join(": "))].filter(Boolean).join("; "), "Leadership / Officers": row.leadershipOfficers || "", "Historical Names": row.variants || "", Status: row.comparisonStatus || row.entityType || "Canonical" }));
-const reviewMatch = html.match(/<details class="presentation-branch-review">[\s\S]*?<\/details>/i)?.[0] || "";
-const possible = []; let currentGroup = "Possible branch under review";
-for (const token of reviewMatch.matchAll(/<h3>([\s\S]*?)<\/h3>|<li><strong>([\s\S]*?)<\/strong><span>([\s\S]*?)<\/span><\/li>/gi)) { if (token[1]) currentGroup = clean(token[1]); else possible.push({ Branch: clean(token[2]), Years: "", Members: "", "Record collections": "", "Sources and Evidence": clean(token[3]), "Leadership / Officers": "", "Historical Names": "", Status: currentGroup }); }
+const groupLabels = new Map(possibleBranchProvenance.groups.map((group) => [group.id, group.heading]));
+const possible = possibleBranchProvenance.candidates.map((candidate) => ({ Branch: candidate.candidateName, Years: "", Members: "", "Record collections": "", "Sources and Evidence": candidate.status, "Leadership / Officers": "", "Historical Names": "", Status: groupLabels.get(candidate.group) || "Possible branch under review" }));
 if (canonical.length !== 97) throw new Error(`Expected 97 canonical branches; found ${canonical.length}.`);
 if (!possible.length) throw new Error("No possible branches were parsed from the review panel.");
 const exportDir = path.join(output, "exports"); await fs.mkdir(exportDir, { recursive: true });
