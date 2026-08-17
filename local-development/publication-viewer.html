@@ -35,14 +35,13 @@
         <button type="button" id="printBook" class="book-print book-icon-control" aria-label="Print" title="Print"><svg aria-hidden="true" viewBox="0 0 24 24"><path d="M7 8V3h10v5M7 17H5a2 2 0 0 1-2-2v-4a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2v4a2 2 0 0 1-2 2h-2M7 14h10v7H7z" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/></svg></button>
       </div>
     </section>
-    <details class="book-search" id="book-search">
-      <summary id="bookSearchHeading">Search this book</summary>
+    <section class="book-search" id="book-search" aria-labelledby="bookSearchHeading">
       <div class="book-search-body">
-      <form id="bookSearchForm"><label class="sr-only" for="bookSearchInput">Search this book</label><input id="bookSearchInput" type="search" autocomplete="off" placeholder="Search this book"><button type="submit">Search</button></form>
+      <form id="bookSearchForm"><label id="bookSearchHeading" for="bookSearchInput">Search this book</label><input id="bookSearchInput" type="search" autocomplete="off"><button type="submit">Search</button></form>
       <p class="book-search-status" id="bookSearchStatus" aria-live="polite"></p>
       <div class="book-search-results" id="bookSearchResults" hidden></div>
       </div>
-    </details>
+    </section>
     <p class="book-load-status" id="bookLoadStatus" aria-live="polite">Loading publication…</p>
     <aside class="book-search-match" id="bookSearchMatch" aria-live="polite" hidden></aside>
     <section class="book-canvas-stage" id="bookCanvasStage" aria-label="Publication page">

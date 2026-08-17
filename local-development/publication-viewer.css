@@ -7,7 +7,7 @@
 .book-reader { width: min(1180px, calc(100% - 28px)); margin: 0 auto; padding: 7px 0 34px; }
 .book-return, .book-return:visited { display: inline-flex; align-items: center; min-height: 30px; padding: 1px 2px; color: var(--green-dark); font: 500 .88rem/1.3 Arial, sans-serif; text-decoration: none; }
 .book-return:hover { text-decoration: underline; text-underline-offset: 3px; }
-.book-return:focus-visible, .book-toolbar button:focus-visible, .book-search > summary:focus-visible, .book-search input:focus-visible, .book-search button:focus-visible, #pageNumber:focus-visible, .book-search-result:focus-visible { outline: 2px solid var(--gold); outline-offset: 2px; }
+.book-return:focus-visible, .book-toolbar button:focus-visible, .book-search input:focus-visible, .book-search button:focus-visible, #pageNumber:focus-visible, .book-search-result:focus-visible { outline: 2px solid var(--gold); outline-offset: 2px; }
 .book-heading { margin: 0 0 5px; }
 .book-heading h2 { max-width: 900px; margin: 0; font-size: clamp(1.15rem, 2vw, 1.55rem); line-height: 1.16; }
 .book-heading p { margin: 1px 0 0; color: var(--muted); font: 500 .88rem/1.24 Arial, sans-serif; }
@@ -25,12 +25,11 @@
 .book-control-label-mobile { display: none; }
 .book-control-icon-mobile { display: none; }
 .book-print-frame { position: fixed; left: -10000px; top: 0; width: 1px; height: 1px; border: 0; }
-.book-search { margin: 6px 0; border: 1px solid var(--line); background: #fffdf7; }
-.book-search > summary { width: fit-content; min-height: 40px; box-sizing: border-box; padding: 9px 10px; color: var(--green-dark); cursor: pointer; font: 500 .95rem/1.3 Georgia, serif; }
-.book-search > summary:hover { text-decoration: underline; text-underline-offset: 3px; }
-.book-search-body { padding: 0 10px 10px; }
-.book-search form { display: flex; gap: 7px; max-width: 580px; }
-.book-search input { min-width: 0; flex: 1 1 320px; min-height: 38px; padding: 7px 9px; border: 1px solid #a7b1aa; border-radius: 4px; font: 400 .9rem/1.3 Arial, sans-serif; }
+.book-search { margin: 6px 0; }
+.book-search-body { padding: 0; }
+.book-search form { display: flex; gap: 7px; align-items: center; }
+.book-search label { flex: 0 0 auto; color: var(--green-dark); font: 400 .9rem/1.3 Arial, sans-serif; }
+.book-search input { width: 300px; max-width: 100%; min-width: 0; flex: 0 1 300px; min-height: 38px; padding: 7px 9px; border: 1px solid #a7b1aa; border-radius: 4px; font: 400 .9rem/1.3 Arial, sans-serif; }
 .book-search-status, .book-load-status, .book-source-note { margin: 7px 0 0; color: var(--muted); font: 400 .82rem/1.45 Arial, sans-serif; }
 .book-search-results { max-height: 260px; margin-top: 9px; overflow: auto; border-top: 1px solid var(--line); }
 .book-search-result { display: block; width: 100%; padding: 8px 4px; border: 0; border-bottom: 1px solid var(--line); color: var(--ink); background: transparent; text-align: left; cursor: pointer; }
@@ -90,10 +89,11 @@
   .book-view-controls > button { flex: 1 1 auto; }
   .book-control-label-desktop { display: none; }
   .book-control-label-mobile { display: inline; }
-  .book-search { margin: 4px 0 6px; border: 0; background: transparent; }
-  .book-search > summary { min-height: 44px; display: flex; align-items: center; padding: 6px 4px; font-family: Arial, sans-serif; font-size: .88rem; }
-  .book-search-body { padding: 7px 8px 8px; border: 1px solid var(--line); background: #fffdf7; }
-  .book-search form { gap: 5px; }
+  .book-search { margin: 4px 0 6px; }
+  .book-search-body { padding: 0; }
+  .book-search form { display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 5px; }
+  .book-search label { grid-column: 1 / -1; min-height: 24px; display: flex; align-items: center; }
+  .book-search input { width: 100%; max-width: none; }
   .book-search input, .book-search button { min-height: 44px; }
   .book-load-status { margin-top: 3px; }
   .book-canvas-stage { min-height: 55vh; padding: 7px; touch-action: pan-x pan-y pinch-zoom; }

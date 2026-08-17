@@ -12,10 +12,6 @@ const elements = {
   zoomOut: $("#zoomOut"), zoomIn: $("#zoomIn"), fitPage: $("#fitPage"), fitWidth: $("#fitWidth"), print: $("#printBook"),
   returnLink: $("#bookReturn"), searchSection: $("#book-search"), searchHeading: $("#bookSearchHeading"), searchForm: $("#bookSearchForm"), searchInput: $("#bookSearchInput"), searchStatus: $("#bookSearchStatus"), searchResults: $("#bookSearchResults"), sourceNote: $("#bookSourceNote"),
 };
-// Keep the search disclosure visible for searchable publications without
-// making readers scroll past the form before reaching the opening page.
-elements.searchSection.open = false;
-
 let publication;
 let pdf;
 let currentPage = 1;

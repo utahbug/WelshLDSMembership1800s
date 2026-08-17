@@ -230,14 +230,14 @@ for (const file of fs.readdirSync(output, { recursive: true }).filter((name) => 
 if (!callOfZion || callOfZion.pageCount !== 256 || callOfZion.author !== "Ronald D. Dennis" || !callOfZion.viewerAvailable || !callOfZion.searchable) throw new Error("Call of Zion viewer configuration invalid");
 const publicationViewerHtml = fs.readFileSync(path.join(output, "publication-viewer.html"), "utf8");
 if (!publicationViewerHtml.includes("publication-viewer.js") || !publicationViewerHtml.includes("window.WELSH_LOCAL_DEVELOPMENT=true;")) throw new Error("Publication viewer internal identity/runtime missing");
-if (!publicationViewerHtml.includes('<details class="book-search" id="book-search">') || !publicationViewerHtml.includes('<summary id="bookSearchHeading">Search this book</summary>')) throw new Error("Publication viewer Search this book disclosure missing");
+if (!publicationViewerHtml.includes('<section class="book-search" id="book-search" aria-labelledby="bookSearchHeading">') || !publicationViewerHtml.includes('<label id="bookSearchHeading" for="bookSearchInput">Search this book</label>')) throw new Error("Publication viewer visible Search this book row missing");
 if (!publicationViewerHtml.includes('PDF page <input id="pageNumber"') || !publicationViewerHtml.includes('aria-label="PDF page number"')) throw new Error("Publication viewer PDF-sequence page label is not explicit");
 if (!publicationViewerHtml.includes('id="bookSearchMatch"') || !publicationViewerHtml.includes('id="bookTextHighlights"')) throw new Error("Publication viewer search-match presentation layers are missing");
 const publicationViewerRuntime = fs.readFileSync(path.join(output, "publication-viewer.js"), "utf8");
 const publicationViewerStyles = fs.readFileSync(path.join(output, "publication-viewer.css"), "utf8");
 if (!publicationViewerRuntime.includes("elements.canvas.clientHeight * .08") || !publicationViewerRuntime.includes('--book-page-turn-hint-top')) throw new Error("Publication viewer page-turn guidance is not positioned from the rendered page height");
 if (!publicationViewerStyles.includes(".book-page-turn-hint-previous { justify-items: start;") || !publicationViewerStyles.includes(".book-page-turn-hint-next { justify-items: end;")) throw new Error("Publication viewer page-turn guidance is not aligned to the upper page corners");
-if (!publicationViewerRuntime.includes("elements.searchSection.open = false;") || !publicationViewerHtml.includes('placeholder="Search this book"')) throw new Error("Publication viewer search is not collapsed by default and identifiable when opened");
+if (publicationViewerHtml.includes('<details class="book-search"') || !publicationViewerHtml.includes('id="bookSearchInput" type="search"') || !publicationViewerHtml.includes('<button type="submit">Search</button>')) throw new Error("Publication viewer search is not visible by default with its compact submit control");
 for (const required of ['parameters.get("q")', "page.getTextContent()", "pdfjsLib.Util.transform", "book-text-highlight", "showSearchMatchFallback", "PDF page ${match.pageNumber}"]) {
   if (!publicationViewerRuntime.includes(required)) throw new Error(`Publication viewer query highlighting is incomplete: ${required}`);
 }
