@@ -1,6 +1,6 @@
 {
   "edition": "unlisted-full-online",
-  "generatedAt": "2026-08-17T18:24:37.261Z",
+  "generatedAt": "2026-08-18T15:10:44.656Z",
   "output": "full",
   "noIndex": true,
   "memberSearch": {
@@ -329,11 +329,11 @@
     ]
   },
   "welshSaints": {
-    "records": 7234,
+    "records": 9014,
     "categories": {
       "immigrant": 5007,
       "voyage": 299,
-      "resource": 1928
+      "resource": 3708
     },
     "completeProseIncluded": false
   },
@@ -452,14 +452,14 @@
     "counts": {
       "members": 11473,
       "transcription": 663,
-      "welshSaints": 7234,
+      "welshSaints": 9014,
       "ronDennisPages": 6971,
       "ronDennisSourceRecords": 13,
-      "historicalRecords": 14881,
-      "allRecords": 26354
+      "historicalRecords": 16661,
+      "allRecords": 28134
     },
-    "artifactFiles": 93,
-    "rightsNote": "Discovery metadata and bounded snippets only. No Ron Dennis PDF, complete page prose, filesystem path, viewer, or download is included."
+    "artifactFiles": 100,
+    "rightsNote": "Discovery metadata and bounded existing snippets only. Newly added Welsh Saints resources contain titles, categories, explicit person links, IDs, and source URLs; no resource files, photos, scans, PDFs, or long-form prose are included."
   },
   "typedExtractSearchIncluded": true,
   "localOnlyCollections": [
@@ -678,7 +678,7 @@
     "dataPrivateIncluded": false,
     "privateLeaks": []
   },
-  "files": 150,
+  "files": 157,
   "archiveInventory": {
     "item": "ldswelshmembership",
     "remoteFiles": 6030

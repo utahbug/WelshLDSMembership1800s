@@ -534,9 +534,11 @@ button, input { font: inherit; }
 .branch-detail-disclosure summary::after { content: ""; position: absolute; right: 7px; width: 7px; height: 7px; border-right: 1.5px solid currentColor; border-bottom: 1.5px solid currentColor; transform: rotate(45deg) translateY(-2px); transform-origin: center; transition: transform .15s ease; }
 .branch-detail-disclosure[open] summary::after { transform: rotate(225deg) translate(-1px, -1px); }
 .branch-detail-disclosure summary:focus-visible { outline: 2px solid var(--gold); outline-offset: 2px; border-radius: 2px; }
+.branch-members-section > summary { min-height: 38px; padding-top: 5px; }
 .branch-detail-content { padding: 0 0 14px; color: var(--muted); font: 400 .88rem/1.55 Arial, sans-serif; }
 .branch-detail-content p, .branch-detail-content ul { font: inherit; }
 .branch-detail-content p:last-child, .branch-detail-content ul:last-child { margin-bottom: 0; }
+.branch-member-filter-note { display: block; margin: -1px 0 5px; color: var(--muted); font: 400 .7rem/1.35 Arial, sans-serif; }
 .branch-detail-content strong { font-weight: 700; }
 .branch-name-sources { margin: 0; padding-left: 19px; color: var(--muted); font: 400 .88rem/1.55 Arial, sans-serif; }
 .branch-name-sources li { margin: 0 0 10px; padding-left: 3px; }
@@ -711,6 +713,12 @@ body:has(.search-sticky-nav) .research-beta-note { margin-top: 8px; }
 .people-key-facts .people-fact { margin: 0; padding: 5px 8px 5px 0; border-left: 0; background: var(--paper); line-height: 1.4; }
 .people-source-detail { color: var(--muted); font-size: .92rem; line-height: 1.45; }
 .people-result-action { margin-top: 12px !important; }
+.people-search-page .all-records-result:not(.welsh-saints-result) > small:first-child { display: block; margin-bottom: 5px; }
+.people-search-page .all-records-result > h2 { margin-top: 0; margin-bottom: 7px; }
+.people-search-page .all-records-result > .historical-result-summary { margin: 7px 0 10px; line-height: 1.5; }
+.people-search-page .all-records-result > .people-key-facts { margin: 9px 0 0; }
+.people-search-page .all-records-result > .people-key-facts + .people-source-detail { margin-top: 10px; }
+.people-search-page .all-records-result > .people-result-action { margin-top: 10px !important; }
 .people-open-record { display: inline-flex; align-items: center; min-height: 42px; padding: 7px 12px; border: 1px solid var(--green); border-radius: 4px; background: var(--green); color: #fff; font-weight: 700; text-decoration: none; }
 .people-open-record:hover, .people-open-record:focus-visible { background: var(--green-dark); color: #fff; text-decoration: underline; }
 .people-source-link { display: inline-block; padding: 5px 0; color: var(--green-dark); font-weight: 400; text-decoration: none; }
@@ -986,12 +994,12 @@ body:has(.search-sticky-nav) .research-beta-note + .site-disclaimer { margin: 0;
 .resource-link-group:hover { border-color: var(--line); background: var(--panel); }
 .resource-link-group:hover h3 { text-decoration: none; }
 .resource-sub-links { display: grid; gap: 2px; margin: 9px 0 0 20px; }
-.resource-sub-links a { width: fit-content; min-height: 40px; display: inline-flex; align-items: center; color: var(--green-dark); font: 600 .86rem/1.35 Arial, sans-serif; text-decoration: none; }
+.resources-page .resource-sub-links a { width: fit-content; min-height: 40px; display: inline-flex; align-items: center; color: var(--green-dark); font: italic 400 .86rem/1.35 Arial, sans-serif; text-decoration: none; }
 .resource-sub-links a:hover, .resource-sub-links a:focus-visible { text-decoration: underline; text-underline-offset: 3px; }
 .resource-sub-links a:focus-visible { outline: 2px solid var(--gold); outline-offset: 2px; }
 .archive-publication-resources { display: grid; gap: 10px; margin-top: 6px; }
 .archive-publication-resources > h3 { margin: 2px 0 0; color: var(--green-dark); font: 500 .98rem/1.4 Georgia, serif; }
-.archive-publication-resources .internal-resource-card h3 { font-weight: 400; }
+.archive-publication-resources .internal-resource-card h3 { font-weight: 600; }
 .internal-resource-card { border-left-color: var(--green-mid); }
 .resources-secondary-notices { max-width: 74ch; margin-top: 24px; padding-top: 17px; border-top: 1px solid var(--line); }
 .resources-secondary-notices section h3 { margin: 0 0 6px; color: var(--green-dark); font: 500 1.05rem/1.35 Georgia, serif; }

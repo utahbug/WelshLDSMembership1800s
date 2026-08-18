@@ -105,6 +105,7 @@
       ? Object.entries(record.personDetails)
       : parseFields(vital).map((field) => [field.label, field.value]));
     const birthPlace = parsed.get("Birth place") || (cells.length > 3 ? cells.at(-1) : "");
+    const listingMarriageDate = cells.length > 4 ? cells[3] : "";
     const fields = [{ label: "Name", value: record.title }];
     const add = (label, value) => { if (value) fields.push({ label, value }); };
     add("Birth date", parsed.get("Birth date") || cells[1]);
@@ -113,9 +114,10 @@
     if (variants.length) add("Also written as", variants.join("; "));
     add("Death date", parsed.get("Death date") || cells[2]);
     add("Death place", parsed.get("Death place"));
-    add("Baptism", parsed.get("Baptism date") || (cells.length > 4 ? cells[3] : ""));
+    add("Baptism", parsed.get("Baptism date"));
+    add("Marriage date", parsed.get("Marriage date") || listingMarriageDate);
     if (record.matchedBranches?.length) add("Branch/place", record.matchedBranches.join("; "));
-    ["Gender", "Maiden Name", "Christening date", "Christening place", "Baptism place", "Confirmation date", "Confirmation place", "Marriage date", "Marriage place", "Burial date", "Burial place", "Father", "Mother"].forEach((label) => add(label, parsed.get(label)));
+    ["Gender", "Maiden Name", "Christening date", "Christening place", "Baptism place", "Confirmation date", "Confirmation place", "Marriage place", "Burial date", "Burial place", "Father", "Mother"].forEach((label) => add(label, parsed.get(label)));
     add("Source ID", String(record.sourceId || ""));
     return { fields, sections };
   }
@@ -127,10 +129,12 @@
     const birthPlace = cells.length > 3 ? cells.at(-1) : "";
     const deathDate = details["Death date"] || cells[2] || "";
     const deathPlace = details["Death place"] || "";
+    const listingMarriageDate = cells.length > 4 ? cells[3] : "";
     return [
       birthDate || birthPlace ? { label: "Birth", value: [birthDate, birthPlace].filter(Boolean).join(" · ") } : null,
       deathDate || deathPlace ? { label: "Death", value: [deathDate, deathPlace].filter(Boolean).join(" · ") } : null,
-      details["Baptism date"] || (cells.length > 4 && cells[3]) ? { label: "Baptism", value: details["Baptism date"] || cells[3] } : null,
+      details["Baptism date"] ? { label: "Baptism", value: details["Baptism date"] } : null,
+      details["Marriage date"] || listingMarriageDate ? { label: "Marriage", value: details["Marriage date"] || listingMarriageDate } : null,
       record?.matchedBranches?.length ? { label: "Branch/place", value: record.matchedBranches.join("; ") } : null,
     ].filter(Boolean);
   }

@@ -112,13 +112,10 @@
       .map((card) => `<li><strong>${card.querySelector("strong")?.textContent || "Resource"}:</strong> ${card.dataset.provenanceDetail}</li>`).join("");
     const alternateNames = [d?.variants, d?.relatedBranches].filter(Boolean).join(" · ");
     const leadership = d?.leadershipOfficers ? `<section class="branch-detail-expanded branch-leadership"><h3>Branch leadership / officers</h3><p>${d.leadershipOfficers}</p></section>` : "";
-    const workRemaining = [...new Set(cards.map((card) => card.dataset.workRemaining).filter(Boolean))];
     const disclosure = (title, content) => `<details class="branch-detail-disclosure"><summary aria-expanded="false">${title}</summary><div class="branch-detail-content">${content}</div></details>`;
     info.innerHTML = (alternateNames ? `<section class="branch-detail-expanded"><h3>Alternate names and branch relationships</h3><p>${alternateNames}</p></section>` : "")
       + leadership
-      + disclosure("Sources and Evidence", `${sourceEvidence}${nameSources ? `<ul class="branch-name-sources">${nameSources}</ul>` : ""}${detailedCardProvenance ? `<ul class="source-evidence-list">${detailedCardProvenance}</ul>` : ""}`)
-      + disclosure("Registry and technical details", `<p><a href="branch-registry.html">Consult the branch coverage matrix</a></p>`)
-      + disclosure("Work remaining", `<p>${workRemaining.join(" ") || (cards.length ? "Review source coverage, transcription status, and discrepancies." : "Locate and connect records for this identified branch.")}</p>`);
+      + disclosure("Sources and Evidence", `${sourceEvidence}${nameSources ? `<ul class="branch-name-sources">${nameSources}</ul>` : ""}${detailedCardProvenance ? `<ul class="source-evidence-list">${detailedCardProvenance}</ul>` : ""}`);
     info.querySelectorAll(".branch-detail-disclosure").forEach((section) => section.addEventListener("toggle", () => section.querySelector("summary")?.setAttribute("aria-expanded", String(section.open))));
     info.querySelectorAll("[data-source-branch]").forEach((link) => link.addEventListener("click", (event) => { event.preventDefault(); routeBranch(link.dataset.sourceBranch); }));
     fragment.append(info); list.replaceChildren(fragment);

@@ -74,7 +74,7 @@
     const fields = [];
     if (cells[1]) fields.push({ label: "Birth", value: cells[1] });
     if (cells[2]) fields.push({ label: "Death", value: cells[2] });
-    if (cells.length > 4 && cells[3]) fields.push({ label: "Baptism", value: cells[3] });
+    if (cells.length > 4 && cells[3]) fields.push({ label: "Marriage", value: cells[3] });
     const place = cells.length > 3 ? cells.at(-1) : "";
     fields.push(...personPlaceFields(record, place));
     return fields;
@@ -112,7 +112,7 @@
     const birthDate = cells[1] || "";
     const birthPlace = cells.length > 3 ? cells.at(-1) : "";
     if (birthDate || birthPlace) facts.push({ label: "Birth", value: [birthDate, birthPlace].filter(Boolean).join(" · ") });
-    if (cells.length > 4 && cells[3]) facts.push({ label: "Baptism", value: cells[3] });
+    if (cells.length > 4 && cells[3]) facts.push({ label: "Marriage", value: cells[3] });
     if (record.matchedBranches?.length) facts.push({ label: "Branch/place", value: record.matchedBranches.join("; ") });
     return facts;
   }
@@ -227,7 +227,10 @@
       const linkedBranches = [...new Set((record.matchedBranches || []).map(canonicalBranchLink))];
       const branchLinks = linkedBranches.map((name) => `<a href="index.html?branch=${encodeURIComponent(name)}">${escapeHtml(name)} Branch Resources</a>`).join(" · ");
       const detailAvailable = record.type === "immigrant";
-      item.innerHTML = `<small>Welsh Saints Project · ${escapeHtml(kinds.join(" · "))}</small><h2>${detailAvailable ? `<button type="button" class="welsh-saints-detail-trigger" aria-label="Open details for ${escapeHtml(record.title)}">${escapeHtml(record.title)}</button>` : escapeHtml(record.title)}</h2>${renderPersonResultFacts(record)}<p>${escapeHtml(record.summary)}</p>${evidence ? `<p class="research-match-evidence"><strong>Matched source text:</strong> ${escapeHtml(evidence)}</p>` : ""}<p class="research-source">Welsh Saints source ID ${record.sourceId} · <a class="welsh-saints-original-link" href="${record.url}" target="_blank" rel="noopener noreferrer">Open original Welsh Saints record &#8599;</a>${branchLinks ? ` · ${branchLinks}` : ""}</p>`;
+      const linkedPeople = record.type === "resource" && record.linkedPeople?.length ? `<p class="people-source-detail"><strong>Linked ${record.linkedPeople.length === 1 ? "person" : "people"}:</strong> ${escapeHtml(record.linkedPeople.map((person) => person.name || `Welsh Saints source ID ${person.sourceId}`).join("; "))}</p>` : "";
+      const summaryText = record.summary ? `<p>${escapeHtml(record.summary)}</p>` : "";
+      const sourceAction = record.type === "resource" ? "View source" : "Open original Welsh Saints record";
+      item.innerHTML = `<small>Welsh Saints Project · ${escapeHtml(kinds.join(" · "))}</small><h2>${detailAvailable ? `<button type="button" class="welsh-saints-detail-trigger" aria-label="Open details for ${escapeHtml(record.title)}">${escapeHtml(record.title)}</button>` : escapeHtml(record.title)}</h2>${renderPersonResultFacts(record)}${linkedPeople}${summaryText}${evidence ? `<p class="research-match-evidence"><strong>Matched source text:</strong> ${escapeHtml(evidence)}</p>` : ""}<p class="research-source">Source: Welsh Saints Project · source ID ${record.sourceId} · <a class="welsh-saints-original-link" href="${record.url}" target="_blank" rel="noopener noreferrer">${sourceAction} &#8599;</a>${branchLinks ? ` · ${branchLinks}` : ""}</p>`;
       if (detailAvailable) item.dataset.personDetailSourceId = String(record.sourceId);
       return item;
     }));

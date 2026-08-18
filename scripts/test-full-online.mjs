@@ -119,7 +119,7 @@ if (!fs.existsSync(archiveInventoryPath)) {
 if (pontlanfraith?.availability?.online || pontlanfraith?.publicStorage) failures.push("Pontlanfraith reviewer-only source images became publicly available.");
 if (!transcriptCollection?.availability?.online || transcriptCollection?.publicStorage?.provider !== "full-online") failures.push("Packaged transcript viewer mappings are unavailable in Full Online.");
 if (people.records?.length !== 11473) failures.push(`Member count is ${people.records?.length}, expected 11473.`);
-if (discovery.counts?.allRecords !== 26354) failures.push(`Full Search count is ${discovery.counts?.allRecords}, expected 26354.`);
+if (discovery.counts?.allRecords !== 28134) failures.push(`Full Search count is ${discovery.counts?.allRecords}, expected 28134.`);
 
 const report = {
   root,

@@ -74,8 +74,9 @@
 
   function discoveryArticle(record, personRecords, query) {
     if (record.sourceType === "welsh-saints") {
-      const person = personRecords.get(String(record.sourceId).split(":").at(-1));
-      const facts = person && window.WELSH_SAINTS_PERSON_DETAIL ? window.WELSH_SAINTS_PERSON_DETAIL.facts(person).map(({ label, value }) => `${label}: ${value}`).join(" · ") : record.snippet;
+      const person = record.recordSubtype === "immigrant" ? personRecords.get(String(record.sourceId).split(":").at(-1)) : null;
+      const resourceFacts = record.recordSubtype === "resource" ? [record.categories?.length ? `Category: ${record.categories.join("; ")}` : "", record.linkedPeople?.length ? `Linked ${record.linkedPeople.length === 1 ? "person" : "people"}: ${record.linkedPeople.map((linked) => linked.name || `Welsh Saints source ID ${linked.sourceId}`).join("; ")}` : ""].filter(Boolean).join(" · ") : "";
+      const facts = person && window.WELSH_SAINTS_PERSON_DETAIL ? window.WELSH_SAINTS_PERSON_DETAIL.facts(person).map(({ label, value }) => `${label}: ${value}`).join(" · ") : resourceFacts || record.snippet;
       const article = resultArticle("Welsh Saints Project", record.title, facts);
       const details = person ? document.createElement("button") : null;
       if (details) { details.type = "button"; details.textContent = "View details"; details.addEventListener("click", () => window.WELSH_SAINTS_PERSON_DETAIL.open(person, details)); }
