@@ -6,9 +6,16 @@ import vm from "node:vm";
 const root = path.resolve(import.meta.dirname, "..");
 const output = path.resolve(process.argv[2] || path.join(root, "outputs/local-development"));
 const builder = path.join(root, "scripts/build-research-beta.mjs");
+const welshSaintsDiscoveryBuilder = path.join(root, "scripts/build-welsh-saints-resource-discovery.mjs");
 
 if (output === path.join(root, "full") || output === path.join(root, "research-beta")) {
   throw new Error("Local development builds may not target /full/ or /research-beta/.");
+}
+
+const discoveryBuild = spawnSync(process.execPath, [welshSaintsDiscoveryBuilder], { cwd: root, encoding: "utf8", stdio: ["ignore", "pipe", "pipe"] });
+if (discoveryBuild.status !== 0) {
+  process.stderr.write(discoveryBuild.stderr || discoveryBuild.stdout);
+  process.exit(discoveryBuild.status || 1);
 }
 
 const build = spawnSync(process.execPath, [builder, output], {
@@ -260,8 +267,6 @@ for (const file of fs.readdirSync(output).filter((name) => name.endsWith(".html"
   }
   if (file === "about.html") {
     html = html
-      .replace('<a class="standalone-home-link" href="index.html">&larr; Home</a>', '<a class="standalone-home-link" href="index.html">Home</a>')
-      .replace(/<nav class="breadcrumb" aria-label="Breadcrumb">[\s\S]*?<\/nav>/, '<nav class="breadcrumb" aria-label="Breadcrumb"><a href="index.html">Home</a> &rsaquo; <span aria-current="page">About</span></nav>')
       .replace("Copyright Â© 2026 Kenneth S. Roberts.", "Copyright &copy; 2026 Kenneth S. Roberts.")
       .replace('</main>', `<section class="guide-section about-reuse-section">
       <h2>Free to use and improve</h2>
@@ -399,12 +404,12 @@ fs.appendFileSync(path.join(output, "styles.css"), `
 .resource-link-group:hover { border-color: var(--line); background: var(--panel); }
 .resource-link-group:hover h3 { text-decoration: none; }
 .resource-sub-links { display: grid; gap: 2px; margin: 9px 0 0 20px; }
-.resource-sub-links a { width: fit-content; min-height: 40px; display: inline-flex; align-items: center; color: var(--green-dark); font: 600 .86rem/1.35 Arial, sans-serif; text-decoration: none; }
+.resources-page .resource-sub-links a { width: fit-content; min-height: 40px; display: inline-flex; align-items: center; color: var(--green-dark); font: italic 400 .86rem/1.35 Arial, sans-serif; text-decoration: none; }
 .resource-sub-links a:hover, .resource-sub-links a:focus-visible { text-decoration: underline; text-underline-offset: 3px; }
 .resource-sub-links a:focus-visible { outline: 2px solid var(--gold); outline-offset: 2px; }
 .archive-publication-resources { display: grid; gap: 10px; margin-top: 6px; }
 .archive-publication-resources > h3 { margin: 2px 0 0; color: var(--green-dark); font: 500 .98rem/1.4 Georgia, serif; }
-.archive-publication-resources .internal-resource-card h3 { font-weight: 400; }
+.archive-publication-resources .internal-resource-card h3 { font-weight: 600; }
 .internal-resource-card { border-left-color: var(--green-mid); }
 .resources-secondary-notices { max-width: 74ch; margin-top: 24px; padding-top: 17px; border-top: 1px solid var(--line); }
 .resources-secondary-notices section h3 { margin: 0 0 6px; color: var(--green-dark); font: 500 1.05rem/1.35 Georgia, serif; }
