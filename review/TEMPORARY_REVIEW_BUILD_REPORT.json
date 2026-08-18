@@ -1,0 +1,689 @@
+{
+  "edition": "temporary-online-review",
+  "generatedAt": "2026-08-18T01:03:29.710Z",
+  "output": "review",
+  "noIndex": true,
+  "memberSearch": {
+    "records": 11473,
+    "viewerAvailability": {
+      "onlineViewerAvailable": 10473,
+      "localPortableOnly": 1000,
+      "notYetHosted": 0
+    },
+    "collections": [
+      {
+        "id": "collection-41",
+        "name": "Ffestiniog membership record",
+        "records": 40,
+        "onlineViewerRecords": 40,
+        "status": "online-viewer-available"
+      },
+      {
+        "id": "collection-6",
+        "name": "Gilwern,1849-1858,LR13987",
+        "records": 55,
+        "onlineViewerRecords": 0,
+        "status": "local-portable-only"
+      },
+      {
+        "id": "collection-25",
+        "name": "Dowlais,1851-1872,LR1287",
+        "records": 456,
+        "onlineViewerRecords": 456,
+        "status": "online-viewer-available"
+      },
+      {
+        "id": "collection-27",
+        "name": "Merthyr Tydfil,1843-1857 1861-1896,LR54507",
+        "records": 1776,
+        "onlineViewerRecords": 1776,
+        "status": "online-viewer-available"
+      },
+      {
+        "id": "collection-18",
+        "name": "Rhymney,1850-1887,LR124517",
+        "records": 928,
+        "onlineViewerRecords": 928,
+        "status": "online-viewer-available"
+      },
+      {
+        "id": "collection-53",
+        "name": "Swansea-production",
+        "records": 100,
+        "onlineViewerRecords": 0,
+        "status": "local-portable-only"
+      },
+      {
+        "id": "collection-30",
+        "name": "Swansea,1872-1879,LR88637",
+        "records": 123,
+        "onlineViewerRecords": 123,
+        "status": "online-viewer-available"
+      },
+      {
+        "id": "collection-12",
+        "name": "Llansawel,1849-1855,LR2217",
+        "records": 43,
+        "onlineViewerRecords": 43,
+        "status": "online-viewer-available"
+      },
+      {
+        "id": "virtual-llansawel-glamorgan-lr117597",
+        "name": "Llansawel (Glamorgan),1850-1889,LR117597",
+        "records": 149,
+        "onlineViewerRecords": 149,
+        "status": "online-viewer-available"
+      },
+      {
+        "id": "collection-9",
+        "name": "Llanelli,1847-1868,LR117577",
+        "records": 612,
+        "onlineViewerRecords": 612,
+        "status": "online-viewer-available"
+      },
+      {
+        "id": "collection-19",
+        "name": "Cardiff,1847-1876,LR14167",
+        "records": 1345,
+        "onlineViewerRecords": 1345,
+        "status": "online-viewer-available"
+      },
+      {
+        "id": "collection-23",
+        "name": "Abersychan,1849-1898,LR104687",
+        "records": 521,
+        "onlineViewerRecords": 521,
+        "status": "online-viewer-available"
+      },
+      {
+        "id": "collection-17",
+        "name": "Cwm Celyn,1851-1883,LR1957",
+        "records": 218,
+        "onlineViewerRecords": 218,
+        "status": "online-viewer-available"
+      },
+      {
+        "id": "collection-42",
+        "name": "Georgetown-production",
+        "records": 495,
+        "onlineViewerRecords": 0,
+        "status": "local-portable-only"
+      },
+      {
+        "id": "collection-22",
+        "name": "Nantyglo,1846-1867,LR1747",
+        "records": 315,
+        "onlineViewerRecords": 315,
+        "status": "online-viewer-available"
+      },
+      {
+        "id": "collection-26",
+        "name": "Newport,1848-1857 1863-1866,LR60717",
+        "records": 354,
+        "onlineViewerRecords": 354,
+        "status": "online-viewer-available"
+      },
+      {
+        "id": "collection-15",
+        "name": "Pen-y-cae,1844-1866,LR2307",
+        "records": 412,
+        "onlineViewerRecords": 412,
+        "status": "online-viewer-available"
+      },
+      {
+        "id": "collection-51",
+        "name": "Stepaside,1848-1860,LR1272711",
+        "records": 50,
+        "onlineViewerRecords": 50,
+        "status": "online-viewer-available"
+      },
+      {
+        "id": "collection-52",
+        "name": "Sutton Mountain,1853-1859,LR1277011",
+        "records": 31,
+        "onlineViewerRecords": 31,
+        "status": "online-viewer-available"
+      },
+      {
+        "id": "collection-38",
+        "name": "Britonferry,1850-1853,LR117597",
+        "records": 16,
+        "onlineViewerRecords": 16,
+        "status": "online-viewer-available"
+      },
+      {
+        "id": "collection-3",
+        "name": "Alltwen,1849-1859,LR2257",
+        "records": 69,
+        "onlineViewerRecords": 69,
+        "status": "online-viewer-available"
+      },
+      {
+        "id": "collection-4",
+        "name": "Brechfa,1846-1875,LR110007",
+        "records": 141,
+        "onlineViewerRecords": 141,
+        "status": "online-viewer-available"
+      },
+      {
+        "id": "collection-8",
+        "name": "Brynmawr,1848-1868,LR2157",
+        "records": 285,
+        "onlineViewerRecords": 285,
+        "status": "online-viewer-available"
+      },
+      {
+        "id": "collection-29",
+        "name": "Cog,1848-1876,LR1097",
+        "records": 83,
+        "onlineViewerRecords": 83,
+        "status": "online-viewer-available"
+      },
+      {
+        "id": "collection-10",
+        "name": "Cefn Coed-y-Cymmer,1847-1864,LR1767",
+        "records": 247,
+        "onlineViewerRecords": 247,
+        "status": "online-viewer-available"
+      },
+      {
+        "id": "collection-5",
+        "name": "Cuffern Mountain,1849-1876,LR1987",
+        "records": 279,
+        "onlineViewerRecords": 279,
+        "status": "online-viewer-available"
+      },
+      {
+        "id": "collection-1",
+        "name": "Dinas,1848-1879,LR1827",
+        "records": 119,
+        "onlineViewerRecords": 119,
+        "status": "online-viewer-available"
+      },
+      {
+        "id": "collection-24",
+        "name": "Ebbro Vale,1847-1864,LR98467",
+        "records": 191,
+        "onlineViewerRecords": 191,
+        "status": "online-viewer-available"
+      },
+      {
+        "id": "collection-11",
+        "name": "Bryntroedgam,1847-1860,LR1297",
+        "records": 111,
+        "onlineViewerRecords": 111,
+        "status": "online-viewer-available"
+      },
+      {
+        "id": "virtual-cwm-saerbren-lr1727",
+        "name": "Cwm Saerbren,1858-1874,LR1727",
+        "records": 194,
+        "onlineViewerRecords": 194,
+        "status": "online-viewer-available"
+      },
+      {
+        "id": "virtual-coalbrookvale-lr1747",
+        "name": "Coalbrookvale,1856-1867,LR1747",
+        "records": 264,
+        "onlineViewerRecords": 264,
+        "status": "online-viewer-available"
+      },
+      {
+        "id": "collection-13",
+        "name": "Llanfabon 1847-1869,LR1687",
+        "records": 148,
+        "onlineViewerRecords": 148,
+        "status": "online-viewer-available"
+      },
+      {
+        "id": "collection-21",
+        "name": "Haverfordwest,1847-1853,LR1134321",
+        "records": 33,
+        "onlineViewerRecords": 33,
+        "status": "online-viewer-available"
+      },
+      {
+        "id": "collection-37",
+        "name": "Haverfordwest,1852-1860,CR1134311-v2",
+        "records": 39,
+        "onlineViewerRecords": 39,
+        "status": "online-viewer-available"
+      },
+      {
+        "id": "virtual-llanelltyd-lr1727",
+        "name": "Llanelltyd,1850-1857,LR1727",
+        "records": 46,
+        "onlineViewerRecords": 46,
+        "status": "online-viewer-available"
+      },
+      {
+        "id": "collection-20",
+        "name": "Llandebie,1849-1886,LR1137",
+        "records": 120,
+        "onlineViewerRecords": 120,
+        "status": "online-viewer-available"
+      },
+      {
+        "id": "collection-2",
+        "name": "Castell Nedd,1879-1884,LR1967",
+        "records": 351,
+        "onlineViewerRecords": 351,
+        "status": "online-viewer-available"
+      },
+      {
+        "id": "collection-50",
+        "name": "Rhymney English,1851-1887,LIB1602-direct-FHC",
+        "records": 212,
+        "onlineViewerRecords": 212,
+        "status": "online-viewer-available"
+      },
+      {
+        "id": "virtual-treorchy-lr1727",
+        "name": "Treorchy,1874-1882,LR1727",
+        "records": 152,
+        "onlineViewerRecords": 152,
+        "status": "online-viewer-available"
+      },
+      {
+        "id": "virtual-crumlin-library859",
+        "name": "Crumlin,1857-1862,Library859",
+        "records": 20,
+        "onlineViewerRecords": 0,
+        "status": "local-portable-only"
+      },
+      {
+        "id": "collection-47",
+        "name": "Pontlanfraith,Early-to-1947,Library27560",
+        "records": 5,
+        "onlineViewerRecords": 0,
+        "status": "local-portable-only"
+      },
+      {
+        "id": "collection-45",
+        "name": "Machen,1854-1865,Library1565-or-1765",
+        "records": 42,
+        "onlineViewerRecords": 0,
+        "status": "local-portable-only"
+      },
+      {
+        "id": "collection-56",
+        "name": "Twyncarno,1856-1857,Library1602",
+        "records": 119,
+        "onlineViewerRecords": 0,
+        "status": "local-portable-only"
+      },
+      {
+        "id": "collection-7",
+        "name": "Cwmtillery,1847-1857,LR1887",
+        "records": 154,
+        "onlineViewerRecords": 0,
+        "status": "local-portable-only"
+      },
+      {
+        "id": "virtual-trinant-library859",
+        "name": "Trinant,1849-1853,Library859",
+        "records": 10,
+        "onlineViewerRecords": 0,
+        "status": "local-portable-only"
+      }
+    ]
+  },
+  "welshSaints": {
+    "records": 9014,
+    "categories": {
+      "immigrant": 5007,
+      "voyage": 299,
+      "resource": 3708
+    },
+    "completeProseIncluded": false
+  },
+  "branchRoutes": {
+    "canonicalBranches": 97,
+    "audited": 97,
+    "routes": [
+      "index.html?branch=Aberaman",
+      "index.html?branch=Aberdare",
+      "index.html?branch=Abergavenny",
+      "index.html?branch=Abergele",
+      "index.html?branch=Abersychan",
+      "index.html?branch=Abertillery",
+      "index.html?branch=Alltwen",
+      "index.html?branch=Bagillt",
+      "index.html?branch=Beaufort",
+      "index.html?branch=Blaenavon",
+      "index.html?branch=Brechfa",
+      "index.html?branch=Brecon",
+      "index.html?branch=Britonferry",
+      "index.html?branch=Brynmawr",
+      "index.html?branch=Bryntroedgam",
+      "index.html?branch=Cardiff",
+      "index.html?branch=Carmarthen",
+      "index.html?branch=Castell%20Nedd%20(Neath)",
+      "index.html?branch=Cefn%20Coed-y-Cymmer",
+      "index.html?branch=Cefn%20Mawr",
+      "index.html?branch=Cellan",
+      "index.html?branch=Coalbrookvale",
+      "index.html?branch=Cogan",
+      "index.html?branch=Crumlin",
+      "index.html?branch=Cuffern%20Mountain",
+      "index.html?branch=Cwm%20Celyn",
+      "index.html?branch=Cwm%20Saerbren",
+      "index.html?branch=Cwmbach",
+      "index.html?branch=Cwmbran",
+      "index.html?branch=Cwmcillyn",
+      "index.html?branch=Cwmtillery",
+      "index.html?branch=Cymmer",
+      "index.html?branch=Dinas",
+      "index.html?branch=Dowlais",
+      "index.html?branch=Ebbw%20Vale",
+      "index.html?branch=Eglwysbach",
+      "index.html?branch=Ffestiniog",
+      "index.html?branch=Fishguard",
+      "index.html?branch=Fleur-de-Lis",
+      "index.html?branch=Garndiffaith",
+      "index.html?branch=Gellifaelog",
+      "index.html?branch=Georgetown",
+      "index.html?branch=Gilwern",
+      "index.html?branch=Harlech",
+      "index.html?branch=Haverfordwest",
+      "index.html?branch=Hirwaun",
+      "index.html?branch=Letterston",
+      "index.html?branch=Llanbrynmair",
+      "index.html?branch=Llanddoged",
+      "index.html?branch=Llandebie",
+      "index.html?branch=Llandudno",
+      "index.html?branch=Llanelli",
+      "index.html?branch=Llanelltyd",
+      "index.html?branch=Llanelly%202",
+      "index.html?branch=Llanfabon",
+      "index.html?branch=Llanpumsaint",
+      "index.html?branch=Llansawel%20(Carmarthenshire)",
+      "index.html?branch=Llansawel%20(Glamorgan)",
+      "index.html?branch=Llantrisant",
+      "index.html?branch=Llanybydder",
+      "index.html?branch=Machen",
+      "index.html?branch=Machynlleth",
+      "index.html?branch=Maesteg",
+      "index.html?branch=Merthyr%20Tydfil",
+      "index.html?branch=Morriston",
+      "index.html?branch=Mountain%20Ash",
+      "index.html?branch=Nantyglo",
+      "index.html?branch=Newmarket",
+      "index.html?branch=Newport",
+      "index.html?branch=Overton",
+      "index.html?branch=Pembroke",
+      "index.html?branch=Pen-y-cae",
+      "index.html?branch=Pen-y-Darran",
+      "index.html?branch=Pencader",
+      "index.html?branch=Pendoylon",
+      "index.html?branch=Pontlanfraith",
+      "index.html?branch=Pontypool",
+      "index.html?branch=Pontypridd",
+      "index.html?branch=Rhosllanerchrugog",
+      "index.html?branch=Rhymney",
+      "index.html?branch=Rhymney%20English",
+      "index.html?branch=St%20Clears",
+      "index.html?branch=Stepaside",
+      "index.html?branch=Sutton%20Mountain",
+      "index.html?branch=Swansea",
+      "index.html?branch=Towyn",
+      "index.html?branch=Treboeth",
+      "index.html?branch=Tredegar",
+      "index.html?branch=Treforest",
+      "index.html?branch=Treorchy",
+      "index.html?branch=Trinant",
+      "index.html?branch=Twyn-yr-Odyn",
+      "index.html?branch=Twyncarno",
+      "index.html?branch=Victoria",
+      "index.html?branch=Welsh%20Conference",
+      "index.html?branch=Ynysgau",
+      "index.html?branch=Ystrad"
+    ]
+  },
+  "researchSupportPages": [
+    "about.html",
+    "branch-registry.html",
+    "historical-names.html",
+    "research-status.html",
+    "work-remaining.html",
+    "familysearch-comparison.html"
+  ],
+  "fullSearch": {
+    "counts": {
+      "members": 11473,
+      "transcription": 663,
+      "welshSaints": 9014,
+      "ronDennisPages": 6971,
+      "ronDennisSourceRecords": 13,
+      "historicalRecords": 16661,
+      "allRecords": 28134
+    },
+    "artifactFiles": 100,
+    "rightsNote": "Discovery metadata and bounded existing snippets only. Newly added Welsh Saints resources contain titles, categories, explicit person links, IDs, and source URLs; no resource files, photos, scans, PDFs, or long-form prose are included."
+  },
+  "typedExtractSearchIncluded": true,
+  "localOnlyCollections": [
+    {
+      "id": "typed-viewer-15aa4a1effc73cdf",
+      "name": "A - CDs 35-39 (1 of 2) - Typed Transcripts - Viewer Pages",
+      "images": 86,
+      "hostedImages": 0,
+      "status": "local-portable-only"
+    },
+    {
+      "id": "typed-viewer-7d89a94481675485",
+      "name": "A - CDs 35-39 (2 of 2) - Typed Transcripts - Viewer Pages",
+      "images": 116,
+      "hostedImages": 0,
+      "status": "local-portable-only"
+    },
+    {
+      "id": "typed-viewer-9975f8a3361d8e3a",
+      "name": "A - CDs 39 - Typed Transcripts - Viewer Pages",
+      "images": 44,
+      "hostedImages": 0,
+      "status": "local-portable-only"
+    },
+    {
+      "id": "typed-viewer-a04b9653fca1d5e6",
+      "name": "A - CDs 40-43 (1 of 2) - Typed Transcripts - Viewer Pages",
+      "images": 80,
+      "hostedImages": 0,
+      "status": "local-portable-only"
+    },
+    {
+      "id": "typed-viewer-ddc42515ba3dc458",
+      "name": "A - CDs 40-43 (2 of 2) - Typed Transcripts - Viewer Pages",
+      "images": 155,
+      "hostedImages": 0,
+      "status": "local-portable-only"
+    },
+    {
+      "id": "typed-viewer-9fd2debaf9397329",
+      "name": "A - CDs 44-59 - Typed Transcripts - Viewer Pages",
+      "images": 120,
+      "hostedImages": 0,
+      "status": "local-portable-only"
+    },
+    {
+      "id": "typed-viewer-240a15d95d2e9fa2",
+      "name": "A - CDs 60-62 - Typed Transcripts - Viewer Pages",
+      "images": 176,
+      "hostedImages": 0,
+      "status": "local-portable-only"
+    },
+    {
+      "id": "collection-62",
+      "name": "assets",
+      "images": 1,
+      "hostedImages": 0,
+      "status": "local-portable-only"
+    },
+    {
+      "id": "collection-63",
+      "name": "Branches",
+      "images": 54,
+      "hostedImages": 0,
+      "status": "local-portable-only"
+    },
+    {
+      "id": "virtual-crumlin-library859",
+      "name": "Crumlin,1857-1862,Library859",
+      "images": 4,
+      "hostedImages": 0,
+      "status": "local-portable-only"
+    },
+    {
+      "id": "collection-40",
+      "name": "Cwmtillery Trinant Crumlin compound packet,Library859",
+      "images": 9,
+      "hostedImages": 0,
+      "status": "local-portable-only"
+    },
+    {
+      "id": "collection-7",
+      "name": "Cwmtillery,1847-1857,LR1887",
+      "images": 68,
+      "hostedImages": 0,
+      "status": "local-portable-only"
+    },
+    {
+      "id": "collection-65",
+      "name": "General transcriptions and indexes",
+      "images": 7,
+      "hostedImages": 0,
+      "status": "local-portable-only"
+    },
+    {
+      "id": "collection-42",
+      "name": "Georgetown-production",
+      "images": 90,
+      "hostedImages": 0,
+      "status": "local-portable-only"
+    },
+    {
+      "id": "collection-6",
+      "name": "Gilwern,1849-1858,LR13987",
+      "images": 49,
+      "hostedImages": 0,
+      "status": "local-portable-only"
+    },
+    {
+      "id": "collection-64",
+      "name": "Indexing",
+      "images": 3,
+      "hostedImages": 0,
+      "status": "local-portable-only"
+    },
+    {
+      "id": "collection-44",
+      "name": "Llanelly-production",
+      "images": 319,
+      "hostedImages": 0,
+      "status": "local-portable-only"
+    },
+    {
+      "id": "collection-45",
+      "name": "Machen,1854-1865,Library1565-or-1765",
+      "images": 18,
+      "hostedImages": 0,
+      "status": "local-portable-only"
+    },
+    {
+      "id": "collection-27",
+      "name": "Merthyr Tydfil,1843-1857 1861-1896,LR54507",
+      "images": 447,
+      "hostedImages": 443,
+      "status": "partially-hosted"
+    },
+    {
+      "id": "collection-47",
+      "name": "Pontlanfraith,Early-to-1947,Library27560",
+      "images": 10,
+      "hostedImages": 0,
+      "status": "local-portable-only"
+    },
+    {
+      "id": "collection-49",
+      "name": "Pontypridd,1877-1895,Library1612",
+      "images": 62,
+      "hostedImages": 0,
+      "status": "local-portable-only"
+    },
+    {
+      "id": "collection-50",
+      "name": "Rhymney English,1851-1887,LIB1602-direct-FHC",
+      "images": 58,
+      "hostedImages": 57,
+      "status": "partially-hosted"
+    },
+    {
+      "id": "collection-53",
+      "name": "Swansea-production",
+      "images": 502,
+      "hostedImages": 0,
+      "status": "local-portable-only"
+    },
+    {
+      "id": "virtual-trinant-library859",
+      "name": "Trinant,1849-1853,Library859",
+      "images": 2,
+      "hostedImages": 0,
+      "status": "local-portable-only"
+    },
+    {
+      "id": "collection-56",
+      "name": "Twyncarno,1856-1857,Library1602",
+      "images": 25,
+      "hostedImages": 0,
+      "status": "local-portable-only"
+    },
+    {
+      "id": "collection-55",
+      "name": "Unassigned Library 859 captures 294-306",
+      "images": 13,
+      "hostedImages": 0,
+      "status": "local-portable-only"
+    },
+    {
+      "id": "collection-57",
+      "name": "Welsh Conference,Incomplete Conference Minutes,1884,LR1001123",
+      "images": 2,
+      "hostedImages": 0,
+      "status": "local-portable-only"
+    },
+    {
+      "id": "collection-58",
+      "name": "Welsh Conference,Record of Members,1887-1901,Library3114",
+      "images": 50,
+      "hostedImages": 0,
+      "status": "local-portable-only"
+    },
+    {
+      "id": "collection-59",
+      "name": "Welsh Conference,Record of Members,Early-1892,Library1614",
+      "images": 49,
+      "hostedImages": 0,
+      "status": "local-portable-only"
+    },
+    {
+      "id": "collection-60",
+      "name": "Welsh Conference,Record of Members,Early-1911,Library3118-partial",
+      "images": 29,
+      "hostedImages": 0,
+      "status": "local-portable-only"
+    }
+  ],
+  "privacy": {
+    "dataPrivateIncluded": false,
+    "privateLeaks": []
+  },
+  "files": 157,
+  "archiveInventory": {
+    "item": "ldswelshmembership",
+    "remoteFiles": 6030
+  },
+  "localOriginalCdFiles": 7258,
+  "promotedFromTestedLocalDevelopment": true,
+  "temporary": true
+}
