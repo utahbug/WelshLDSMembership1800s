@@ -75,7 +75,7 @@
     if (branchRecords.length > 25) {
       const label = document.createElement("label");
       label.className = "branch-member-filter";
-      label.innerHTML = `<span>Filter names</span><input type="search" autocomplete="off" aria-label="Filter ${escapeHtml(branch)} member names">`;
+      label.innerHTML = `<span>Filter names</span><small class="branch-member-filter-note">Some names may appear more than once.</small><input type="search" autocomplete="off" aria-label="Filter ${escapeHtml(branch)} member names">`;
       filter = label.querySelector("input");
       content.append(label);
     }

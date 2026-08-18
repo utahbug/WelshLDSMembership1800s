@@ -534,9 +534,11 @@ button, input { font: inherit; }
 .branch-detail-disclosure summary::after { content: ""; position: absolute; right: 7px; width: 7px; height: 7px; border-right: 1.5px solid currentColor; border-bottom: 1.5px solid currentColor; transform: rotate(45deg) translateY(-2px); transform-origin: center; transition: transform .15s ease; }
 .branch-detail-disclosure[open] summary::after { transform: rotate(225deg) translate(-1px, -1px); }
 .branch-detail-disclosure summary:focus-visible { outline: 2px solid var(--gold); outline-offset: 2px; border-radius: 2px; }
+.branch-members-section > summary { min-height: 38px; padding-top: 5px; }
 .branch-detail-content { padding: 0 0 14px; color: var(--muted); font: 400 .88rem/1.55 Arial, sans-serif; }
 .branch-detail-content p, .branch-detail-content ul { font: inherit; }
 .branch-detail-content p:last-child, .branch-detail-content ul:last-child { margin-bottom: 0; }
+.branch-member-filter-note { display: block; margin: -1px 0 5px; color: var(--muted); font: 400 .7rem/1.35 Arial, sans-serif; }
 .branch-detail-content strong { font-weight: 700; }
 .branch-name-sources { margin: 0; padding-left: 19px; color: var(--muted); font: 400 .88rem/1.55 Arial, sans-serif; }
 .branch-name-sources li { margin: 0 0 10px; padding-left: 3px; }
