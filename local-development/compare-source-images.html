@@ -1,0 +1,216 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="robots" content="noindex,nofollow,noarchive">
+  <title>Compare source images — Local Development</title>
+  <style>
+    :root { color-scheme: light; --green:#173f35; --gold:#aa822d; --ink:#202522; --muted:#68716c; --line:#cbd1cd; --paper:#f5f1e8; }
+    * { box-sizing: border-box; }
+    body { margin:0; color:var(--ink); background:#eee9df; font:16px/1.45 Georgia, "Times New Roman", serif; }
+    header { padding:1rem clamp(1rem,4vw,3rem); color:#fff; background:var(--green); border-bottom:4px solid var(--gold); }
+    header h1 { margin:0; font-size:clamp(1.35rem,2.5vw,1.85rem); }
+    header p { margin:.25rem 0 0; color:#e7ebe8; font-family:Arial,sans-serif; font-size:.9rem; }
+    main { width:min(1500px,100%); margin:auto; padding:1rem; }
+    .notice { margin:0 0 1rem; color:var(--muted); font-family:Arial,sans-serif; font-size:.9rem; }
+    .global-controls { display:flex; flex-wrap:wrap; gap:.6rem; align-items:center; margin-bottom:1rem; }
+    .layout-toggle { display:inline-flex; align-items:center; gap:.2rem; margin-right:.25rem; padding:.18rem; border:1px solid #8b9690; border-radius:.3rem; background:#e2e5e2; font-family:Arial,sans-serif; }
+    button, input, select { font:inherit; }
+    button { min-height:2.5rem; padding:.42rem .75rem; border:1px solid #66726c; border-radius:.25rem; color:#173f35; background:#fff; cursor:pointer; }
+    button:hover { background:#edf2ef; }
+    button:focus-visible, input:focus-visible, select:focus-visible, a:focus-visible { outline:3px solid #d2a744; outline-offset:2px; }
+    .layout-toggle button { min-height:2.15rem; padding:.3rem .65rem; border-color:transparent; background:transparent; }
+    .layout-toggle button[aria-pressed="true"], .layout-toggle button[aria-pressed="true"]:hover { color:#fff; background:var(--green); }
+    .comparison { display:grid; grid-template-columns:minmax(0,1fr) minmax(0,1fr); gap:1rem; align-items:start; }
+    .comparison.stacked { grid-template-columns:1fr; }
+    .side { min-width:0; overflow:hidden; background:#fff; border:1px solid #aeb6b1; border-radius:.35rem; box-shadow:0 1px 3px #0001; }
+    .side-head { padding:.8rem; border-bottom:1px solid var(--line); background:var(--paper); }
+    .side-head label { display:block; margin-bottom:.35rem; font-weight:600; }
+    .load-row { display:grid; grid-template-columns:minmax(0,1fr) auto; gap:.45rem; }
+    .load-row input { width:100%; min-width:0; min-height:2.5rem; padding:.45rem .55rem; border:1px solid #7d8882; border-radius:.2rem; }
+    .image-controls { display:flex; flex-wrap:wrap; gap:.35rem; padding:.55rem .8rem; border-bottom:1px solid var(--line); }
+    .image-controls button { min-height:2.2rem; padding:.3rem .6rem; }
+    .meta { min-height:4.25rem; padding:.55rem .8rem; font-family:Arial,sans-serif; font-size:.85rem; }
+    .meta strong, .meta span { display:block; overflow-wrap:anywhere; }
+    .meta span { color:var(--muted); }
+    .meta a { display:inline-block; margin-top:.25rem; }
+    .viewport { position:relative; height:min(62vh,700px); min-height:420px; overflow:auto; overscroll-behavior:contain; background:#343836; cursor:grab; touch-action:pan-x pan-y; }
+    .viewport.dragging { cursor:grabbing; user-select:none; }
+    .viewport img { display:block; width:100%; height:auto; margin:0 auto; background:#fff; transform-origin:top left; }
+    .empty { position:absolute; inset:0; display:grid; place-items:center; padding:2rem; color:#e1e5e2; text-align:center; font-family:Arial,sans-serif; }
+    .error { color:#9a342e !important; }
+    .review { margin-top:1rem; padding:.8rem; background:#fff; border:1px solid var(--line); border-radius:.35rem; font-family:Arial,sans-serif; }
+    .review label { margin-right:.5rem; }
+    .review small { display:block; margin-top:.35rem; color:var(--muted); }
+    @media (max-width:760px) {
+      .comparison { grid-template-columns:1fr; }
+      .viewport { height:52vh; min-height:340px; }
+      .load-row { grid-template-columns:1fr; }
+      .load-row button { width:100%; }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>Compare source images</h1>
+    <p>Local Development research helper</p>
+  </header>
+  <main>
+    <p class="notice">Paste an existing source-viewer link or a direct image link. This page makes no changes and saves no classifications.</p>
+    <div class="global-controls">
+      <div class="layout-toggle" aria-label="Comparison layout">
+        <button type="button" data-layout="side-by-side" aria-pressed="true">Side by side</button>
+        <span aria-hidden="true">|</span>
+        <button type="button" data-layout="stacked" aria-pressed="false">Stacked</button>
+      </div>
+      <button type="button" id="swap">Swap sides</button>
+      <button type="button" id="clear-left">Clear left</button>
+      <button type="button" id="clear-right">Clear right</button>
+    </div>
+    <div class="comparison">
+      <section class="side" data-side="left">
+        <div class="side-head"><label for="left-source">Left source</label><div class="load-row"><input id="left-source" type="url" spellcheck="false" placeholder="Paste source viewer or image URL"><button type="button" data-action="load">Load</button></div></div>
+        <div class="image-controls"><button type="button" data-action="zoom-out" aria-label="Zoom out left image">−</button><button type="button" data-action="fit">Fit width</button><button type="button" data-action="actual">100%</button><button type="button" data-action="zoom-in" aria-label="Zoom in left image">+</button></div>
+        <div class="meta" aria-live="polite"><strong>No image loaded</strong><span></span><a hidden target="_blank" rel="noopener">Open original</a></div>
+        <div class="viewport" tabindex="0" aria-label="Left source image viewer"><div class="empty">Load the left source image.</div><img hidden alt="Left source image"></div>
+      </section>
+      <section class="side" data-side="right">
+        <div class="side-head"><label for="right-source">Right source</label><div class="load-row"><input id="right-source" type="url" spellcheck="false" placeholder="Paste source viewer or image URL"><button type="button" data-action="load">Load</button></div></div>
+        <div class="image-controls"><button type="button" data-action="zoom-out" aria-label="Zoom out right image">−</button><button type="button" data-action="fit">Fit width</button><button type="button" data-action="actual">100%</button><button type="button" data-action="zoom-in" aria-label="Zoom in right image">+</button></div>
+        <div class="meta" aria-live="polite"><strong>No image loaded</strong><span></span><a hidden target="_blank" rel="noopener">Open original</a></div>
+        <div class="viewport" tabindex="0" aria-label="Right source image viewer"><div class="empty">Load the right source image.</div><img hidden alt="Right source image"></div>
+      </section>
+    </div>
+    <div class="review"><label for="classification">Manual classification:</label><select id="classification"><option value="">Choose…</option><option>Duplicate — prefer left</option><option>Duplicate — prefer right</option><option>Duplicate — keep both</option><option>Not duplicate</option><option>Uncertain</option></select><small>For review convenience only; this selection is not saved.</small></div>
+  </main>
+  <script>window.WELSH_LOCAL_DEVELOPMENT = true;</script>
+  <script src="data/catalog.public.js"></script>
+  <script src="local-catalog-overrides.js"></script>
+  <script>
+    (() => {
+      "use strict";
+      const catalog = window.WELSH_RECORD_CATALOG || { collections: [] };
+      const states = {};
+
+      function filenameFromUrl(url) {
+        try { return decodeURIComponent(new URL(url, location.href).pathname.split("/").pop() || ""); }
+        catch { return ""; }
+      }
+
+      function catalogImageUrl(collection, record) {
+        if (record.serveUrl || record.url) return new URL(record.serveUrl || record.url, location.href).href;
+        const storage = collection.publicStorage;
+        if (storage?.provider === "internet-archive" && storage.baseUrl && record.archiveRelativePath) {
+          const encodedPath = record.archiveRelativePath.split("/").map(encodeURIComponent).join("/");
+          return `${storage.baseUrl}${encodedPath}`;
+        }
+        throw new Error("This catalog image has no approved source route.");
+      }
+
+      function resolveSource(raw) {
+        const entered = String(raw || "").trim();
+        if (!entered) throw new Error("Paste a source link first.");
+        const parsed = new URL(entered, location.href);
+        const collectionId = parsed.searchParams.get("collection");
+        const imageFilename = parsed.searchParams.get("imageFilename");
+        const imageNumber = Number(parsed.searchParams.get("image"));
+        if (collectionId && (imageFilename || Number.isFinite(imageNumber))) {
+          const collection = catalog.collections.find(item => item.id === collectionId);
+          if (!collection) throw new Error(`Collection not found: ${collectionId}`);
+          let record = null;
+          if (imageFilename) record = (collection.images || []).find(item => String(item.filename || item.name || "").toLowerCase() === imageFilename.toLowerCase());
+          if (!record && Number.isFinite(imageNumber) && imageNumber > 0) record = collection.images?.[imageNumber - 1];
+          if (!record) throw new Error(`Image not found in ${collectionId}.`);
+          const imageUrl = catalogImageUrl(collection, record);
+          return { imageUrl, originalUrl: parsed.href, filename: record.filename || record.name, collection: `${collection.name || collectionId} (${collectionId})` };
+        }
+        if (/\.(?:avif|gif|jpe?g|png|webp|tiff?)(?:$|[?#])/i.test(parsed.href)) {
+          return { imageUrl: parsed.href, originalUrl: parsed.href, filename: filenameFromUrl(parsed.href), collection: parsed.hostname || "Direct image" };
+        }
+        throw new Error("Use a source-viewer URL containing collection and imageFilename/image, or a direct image URL.");
+      }
+
+      function setZoom(state, value) {
+        state.zoom = Math.min(4, Math.max(.25, value));
+        state.image.style.width = `${state.zoom * 100}%`;
+      }
+
+      function setMessage(state, message, isError = false) {
+        state.empty.hidden = false;
+        state.empty.textContent = message;
+        state.empty.classList.toggle("error", isError);
+      }
+
+      function clear(state) {
+        state.input.value = "";
+        state.image.hidden = true;
+        state.image.removeAttribute("src");
+        state.metaName.textContent = "No image loaded";
+        state.metaCollection.textContent = "";
+        state.original.hidden = true;
+        state.viewport.scrollTo(0, 0);
+        setMessage(state, `Load the ${state.name} source image.`);
+      }
+
+      function load(state) {
+        let source;
+        try { source = resolveSource(state.input.value); }
+        catch (error) { setMessage(state, error.message, true); return false; }
+        state.metaName.textContent = source.filename || "Source image";
+        state.metaCollection.textContent = source.collection;
+        state.original.href = source.originalUrl;
+        state.original.hidden = false;
+        setMessage(state, "Loading image…");
+        state.image.onload = () => { state.image.hidden = false; state.empty.hidden = true; setZoom(state, 1); state.viewport.scrollTo(0, 0); };
+        state.image.onerror = () => { state.image.hidden = true; setMessage(state, "The image could not be loaded from this link.", true); };
+        state.image.src = source.imageUrl;
+        return true;
+      }
+
+      document.querySelectorAll(".side").forEach(side => {
+        const name = side.dataset.side;
+        const state = states[name] = {
+          name, side, input:side.querySelector("input"), image:side.querySelector("img"), viewport:side.querySelector(".viewport"), empty:side.querySelector(".empty"),
+          metaName:side.querySelector(".meta strong"), metaCollection:side.querySelector(".meta span"), original:side.querySelector(".meta a"), zoom:1
+        };
+        side.addEventListener("click", event => {
+          const action = event.target.closest("button")?.dataset.action;
+          if (action === "load") load(state);
+          if (action === "zoom-in") setZoom(state, state.zoom + .25);
+          if (action === "zoom-out") setZoom(state, state.zoom - .25);
+          if (action === "fit") { setZoom(state, 1); state.viewport.scrollTo(0, 0); }
+          if (action === "actual" && state.image.naturalWidth) { setZoom(state, state.image.naturalWidth / state.viewport.clientWidth); state.viewport.scrollTo(0, 0); }
+        });
+        state.input.addEventListener("keydown", event => { if (event.key === "Enter") load(state); });
+        let drag = null;
+        state.viewport.addEventListener("pointerdown", event => { if (event.pointerType === "touch") return; drag = { x:event.clientX, y:event.clientY, left:state.viewport.scrollLeft, top:state.viewport.scrollTop }; state.viewport.setPointerCapture(event.pointerId); state.viewport.classList.add("dragging"); });
+        state.viewport.addEventListener("pointermove", event => { if (!drag) return; state.viewport.scrollLeft = drag.left - (event.clientX - drag.x); state.viewport.scrollTop = drag.top - (event.clientY - drag.y); });
+        const endDrag = () => { drag = null; state.viewport.classList.remove("dragging"); };
+        state.viewport.addEventListener("pointerup", endDrag);
+        state.viewport.addEventListener("pointercancel", endDrag);
+      });
+
+      document.querySelector("#clear-left").addEventListener("click", () => clear(states.left));
+      document.querySelector("#clear-right").addEventListener("click", () => clear(states.right));
+      const comparison = document.querySelector(".comparison");
+      document.querySelectorAll("[data-layout]").forEach(button => {
+        button.addEventListener("click", () => {
+          const stacked = button.dataset.layout === "stacked";
+          comparison.classList.toggle("stacked", stacked);
+          document.querySelectorAll("[data-layout]").forEach(option => {
+            option.setAttribute("aria-pressed", String(option === button));
+          });
+        });
+      });
+      document.querySelector("#swap").addEventListener("click", () => {
+        [states.left.input.value, states.right.input.value] = [states.right.input.value, states.left.input.value];
+        const leftLoaded = load(states.left);
+        const rightLoaded = load(states.right);
+        if (!leftLoaded) clear(states.left);
+        if (!rightLoaded) clear(states.right);
+      });
+    })();
+  </script>
+</body>
+</html>

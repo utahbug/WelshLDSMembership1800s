@@ -40,6 +40,7 @@ fs.copyFileSync(path.join(root, "local-development/local-catalog-overrides.js"),
 fs.copyFileSync(path.join(root, "local-development/home-unified-search.js"), path.join(output, "home-unified-search.js"));
 fs.copyFileSync(path.join(root, "local-development/hymnal-discovery-extension.js"), path.join(output, "hymnal-discovery-extension.js"));
 fs.copyFileSync(path.join(root, "local-development/person-historical-material.js"), path.join(output, "person-historical-material.js"));
+fs.copyFileSync(path.join(root, "local-development/compare-source-images.html"), path.join(output, "compare-source-images.html"));
 fs.copyFileSync(path.join(root, "branch-export.js"), path.join(output, "branch-export.js"));
 fs.copyFileSync(path.join(root, "masthead-home.js"), path.join(output, "masthead-home.js"));
 
