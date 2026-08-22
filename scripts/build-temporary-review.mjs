@@ -19,6 +19,8 @@ if (helperOnly) {
 .temporary-review-label{position:fixed;right:10px;bottom:10px;z-index:1000;padding:4px 7px;border:1px solid rgba(255,255,255,.38);border-radius:3px;background:rgba(22,60,49,.88);color:#fff;font:600 10px/1.2 Arial,sans-serif;letter-spacing:.08em;pointer-events:none}
 </style>`;
   const html = fs.readFileSync(helperSource, "utf8")
+    .replace("Compare source images — Local Development", "Compare source images — Temporary Review")
+    .replace("Local Development research helper", "Temporary Review research helper")
     .replace(
       "<script>window.WELSH_LOCAL_DEVELOPMENT = true;</script>",
       "<script>window.WELSH_FULL_ONLINE=true;window.WELSH_TEMPORARY_REVIEW=true;</script>",
