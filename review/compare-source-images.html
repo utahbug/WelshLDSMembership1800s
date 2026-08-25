@@ -39,9 +39,10 @@
     .meta strong, .meta span { display:block; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; }
     .meta span { color:var(--muted); }
     .meta a { display:none; }
-    .viewport { position:relative; min-height:0; overflow:auto; overscroll-behavior:contain; background:#343836; cursor:grab; touch-action:pan-x pan-y; }
-    .image-controls { position:sticky; z-index:3; top:.45rem; left:.45rem; float:left; display:flex; flex-direction:column; gap:.22rem; width:2.15rem; margin:.45rem -2.6rem 0 .45rem; }
-    .image-controls button { display:grid; place-items:center; width:2.15rem; min-height:2.15rem; padding:0; border-color:#8f9993; background:rgba(255,255,255,.94); font:600 1rem/1 Arial,sans-serif; box-shadow:0 1px 3px #0005; }
+    .viewer-body { display:grid; grid-template-columns:2.75rem minmax(0,1fr); min-width:0; min-height:0; overflow:hidden; }
+    .viewport { position:relative; min-width:0; min-height:0; overflow:auto; overscroll-behavior:contain; background:#343836; cursor:grab; touch-action:pan-x pan-y; }
+    .image-controls { z-index:3; display:flex; flex-direction:column; align-items:center; gap:.22rem; padding:.4rem .3rem; border-right:1px solid var(--line); background:#e8e5dc; }
+    .image-controls button { display:grid; place-items:center; width:2.15rem; min-height:2.15rem; padding:0; border-color:#8f9993; background:#fff; font:600 1rem/1 Arial,sans-serif; box-shadow:0 1px 2px #0002; }
     .image-controls button:disabled { opacity:.45; cursor:not-allowed; }
     .viewport.dragging { cursor:grabbing; user-select:none; }
     .viewport img { display:block; width:100%; height:auto; margin:0 auto; background:#fff; transform-origin:top left; }
@@ -57,6 +58,7 @@
       .side { height:min(58vh,500px); min-height:320px; }
       .load-row { grid-template-columns:1fr; }
       .load-row button { width:100%; }
+      .viewer-body { grid-template-columns:3.1rem minmax(0,1fr); }
       .image-controls button { width:2.5rem; min-height:2.5rem; }
     }
   </style>
@@ -82,13 +84,13 @@
       <section class="side" data-side="left">
         <div class="side-head"><label for="left-source">Left source</label><div class="load-row"><input id="left-source" type="url" spellcheck="false" placeholder="Paste source viewer or image URL"><button type="button" data-action="load">Load</button></div></div>
         <div class="meta" aria-live="polite"><strong>No image loaded</strong><span></span><a hidden target="_blank" rel="noopener">Open original</a></div>
-        <div class="viewport" tabindex="0" aria-label="Left source image viewer"><div class="image-controls"><button type="button" data-action="zoom-out" aria-label="Zoom out left image" title="Zoom out">−</button><button type="button" data-action="fit" aria-label="Fit left image to width" title="Fit width">↔</button><button type="button" data-action="actual" aria-label="Show left image at 100 percent" title="100%">1:1</button><button type="button" data-action="zoom-in" aria-label="Zoom in left image" title="Zoom in">+</button><button type="button" data-action="open" aria-label="Open original left source" title="Open original">↗</button><button type="button" data-action="clear" aria-label="Clear left source" title="Clear">×</button></div><div class="empty">Load the left source image.</div><img hidden alt="Left source image"></div>
+        <div class="viewer-body"><div class="image-controls"><button type="button" data-action="zoom-out" aria-label="Zoom out left image" title="Zoom out">−</button><button type="button" data-action="fit" aria-label="Fit left image to width" title="Fit width">↔</button><button type="button" data-action="actual" aria-label="Show left image at 100 percent" title="100%">1:1</button><button type="button" data-action="zoom-in" aria-label="Zoom in left image" title="Zoom in">+</button><button type="button" data-action="open" aria-label="Open original left source" title="Open original">↗</button><button type="button" data-action="clear" aria-label="Clear left source" title="Clear">×</button></div><div class="viewport" tabindex="0" aria-label="Left source image viewer"><div class="empty">Load the left source image.</div></div></div>
       </section>
       <div class="splitter" role="separator" aria-label="Resize comparison panes" aria-orientation="vertical" tabindex="0"></div>
       <section class="side" data-side="right">
         <div class="side-head"><label for="right-source">Right source</label><div class="load-row"><input id="right-source" type="url" spellcheck="false" placeholder="Paste source viewer or image URL"><button type="button" data-action="load">Load</button></div></div>
         <div class="meta" aria-live="polite"><strong>No image loaded</strong><span></span><a hidden target="_blank" rel="noopener">Open original</a></div>
-        <div class="viewport" tabindex="0" aria-label="Right source image viewer"><div class="image-controls"><button type="button" data-action="zoom-out" aria-label="Zoom out right image" title="Zoom out">−</button><button type="button" data-action="fit" aria-label="Fit right image to width" title="Fit width">↔</button><button type="button" data-action="actual" aria-label="Show right image at 100 percent" title="100%">1:1</button><button type="button" data-action="zoom-in" aria-label="Zoom in right image" title="Zoom in">+</button><button type="button" data-action="open" aria-label="Open original right source" title="Open original">↗</button><button type="button" data-action="clear" aria-label="Clear right source" title="Clear">×</button></div><div class="empty">Load the right source image.</div><img hidden alt="Right source image"></div>
+        <div class="viewer-body"><div class="image-controls"><button type="button" data-action="zoom-out" aria-label="Zoom out right image" title="Zoom out">−</button><button type="button" data-action="fit" aria-label="Fit right image to width" title="Fit width">↔</button><button type="button" data-action="actual" aria-label="Show right image at 100 percent" title="100%">1:1</button><button type="button" data-action="zoom-in" aria-label="Zoom in right image" title="Zoom in">+</button><button type="button" data-action="open" aria-label="Open original right source" title="Open original">↗</button><button type="button" data-action="clear" aria-label="Clear right source" title="Clear">×</button></div><div class="viewport" tabindex="0" aria-label="Right source image viewer"><div class="empty">Load the right source image.</div></div></div>
       </section>
     </div>
     <div class="review"><label for="classification">Manual classification:</label><select id="classification"><option value="">Choose…</option><option>Duplicate — prefer left</option><option>Duplicate — prefer right</option><option>Duplicate — keep both</option><option>Not duplicate</option><option>Uncertain</option></select><small>For review convenience only; this selection is not saved.</small></div>
@@ -141,6 +143,7 @@
       }
 
       function setZoom(state, value) {
+        if (!state.image) return;
         state.zoom = Math.min(4, Math.max(.25, value));
         state.image.style.width = `${state.zoom * 100}%`;
       }
@@ -152,9 +155,10 @@
       }
 
       function clear(state) {
+        state.loadToken += 1;
         state.input.value = "";
-        state.image.hidden = true;
-        state.image.removeAttribute("src");
+        state.image?.remove();
+        state.image = null;
         state.metaName.textContent = "No image loaded";
         state.metaCollection.textContent = "";
         state.original.hidden = true;
@@ -170,18 +174,33 @@
         state.metaCollection.textContent = source.collection;
         state.original.href = source.originalUrl;
         state.original.hidden = false;
+        state.image?.remove();
+        state.image = null;
+        const token = ++state.loadToken;
         setMessage(state, "Loading image…");
-        state.image.onload = () => { state.image.hidden = false; state.empty.hidden = true; setZoom(state, 1); state.viewport.scrollTo(0, 0); };
-        state.image.onerror = () => { state.image.hidden = true; setMessage(state, "The image could not be loaded from this link.", true); };
-        state.image.src = source.imageUrl;
+        const image = new Image();
+        image.alt = "";
+        image.onload = () => {
+          if (token !== state.loadToken) return;
+          state.image = image;
+          state.viewport.append(image);
+          state.empty.hidden = true;
+          setZoom(state, 1);
+          state.viewport.scrollTo(0, 0);
+        };
+        image.onerror = () => {
+          if (token !== state.loadToken) return;
+          setMessage(state, "Unable to load this source image.", true);
+        };
+        image.src = source.imageUrl;
         return true;
       }
 
       document.querySelectorAll(".side").forEach(side => {
         const name = side.dataset.side;
         const state = states[name] = {
-          name, side, input:side.querySelector("input"), image:side.querySelector("img"), viewport:side.querySelector(".viewport"), empty:side.querySelector(".empty"),
-          metaName:side.querySelector(".meta strong"), metaCollection:side.querySelector(".meta span"), original:side.querySelector(".meta a"), zoom:1
+          name, side, input:side.querySelector("input"), image:null, viewport:side.querySelector(".viewport"), empty:side.querySelector(".empty"),
+          metaName:side.querySelector(".meta strong"), metaCollection:side.querySelector(".meta span"), original:side.querySelector(".meta a"), zoom:1, loadToken:0
         };
         side.addEventListener("click", event => {
           const action = event.target.closest("button")?.dataset.action;
@@ -189,7 +208,7 @@
           if (action === "zoom-in") setZoom(state, state.zoom + .25);
           if (action === "zoom-out") setZoom(state, state.zoom - .25);
           if (action === "fit") { setZoom(state, 1); state.viewport.scrollTo(0, 0); }
-          if (action === "actual" && state.image.naturalWidth) { setZoom(state, state.image.naturalWidth / state.viewport.clientWidth); state.viewport.scrollTo(0, 0); }
+          if (action === "actual" && state.image?.naturalWidth) { setZoom(state, state.image.naturalWidth / state.viewport.clientWidth); state.viewport.scrollTo(0, 0); }
           if (action === "open" && state.original.href) window.open(state.original.href, "_blank", "noopener");
           if (action === "clear") clear(state);
         });
