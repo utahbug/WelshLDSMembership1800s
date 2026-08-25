@@ -724,6 +724,9 @@ body:has(.search-sticky-nav) .research-beta-note { margin-top: 8px; }
 .people-source-link { display: inline-block; padding: 5px 0; color: var(--green-dark); font-weight: 400; text-decoration: none; }
 .people-source-link:hover, .people-source-link:focus-visible { color: var(--green); text-decoration: underline; text-decoration-thickness: 2px; text-underline-offset: 2px; }
 .people-source-link:focus-visible { outline: 2px solid var(--gold); outline-offset: 3px; border-radius: 2px; }
+.branch-member-source-actions { display: flex; flex-wrap: wrap; align-items: center; gap: 2px 18px; }
+.branch-copy-source-url { appearance: none; border: 0; background: transparent; cursor: pointer; font: inherit; }
+.branch-copy-source-url-error { color: #8b2f24; }
 .people-source-link-icon { position: relative; display: inline-block; width: 10px; height: 13px; margin-left: .35em; border: 1.5px solid var(--gold-dark); border-radius: 1px; box-sizing: border-box; vertical-align: -2px; }
 .people-source-link-icon::after { content: ""; position: absolute; right: -1.5px; top: -1.5px; width: 4px; height: 4px; border-left: 1.5px solid var(--gold-dark); border-bottom: 1.5px solid var(--gold-dark); background: var(--panel); }
 .people-search-controls { grid-template-columns: minmax(300px, 380px) minmax(160px, 220px); justify-content: start; }

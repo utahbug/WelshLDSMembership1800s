@@ -26,6 +26,34 @@
     imageFilename: record.imageFilename || "",
     view: "single",
   })}`;
+  const completeRecordUrl = (record) => new URL(recordUrl(record), window.location.href).href;
+
+  async function copyText(value) {
+    if (navigator.clipboard?.writeText) {
+      await navigator.clipboard.writeText(value);
+      return;
+    }
+    const input = document.createElement("textarea");
+    input.value = value;
+    input.setAttribute("readonly", "");
+    input.style.position = "fixed";
+    input.style.opacity = "0";
+    document.body.append(input);
+    input.select();
+    const copied = document.execCommand("copy");
+    input.remove();
+    if (!copied) throw new Error("Clipboard copy failed");
+  }
+
+  function setCopyStatus(button, message, isError = false) {
+    clearTimeout(button._copyStatusTimer);
+    button.textContent = message;
+    button.classList.toggle("branch-copy-source-url-error", isError);
+    button._copyStatusTimer = setTimeout(() => {
+      button.textContent = "Copy source URL";
+      button.classList.remove("branch-copy-source-url-error");
+    }, 1800);
+  }
 
   function branchNameFromCard(card) {
     const label = card.querySelector("strong")?.textContent?.trim() || "";
@@ -60,7 +88,7 @@
       ["Source branch spelling", record.sourceBranchSpelling && record.sourceBranchSpelling !== record.branch ? record.sourceBranchSpelling : ""],
     ].filter(([, value]) => value !== undefined && value !== null && String(value).trim());
     const source = exactSourceAvailable(record)
-      ? `<p class="people-result-action"><a class="people-source-link" href="${escapeHtml(recordUrl(record))}">Open source<span class="people-source-link-icon" aria-hidden="true"></span></a></p>`
+      ? `<p class="people-result-action branch-member-source-actions"><a class="people-source-link" href="${escapeHtml(recordUrl(record))}">Open source<span class="people-source-link-icon" aria-hidden="true"></span></a><button type="button" class="people-source-link branch-copy-source-url" data-source-url="${escapeHtml(completeRecordUrl(record))}" aria-live="polite">Copy source URL</button></p>`
       : "";
     return `<dl>${facts.map(([label, value]) => `<div><dt>${escapeHtml(label)}</dt><dd>${escapeHtml(value)}</dd></div>`).join("")}</dl>${source}`;
   }
@@ -89,6 +117,16 @@
       list.append(member);
     }
     content.append(list);
+    list.addEventListener("click", async (event) => {
+      const button = event.target.closest(".branch-copy-source-url");
+      if (!button) return;
+      try {
+        await copyText(button.dataset.sourceUrl);
+        setCopyStatus(button, "Copied");
+      } catch {
+        setCopyStatus(button, "Copy failed", true);
+      }
+    });
     if (filter) filter.addEventListener("input", () => {
       const query = filter.value.trim().toLocaleLowerCase("en");
       list.querySelectorAll(".branch-member-record").forEach((member) => { member.hidden = Boolean(query) && !member.dataset.memberName.includes(query); });
