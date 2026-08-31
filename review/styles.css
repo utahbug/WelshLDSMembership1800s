@@ -540,7 +540,8 @@ button, input { font: inherit; }
 .branch-detail-content p:last-child, .branch-detail-content ul:last-child { margin-bottom: 0; }
 .branch-member-filter-note { display: flex; flex-wrap: wrap; align-items: baseline; gap: 1px 10px; margin: -1px 0 5px; color: var(--muted); font: 400 .7rem/1.35 Arial, sans-serif; }
 .branch-members-tools { margin: 0 0 5px; text-align: right; }
-.branch-members-compare-link { color: var(--green-dark); font: inherit; font-style: italic; text-decoration: none; }
+.branch-members-compare-link { color: var(--green-dark); font: inherit; font-style: italic; text-decoration: none; white-space: nowrap; }
+.branch-member-filter .branch-members-compare-link > span { display: inline; margin: 0; }
 .branch-members-compare-link:hover, .branch-members-compare-link:focus-visible { color: var(--green); text-decoration: underline; text-decoration-thickness: 1.5px; text-underline-offset: 2px; }
 .branch-members-compare-link:focus-visible { outline: 2px solid var(--gold); outline-offset: 2px; border-radius: 2px; }
 .branch-members-content { padding-top: 12px; }
