@@ -27,6 +27,10 @@
     view: "single",
   })}`;
   const completeRecordUrl = (record) => new URL(recordUrl(record), window.location.href).href;
+  const compareImagesUrl = () => window.WELSH_RESEARCH_BETA || window.WELSH_LOCAL_DEVELOPMENT || window.WELSH_FULL_ONLINE
+    ? "compare-source-images.html"
+    : "local-development/compare-source-images.html";
+  const compareImagesLink = () => `<a class="branch-members-compare-link" href="${compareImagesUrl()}" target="_blank" rel="noopener noreferrer">Compare images <span aria-hidden="true">↗</span></a>`;
 
   async function copyText(value) {
     if (navigator.clipboard?.writeText) {
@@ -88,7 +92,7 @@
       ["Source branch spelling", record.sourceBranchSpelling && record.sourceBranchSpelling !== record.branch ? record.sourceBranchSpelling : ""],
     ].filter(([, value]) => value !== undefined && value !== null && String(value).trim());
     const source = exactSourceAvailable(record)
-      ? `<p class="people-result-action branch-member-source-actions"><a class="people-source-link" href="${escapeHtml(recordUrl(record))}">Open source<span class="people-source-link-icon" aria-hidden="true"></span></a><button type="button" class="people-source-link branch-copy-source-url" data-source-url="${escapeHtml(completeRecordUrl(record))}" aria-live="polite">Copy source URL</button></p>`
+      ? `<p class="people-result-action branch-member-source-actions"><a class="people-source-link" href="${escapeHtml(recordUrl(record))}">See source<span class="people-source-link-icon" aria-hidden="true"></span></a><button type="button" class="people-source-link branch-copy-source-url" data-source-url="${escapeHtml(completeRecordUrl(record))}" aria-live="polite">Copy source URL</button></p>`
       : "";
     return `<dl>${facts.map(([label, value]) => `<div><dt>${escapeHtml(label)}</dt><dd>${escapeHtml(value)}</dd></div>`).join("")}</dl>${source}`;
   }
@@ -103,9 +107,14 @@
     if (branchRecords.length > 25) {
       const label = document.createElement("label");
       label.className = "branch-member-filter";
-      label.innerHTML = `<span>Filter names</span><small class="branch-member-filter-note">Some names may appear more than once.</small><input type="search" autocomplete="off" aria-label="Filter ${escapeHtml(branch)} member names">`;
+      label.innerHTML = `<span>Filter names</span><small class="branch-member-filter-note"><span>Some names may appear more than once.</span>${compareImagesLink()}</small><input type="search" autocomplete="off" aria-label="Filter ${escapeHtml(branch)} member names">`;
       filter = label.querySelector("input");
       content.append(label);
+    } else {
+      const tools = document.createElement("p");
+      tools.className = "branch-members-tools";
+      tools.innerHTML = compareImagesLink();
+      content.append(tools);
     }
     list = document.createElement("div");
     list.className = "branch-member-list";
@@ -113,7 +122,16 @@
       const member = document.createElement("details");
       member.className = "branch-member-record";
       member.dataset.memberName = String(record.nameAsWritten || "").toLocaleLowerCase("en");
-      member.innerHTML = `<summary>${escapeHtml(record.nameAsWritten)}</summary><div class="branch-member-record-details">${memberDetails(record)}</div>`;
+      member.innerHTML = `<summary aria-expanded="false">${escapeHtml(record.nameAsWritten)}</summary><div class="branch-member-record-details">${memberDetails(record)}</div>`;
+      const memberSummary = member.querySelector(":scope > summary");
+      memberSummary.addEventListener("keydown", (event) => {
+        if (event.key !== "Enter" && event.key !== " ") return;
+        event.preventDefault();
+        member.open = !member.open;
+      });
+      member.addEventListener("toggle", () => {
+        memberSummary.setAttribute("aria-expanded", String(member.open));
+      });
       list.append(member);
     }
     content.append(list);

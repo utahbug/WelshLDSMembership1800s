@@ -37,9 +37,14 @@
     const searchCore = window.WELSH_PEOPLE_SEARCH_CORE;
     if (!searchCore) { finishLoading(); unavailable.hidden = false; app.hidden = true; return; }
     const normalize = searchCore.normalize;
+    const memberBaptismEnglishDisplay = (value) => {
+      const readable = searchCore.dateSearchVariants(value).find((variant) => /^\d{1,2} (?:january|february|march|april|may|june|july|august|september|october|november|december) \d{4}$/.test(variant));
+      return readable ? readable.replace(/^(\d{1,2}) ([a-z]+) (\d{4})$/, (_, day, month, year) => `${month[0].toUpperCase()}${month.slice(1)} ${day}, ${year}`) : value;
+    };
     const escapeHtml = (value) => String(value || "").replace(/[&<>"']/g, (character) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" })[character]);
     const records = index.records || [];
     const collections = new Map((window.WELSH_RECORD_CATALOG?.collections || []).map((collection) => [collection.id, collection]));
+    const branchRouteByName = new Map((window.WELSH_HISTORICAL_NAMES?.rows || []).filter((row) => row.name && row.resourceUrl).map((row) => [normalize(row.name), row.resourceUrl]));
     const branches = [...new Set(records.map((record) => record.branch).filter(Boolean))].sort((a, b) => a.localeCompare(b, "en", { sensitivity: "base" }));
     const branchCount = branches.length;
     const selectedBranches = new Set(branches);
@@ -194,13 +199,17 @@
         const article = document.createElement("article"); article.className = "research-result people-result";
         const collection = collections.get(record.collectionId);
         const aliases = Array.isArray(record.aliases) ? record.aliases.filter(Boolean) : [];
-        const facts = [`<p class="people-fact people-branch-fact"><strong>Branch:</strong> ${escapeHtml(record.branch)}</p>`, record.birthDate ? `<p class="people-fact people-date-fact"><strong>Birth:</strong> ${escapeHtml(record.birthDate)}</p>` : "", record.baptismDate ? `<p class="people-fact people-date-fact"><strong>Baptism:</strong> ${escapeHtml(record.baptismDate)}</p>` : "", record.residence ? `<p class="people-fact"><strong>Residence:</strong> ${escapeHtml(record.residence)}</p>` : "", record.year || record.date ? `<p class="people-fact"><strong>Date:</strong> ${escapeHtml(record.year || record.date)}</p>` : "", record.entryNumber ? `<p class="people-fact"><strong>Entry:</strong> ${escapeHtml(record.entryNumber)}</p>` : "", aliases.length ? `<p class="people-fact"><strong>Also written:</strong> ${escapeHtml(aliases.join("; "))}</p>` : ""].filter(Boolean);
+        const branchUrl = branchRouteByName.get(normalize(record.branch)) || "";
+        const branchValue = branchUrl ? `<a class="people-result-branch-link" href="${escapeHtml(branchUrl)}">${escapeHtml(record.branch)}</a>` : escapeHtml(record.branch);
+        const facts = [`<p class="people-fact people-branch-fact"><strong>Branch:</strong> ${branchValue}</p>`, record.baptismDate ? `<p class="people-fact people-date-fact"><strong>Baptism:</strong> ${escapeHtml(record.baptismDate)}</p>` : "", record.birthDate ? `<p class="people-fact people-date-fact"><strong>Birth:</strong> ${escapeHtml(record.birthDate)}</p>` : "", record.residence ? `<p class="people-fact"><strong>Residence:</strong> ${escapeHtml(record.residence)}</p>` : "", record.year || record.date ? `<p class="people-fact"><strong>Date:</strong> ${escapeHtml(record.year || record.date)}</p>` : "", record.entryNumber ? `<p class="people-fact"><strong>Entry:</strong> ${escapeHtml(record.entryNumber)}</p>` : "", aliases.length ? `<p class="people-fact"><strong>Also written:</strong> ${escapeHtml(aliases.join("; "))}</p>` : ""].filter(Boolean);
         const hasImage = exactSourceAvailable(record);
         const sourceCollection = record.collectionName || collection?.name || "";
         const sourceContext = sourceCollection;
-        const availabilityTitle = !hasImage && index.betaPublicIndex && record.sourceAvailability === "local-portable-only" ? "Exact source image available in the portable/reviewer edition" : "";
         const displayNote = memberDisplayNote(record.notes);
-        article.innerHTML = `<h2>${escapeHtml(record.nameAsWritten)}</h2><div class="people-key-facts">${facts.join("")}</div>${record.sourceBranchSpelling ? `<p class="people-source-detail"><strong>Source branch spelling:</strong> ${escapeHtml(record.sourceBranchSpelling)}</p>` : ""}${sourceContext ? `<p class="people-source-detail"><strong>Source:</strong> ${escapeHtml(sourceContext)}</p>` : ""}${displayNote ? `<p class="people-source-detail">${escapeHtml(displayNote)}</p>` : ""}<p class="people-result-action"><a class="people-source-link" href="${escapeHtml(recordUrl(record))}"${availabilityTitle ? ` title="${escapeHtml(availabilityTitle)}"` : ""}>${hasImage ? "Open source" : `${escapeHtml(record.branch)} resources`}<span class="people-source-link-icon" aria-hidden="true"></span></a></p>`;
+        const memberName = escapeHtml(record.nameAsWritten);
+        const memberHeading = hasImage ? `<h2><a class="people-result-name-link" href="${escapeHtml(recordUrl(record))}">${memberName}</a></h2>` : `<h2>${memberName}</h2>`;
+        const baptismEnglishDetail = record.baptismDate ? `<p class="people-source-detail people-baptism-detail"><strong>Baptism:</strong> ${escapeHtml(memberBaptismEnglishDisplay(record.baptismDate))}</p>` : "";
+        article.innerHTML = `${memberHeading}<div class="people-key-facts">${facts.join("")}</div>${sourceContext ? `<p class="people-source-detail"><strong>Source:</strong> ${escapeHtml(sourceContext)}</p>` : ""}${baptismEnglishDetail}${record.sourceBranchSpelling ? `<p class="people-source-detail"><strong>Source branch spelling:</strong> ${escapeHtml(record.sourceBranchSpelling)}</p>` : ""}${displayNote ? `<p class="people-source-detail">${escapeHtml(displayNote)}</p>` : ""}`;
         return article;
     }
     function render() {

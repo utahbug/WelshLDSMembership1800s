@@ -70,7 +70,9 @@
     const facts = [...card.querySelectorAll(".people-key-facts .people-fact")];
     const valueFor = (label) => facts.find((fact) => fact.querySelector("strong")?.textContent.trim() === `${label}:`)?.textContent.replace(`${label}:`, "").trim() || "";
     const branch = valueFor("Branch");
-    const rows = interpretationRows(branch, valueFor("Birth"), valueFor("Baptism"));
+    const hasBaptismDetail = Boolean(card.querySelector(".people-baptism-detail"));
+    const rows = interpretationRows(branch, valueFor("Birth"), valueFor("Baptism"))
+      .filter(([label]) => label !== "Baptism" || !hasBaptismDetail);
     if (rows.length) {
       const details = document.createElement("div");
       details.className = "people-date-interpretations";
