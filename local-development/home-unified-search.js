@@ -12,6 +12,7 @@
   const memberRecords = memberIndex?.records || [];
   const collections = new Map((window.WELSH_RECORD_CATALOG?.collections || []).map((collection) => [collection.id, collection]));
   const memberCore = window.WELSH_PEOPLE_SEARCH_CORE;
+  const branchRouteByName = new Map((window.WELSH_HISTORICAL_NAMES?.rows || []).filter((row) => row.name && row.resourceUrl).map((row) => [normalize(row.name), row.resourceUrl]));
   let requestNumber = 0;
   let debounceTimer = 0;
 
@@ -63,12 +64,24 @@
     return `index.html?${new URLSearchParams({ branch: record.branch, collection: record.collectionId, image: record.imageSequence ? String(record.imageSequence) : "", imageFilename: record.imageFilename || "", view: "single" })}`;
   }
 
+  function memberDisplayNote(value) {
+    const note = String(value || "").trim();
+    return /transcribed and verified against the source image/i.test(note) ? "Transcribed and verified against the source image." : note;
+  }
+
   function renderMembers(query) {
     if (!memberCore) return [];
     return memberRecords.filter((record) => record.occurrenceType === "member" && memberCore.matches(record, query, collections.get(record.collectionId))).slice(0, 60).map((record) => {
-      const facts = [record.branch, record.birthDate && `Birth ${record.birthDate}`, record.baptismDate && `Baptism ${record.baptismDate}`, record.residence && `Residence ${record.residence}`, record.entryNumber && `Entry ${record.entryNumber}`].filter(Boolean).join(" · ");
-      const article = resultArticle("Member record", record.nameAsWritten, facts);
-      appendActions(article, [actionLink(record.verified && record.onlineViewerAvailable !== false ? "Open source" : `${record.branch} resources`, memberUrl(record))]); return article;
+      const sourceUrl = record.verified && record.onlineViewerAvailable !== false ? memberUrl(record) : "";
+      return memberCore.memberCard(record, {
+        className: "home-unified-result research-result people-result",
+        escapeHtml,
+        typeLabel: "Member record",
+        branchUrl: branchRouteByName.get(normalize(record.branch)) || "",
+        sourceUrl,
+        sourceContext: record.collectionName || collections.get(record.collectionId)?.name || "",
+        displayNote: memberDisplayNote(record.notes),
+      });
     });
   }
 
@@ -118,10 +131,39 @@
     if (request !== requestNumber) return;
     resultList.replaceChildren();
     const status = document.createElement("p"); status.className = "home-search-result-status"; status.textContent = `${items.length.toLocaleString()} result${items.length === 1 ? "" : "s"} shown from the selected sources.`; resultList.append(status);
+    const mobileCount = document.querySelector("#homeResultsCount");
+    if (mobileCount) mobileCount.textContent = `${items.length.toLocaleString()} match${items.length === 1 ? "" : "es"}`;
     if (items.length) resultList.append(...items); else resultList.insertAdjacentHTML("beforeend", '<p class="no-results">No records matched this search in the selected sources.</p>');
   }
 
   function queueRender() { clearTimeout(debounceTimer); debounceTimer = setTimeout(render, 190); }
   input.addEventListener("input", (event) => { event.stopImmediatePropagation(); queueRender(); }, true);
   sourcePicker.addEventListener("change", queueRender);
+
+  let form = document.querySelector("#homeSearchForm");
+  if (!form) {
+    const row = input.closest(".home-unified-search-row");
+    form = document.createElement("form"); form.id = "homeSearchForm"; form.className = "home-unified-search-row home-search-form";
+    row.replaceWith(form); form.append(input);
+  }
+  if (!form.querySelector(".search-submit")) {
+    const button = document.createElement("button"); button.className = "search-submit"; button.type = "submit"; button.textContent = "Search"; form.append(button);
+  }
+  let mobileHeading = resultRoot.querySelector(".mobile-search-results-heading");
+  if (!mobileHeading) {
+    mobileHeading = document.createElement("div"); mobileHeading.className = "mobile-search-results-heading";
+    mobileHeading.innerHTML = '<div><h3 id="homeResultsTitle">Search results</h3><p id="homeResultsCount"></p></div><button id="homeChangeSearch" class="change-search" type="button">Change search</button>';
+    resultRoot.prepend(mobileHeading);
+  }
+  form.addEventListener("submit", async (event) => {
+    event.preventDefault(); clearTimeout(debounceTimer); await render();
+    const query = input.value.trim();
+    if (!query || !matchMedia("(max-width: 620px)").matches) return;
+    document.querySelector("#homeResultsTitle").textContent = `Results for “${query}”`;
+    input.closest(".home-search").classList.add("home-search-results-mode");
+  });
+  document.querySelector("#homeChangeSearch")?.addEventListener("click", () => {
+    input.closest(".home-search").classList.remove("home-search-results-mode");
+    input.focus({ preventScroll: true });
+  });
 })();

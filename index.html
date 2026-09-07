@@ -26,8 +26,8 @@
     <section class="home-page" id="homePanel">
       <header class="home-intro"><p class="eyebrow">Welsh historical records</p><h2>Explore Welsh Latter&#8209;day Saint Records</h2><p>Explore nineteenth-century Welsh LDS branch and member records, and discover related Welsh Saints Project material.</p></header>
       <section class="home-search" aria-labelledby="homeSearchTitle"><h3 id="homeSearchTitle">Search the archive</h3>
-      <label for="collectionSearch">Search 1800s branches, collections, CD numbers, call numbers, dates, and filenames</label><input id="collectionSearch" type="search" placeholder="Try Cardiff, CD 58, LR2157, or Ffestionog" autocomplete="off" aria-describedby="searchHelp"><p class="search-help" id="searchHelp">Approximate spelling is welcome. Welsh, anglicized, and alternate forms are included.</p>
-      <section class="search-results" id="searchResults" hidden><h3>Search results</h3><div id="searchResultList"></div></section>
+      <label for="collectionSearch">Search 1800s branches, collections, CD numbers, call numbers, dates, and filenames</label><form class="home-search-form" id="homeSearchForm"><input id="collectionSearch" type="search" placeholder="Try Cardiff, CD 58, LR2157, or Ffestionog" autocomplete="off" aria-describedby="searchHelp"><button class="search-submit" type="submit">Search</button></form><p class="search-help" id="searchHelp">Approximate spelling is welcome. Welsh, anglicized, and alternate forms are included.</p>
+      <section class="search-results" id="searchResults" hidden><div class="mobile-search-results-heading"><div><h3 id="homeResultsTitle">Search results</h3><p id="homeResultsCount"></p></div><button id="homeChangeSearch" class="change-search" type="button">Change search</button></div><div id="searchResultList"></div></section>
       </section>
       <nav class="home-paths" aria-label="Research paths">
         <a class="home-path-card" href="index.html?view=branches"><strong>All Branches</strong><small>Browse identified Welsh branches and their available records.</small></a>

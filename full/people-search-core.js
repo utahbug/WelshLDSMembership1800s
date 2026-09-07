@@ -141,5 +141,33 @@
     });
   }
 
-  globalThis.WELSH_PEOPLE_SEARCH_CORE = { normalize, dateSearchVariants, buildSearchText, matches };
+  function baptismEnglishDisplay(value) {
+    const readable = dateSearchVariants(value).find((variant) => /^\d{1,2} (?:january|february|march|april|may|june|july|august|september|october|november|december) \d{4}$/.test(variant));
+    return readable ? readable.replace(/^(\d{1,2}) ([a-z]+) (\d{4})$/, (_, day, month, year) => `${month[0].toUpperCase()}${month.slice(1)} ${day}, ${year}`) : String(value || "");
+  }
+
+  function baptismSourceDiffers(sourceValue, readableValue) {
+    if (!sourceValue || !readableValue) return false;
+    const source = String(sourceValue).trim();
+    if (source === readableValue) return false;
+    const fullEnglishDate = /^(?:(?:january|february|march|april|may|june|july|august|september|october|november|december) \d{1,2},? \d{4}|\d{1,2} (?:january|february|march|april|may|june|july|august|september|october|november|december) \d{4})$/i;
+    return !fullEnglishDate.test(source);
+  }
+
+  function memberCard(record, options = {}) {
+    const escapeHtml = options.escapeHtml || ((value) => String(value || "").replace(/[&<>"']/g, (character) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" })[character]));
+    const article = document.createElement("article");
+    article.className = options.className || "research-result people-result";
+    const aliases = Array.isArray(record.aliases) ? record.aliases.filter(Boolean) : [];
+    const branchValue = options.branchUrl ? `<a class="people-result-branch-link" href="${escapeHtml(options.branchUrl)}">${escapeHtml(record.branch)}</a>` : escapeHtml(record.branch);
+    const readableBaptism = record.baptismDate ? baptismEnglishDisplay(record.baptismDate) : "";
+    const facts = [`<p class="people-fact people-branch-fact"><strong>Branch:</strong> ${branchValue}</p>`, readableBaptism ? `<p class="people-fact people-date-fact"><strong>Baptism:</strong> ${escapeHtml(readableBaptism)}</p>` : "", record.birthDate ? `<p class="people-fact people-date-fact"><strong>Birth:</strong> ${escapeHtml(record.birthDate)}</p>` : "", record.residence ? `<p class="people-fact"><strong>Residence:</strong> ${escapeHtml(record.residence)}</p>` : "", record.year || record.date ? `<p class="people-fact"><strong>Date:</strong> ${escapeHtml(record.year || record.date)}</p>` : "", record.entryNumber ? `<p class="people-fact"><strong>Entry:</strong> ${escapeHtml(record.entryNumber)}</p>` : "", aliases.length ? `<p class="people-fact"><strong>Also written:</strong> ${escapeHtml(aliases.join("; "))}</p>` : ""].filter(Boolean);
+    const name = escapeHtml(record.nameAsWritten);
+    const heading = options.sourceUrl ? `<h2><a class="people-result-name-link" href="${escapeHtml(options.sourceUrl)}">${name}</a></h2>` : `<h2>${name}</h2>`;
+    const sourceBaptism = baptismSourceDiffers(record.baptismDate, readableBaptism) ? `<p class="people-source-detail people-baptism-source-detail"><strong>Source baptism record:</strong> ${escapeHtml(record.baptismDate)}</p>` : "";
+    article.innerHTML = `${options.typeLabel ? `<small>${escapeHtml(options.typeLabel)}</small>` : ""}${heading}<div class="people-key-facts">${facts.join("")}</div>${options.sourceContext ? `<p class="people-source-detail"><strong>Source:</strong> ${escapeHtml(options.sourceContext)}</p>` : ""}${sourceBaptism}${record.sourceBranchSpelling ? `<p class="people-source-detail"><strong>Source branch spelling:</strong> ${escapeHtml(record.sourceBranchSpelling)}</p>` : ""}${options.displayNote ? `<p class="people-source-detail">${escapeHtml(options.displayNote)}</p>` : ""}`;
+    return article;
+  }
+
+  globalThis.WELSH_PEOPLE_SEARCH_CORE = { normalize, dateSearchVariants, buildSearchText, matches, baptismEnglishDisplay, baptismSourceDiffers, memberCard };
 })();

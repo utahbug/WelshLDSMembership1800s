@@ -37,10 +37,6 @@
     const searchCore = window.WELSH_PEOPLE_SEARCH_CORE;
     if (!searchCore) { finishLoading(); unavailable.hidden = false; app.hidden = true; return; }
     const normalize = searchCore.normalize;
-    const memberBaptismEnglishDisplay = (value) => {
-      const readable = searchCore.dateSearchVariants(value).find((variant) => /^\d{1,2} (?:january|february|march|april|may|june|july|august|september|october|november|december) \d{4}$/.test(variant));
-      return readable ? readable.replace(/^(\d{1,2}) ([a-z]+) (\d{4})$/, (_, day, month, year) => `${month[0].toUpperCase()}${month.slice(1)} ${day}, ${year}`) : value;
-    };
     const escapeHtml = (value) => String(value || "").replace(/[&<>"']/g, (character) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" })[character]);
     const records = index.records || [];
     const collections = new Map((window.WELSH_RECORD_CATALOG?.collections || []).map((collection) => [collection.id, collection]));
@@ -196,21 +192,11 @@
       }
     }
     function memberCard(record) {
-        const article = document.createElement("article"); article.className = "research-result people-result";
         const collection = collections.get(record.collectionId);
-        const aliases = Array.isArray(record.aliases) ? record.aliases.filter(Boolean) : [];
         const branchUrl = branchRouteByName.get(normalize(record.branch)) || "";
-        const branchValue = branchUrl ? `<a class="people-result-branch-link" href="${escapeHtml(branchUrl)}">${escapeHtml(record.branch)}</a>` : escapeHtml(record.branch);
-        const facts = [`<p class="people-fact people-branch-fact"><strong>Branch:</strong> ${branchValue}</p>`, record.baptismDate ? `<p class="people-fact people-date-fact"><strong>Baptism:</strong> ${escapeHtml(record.baptismDate)}</p>` : "", record.birthDate ? `<p class="people-fact people-date-fact"><strong>Birth:</strong> ${escapeHtml(record.birthDate)}</p>` : "", record.residence ? `<p class="people-fact"><strong>Residence:</strong> ${escapeHtml(record.residence)}</p>` : "", record.year || record.date ? `<p class="people-fact"><strong>Date:</strong> ${escapeHtml(record.year || record.date)}</p>` : "", record.entryNumber ? `<p class="people-fact"><strong>Entry:</strong> ${escapeHtml(record.entryNumber)}</p>` : "", aliases.length ? `<p class="people-fact"><strong>Also written:</strong> ${escapeHtml(aliases.join("; "))}</p>` : ""].filter(Boolean);
         const hasImage = exactSourceAvailable(record);
         const sourceCollection = record.collectionName || collection?.name || "";
-        const sourceContext = sourceCollection;
-        const displayNote = memberDisplayNote(record.notes);
-        const memberName = escapeHtml(record.nameAsWritten);
-        const memberHeading = hasImage ? `<h2><a class="people-result-name-link" href="${escapeHtml(recordUrl(record))}">${memberName}</a></h2>` : `<h2>${memberName}</h2>`;
-        const baptismEnglishDetail = record.baptismDate ? `<p class="people-source-detail people-baptism-detail"><strong>Baptism:</strong> ${escapeHtml(memberBaptismEnglishDisplay(record.baptismDate))}</p>` : "";
-        article.innerHTML = `${memberHeading}<div class="people-key-facts">${facts.join("")}</div>${sourceContext ? `<p class="people-source-detail"><strong>Source:</strong> ${escapeHtml(sourceContext)}</p>` : ""}${baptismEnglishDetail}${record.sourceBranchSpelling ? `<p class="people-source-detail"><strong>Source branch spelling:</strong> ${escapeHtml(record.sourceBranchSpelling)}</p>` : ""}${displayNote ? `<p class="people-source-detail">${escapeHtml(displayNote)}</p>` : ""}`;
-        return article;
+        return searchCore.memberCard(record, { escapeHtml, branchUrl, sourceUrl: hasImage ? recordUrl(record) : "", sourceContext: sourceCollection, displayNote: memberDisplayNote(record.notes) });
     }
     function render() {
       const rawQuery = search.value.trim();
@@ -250,8 +236,32 @@
       const record = await window.WELSH_SAINTS_PERSON_DETAIL.find(card?.dataset.welshSaintsSourceId);
       if (record) window.WELSH_SAINTS_PERSON_DETAIL.open(record, trigger);
     });
+    const controls = document.querySelector("#people-search-controls");
+    const searchSubmit = document.createElement("button");
+    searchSubmit.id = "peopleSearchSubmit"; searchSubmit.type = "button"; searchSubmit.className = "search-submit"; searchSubmit.textContent = "Search";
+    searchQuery.after(searchSubmit);
+    const mobileHeading = document.createElement("div");
+    mobileHeading.className = "mobile-search-results-heading"; mobileHeading.hidden = true;
+    mobileHeading.innerHTML = '<div><h2 tabindex="-1">Results</h2><p></p></div><button class="change-search" type="button">Change search</button>';
+    summary.before(mobileHeading);
+    const mobileTitle = mobileHeading.querySelector("h2");
+    const mobileCount = mobileHeading.querySelector("p");
+    const syncMobileHeading = () => { mobileCount.textContent = resultSummary.textContent; };
+    new MutationObserver(syncMobileHeading).observe(resultSummary, { childList: true, characterData: true, subtree: true });
     const updateClearSearch = () => { clearSearch.hidden = !search.value; };
+    const submitSearch = () => {
+      searchStarted = true; visibleLimit = 50; updateClearSearch(); render();
+      if (matchMedia("(max-width: 620px)").matches) {
+        const query = search.value.trim();
+        mobileTitle.textContent = query && query !== "*" ? `Results for “${query}”` : "Results";
+        mobileHeading.hidden = false; app.classList.add("people-search-results-mode");
+        requestAnimationFrame(() => { syncMobileHeading(); const bounds = mobileHeading.getBoundingClientRect(); if (bounds.top < 0 || bounds.bottom > innerHeight) mobileHeading.scrollIntoView({ block: "start", behavior: "smooth" }); });
+      }
+    };
     search.addEventListener("input", () => { searchStarted = true; visibleLimit = 50; updateClearSearch(); render(); });
+    search.addEventListener("keydown", (event) => { if (event.key === "Enter") { event.preventDefault(); submitSearch(); } });
+    searchSubmit.addEventListener("click", submitSearch);
+    mobileHeading.querySelector(".change-search").addEventListener("click", () => { app.classList.remove("people-search-results-mode"); mobileHeading.hidden = true; requestAnimationFrame(() => { controls.scrollIntoView({ block: "start", behavior: "smooth" }); search.focus({ preventScroll: true }); }); });
     clearSearch.addEventListener("click", () => { search.value = ""; searchStarted = false; visibleLimit = 50; updateClearSearch(); render(); search.focus(); });
     occurrenceTypes.forEach((control) => control.addEventListener("change", () => { searchStarted = true; visibleLimit = 50; render(); }));
     updateBranchSummary(); updateClearSearch(); render(); finishLoading();
