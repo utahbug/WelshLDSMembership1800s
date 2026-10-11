@@ -131,16 +131,10 @@ fs.cpSync(path.join(root, "node_modules/pdfjs-dist/standard_fonts"), path.join(o
 
 const homePath = path.join(output, "index.html");
 let homeHtml = fs.readFileSync(homePath, "utf8");
-homeHtml = homeHtml
-  .replace('Search 1800s branches, collections, CD numbers, call numbers, dates, and filenames', 'Search 1800s records and resources')
-  .replace(
-    '<input id="collectionSearch" type="search"',
-    '<div class="home-unified-search-row"><input id="collectionSearch" type="search"',
-  )
-  .replace(
-    'aria-describedby="searchHelp"><p class="search-help"',
-    'aria-describedby="searchHelp homeSearchSourcesLabel"></div><fieldset class="home-search-sources" aria-labelledby="homeSearchSourcesLabel"><legend id="homeSearchSourcesLabel" class="visually-hidden">Search sources</legend><div class="home-search-source-choices"><label title="Search branches, collections, CD numbers, call numbers, dates, and filenames"><input type="checkbox" value="archive" checked><span>Archive resources</span></label><label title="Search indexed membership records"><input type="checkbox" value="members"><span>Member records</span></label><label title="Search locally indexed Welsh Saints Project material"><input type="checkbox" value="welsh-saints"><span>Welsh Saints Project</span></label><label title="Search historical publications"><input type="checkbox" value="publications"><span>Publications</span></label></div></fieldset><p class="search-help"',
-  );
+homeHtml = homeHtml.replace(
+  'Search 1800s branches, collections, CD numbers, call numbers, dates, and filenames',
+  'Search 1800s records and resources',
+);
 homeHtml = homeHtml.replace(
   /(<nav class="home-paths"[\s\S]*?<\/nav>)/,
   '$1<section class="home-secondary-resources" aria-labelledby="homeHistoryResourcesTitle"><h3 id="homeHistoryResourcesTitle">Learn about early Welsh LDS history</h3><div class="home-secondary-resource-links"><a href="ronald-dennis-publications.html">Ronald D. Dennis Publications</a><a href="welsh-historical-publications.html">Welsh LDS Historical Publications</a></div></section>',

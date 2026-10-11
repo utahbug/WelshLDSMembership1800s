@@ -74,10 +74,11 @@ if (!localHomeHtml.includes('<fieldset class="home-search-sources"') || !localHo
 for (const [value, label] of [["archive", "Archive resources"], ["members", "Member records"], ["welsh-saints", "Welsh Saints Project"], ["publications", "Publications"]]) {
   if (!localHomeHtml.includes(`value="${value}"`) || !localHomeHtml.includes(`<span>${label}</span>`)) throw new Error(`Home source checkbox is missing: ${label}`);
 }
-if (!localHomeHtml.includes('<input type="checkbox" value="archive" checked>')) throw new Error("Archive resources is not the default Home search source");
-for (const value of ["members", "welsh-saints", "publications"]) {
-  if (localHomeHtml.includes(`<input type="checkbox" value="${value}" checked>`)) throw new Error(`Unexpected default Home search source: ${value}`);
-}
+if (localHomeHtml.includes('<input type="checkbox" value="archive" checked>')) throw new Error("Archive resources must not be a default Home search source");
+if (!localHomeHtml.includes('<input type="checkbox" value="members" checked>')) throw new Error("Member records is not a default Home search source");
+if (!localHomeHtml.includes('<input type="checkbox" value="welsh-saints" checked>')) throw new Error("Welsh Saints Project is not a default Home search source");
+if (localHomeHtml.includes('<input type="checkbox" value="publications" checked>')) throw new Error("Publications must not be a default Home search source");
+if (!localHomeHtml.includes('placeholder="Search by name, place, branch, or record"')) throw new Error("Home search placeholder is not person/place oriented");
 const branchNamesExplainer = '<details class="welsh-names-explainer directory-welsh-names-explainer"><summary>Welsh names and spelling</summary>';
 if (localHomeHtml.includes(branchNamesExplainer)) throw new Error("Welsh branches still includes a separate names-and-spelling disclosure");
 if (!localHomeHtml.includes('<nav class="directory-page-nav" aria-label="Branch directory navigation"><a class="directory-home-link" href="index.html">Home</a><a class="directory-member-search-link" href="people-search.html?scope=all-records">Member Search</a></nav>\n      <h2>Welsh branches</h2>')) throw new Error("Welsh branches Home and Full Search links are missing or incorrectly placed");
