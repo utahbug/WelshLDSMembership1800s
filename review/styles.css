@@ -1262,3 +1262,44 @@ body:has(.search-sticky-nav) .research-beta-note + .site-disclaimer { margin: 0;
 @media (max-width: 820px) { .presentation-branch-tools { width: 100%; margin-top: 0; } }
 @media (max-width: 700px) { .branch-directory-utilities { margin-top: 12px; } .branch-directory-utilities > * { flex: 0 1 auto; } .branch-directory-utilities > :not(:first-child) { margin-left: 10px; padding-left: 10px; } .branch-directory-utilities .branch-directory-historical-names, .branch-directory-utilities .welsh-names-explainer summary, .branch-directory-utilities .branch-export-control > summary, .branch-directory-utilities .presentation-transcript-link a { min-height: 44px; } }
 @media (max-width: 430px) { .branch-directory-utilities { gap: 0 12px; } .branch-directory-utilities > * { flex-basis: 100%; } .branch-directory-utilities > :not(:first-child) { margin-left: 0; padding-left: 0; border-left: 0; border-top: 1px solid var(--line); } }
+
+/* Temporary Review: Branches & Conferences directory prototype. */
+.organization-filter-row { display: flex; flex-wrap: wrap; align-items: center; gap: 8px 12px; margin: 12px 0 4px; }
+.organization-type-filters { display: inline-flex; flex-wrap: wrap; gap: 4px; }
+.organization-filter-row button { min-height: 44px; box-sizing: border-box; padding: 8px 13px; color: var(--green-dark); border: 1px solid #807866; border-radius: 999px; background: var(--panel); cursor: pointer; font: 600 .84rem/1.2 Arial, sans-serif; }
+.organization-filter-row button[aria-pressed="true"] { color: white; border-color: var(--green-dark); background: var(--green-dark); }
+.organization-filter-row button:hover { border-color: var(--green); box-shadow: 0 2px 8px rgba(23,60,49,.16); }
+.organization-filter-row button:focus-visible { outline: 3px solid var(--gold); outline-offset: 2px; }
+.organization-review-filter { display: inline-flex; align-items: center; gap: 6px; }
+.organization-filter-summary { margin: 7px 0 0; color: var(--muted); font: .82rem/1.45 Arial, sans-serif; }
+#branchList.organization-directory-list { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 9px 12px; }
+.organization-card { min-width: 0; min-height: 76px; box-sizing: border-box; display: flex; flex-direction: column; justify-content: center; gap: 5px; padding: 13px 15px; color: var(--ink); border: 1px solid var(--line); border-left: 4px solid var(--gold); border-radius: 4px; background: var(--panel); text-decoration: none; }
+.organization-card:hover { border-color: var(--green); border-left-color: var(--gold); background: #f7f3e8; box-shadow: 0 4px 14px rgba(23,60,49,.14); }
+.organization-card:focus-visible { outline: 3px solid var(--gold); outline-offset: 2px; border-color: var(--green-dark); }
+.organization-card-heading { min-width: 0; display: flex; align-items: baseline; gap: 7px; }
+.organization-card-heading strong { overflow-wrap: anywhere; color: var(--green-dark); font-size: 1.02rem; }
+.organization-card:hover .organization-card-heading strong,
+.organization-card:focus-visible .organization-card-heading strong { text-decoration: underline; text-underline-offset: 3px; }
+.organization-type { margin-left: auto; color: #4f554f; font: 600 .7rem/1.25 Arial, sans-serif; text-align: right; }
+.organization-note-icon { flex: 0 0 auto; color: #745813; font-family: Arial, sans-serif; }
+.organization-card small { color: var(--muted); font: .78rem/1.35 Arial, sans-serif; }
+.organization-status-note { color: #4f554f; font: .76rem/1.4 Arial, sans-serif; }
+.organization-candidate { border-left-color: #716b5d; background: #f5f2ea; }
+.organization-research-note { border-left-color: #8b6a1f; }
+.organization-research-notes { margin-bottom: 16px; }
+.organization-research-notes h3 { margin-top: 0; }
+.organization-research-notes li { margin-bottom: .55rem; }
+@media (max-width: 760px) {
+  #branchList.organization-directory-list { grid-template-columns: 1fr; }
+  .organization-filter-row { align-items: stretch; }
+  .organization-type-filters { flex: 1 1 auto; }
+  .organization-type-filters button { flex: 1 1 auto; }
+}
+@media (max-width: 430px) {
+  .organization-filter-row { display: grid; grid-template-columns: 1fr; }
+  .organization-type-filters { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); }
+  .organization-filter-row button { padding-inline: 9px; }
+  .organization-review-filter { width: 100%; justify-content: center; }
+  .organization-card-heading { flex-wrap: wrap; }
+  .organization-type { width: 100%; margin-left: 0; text-align: left; }
+}
