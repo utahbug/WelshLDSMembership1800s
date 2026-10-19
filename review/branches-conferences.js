@@ -17,6 +17,26 @@
       context: "Expert review distinguishes Pembroke town from Pembroke Dock and nearby Monkton, and reports that Pembroke Dock was sometimes called Pater.",
       unresolved: "The relationships among Pembroke, Pembroke Dock, Pater, and Monkton still require source confirmation.",
     }],
+    ["Brecon", {
+      established: "A historical source identifies a former president of Brecon Branch.",
+      context: "Expert review recalls a possible meeting-place reference to the Woolpack, but the exact passage has not yet been located.",
+      unresolved: "The Woolpack detail remains unverified and is not used as evidence for the branch identity.",
+    }],
+    ["Cefn Mawr", {
+      established: "A historical periodical explicitly names Cefn Mawr Branch.",
+      context: "Expert review places the locality in Flintshire.",
+      unresolved: "The locality context still needs to be checked against the branch source before it is attached as a formal relationship.",
+    }],
+    ["Llantrisant", {
+      established: "Llantrisant is retained as an established branch in the project registry.",
+      context: "Expert review confirms the Glamorgan locality but supplies no additional organizational evidence.",
+      unresolved: "No further branch detail from this review has been independently confirmed.",
+    }],
+    ["Mountain Ash", {
+      established: "Mountain Ash is retained as an established branch in the project registry.",
+      context: "Expert review recalls one Latter-day Saint reference and separately notes a nineteenth-century Reorganized Church presence.",
+      unresolved: "The Latter-day Saint citation and the distinct RLDS evidence must be kept separate and still require source checking.",
+    }],
   ]);
 
   const explicitOrganizations = [
@@ -28,6 +48,7 @@
       years: "1853–1863",
       collections: 1,
       source: "Glamorgan East Conference minutes, 1853–1863 · LR 17616 21",
+      sourceHref: "index.html?collection=collection-36&image=1&view=facing",
       evidence: "The public catalog explicitly identifies a Glamorgan East Conference source collection.",
     },
     {
@@ -38,6 +59,7 @@
       years: "1851–1870",
       collections: 1,
       source: "Western Glamorgan Conference Minutes, 1851–1870 · CD 41 · LR 17617 21",
+      sourceHref: "index.html?collection=typed-viewer-a04b9653fca1d5e6&image=1&view=facing",
       evidence: "The established Morriston record cites the enclosing Western Glamorgan Conference minutes and their source identifiers.",
     },
     {
@@ -48,6 +70,7 @@
       years: "1849–1854",
       collections: 1,
       source: "Welsh District general minutes, volume 1 · CD 60 · LR 10011 11",
+      sourceHref: "index.html?collection=typed-viewer-240a15d95d2e9fa2&image=1&view=facing",
       evidence: "The recovered source is explicitly titled as Welsh District general minutes and includes Wick, St Brides, Pile/Pike, and Abercenfig material.",
     },
     {
@@ -57,7 +80,8 @@
       status: "established",
       years: "1879–1882",
       collections: 1,
-      source: "Tredegar District confidential minutes, 1879–1882",
+      source: "Tredegar District confidential minutes, 1879–1882 · LR 12404 10",
+      sourceHref: "index.html?collection=collection-54&image=1&view=facing",
       evidence: "The public catalog explicitly identifies this source as a district-level record.",
     },
   ];
@@ -66,7 +90,9 @@
     { name: "Aberdare English", note: "Expert review identifies an English-language town branch in the 1850s; documentary confirmation is still required." },
     { name: "Aberdare Welsh", note: "Expert review identifies a Welsh-language town branch in the 1850s; documentary confirmation is still required." },
     { name: "Pembroke Dock", note: "Expert review distinguishes Pembroke Dock from Pembroke and reports Pater as a possible historical name; source confirmation is pending." },
+    { name: "Pater", note: "Expert review reports Pater as a possible historical name for Pembroke Dock; the exact source wording and relationship remain unverified." },
     { name: "Monkton", note: "Expert review reports a nearby branch and purpose-built chapel; the cited documentation has not yet been recovered into the organization registry." },
+    { name: "Milford Haven / Johnston", note: "Expert review describes a later organizational succession involving Pembroke Dock, Milford Haven, and a Johnston meeting place; this falls outside the current nineteenth-century registry and requires verification." },
     { name: "Kilha", note: "LR 129 7 contains the explicit historical heading “yn Nghangen Kilha.” The modern locality and any relationship to Cila, Cilâ, or Killay remain unresolved.", source: "Bryntroedgam/Bryn volume · CD 13 · LR 129 7 · register pages 9–11" },
   ];
 
@@ -136,25 +162,54 @@
     link.href = hrefFor(item);
     const statusText = item.status === "research-note" ? "Established · Research note" : item.status === "candidate" ? "Candidate · Under review" : item.type;
     const icon = item.status === "research-note" ? `<span class="organization-note-icon" aria-hidden="true">ⓘ</span><span class="visually-hidden"> Research note</span>` : "";
-    link.innerHTML = `<span class="organization-card-heading"><strong>${item.name}</strong>${icon}<span class="organization-type">${statusText}</span></span>${metadata(item) ? `<small>${metadata(item)}</small>` : ""}${item.status === "candidate" ? `<span class="organization-status-note">${item.note || "Identity or organization status requires further evidence."}</span>` : ""}`;
+    link.innerHTML = `<span class="organization-card-heading"><strong>${item.name}</strong>${icon}<span class="organization-type">${statusText}</span></span>${metadata(item) ? `<small>${metadata(item)}</small>` : ""}`;
     if (!item.registry) link.addEventListener("click", (event) => { event.preventDefault(); history.pushState({ organization: item.id }, "", link.href); showCustomDetail(item); });
     return link;
   }
 
-  function activeItems() {
-    const source = reviewOnly
-      ? [...establishedOrganizations.filter((item) => item.status === "research-note"), ...candidates]
-      : establishedOrganizations;
-    return source.filter((item) => {
+  function filtered(items) {
+    return items.filter((item) => {
       if (typeFilter === "branch") return item.type === "Branch";
-      if (typeFilter === "conference") return item.type === "Conference";
+      if (typeFilter === "conference") return item.type === "Conference" || item.type === "District";
       return true;
     }).sort((a, b) => a.name.localeCompare(b.name, "en", { sensitivity: "base" }));
   }
 
+  function reviewGroup(id, title, description, items) {
+    const section = document.createElement("section");
+    section.className = "organization-review-group";
+    section.setAttribute("aria-labelledby", id);
+    const heading = document.createElement("h3");
+    heading.id = id;
+    heading.textContent = title;
+    const context = document.createElement("p");
+    context.className = "organization-review-group-description";
+    context.textContent = description;
+    const grid = document.createElement("div");
+    grid.className = "organization-review-grid";
+    grid.replaceChildren(...items.map(card));
+    section.append(heading, context, grid);
+    return section;
+  }
+
   function render() {
-    const items = activeItems();
-    branchList.replaceChildren(...items.map(card));
+    const establishedNotes = filtered(establishedOrganizations.filter((item) => item.status === "research-note"));
+    const candidateItems = filtered(candidates);
+    const items = reviewOnly ? [...establishedNotes, ...candidateItems] : filtered(establishedOrganizations);
+    if (reviewOnly) {
+      const groups = [];
+      if (establishedNotes.length) groups.push(reviewGroup("establishedResearchHeading", "Established with research notes", "Established organizations whose interpretation or relationships still need careful source review.", establishedNotes));
+      if (candidateItems.length) groups.push(reviewGroup("candidateResearchHeading", "Candidates / identification under review", "Names and possible organizations that have not been added to the established registry.", candidateItems));
+      if (!groups.length) {
+        const empty = document.createElement("p");
+        empty.className = "organization-review-empty";
+        empty.textContent = "No organizations under review match this type filter.";
+        groups.push(empty);
+      }
+      branchList.replaceChildren(...groups);
+    } else {
+      branchList.replaceChildren(...items.map(card));
+    }
     const context = reviewOnly ? "under review" : typeFilter === "all" ? "established organizations" : `${typeFilter === "branch" ? "branches" : "conferences"}`;
     count.textContent = `${items.length} ${context}`;
     document.querySelector("#organizationFilterSummary").textContent = reviewOnly
@@ -176,11 +231,11 @@
   });
 
   function evidenceList(item) {
-    if (item.note && typeof item.note === "object") return `<ul><li><strong>Historical source establishes:</strong> ${item.note.established}</li><li><strong>Research context:</strong> ${item.note.context}</li><li><strong>Still unresolved:</strong> ${item.note.unresolved}</li></ul>`;
-    const source = item.source ? `<li><strong>Source evidence:</strong> ${item.source}</li>` : "";
-    const evidence = item.evidence ? `<li><strong>Historical source establishes:</strong> ${item.evidence}</li>` : "";
-    const note = item.note ? `<li><strong>Still under review:</strong> ${item.note}</li>` : "";
-    return `<ul>${evidence}${source}${note}</ul>`;
+    if (item.note && typeof item.note === "object") return `<dl class="organization-research-definition"><dt>Historical evidence</dt><dd>${item.note.established}</dd><dt>Research context</dt><dd>${item.note.context}</dd><dt>Still unresolved</dt><dd>${item.note.unresolved}</dd></dl>`;
+    const source = item.source ? `<dt>Historical evidence</dt><dd>${item.source}${item.sourceHref ? ` · <a href="${item.sourceHref}">View source</a>` : ""}</dd>` : "";
+    const evidence = item.evidence ? `<dt>Research context</dt><dd>${item.evidence}</dd>` : "";
+    const note = item.note ? `<dt>Still unresolved</dt><dd>${item.note}</dd>` : "";
+    return `<dl class="organization-research-definition">${source}${evidence}${note}</dl>`;
   }
 
   function showCustomDetail(item) {
@@ -197,7 +252,7 @@
     years.hidden = !item.years;
     document.querySelector("#branchHeadingDetails").hidden = true;
     document.querySelector("#branchMeta").hidden = true;
-    document.querySelector("#resourceList").innerHTML = `<section class="branch-information organization-research-notes"><h3>${item.status === "candidate" ? "Research status" : "Sources and Evidence"}</h3><p><strong>Organization type:</strong> ${item.type}</p><p><strong>Status:</strong> ${item.status === "candidate" ? "Candidate / under review" : "Established"}</p>${evidenceList(item)}</section>`;
+    document.querySelector("#resourceList").innerHTML = `<section class="branch-information organization-research-notes"><h3>Research notes</h3><p><strong>Organization type:</strong> ${item.type}</p><p><strong>Status:</strong> ${item.status === "candidate" ? "Candidate · Under review" : "Established"}</p>${evidenceList(item)}</section>`;
     document.title = `${item.name} — LDS Welsh Membership Records`;
     window.scrollTo({ top: 0, behavior: "auto" });
   }

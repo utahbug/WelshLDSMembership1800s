@@ -1286,11 +1286,21 @@ body:has(.search-sticky-nav) .research-beta-note + .site-disclaimer { margin: 0;
 .organization-status-note { color: #4f554f; font: .76rem/1.4 Arial, sans-serif; }
 .organization-candidate { border-left-color: #716b5d; background: #f5f2ea; }
 .organization-research-note { border-left-color: #8b6a1f; }
+.organization-review-group { grid-column: 1 / -1; min-width: 0; }
+.organization-review-group + .organization-review-group { margin-top: 16px; padding-top: 19px; border-top: 2px solid var(--line); }
+.organization-review-group > h3 { margin: 0; color: var(--green-dark); font: 700 .82rem/1.3 Arial, sans-serif; letter-spacing: .065em; text-transform: uppercase; }
+.organization-review-group-description { max-width: 72ch; margin: 5px 0 11px; color: var(--muted); font: .82rem/1.45 Arial, sans-serif; }
+.organization-review-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 9px 12px; }
+.organization-review-empty { grid-column: 1 / -1; margin: 10px 0; color: var(--muted); }
 .organization-research-notes { margin-bottom: 16px; }
 .organization-research-notes h3 { margin-top: 0; }
 .organization-research-notes li { margin-bottom: .55rem; }
+.organization-research-definition { display: grid; grid-template-columns: minmax(130px, .35fr) minmax(0, 1fr); gap: 8px 16px; margin: 18px 0 0; }
+.organization-research-definition dt { color: var(--green-dark); font-weight: 700; }
+.organization-research-definition dd { min-width: 0; margin: 0; }
 @media (max-width: 760px) {
   #branchList.organization-directory-list { grid-template-columns: 1fr; }
+  .organization-review-grid { grid-template-columns: 1fr; }
   .organization-filter-row { align-items: stretch; }
   .organization-type-filters { flex: 1 1 auto; }
   .organization-type-filters button { flex: 1 1 auto; }
@@ -1302,6 +1312,8 @@ body:has(.search-sticky-nav) .research-beta-note + .site-disclaimer { margin: 0;
   .organization-review-filter { width: 100%; justify-content: center; }
   .organization-card-heading { flex-wrap: wrap; }
   .organization-type { width: 100%; margin-left: 0; text-align: left; }
+  .organization-research-definition { grid-template-columns: 1fr; gap: 3px; }
+  .organization-research-definition dd + dt { margin-top: 9px; }
 }
 
 /* Home search: keep Welsh LDS history links visible beside primary search controls. */
