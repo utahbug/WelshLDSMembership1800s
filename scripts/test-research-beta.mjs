@@ -40,7 +40,9 @@ const saintsContext = { window: {} };
 const saintsText = fs.readFileSync(path.join(root, "data/beta/welsh-saints-index.beta.js"), "utf8");
 vm.runInNewContext(saintsText, saintsContext);
 const saints = saintsContext.window.WELSH_SAINTS_BETA_INDEX;
-if (!saints?.betaPublicIndex || saints.records.length !== 7234) failures.push("Welsh Saints beta count/marker invalid");
+if (!saints?.betaPublicIndex || saints.records.length !== 9014 || saints.counts?.resource !== 3708) failures.push("Welsh Saints beta count/marker invalid");
+if (new Set(saints.records.filter((record) => record.type === "resource").map((record) => record.sourceId)).size !== 3708) failures.push("Welsh Saints resource IDs are duplicated");
+if (saints.records.some((record) => record.metadataOnly && (record.summary || record.detailText || record.currentFileReference))) failures.push("Metadata-only Welsh Saints resource contains copied content or a file reference");
 if (/detailText|Spouses and Children|Vital Information\s+Close/.test(saintsText)) failures.push("Welsh Saints full prose/private field leaked");
 if (saints.records.some((record) => !/^https:\/\/welshsaints\.byu\.edu\//.test(record.url))) failures.push("Invalid Welsh Saints canonical URL");
 
@@ -92,7 +94,7 @@ else {
   const discoveryContext = { window: {} };
   vm.runInNewContext(fs.readFileSync(path.join(discoveryDir, "manifest.js"), "utf8"), discoveryContext);
   const discovery = discoveryContext.window.ALL_RECORDS_DISCOVERY_MANIFEST;
-  if (discovery?.counts?.allRecords !== 26354 || discovery.counts.members !== 11473 || discovery.counts.transcription !== 663 || discovery.counts.welshSaints !== 7234 || discovery.counts.ronDennisPages !== 6971 || discovery.counts.ronDennisSourceRecords !== 13) failures.push("Full search packaged counts invalid");
+  if (discovery?.counts?.allRecords !== 28134 || discovery.counts.members !== 11473 || discovery.counts.transcription !== 663 || discovery.counts.welshSaints !== 9014 || discovery.counts.ronDennisPages !== 6971 || discovery.counts.ronDennisSourceRecords !== 13) failures.push("Full search packaged counts invalid");
   if (discovery?.transcriptClassification?.administrativeProgressPages !== 3 || discovery?.transcriptClassification?.structuralCatalogPages !== 25 || discovery?.transcriptClassification?.pagesWithoutUsableEmbeddedText !== 86) failures.push("Full search transcript exclusions invalid");
 }
 if (!/Loading member index/.test(peopleHtml) || !/full-search-beta-20260814/.test(peopleHtml)) failures.push("Member Search loading state/cache key missing");

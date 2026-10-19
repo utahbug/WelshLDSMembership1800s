@@ -169,7 +169,7 @@ fs.writeFileSync(path.join(betaDataDir, "people-index.beta.js"), `window.WELSH_P
 // Package the reviewed Full search adapter data without copying authoritative
 // private indexes, source PDFs, complete page prose, or local path metadata.
 const discoveryReport = readJson(path.join(discoverySourceDir, "build-report.json"));
-const expectedDiscoveryCounts = { members: 11473, transcription: 663, welshSaints: 7234, ronDennisPages: 6971, ronDennisSourceRecords: 13, allRecords: 26354 };
+const expectedDiscoveryCounts = { members: 11473, transcription: 663, welshSaints: 9014, ronDennisPages: 6971, ronDennisSourceRecords: 13, allRecords: 28134 };
 for (const [key, value] of Object.entries(expectedDiscoveryCounts)) {
   if (discoveryReport.counts?.[key] !== value) throw new Error(`Full search count mismatch for ${key}: ${discoveryReport.counts?.[key]} != ${value}`);
 }
@@ -197,40 +197,10 @@ const discoveryManifest = {
 };
 fs.writeFileSync(path.join(discoveryDataDir, "manifest.js"), `window.ALL_RECORDS_DISCOVERY_MANIFEST = ${JSON.stringify(discoveryManifest)};\n`);
 
-const saintsMaster = readJson(path.join(privateDir, "welsh-saints-index.local.json"));
-const normalize = (value) => String(value || "").normalize("NFD").replace(/[\u0300-\u036f]/g, "").replace(/[’']/g, "").toLocaleLowerCase("en");
-const personSearchLabels = ["Birth date", "Birth place", "Baptism date", "Death date", "Death place"];
-const tokenString = (record, personDetails) => [...new Set(normalize([record.detailText, record.title, record.summary, ...(record.cells || []), ...(record.categories || []), ...(record.matchedBranches || []), ...personSearchLabels.map((label) => personDetails?.[label])].join(" ")).match(/[a-z0-9]+/g) || [])].join(" ");
-const personDetailLabels = ["Gender", "Birth date", "Birth place", "Christening date", "Christening place", "Baptism date", "Baptism place", "Confirmation date", "Confirmation place", "Marriage date", "Marriage place", "Death date", "Death place", "Burial date", "Burial place", "Father", "Mother"];
-const extractPersonDetails = (record) => {
-  if (record.type !== "immigrant" || !record.detailText) return null;
-  const text = String(record.detailText).replace(/&nbsp;?/gi, " ").replace(/\s+/g, " ");
-  const found = personDetailLabels.map((label) => ({ label, marker: `${label}:`, index: text.indexOf(`${label}:`) })).filter((item) => item.index >= 0).sort((a, b) => a.index - b.index);
-  const details = Object.fromEntries(found.map((item, index) => {
-    const value = text.slice(item.index + item.marker.length, found[index + 1]?.index ?? text.length).split(/\bView Sources\b|\bParents and Siblings\b|\bSiblings\b|\bSpouses and Children\b|\bChildren\b|\bCensus Records\b|\bMigration\b|\bComments\b|\bResources\b/i)[0].trim();
-    return [item.label, value];
-  }).filter(([, value]) => value));
-  return Object.keys(details).length ? details : null;
-};
-const saintsRecords = saintsMaster.records.filter((record) => ["immigrant", "voyage", "resource"].includes(record.type)).map((record) => {
-  const personDetails = extractPersonDetails(record);
-  return {
-    type: record.type,
-    sourceId: record.sourceId,
-    title: record.title,
-    summary: record.summary,
-    cells: record.cells || [],
-    category: record.category || null,
-    categories: record.categories || [],
-    matchedBranches: record.matchedBranches || [],
-    url: record.url,
-    personDetails,
-    searchTerms: tokenString(record, personDetails),
-  };
-});
+const saintsPayload = readJson(path.join(privateDir, "welsh-saints-discovery.local.json"));
+const saintsRecords = saintsPayload.records;
 const saintsCounts = Object.fromEntries(["immigrant", "voyage", "resource"].map((type) => [type, saintsRecords.filter((record) => record.type === type).length]));
-const saintsPayload = { betaPublicIndex: true, version: 1, generatedAt: new Date().toISOString(), source: "Welsh Saints Project", counts: saintsCounts, records: saintsRecords };
-fs.writeFileSync(path.join(betaDataDir, "welsh-saints-index.beta.js"), `window.WELSH_SAINTS_BETA_INDEX = ${JSON.stringify(saintsPayload)};\n`);
+fs.writeFileSync(path.join(betaDataDir, "welsh-saints-index.beta.js"), `window.WELSH_SAINTS_BETA_INDEX = ${JSON.stringify({ ...saintsPayload, counts: saintsCounts })};\n`);
 
 const betaFlag = '<script>window.WELSH_RESEARCH_BETA=true;</script>';
 const robots = '<meta name="robots" content="noindex,nofollow,noarchive">';
@@ -285,8 +255,9 @@ for (const file of fs.readdirSync(output).filter((name) => name.endsWith(".html"
     .replace('<a href="#page-bottom">&darr; Bottom</a>', '<a class="research-nav-icon" href="#page-bottom" aria-label="Go to bottom"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="m6 10 6 6 6-6"/></svg></a>');
   html = html.replace(/<p class="home-secondary" data-local-feature hidden><a href="data\/private\/familysearch-comparison\.local\.html">Research comparisons<\/a>[\s\S]*?<\/p>/, "");
   if (file === "people-search.html") html = html
+    .replace("Full search covers 26,354 records", "Full search covers 28,134 records")
     .replace(/<script src="all-records-discovery\.js[^>]*><\/script>/, '<script>window.ALL_RECORDS_DISCOVERY_BASE="data/discovery/";</script><script src="all-records-discovery.js?v=full-search-beta-20260814"></script>')
-    .replace(/<script src="people-search\.js[^>]*><\/script>/, '<script src="data/branch-registry.js?v=date-interpretation-20260814"></script><script src="data/beta/people-index.beta.js?v=member-fields-20260813"></script><script src="source-transition.js?v=source-transition-20260814"></script><script src="people-search.js?v=full-search-beta-20260814"></script><script src="beta-presentation-polish.js?v=member-navigation-20260831"></script>');
+    .replace(/<script src="people-search\.js[^>]*><\/script>/, '<script src="data/branch-registry.js?v=date-interpretation-20260814"></script><script src="data/beta/people-index.beta.js?v=member-fields-20260813"></script><script src="source-transition.js?v=source-transition-20260814"></script><script src="people-search.js?v=full-search-beta-20260814"></script><script src="beta-presentation-polish.js?v=beta-polish-20260814d"></script>');
   if (file === "index.html") html = html
     .replace(/styles\.css\?v=[^"]+/, "styles.css?v=beta-layout-20260814d")
     .replace(/data\/branch-registry\.js\?v=[^"]+/, "data/branch-registry.js?v=branch-members-20260814")

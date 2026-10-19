@@ -34,6 +34,8 @@
     const query = normalize(rawQuery);
     const title = normalize(record.title);
     const alternates = normalize((record.alternateTitles || []).join(" "));
+    const searchAliases = (record.searchAliases || []).map(normalize).filter(Boolean);
+    const joinedSearchAliases = searchAliases.join(" ");
     const snippet = normalize(record.snippet);
     const context = normalize((record.branches || []).join(" "));
     let score = 0;
@@ -44,9 +46,12 @@
       else if (alternates.includes(query)) score += 65;
     }
     if (snippet.includes(query)) score += 45;
+    if (searchAliases.includes(query)) score += 180;
+    else if (searchAliases.some((alias) => alias.includes(query))) score += 95;
     if (context.includes(query)) score += 35;
     if (record.recordLevel !== "page") score += words.filter((word) => title.includes(word)).length * 8;
     score += words.filter((word) => snippet.includes(word)).length * 3;
+    score += words.filter((word) => joinedSearchAliases.includes(word)).length * 4;
     return score;
   }
   api.search = async (rawQuery, limit = 250) => {

@@ -2,6 +2,7 @@ from __future__ import annotations
 
 import hashlib
 import json
+import os
 import re
 import unicodedata
 from collections import defaultdict
@@ -11,12 +12,15 @@ from pypdf import PdfReader
 
 
 ROOT = Path(__file__).resolve().parents[1]
-OUTPUT = ROOT / "data" / "private" / "all-records-prototype"
+OUTPUT = Path(os.environ.get("WELSH_ALL_RECORDS_OUTPUT", ROOT / "data" / "private" / "all-records-prototype"))
 TRANSCRIPT_INDEX = ROOT / "data" / "private" / "typed-branch-record-index.local.json"
-WELSH_SAINTS_BETA = ROOT / "research-beta" / "data" / "beta" / "welsh-saints-index.beta.js"
+SEARCH_ALIASES = Path(os.environ.get("WELSH_SEARCH_ALIASES", ROOT / "data" / "search-aliases.json"))
+WELSH_SAINTS_DISCOVERY = ROOT / "data" / "private" / "welsh-saints-discovery.local.json"
 RON_DIR = ROOT / "resources" / "books" / "ron-dennis"
+PUBLICATION_CATALOG = ROOT / "local-development" / "data" / "publications.json"
 SHARDS = 32
 METADATA_SHARD_SIZE = 250
+BASE_WELSH_SAINTS_COUNT = 7234
 
 BOOK_METADATA = {
     "AbleEvans.pdf": {"title": "Indefatigable Veteran: History and Biography of Abel Evans", "kind": "ron-dennis-publication", "author": "Ronald D. Dennis", "status": "Published work; local research copy", "public": False},
@@ -100,8 +104,24 @@ def book_metadata(path: Path) -> dict:
     return {"title": path.stem, "kind": "ron-dennis-publication", "author": "Ronald D. Dennis", "status": "Local research copy", "public": False}
 
 
+def is_discovery_publication(path: Path) -> bool:
+    """Keep the established Full Search publication corpus stable.
+
+    Other cataloged PDFs may be available in the viewer, but are not added to
+    Full Search until their text indexes are deliberately approved.
+    """
+    return path.name in BOOK_METADATA or bool(re.fullmatch(r"Zions Trumpet \((.+)\)\.pdf", path.name))
+
+
 records: list[dict] = []
 search_documents: list[str] = []
+
+publication_catalog = json.loads(PUBLICATION_CATALOG.read_text(encoding="utf-8"))
+publication_viewers_by_source = {
+    publication["localSourceFilename"]: publication["id"]
+    for publication in publication_catalog.get("publications", [])
+    if publication.get("localSourceFilename") and publication.get("viewerAvailable")
+}
 
 
 def add_record(record: dict, searchable: str) -> None:
@@ -111,6 +131,8 @@ def add_record(record: dict, searchable: str) -> None:
 
 
 transcripts = json.loads(TRANSCRIPT_INDEX.read_text(encoding="utf-8"))
+search_alias_metadata = json.loads(SEARCH_ALIASES.read_text(encoding="utf-8"))
+transcript_search_aliases = search_alias_metadata.get("transcriptPages", {})
 transcript_exclusions = []
 transcript_mixed_review = []
 for source in transcripts["records"]:
@@ -127,6 +149,7 @@ for source in transcripts["records"]:
             transcript_mixed_review.append(item)
         continue
     text = compact(source.get("text", ""))
+    search_aliases = transcript_search_aliases.get(source["id"], [])
     add_record({
         "sourceType": "transcription",
         "sourceId": source["id"],
@@ -143,11 +166,56 @@ for source in transcripts["records"]:
         "viewerAvailability": bool(source.get("viewerUrl")),
         "downloadAvailability": False,
         "pageClassification": classification,
-    }, " ".join([text, source.get("title", ""), source.get("sourceFile", ""), " ".join(source.get("associatedBranches") or []), " ".join(map(str, source.get("sourceCds") or [])), " ".join(source.get("lrNumbers") or [])]))
+        "searchAliases": search_aliases,
+    }, " ".join([text, source.get("title", ""), source.get("sourceFile", ""), " ".join(source.get("associatedBranches") or []), " ".join(map(str, source.get("sourceCds") or [])), " ".join(source.get("lrNumbers") or []), " ".join(search_aliases)]))
 
 
-saints = load_js_payload(WELSH_SAINTS_BETA)
-for source in saints["records"]:
+saints = json.loads(WELSH_SAINTS_DISCOVERY.read_text(encoding="utf-8"))
+saint_records = saints["records"]
+if len(saint_records) != 9014:
+    raise RuntimeError(f"Welsh Saints discovery count is {len(saint_records)}, expected 9014")
+
+
+def add_welsh_saints_record(source: dict, production_expansion: bool = False) -> None:
+    search_terms = source.get("searchTerms", "")
+    if source.get("type") == "immigrant":
+        # The expansion helper briefly added this synthetic label to every
+        # listing with a fourth cell. It was never part of the approved public
+        # postings, so preserve the production index while retaining the date.
+        search_terms = re.sub(r"\bmarriage(?:\s+date)?\s*$", "", search_terms, flags=re.I)
+    searchable = " ".join([
+        source.get("title", ""),
+        source.get("summary", ""),
+        search_terms,
+        " ".join(source.get("cells") or []),
+        " ".join(source.get("categories") or []),
+        " ".join(source.get("matchedBranches") or []),
+    ])
+    if production_expansion:
+        # The resource-expansion script's tokenizer deleted apostrophes before
+        # splitting terms (for example, "Zion's" became "zions"). Mirror that
+        # established production behavior for the appended 1,780 resources.
+        searchable = searchable.replace("'", "").replace("’", "")
+    if source.get("type") == "resource":
+        add_record({
+            "sourceType": "welsh-saints",
+            "sourceId": f"welsh-saints:resource:{source['sourceId']}",
+            "title": source.get("title") or f"Welsh Saints record {source['sourceId']}",
+            "snippet": "",
+            "location": f"Welsh Saints source ID {source['sourceId']}",
+            "branches": [],
+            "branchConfidence": "No automatic branch assertion",
+            "provenance": "Welsh Saints Project",
+            "sourceUrl": source.get("url"),
+            "publicAvailability": True,
+            "viewerAvailability": False,
+            "downloadAvailability": False,
+            "recordSubtype": "resource",
+            "categories": source.get("categories") or [],
+            "linkedPeople": source.get("linkedPeople") or [],
+            "metadataOnly": True,
+        }, searchable)
+        return
     add_record({
         "sourceType": "welsh-saints",
         "sourceId": f"welsh-saints:{source['type']}:{source['sourceId']}",
@@ -162,12 +230,20 @@ for source in saints["records"]:
         "viewerAvailability": False,
         "downloadAvailability": False,
         "recordSubtype": source.get("type"),
-    }, " ".join([source.get("title", ""), source.get("summary", ""), source.get("searchTerms", ""), " ".join(source.get("cells") or []), " ".join(source.get("categories") or []), " ".join(source.get("matchedBranches") or [])]))
+    }, searchable)
+
+
+# Preserve the production ID order established by the resource-discovery
+# expansion: the original 7,234 Welsh Saints records precede publications;
+# the 1,780 supplemental resources are appended after publications.
+for source in saint_records[:BASE_WELSH_SAINTS_COUNT]:
+    add_welsh_saints_record(source)
 
 
 book_reports = []
-for pdf in sorted(RON_DIR.glob("*.pdf"), key=lambda item: item.name.casefold()):
+for pdf in sorted((item for item in RON_DIR.glob("*.pdf") if is_discovery_publication(item)), key=lambda item: item.name.casefold()):
     metadata = book_metadata(pdf)
+    publication_id = publication_viewers_by_source.get(pdf.name)
     reader = PdfReader(str(pdf), strict=False)
     text_pages = 0
     aliases = metadata.get("aliases", [])
@@ -185,8 +261,10 @@ for pdf in sorted(RON_DIR.glob("*.pdf"), key=lambda item: item.name.casefold()):
         "branches": [],
         "branchConfidence": "No automatic canonical-branch assertion",
         "provenance": "Ron Dennis publication in the local research corpus",
+        "publicationId": publication_id,
+        "viewerUrl": f"publication-viewer.html?id={publication_id}&page=1" if publication_id else None,
         "publicAvailability": metadata["public"],
-        "viewerAvailability": False,
+        "viewerAvailability": bool(publication_id),
         "downloadAvailability": False,
     }, " ".join([metadata["title"], *aliases, metadata["author"]]))
     for page_number, page in enumerate(reader.pages, 1):
@@ -210,11 +288,20 @@ for pdf in sorted(RON_DIR.glob("*.pdf"), key=lambda item: item.name.casefold()):
             "branches": page_branches,
             "branchConfidence": "Curated page-level branch association from explicit historical text" if page_branches else "No automatic canonical-branch assertion",
             "provenance": "Ron Dennis publication in the local research corpus",
+            "publicationId": publication_id,
+            "viewerUrl": f"publication-viewer.html?id={publication_id}&page={page_number}" if publication_id else None,
             "publicAvailability": metadata["public"],
-            "viewerAvailability": False,
+            "viewerAvailability": bool(publication_id),
             "downloadAvailability": False,
         }, publication_search_text(text, metadata["title"]))
     book_reports.append({"file": pdf.name, "title": metadata["title"], "pages": len(reader.pages), "textPages": text_pages, "sourceType": metadata["kind"], "publicAvailability": metadata["public"]})
+
+
+supplemental_saints = saint_records[BASE_WELSH_SAINTS_COUNT:]
+if any(source.get("type") != "resource" for source in supplemental_saints):
+    raise RuntimeError("Supplemental Welsh Saints records must all be resources")
+for source in supplemental_saints:
+    add_welsh_saints_record(source, production_expansion=True)
 
 
 postings: dict[str, list[int]] = defaultdict(list)
@@ -280,7 +367,7 @@ manifest = {
         "pagesWithoutUsableEmbeddedText": transcripts["counts"]["pagesWithoutUsableEmbeddedText"],
         "pagesWithoutTextNote": "Preserved in the source PDFs and private page inventories; not classified as blank and not indexed without OCR.",
     },
-    "rightsNote": "Discovery metadata and bounded snippets only. No Ron Dennis PDF, complete page prose, filesystem path, viewer, or download is included.",
+    "rightsNote": "Discovery metadata and bounded existing snippets only. Newly added Welsh Saints resources contain titles, categories, explicit person links, IDs, and source URLs; no resource files, photos, scans, PDFs, or long-form prose are included.",
 }
 (OUTPUT / "manifest.js").write_text(f"window.ALL_RECORDS_DISCOVERY_MANIFEST = {json.dumps(manifest, ensure_ascii=False, separators=(',', ':'))};\n", encoding="utf-8")
 (OUTPUT / "build-report.json").write_text(json.dumps(manifest, ensure_ascii=False, indent=2), encoding="utf-8")
