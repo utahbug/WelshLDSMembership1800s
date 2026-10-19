@@ -1,0 +1,188 @@
+{
+  "version": 1,
+  "organizationId": "east-glamorgan-conference",
+  "organizationName": "East Glamorgan Conference",
+  "years": "1853–1863",
+  "source": {
+    "title": "Glamorgan East Conference minutes, 1853–1863",
+    "cd": "CD 38",
+    "callNumber": "LR 17616 21",
+    "viewOriginal": "index.html?collection=collection-36&image=1&view=facing"
+  },
+  "transcriptions": [
+    {
+      "title": "East Glamorgan Conference Minutes, 1853–1863",
+      "years": "1853–1863",
+      "language": "English",
+      "provenance": "Historical human transcription",
+      "viewTranscript": "index.html?collection=typed-viewer-7d89a94481675485&imageFilename=A-CDs-35-39-2-of-2-Typed-Transcripts-page-0001.jpg&view=single",
+      "viewOriginal": "index.html?collection=collection-36&image=1&view=facing"
+    }
+  ],
+  "people": [
+    {
+      "name": "Dan Jones",
+      "searchName": "dan jones captain president",
+      "occurrences": [
+        {
+          "nameAsWritten": "captn Dan Jones",
+          "date": "17 July 1853",
+          "context": "Conference consultation",
+          "transcriptPage": 3,
+          "manuscriptPage": "33",
+          "frame": "LR-1761621_v1_M_00038.jpg",
+          "transcriptHref": "index.html?collection=typed-viewer-7d89a94481675485&imageFilename=A-CDs-35-39-2-of-2-Typed-Transcripts-page-0003.jpg&view=single",
+          "originalHref": "index.html?collection=collection-36&imageFilename=LR-1761621_v1_M_00038.jpg&view=single"
+        },
+        {
+          "nameAsWritten": "P Dan Jones",
+          "date": "22 January 1854",
+          "context": "Contribution toward Brother Phillips's emigration",
+          "transcriptPage": 27,
+          "manuscriptPage": "53–54",
+          "frame": "LR-1761621_v1_M_00058.jpg",
+          "transcriptHref": "index.html?collection=typed-viewer-7d89a94481675485&imageFilename=A-CDs-35-39-2-of-2-Typed-Transcripts-page-0027.jpg&view=single",
+          "originalHref": "index.html?collection=collection-36&imageFilename=LR-1761621_v1_M_00058.jpg&view=single"
+        },
+        {
+          "nameAsWritten": "President Dan Jones",
+          "date": "29 January 1854",
+          "context": "Leadership counsel and clothing collection",
+          "transcriptPage": 29,
+          "manuscriptPage": "55–56",
+          "frame": "LR-1761621_v1_M_00060.jpg",
+          "transcriptHref": "index.html?collection=typed-viewer-7d89a94481675485&imageFilename=A-CDs-35-39-2-of-2-Typed-Transcripts-page-0029.jpg&view=single",
+          "originalHref": "index.html?collection=collection-36&imageFilename=LR-1761621_v1_M_00060.jpg&view=single"
+        },
+        {
+          "nameAsWritten": "Captain Dan Jones",
+          "date": "21 May 1854",
+          "context": "Referral during a reclamation matter",
+          "transcriptPage": 47,
+          "manuscriptPage": "71",
+          "frame": "LR-1761621_v1_M_00076.jpg",
+          "transcriptHref": "index.html?collection=typed-viewer-7d89a94481675485&imageFilename=A-CDs-35-39-2-of-2-Typed-Transcripts-page-0047.jpg&view=single",
+          "originalHref": "index.html?collection=collection-36&imageFilename=LR-1761621_v1_M_00076.jpg&view=single"
+        },
+        {
+          "nameAsWritten": "Captain Dan Jones",
+          "date": "13 June 1858",
+          "context": "Reference to an earlier incident involving Captain Dan Jones",
+          "transcriptPage": 73,
+          "manuscriptPage": "106",
+          "frame": "LR-1761621_v1_M_00112.jpg",
+          "transcriptHref": "index.html?collection=typed-viewer-7d89a94481675485&imageFilename=A-CDs-35-39-2-of-2-Typed-Transcripts-page-0073.jpg&view=single",
+          "originalHref": "index.html?collection=collection-36&imageFilename=LR-1761621_v1_M_00112.jpg&view=single"
+        }
+      ]
+    },
+    {
+      "name": "John Andrew",
+      "searchName": "john andrew",
+      "occurrences": [
+        {
+          "nameAsWritten": "president John Andrew",
+          "date": "26 June 1853",
+          "context": "Called the council to order",
+          "transcriptPage": 1,
+          "manuscriptPage": "31",
+          "transcriptHref": "index.html?collection=typed-viewer-7d89a94481675485&imageFilename=A-CDs-35-39-2-of-2-Typed-Transcripts-page-0001.jpg&view=single"
+        }
+      ]
+    },
+    {
+      "name": "William Millard",
+      "searchName": "william millard elder",
+      "occurrences": [
+        {
+          "nameAsWritten": "Elder William Millard",
+          "date": "26 June 1853",
+          "context": "Reported on Troed-y-rhew district",
+          "transcriptPage": 1,
+          "manuscriptPage": "31",
+          "transcriptHref": "index.html?collection=typed-viewer-7d89a94481675485&imageFilename=A-CDs-35-39-2-of-2-Typed-Transcripts-page-0001.jpg&view=single"
+        }
+      ]
+    },
+    {
+      "name": "William Davis",
+      "searchName": "william davis elder",
+      "occurrences": [
+        {
+          "nameAsWritten": "Elder William Davis",
+          "date": "26 June 1853",
+          "context": "Reported on Merthyr district",
+          "transcriptPage": 1,
+          "manuscriptPage": "31",
+          "transcriptHref": "index.html?collection=typed-viewer-7d89a94481675485&imageFilename=A-CDs-35-39-2-of-2-Typed-Transcripts-page-0001.jpg&view=single"
+        }
+      ]
+    },
+    {
+      "name": "John Popham",
+      "searchName": "john popham elder",
+      "occurrences": [
+        {
+          "nameAsWritten": "Elder John Popham",
+          "date": "26 June 1853",
+          "context": "Reported on George Town district",
+          "transcriptPage": 1,
+          "manuscriptPage": "31",
+          "transcriptHref": "index.html?collection=typed-viewer-7d89a94481675485&imageFilename=A-CDs-35-39-2-of-2-Typed-Transcripts-page-0001.jpg&view=single"
+        }
+      ]
+    },
+    {
+      "name": "Henry Price",
+      "searchName": "henry price clark",
+      "occurrences": [
+        {
+          "nameAsWritten": "Henry Price Clark",
+          "date": "7 August 1853",
+          "context": "Recorded the council minutes",
+          "transcriptPage": 6,
+          "transcriptHref": "index.html?collection=typed-viewer-7d89a94481675485&imageFilename=A-CDs-35-39-2-of-2-Typed-Transcripts-page-0006.jpg&view=single"
+        }
+      ]
+    },
+    {
+      "name": "Daniel Griffith",
+      "searchName": "daniel griffith teacher",
+      "occurrences": [
+        {
+          "nameAsWritten": "Daniel Griffith Teacher",
+          "date": "14 August 1853",
+          "context": "Reported on George Town district",
+          "transcriptPage": 7,
+          "transcriptHref": "index.html?collection=typed-viewer-7d89a94481675485&imageFilename=A-CDs-35-39-2-of-2-Typed-Transcripts-page-0007.jpg&view=single"
+        }
+      ]
+    },
+    {
+      "name": "George Adams",
+      "searchName": "george adams elder",
+      "occurrences": [
+        {
+          "nameAsWritten": "Elder George Adams",
+          "date": "14 August 1853",
+          "context": "Subject of a charge concerning official duty and attendance",
+          "transcriptPage": 8,
+          "transcriptHref": "index.html?collection=typed-viewer-7d89a94481675485&imageFilename=A-CDs-35-39-2-of-2-Typed-Transcripts-page-0008.jpg&view=single"
+        }
+      ]
+    },
+    {
+      "name": "William James",
+      "searchName": "william james elder",
+      "occurrences": [
+        {
+          "nameAsWritten": "Elder William James",
+          "date": "14 August 1853",
+          "context": "Gave testimony during the council discussion",
+          "transcriptPage": 8,
+          "transcriptHref": "index.html?collection=typed-viewer-7d89a94481675485&imageFilename=A-CDs-35-39-2-of-2-Typed-Transcripts-page-0008.jpg&view=single"
+        }
+      ]
+    }
+  ]
+}

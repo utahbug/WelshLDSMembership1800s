@@ -238,6 +238,155 @@
     return `<dl class="organization-research-definition">${source}${evidence}${note}</dl>`;
   }
 
+  const eastGlamorganPilot = fetch("data/east-glamorgan-research-pilot.json")
+    .then((response) => response.ok ? response.json() : Promise.reject(new Error("East Glamorgan research data unavailable")));
+
+  function appendText(element, label, value) {
+    const term = document.createElement("dt");
+    term.textContent = label;
+    const description = document.createElement("dd");
+    description.textContent = value;
+    element.append(term, description);
+  }
+
+  function actionLink(label, href) {
+    const link = document.createElement("a");
+    link.href = href;
+    link.textContent = label;
+    return link;
+  }
+
+  function occurrenceItem(occurrence) {
+    const item = document.createElement("li");
+    item.className = "organization-person-occurrence";
+    const heading = document.createElement("p");
+    heading.className = "organization-occurrence-date";
+    heading.textContent = occurrence.date || "Date not recorded";
+    const context = document.createElement("p");
+    context.textContent = occurrence.context;
+    const sourceForm = document.createElement("p");
+    sourceForm.className = "organization-source-form";
+    sourceForm.textContent = `Name as written: ${occurrence.nameAsWritten}`;
+    const location = document.createElement("p");
+    location.className = "organization-occurrence-location";
+    const locations = [`Transcript PDF p. ${occurrence.transcriptPage}`];
+    if (occurrence.manuscriptPage) locations.push(`manuscript p. ${occurrence.manuscriptPage}`);
+    if (occurrence.frame) locations.push(`frame ${occurrence.frame}`);
+    location.textContent = locations.join(" · ");
+    const actions = document.createElement("p");
+    actions.className = "organization-occurrence-actions";
+    actions.append(actionLink("View transcript", occurrence.transcriptHref));
+    if (occurrence.originalHref) {
+      actions.append(document.createTextNode(" · "), actionLink("View original", occurrence.originalHref));
+    }
+    item.append(heading, context, sourceForm, location, actions);
+    return item;
+  }
+
+  function personDisclosure(person) {
+    const details = document.createElement("details");
+    details.className = "organization-person";
+    const summary = document.createElement("summary");
+    const name = document.createElement("span");
+    name.textContent = person.name;
+    const count = document.createElement("span");
+    count.className = "organization-person-count";
+    count.textContent = `${person.occurrences.length} occurrence${person.occurrences.length === 1 ? "" : "s"}`;
+    summary.append(name, count);
+    const occurrences = document.createElement("ol");
+    occurrences.className = "organization-occurrence-list";
+    occurrences.replaceChildren(...person.occurrences.map(occurrenceItem));
+    details.append(summary, occurrences);
+    details.dataset.searchName = normalize(`${person.name} ${person.searchName || ""} ${person.occurrences.map((occurrence) => occurrence.nameAsWritten).join(" ")}`);
+    return details;
+  }
+
+  function peopleSection(data) {
+    const section = document.createElement("section");
+    section.className = "branch-information organization-people-section";
+    const heading = document.createElement("h3");
+    heading.textContent = `People mentioned in these records (${data.people.length})`;
+    const explanation = document.createElement("p");
+    explanation.className = "organization-section-intro";
+    explanation.textContent = "A source-name occurrence index for this pilot. Appearance in the minutes does not establish conference or branch membership.";
+    const label = document.createElement("label");
+    label.htmlFor = "organizationPeopleFilter";
+    label.textContent = "Search names";
+    const input = document.createElement("input");
+    input.id = "organizationPeopleFilter";
+    input.type = "search";
+    input.placeholder = "Search names…";
+    input.autocomplete = "off";
+    const status = document.createElement("p");
+    status.className = "organization-people-status";
+    status.setAttribute("role", "status");
+    status.setAttribute("aria-live", "polite");
+    const list = document.createElement("div");
+    list.className = "organization-people-list";
+    const disclosures = data.people.map(personDisclosure);
+    list.replaceChildren(...disclosures);
+    const update = () => {
+      const query = normalize(input.value);
+      let visible = 0;
+      disclosures.forEach((details) => {
+        const match = !query || details.dataset.searchName.includes(query);
+        details.hidden = !match;
+        if (match) visible += 1;
+      });
+      status.textContent = query ? `${visible} of ${disclosures.length} people shown.` : `${disclosures.length} people in this pilot index.`;
+    };
+    input.addEventListener("input", update);
+    section.append(heading, explanation, label, input, status, list);
+    update();
+    return section;
+  }
+
+  function transcriptionsSection(data) {
+    const section = document.createElement("section");
+    section.className = "branch-information organization-transcriptions-section";
+    const heading = document.createElement("h3");
+    heading.textContent = "Transcriptions & translations";
+    section.append(heading);
+    data.transcriptions.forEach((record) => {
+      const article = document.createElement("article");
+      article.className = "organization-transcription-card";
+      const title = document.createElement("h4");
+      title.textContent = record.title;
+      const metadata = document.createElement("p");
+      metadata.className = "organization-transcription-metadata";
+      metadata.textContent = `${record.years} · ${record.language} · ${record.provenance}`;
+      const actions = document.createElement("p");
+      actions.className = "organization-transcription-actions";
+      actions.append(actionLink("View transcript", record.viewTranscript));
+      if (record.viewOriginal) actions.append(document.createTextNode(" · "), actionLink("View original", record.viewOriginal));
+      article.append(title, metadata, actions);
+      section.append(article);
+    });
+    return section;
+  }
+
+  function renderEastGlamorganPilot(item, data) {
+    const list = document.querySelector("#resourceList");
+    const sources = document.createElement("section");
+    sources.className = "branch-information organization-source-information";
+    const sourcesHeading = document.createElement("h3");
+    sourcesHeading.textContent = "Sources and information";
+    const definition = document.createElement("dl");
+    definition.className = "organization-research-definition";
+    appendText(definition, "Organization type", item.type);
+    appendText(definition, "Status", "Established");
+    appendText(definition, "Historical source", `${data.source.title} · ${data.source.cd} · ${data.source.callNumber}`);
+    const sourceActions = document.createElement("p");
+    sourceActions.className = "organization-source-actions";
+    sourceActions.append(actionLink("View original source", data.source.viewOriginal));
+    sources.append(sourcesHeading, definition, sourceActions);
+
+    const notes = document.createElement("section");
+    notes.className = "branch-information organization-research-notes";
+    notes.innerHTML = `<h3>Research notes</h3><p>${item.evidence}</p><p>This bounded Review pilot preserves source-name occurrences and does not infer membership or merge people with similarly named records.</p>`;
+    list.replaceChildren(sources, peopleSection(data), transcriptionsSection(data), notes);
+  }
+
   function showCustomDetail(item) {
     document.querySelector("#homePanel").hidden = true;
     directory.hidden = true;
@@ -252,7 +401,16 @@
     years.hidden = !item.years;
     document.querySelector("#branchHeadingDetails").hidden = true;
     document.querySelector("#branchMeta").hidden = true;
-    document.querySelector("#resourceList").innerHTML = `<section class="branch-information organization-research-notes"><h3>Research notes</h3><p><strong>Organization type:</strong> ${item.type}</p><p><strong>Status:</strong> ${item.status === "candidate" ? "Candidate · Under review" : "Established"}</p>${evidenceList(item)}</section>`;
+    const resourceList = document.querySelector("#resourceList");
+    resourceList.innerHTML = `<section class="branch-information organization-research-notes"><h3>Research notes</h3><p><strong>Organization type:</strong> ${item.type}</p><p><strong>Status:</strong> ${item.status === "candidate" ? "Candidate · Under review" : "Established"}</p>${evidenceList(item)}</section>`;
+    if (item.id === "east-glamorgan-conference") {
+      resourceList.innerHTML = `<section class="branch-information organization-pilot-loading" role="status"><h3>East Glamorgan research pilot</h3><p>Loading transcript and people index…</p></section>`;
+      eastGlamorganPilot
+        .then((data) => renderEastGlamorganPilot(item, data))
+        .catch(() => {
+          resourceList.innerHTML = `<section class="branch-information organization-research-notes"><h3>Research notes</h3><p>The Review research pilot could not be loaded. The source remains available through <a href="${item.sourceHref}">View source</a>.</p>${evidenceList(item)}</section>`;
+        });
+    }
     document.title = `${item.name} — LDS Welsh Membership Records`;
     window.scrollTo({ top: 0, behavior: "auto" });
   }

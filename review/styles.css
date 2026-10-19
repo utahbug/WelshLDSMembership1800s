@@ -1303,6 +1303,42 @@ body:has(.search-sticky-nav) .research-beta-note + .site-disclaimer { margin: 0;
 .organization-research-definition { display: grid; grid-template-columns: minmax(130px, .35fr) minmax(0, 1fr); gap: 8px 16px; margin: 18px 0 0; }
 .organization-research-definition dt { color: var(--green-dark); font-weight: 700; }
 .organization-research-definition dd { min-width: 0; margin: 0; }
+.organization-source-information,
+.organization-people-section,
+.organization-transcriptions-section,
+.organization-research-notes { max-width: 920px; margin-bottom: 16px; }
+.organization-source-information h3,
+.organization-people-section h3,
+.organization-transcriptions-section h3 { margin-top: 0; }
+.organization-section-intro { max-width: 72ch; margin: 0 0 14px; color: var(--muted); }
+.organization-source-actions,
+.organization-transcription-actions,
+.organization-occurrence-actions { margin-bottom: 0; }
+.organization-source-actions a,
+.organization-transcription-actions a,
+.organization-occurrence-actions a { min-height: 44px; display: inline-flex; align-items: center; color: var(--green-dark); font-weight: 600; text-underline-offset: 3px; }
+.organization-source-actions a:focus-visible,
+.organization-transcription-actions a:focus-visible,
+.organization-occurrence-actions a:focus-visible { outline: 3px solid var(--gold); outline-offset: 2px; }
+.organization-people-section > label { display: block; margin-bottom: 6px; color: var(--green-dark); font: 700 .82rem/1.3 Arial, sans-serif; }
+.organization-people-section > input { width: min(440px, 100%); min-height: 44px; box-sizing: border-box; padding: 10px 12px; color: var(--ink); border: 1px solid #807866; border-radius: 5px; background: white; font: 1rem/1.35 Arial, sans-serif; }
+.organization-people-section > input:focus-visible { outline: 3px solid var(--gold); outline-offset: 2px; border-color: var(--green-dark); }
+.organization-people-status { margin: 7px 0 11px; color: var(--muted); font: .82rem/1.4 Arial, sans-serif; }
+.organization-people-list { display: grid; gap: 7px; }
+.organization-person { border: 1px solid var(--line); border-radius: 5px; background: #fffdf8; }
+.organization-person summary { min-height: 44px; box-sizing: border-box; display: flex; align-items: center; gap: 12px; padding: 10px 13px; color: var(--green-dark); cursor: pointer; font-weight: 700; }
+.organization-person summary:hover { background: #f5f0e4; }
+.organization-person summary:focus-visible { outline: 3px solid var(--gold); outline-offset: 2px; }
+.organization-person-count { margin-left: auto; color: var(--muted); font: 600 .76rem/1.3 Arial, sans-serif; white-space: nowrap; }
+.organization-occurrence-list { margin: 0; padding: 0 14px 12px 38px; }
+.organization-person-occurrence { padding: 12px 0 8px; border-top: 1px solid var(--line); }
+.organization-person-occurrence p { margin: 4px 0; }
+.organization-occurrence-date { color: var(--green-dark); font-weight: 700; }
+.organization-source-form,
+.organization-occurrence-location { color: var(--muted); font: .8rem/1.45 Arial, sans-serif; overflow-wrap: anywhere; }
+.organization-transcription-card { padding: 14px; border: 1px solid var(--line); border-left: 4px solid var(--gold); border-radius: 5px; background: #fffdf8; }
+.organization-transcription-card h4 { margin: 0; color: var(--green-dark); font-size: 1rem; }
+.organization-transcription-metadata { margin: 7px 0 0; color: var(--muted); font: .84rem/1.45 Arial, sans-serif; }
 @media (max-width: 760px) {
   #branchList.organization-directory-list { grid-template-columns: 1fr; }
   .organization-review-grid { grid-template-columns: 1fr; }
@@ -1319,6 +1355,8 @@ body:has(.search-sticky-nav) .research-beta-note + .site-disclaimer { margin: 0;
   .organization-type { width: 100%; margin-left: 0; text-align: left; }
   .organization-research-definition { grid-template-columns: 1fr; gap: 3px; }
   .organization-research-definition dd + dt { margin-top: 9px; }
+  .organization-person summary { align-items: flex-start; }
+  .organization-person-count { padding-top: 2px; }
 }
 
 /* Home search: keep Welsh LDS history links visible beside primary search controls. */
