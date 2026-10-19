@@ -271,21 +271,9 @@ function publicationEntry(publication, relatedSubworks = []) {
   article.dataset.publicationId = publication.id;
   article.id = publication.id;
   const information = document.createElement("div");
-  information.className = `ronald-publication-information${publication.viewerAvailable ? " ronald-publication-information-clickable" : ""}`;
-  if (publication.viewerAvailable) {
-    const viewerUrl = `publication-viewer.html?id=${encodeURIComponent(publication.id)}`;
-    information.setAttribute("role", "link");
-    information.tabIndex = 0;
-    information.setAttribute("aria-label", `Open ${publication.title}`);
-    const openViewer = () => { window.location.href = viewerUrl; };
-    information.addEventListener("click", openViewer);
-    information.addEventListener("keydown", (event) => {
-      if (event.key !== "Enter" && event.key !== " ") return;
-      event.preventDefault();
-      openViewer();
-    });
-  }
-  const title = publicationHeading(publication, "h4", false);
+  information.className = "ronald-publication-information";
+  const title = publicationHeading(publication, "h4");
+  title.querySelector(".publication-title-link")?.classList.add("ronald-publication-primary-link");
   information.append(title);
   const details = metadata(publication);
   if (details.length) {
@@ -339,7 +327,6 @@ function publicationEntry(publication, relatedSubworks = []) {
   }
   const actions = document.createElement("p");
   actions.className = "publication-actions";
-  if (publication.searchable && publication.viewerAvailable) actions.append(actionLink("Search this book", `publication-viewer.html?id=${encodeURIComponent(publication.id)}#book-search`, "publication-search-link"));
   if (publication.publicUrl) actions.append(actionLink(publication.publicActionLabel || "Open publication", publication.publicUrl, "publication-original-link", true));
   if (actions.childElementCount) article.append(actions);
   if (relatedSubworks.length) {

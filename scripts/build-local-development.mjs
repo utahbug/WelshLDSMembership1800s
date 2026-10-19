@@ -514,12 +514,17 @@ fs.appendFileSync(path.join(output, "styles.css"), `
 .historical-publication-information-clickable:hover .publication-main-title { color: var(--green-dark); text-decoration: underline; text-underline-offset: 3px; }
 .historical-publication-information-clickable:focus-visible { outline: 2px solid var(--gold); outline-offset: 2px; box-shadow: 0 0 0 3px rgba(171, 132, 50, .12); }
 .ronald-publication-information { min-width: 0; }
-.ronald-publication-information-clickable { margin: -8px -10px 0; padding: 8px 10px 9px; border-radius: 4px; cursor: pointer; transition: background-color 140ms ease, box-shadow 140ms ease; }
-.ronald-publication-information-clickable:hover { background: color-mix(in srgb, var(--gold) 8%, transparent); }
-.ronald-publication-information-clickable:hover .publication-main-title { color: var(--green-dark); text-decoration: underline; text-underline-offset: 3px; }
-.ronald-publication-information-clickable:focus-visible { outline: 2px solid var(--gold); outline-offset: 2px; box-shadow: 0 0 0 3px rgba(171, 132, 50, .12); }
+.publication-entry:has(.ronald-publication-primary-link) { position: relative; transition: background-color 140ms ease, border-color 140ms ease, box-shadow 140ms ease; }
+.ronald-publication-primary-link::after { content: ""; position: absolute; z-index: 1; inset: 0; }
+.publication-entry:has(.ronald-publication-primary-link) a:not(.ronald-publication-primary-link), .publication-entry:has(.ronald-publication-primary-link) .publication-related-subworks { position: relative; z-index: 2; }
+.publication-entry:has(.ronald-publication-primary-link):focus-within { border-color: #4f8277; background: #dcefeb; box-shadow: 0 5px 16px rgba(28, 58, 49, .13); }
+.publication-entry:has(.ronald-publication-primary-link):focus-within .publication-title-link { color: var(--green-dark); text-decoration: underline; text-underline-offset: 3px; }
+@media (hover: hover) and (pointer: fine) {
+  .publication-entry:has(.ronald-publication-primary-link):hover { border-color: #4f8277; background: #dcefeb; box-shadow: 0 5px 16px rgba(28, 58, 49, .13); }
+  .publication-entry:has(.ronald-publication-primary-link):hover .publication-title-link { color: var(--green-dark); text-decoration: underline; text-underline-offset: 3px; }
+}
 @media (prefers-reduced-motion: reduce) { .historical-publication-information-clickable { transition: none; } }
-@media (prefers-reduced-motion: reduce) { .ronald-publication-information-clickable { transition: none; } }
+@media (prefers-reduced-motion: reduce) { .publication-entry:has(.ronald-publication-primary-link) { transition: none; } }
 @media (max-width: 700px) { .publication-source-filter, .publication-collection-search-row input { width: 100%; } .publication-source-popover { width: min(430px, calc(100vw - 52px)); } .publication-source-choices label { min-height: 44px; } .publication-collection-search-results { margin-left: 12px; } }
 @media (max-width: 520px) { .home-unified-search-row > #collectionSearch { flex-basis: 100%; } .home-search-source-choices { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 0 12px; } .home-search-source-choices label { min-width: 0; min-height: 44px; font-size: .8rem; } .home-secondary-resource-links { margin-left: 16px; } .publication-page, .resources-page { width: min(100% - 24px, 1120px); padding-top: 12px; } .publication-page-nav { margin-bottom: 10px; gap: 6px 14px; } .publication-page-intro, .resources-page-intro { margin-bottom: 12px; } .publication-page-intro:has(.publication-about) { margin-bottom: 2px; } .publication-page-intro h2 { margin-bottom: 3px; } .publication-about summary { min-height: 44px; padding-block: 8px; } .publication-about p { margin-left: 12px; } .publication-entry, .external-resource-card { padding: 13px 14px; } .publication-subtitle { margin-left: 10px; } .publication-related-subworks { margin-left: 12px; padding-left: 10px; } .publication-link { min-height: 40px; padding-block: 8px; } .publication-collection-search { max-width: calc(100% - 18px); margin: 7px 0 12px 18px; } .publication-collection-search-body { padding: 0; } }
 @media (max-width: 700px) { .publication-page, .resources-page, .guide-page { margin-inline: auto; } }
