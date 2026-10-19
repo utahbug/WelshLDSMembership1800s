@@ -124,9 +124,14 @@
       const branchContext = (record.branches || []).length ? `<p class="people-fact"><strong>Branch/place context:</strong> ${escapeHtml(record.branches.join("; "))}</p>` : "";
       const alternates = (record.alternateTitles || []).length ? `<p class="people-source-detail"><strong>Also known as:</strong> ${escapeHtml(record.alternateTitles.join("; "))}</p>` : "";
       const isWelshSaintsPerson = record.sourceType === "welsh-saints" && record.recordSubtype === "immigrant" && personRecord;
-      const sourceActionLabel = isPublicationResult ? "Open publication" : record.viewerUrl ? "Open source" : "View source";
-      const sourceAction = sourceLink ? `<a class="people-source-link" href="${escapeHtml(sourceLink)}"${record.sourceType === "welsh-saints" ? ' target="_blank" rel="noopener noreferrer"' : ""}>${sourceActionLabel}<span class="people-source-link-icon" aria-hidden="true"></span></a>` : `<span class="people-source-status">Source text is searchable; the publication itself is not included.</span>`;
-      const availability = isWelshSaintsPerson ? `<button type="button" class="people-source-link welsh-saints-view-details">View details</button>${sourceAction}` : sourceAction;
+      const sourceLinkAttributes = sourceLink ? ` href="${escapeHtml(sourceLink)}"${record.sourceType === "welsh-saints" ? ' target="_blank" rel="noopener noreferrer"' : ""}` : "";
+      const heading = sourceLink
+        ? `<h2><a class="people-result-title-link person-card-primary-action"${sourceLinkAttributes}>${escapeHtml(record.title)}</a></h2>`
+        : `<h2>${escapeHtml(record.title)}</h2>`;
+      const unavailableSource = sourceLink ? "" : `<span class="people-source-status">Source text is searchable; the publication itself is not included.</span>`;
+      const availability = isWelshSaintsPerson
+        ? `<button type="button" class="people-source-link welsh-saints-view-details">View details</button>${unavailableSource}`
+        : unavailableSource;
       const visibleMatchText = normalize([record.title, record.snippet, record.location, ...(record.branches || []), ...(record.alternateTitles || [])].join(" "));
       const queryWords = normalize(rawQuery).split(/\s+/).filter(Boolean);
       const matchedField = record.sourceType === "welsh-saints" && queryWords.length && !queryWords.every((word) => visibleMatchText.includes(word))
@@ -137,10 +142,10 @@
       const resourceMetadata = record.sourceType === "welsh-saints" && record.recordSubtype === "resource"
         ? `${record.categories?.length ? `<p class="people-source-detail"><strong>Resource category:</strong> ${escapeHtml(record.categories.join("; "))}</p>` : ""}${record.linkedPeople?.length ? `<p class="people-source-detail"><strong>Linked ${record.linkedPeople.length === 1 ? "person" : "people"}:</strong> ${escapeHtml(record.linkedPeople.map((person) => person.name || `Welsh Saints source ID ${person.sourceId}`).join("; "))}</p>` : ""}`
         : "";
-      article.innerHTML = `<small>${escapeHtml(historicalLabel(record))}</small><h2>${isWelshSaintsPerson ? `<button type="button" class="welsh-saints-detail-trigger person-card-primary-action">${escapeHtml(record.title)}</button>` : escapeHtml(record.title)}</h2>${renderWelshSaintsFacts(personRecord)}${record.author ? `<p class="people-source-detail"><strong>Author:</strong> ${escapeHtml(record.author)}</p>` : ""}${record.versionStatus ? `<p class="people-source-detail"><strong>Version:</strong> ${escapeHtml(historicalDisplayText(record.versionStatus))}</p>` : ""}${alternates}${resourceMetadata}${summaryText}${matchedField}<div class="people-key-facts"><p class="people-fact"><strong>Location:</strong> ${escapeHtml(record.location)}</p>${branchContext}</div><p class="people-source-detail"><strong>Source:</strong> ${escapeHtml(historicalDisplayText(record.provenance))}</p><p class="people-result-action">${availability}</p>`;
+      article.innerHTML = `<small>${escapeHtml(historicalLabel(record))}</small>${heading}${renderWelshSaintsFacts(personRecord)}${record.author ? `<p class="people-source-detail"><strong>Author:</strong> ${escapeHtml(record.author)}</p>` : ""}${record.versionStatus ? `<p class="people-source-detail"><strong>Version:</strong> ${escapeHtml(historicalDisplayText(record.versionStatus))}</p>` : ""}${alternates}${resourceMetadata}${summaryText}${matchedField}<div class="people-key-facts"><p class="people-fact"><strong>Location:</strong> ${escapeHtml(record.location)}</p>${branchContext}</div><p class="people-source-detail"><strong>Source:</strong> ${escapeHtml(historicalDisplayText(record.provenance))}</p>${availability ? `<p class="people-result-action">${availability}</p>` : ""}`;
+      if (sourceLink) article.classList.add("result-primary-card");
       if (isWelshSaintsPerson) {
         article.dataset.welshSaintsSourceId = String(record.sourceId);
-        article.classList.add("person-primary-card");
       }
       return article;
     };
