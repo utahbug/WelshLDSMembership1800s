@@ -227,8 +227,11 @@
       const linkedBranches = [...new Set((record.matchedBranches || []).map(canonicalBranchLink))];
       const branchLinks = linkedBranches.map((name) => `<a href="index.html?branch=${encodeURIComponent(name)}">${escapeHtml(name)} Branch Resources</a>`).join(" · ");
       const detailAvailable = record.type === "immigrant";
-      item.innerHTML = `<small>Welsh Saints Project · ${escapeHtml(kinds.join(" · "))}</small><h2>${detailAvailable ? `<button type="button" class="welsh-saints-detail-trigger" aria-label="Open details for ${escapeHtml(record.title)}">${escapeHtml(record.title)}</button>` : escapeHtml(record.title)}</h2>${renderPersonResultFacts(record)}<p>${escapeHtml(record.summary)}</p>${evidence ? `<p class="research-match-evidence"><strong>Matched source text:</strong> ${escapeHtml(evidence)}</p>` : ""}<p class="research-source">Welsh Saints source ID ${record.sourceId} · <a class="welsh-saints-original-link" href="${record.url}" target="_blank" rel="noopener noreferrer">Open original Welsh Saints record &#8599;</a>${branchLinks ? ` · ${branchLinks}` : ""}</p>`;
-      if (detailAvailable) item.dataset.personDetailSourceId = String(record.sourceId);
+      item.innerHTML = `<small>Welsh Saints Project · ${escapeHtml(kinds.join(" · "))}</small><h2>${detailAvailable ? `<button type="button" class="welsh-saints-detail-trigger person-card-primary-action" aria-label="Open details for ${escapeHtml(record.title)}">${escapeHtml(record.title)}</button>` : escapeHtml(record.title)}</h2>${renderPersonResultFacts(record)}<p>${escapeHtml(record.summary)}</p>${evidence ? `<p class="research-match-evidence"><strong>Matched source text:</strong> ${escapeHtml(evidence)}</p>` : ""}<p class="research-source">Welsh Saints source ID ${record.sourceId} · <a class="welsh-saints-original-link" href="${record.url}" target="_blank" rel="noopener noreferrer">Open original Welsh Saints record &#8599;</a>${branchLinks ? ` · ${branchLinks}` : ""}</p>`;
+      if (detailAvailable) {
+        item.dataset.personDetailSourceId = String(record.sourceId);
+        item.classList.add("person-primary-card");
+      }
       return item;
     }));
     if (!matches.length) results.innerHTML = "<p>No records matched this search.</p>";

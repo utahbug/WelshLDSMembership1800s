@@ -153,7 +153,7 @@ for (const required of ["person-historical-material.js", "data/person-publicatio
 }
 const personPublicationLinks = JSON.parse(fs.readFileSync(path.join(output, "data/person-publication-links.json"), "utf8"));
 const davidRobertsLink = personPublicationLinks.relationships?.find((item) => item.id === "david-roberts-ffestiniog-hymnal-dr");
-if (!davidRobertsLink || davidRobertsLink.personMatch?.branch !== "Ffestiniog" || davidRobertsLink.pageNumber !== 265 || !/does not by itself establish authorship/i.test(davidRobertsLink.evidenceNote)) throw new Error("David Roberts historical-material relationship is invalid");
+if (davidRobertsLink) throw new Error("Removed David Roberts hymn association remains in local relationship data");
 if (!publicationsHtml.includes('id="publicationCatalog"') || !publicationsHtml.includes("ronald-dennis-publications.js")) throw new Error("Structured publication catalog runtime missing");
 if (!publicationsHtml.includes('<section class="publication-collection-search" id="publicationCollectionSearch" aria-label="Search publications" hidden>')) throw new Error("Always-visible publication search region missing");
 if (publicationsHtml.includes("Search all available publications")) throw new Error("Redundant parent publication-search disclosure remains");

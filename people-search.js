@@ -135,8 +135,11 @@
       const summaryText = isWelshSaintsPerson && isSerializedWelshSaintsPersonSummary(record.snippet, personRecord)
         ? ""
         : `<p class="historical-result-summary">${escapeHtml(record.snippet)}</p>`;
-      article.innerHTML = `<small>${escapeHtml(historicalLabel(record))}</small><h2>${isWelshSaintsPerson ? `<button type="button" class="welsh-saints-detail-trigger">${escapeHtml(record.title)}</button>` : escapeHtml(record.title)}</h2>${renderWelshSaintsFacts(personRecord)}${record.author ? `<p class="people-source-detail"><strong>Author:</strong> ${escapeHtml(record.author)}</p>` : ""}${record.versionStatus ? `<p class="people-source-detail"><strong>Version:</strong> ${escapeHtml(historicalDisplayText(record.versionStatus))}</p>` : ""}${alternates}${summaryText}${matchedField}<div class="people-key-facts"><p class="people-fact"><strong>Location:</strong> ${escapeHtml(record.location)}</p>${branchContext}</div><p class="people-source-detail"><strong>Source:</strong> ${escapeHtml(historicalDisplayText(record.provenance))}</p><p class="people-result-action">${availability}</p>`;
-      if (isWelshSaintsPerson) article.dataset.welshSaintsSourceId = String(record.sourceId);
+      article.innerHTML = `<small>${escapeHtml(historicalLabel(record))}</small><h2>${isWelshSaintsPerson ? `<button type="button" class="welsh-saints-detail-trigger person-card-primary-action">${escapeHtml(record.title)}</button>` : escapeHtml(record.title)}</h2>${renderWelshSaintsFacts(personRecord)}${record.author ? `<p class="people-source-detail"><strong>Author:</strong> ${escapeHtml(record.author)}</p>` : ""}${record.versionStatus ? `<p class="people-source-detail"><strong>Version:</strong> ${escapeHtml(historicalDisplayText(record.versionStatus))}</p>` : ""}${alternates}${summaryText}${matchedField}<div class="people-key-facts"><p class="people-fact"><strong>Location:</strong> ${escapeHtml(record.location)}</p>${branchContext}</div><p class="people-source-detail"><strong>Source:</strong> ${escapeHtml(historicalDisplayText(record.provenance))}</p><p class="people-result-action">${availability}</p>`;
+      if (isWelshSaintsPerson) {
+        article.dataset.welshSaintsSourceId = String(record.sourceId);
+        article.classList.add("person-primary-card");
+      }
       return article;
     };
     async function renderAllRecords(rawQuery) {

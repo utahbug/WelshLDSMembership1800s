@@ -230,8 +230,11 @@
       const linkedPeople = record.type === "resource" && record.linkedPeople?.length ? `<p class="people-source-detail"><strong>Linked ${record.linkedPeople.length === 1 ? "person" : "people"}:</strong> ${escapeHtml(record.linkedPeople.map((person) => person.name || `Welsh Saints source ID ${person.sourceId}`).join("; "))}</p>` : "";
       const summaryText = record.summary ? `<p>${escapeHtml(record.summary)}</p>` : "";
       const sourceAction = record.type === "resource" ? "View source" : "Open original Welsh Saints record";
-      item.innerHTML = `<small>Welsh Saints Project · ${escapeHtml(kinds.join(" · "))}</small><h2>${detailAvailable ? `<button type="button" class="welsh-saints-detail-trigger" aria-label="Open details for ${escapeHtml(record.title)}">${escapeHtml(record.title)}</button>` : escapeHtml(record.title)}</h2>${renderPersonResultFacts(record)}${linkedPeople}${summaryText}${evidence ? `<p class="research-match-evidence"><strong>Matched source text:</strong> ${escapeHtml(evidence)}</p>` : ""}<p class="research-source">Source: Welsh Saints Project · source ID ${record.sourceId} · <a class="welsh-saints-original-link" href="${record.url}" target="_blank" rel="noopener noreferrer">${sourceAction} &#8599;</a>${branchLinks ? ` · ${branchLinks}` : ""}</p>`;
-      if (detailAvailable) item.dataset.personDetailSourceId = String(record.sourceId);
+      item.innerHTML = `<small>Welsh Saints Project · ${escapeHtml(kinds.join(" · "))}</small><h2>${detailAvailable ? `<button type="button" class="welsh-saints-detail-trigger person-card-primary-action" aria-label="Open details for ${escapeHtml(record.title)}">${escapeHtml(record.title)}</button>` : escapeHtml(record.title)}</h2>${renderPersonResultFacts(record)}${linkedPeople}${summaryText}${evidence ? `<p class="research-match-evidence"><strong>Matched source text:</strong> ${escapeHtml(evidence)}</p>` : ""}<p class="research-source">Source: Welsh Saints Project · source ID ${record.sourceId} · <a class="welsh-saints-original-link" href="${record.url}" target="_blank" rel="noopener noreferrer">${sourceAction} &#8599;</a>${branchLinks ? ` · ${branchLinks}` : ""}</p>`;
+      if (detailAvailable) {
+        item.dataset.personDetailSourceId = String(record.sourceId);
+        item.classList.add("person-primary-card");
+      }
       return item;
     }));
     if (!matches.length) results.innerHTML = "<p>No records matched this search.</p>";

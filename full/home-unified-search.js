@@ -92,7 +92,19 @@
       const facts = person && window.WELSH_SAINTS_PERSON_DETAIL ? window.WELSH_SAINTS_PERSON_DETAIL.facts(person).map(({ label, value }) => `${label}: ${value}`).join(" · ") : resourceFacts || record.snippet;
       const article = resultArticle("Welsh Saints Project", record.title, facts);
       const details = person ? document.createElement("button") : null;
-      if (details) { details.type = "button"; details.textContent = "View details"; details.addEventListener("click", () => window.WELSH_SAINTS_PERSON_DETAIL.open(person, details)); }
+      if (details) {
+        const title = article.querySelector("strong");
+        const titleButton = document.createElement("button");
+        titleButton.type = "button";
+        titleButton.className = "home-unified-person-title person-card-primary-action";
+        titleButton.textContent = record.title;
+        titleButton.addEventListener("click", () => window.WELSH_SAINTS_PERSON_DETAIL.open(person, titleButton));
+        title.replaceWith(titleButton);
+        article.classList.add("person-primary-card");
+        details.type = "button";
+        details.textContent = "View details";
+        details.addEventListener("click", () => window.WELSH_SAINTS_PERSON_DETAIL.open(person, details));
+      }
       appendActions(article, [details, record.sourceUrl ? actionLink("View source", record.sourceUrl, true) : null]); return article;
     }
     const article = resultArticle(record.sourceType === "historical-publication" ? "Historical publication" : "Ronald D. Dennis Publication", record.title, [record.location, record.snippet].filter(Boolean).join(" · "));
