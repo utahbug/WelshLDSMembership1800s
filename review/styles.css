@@ -1303,3 +1303,22 @@ body:has(.search-sticky-nav) .research-beta-note + .site-disclaimer { margin: 0;
   .organization-card-heading { flex-wrap: wrap; }
   .organization-type { width: 100%; margin-left: 0; text-align: left; }
 }
+
+/* Home search: keep Welsh LDS history links visible beside primary search controls. */
+.home-search-layout { display: grid; grid-template-columns: minmax(0, 7fr) minmax(220px, 3fr); grid-template-areas: "controls history" "sources history" "help history"; column-gap: clamp(24px, 4vw, 52px); align-items: start; }
+.home-search-controls { grid-area: controls; min-width: 0; }
+.home-search-layout > .home-search-sources { grid-area: sources; }
+.home-search-layout > .search-help { grid-area: help; }
+.home-search-history { grid-area: history; min-width: 0; padding-left: clamp(20px, 3vw, 34px); border-left: 1px solid var(--line); font-family: Arial, sans-serif; }
+.home-search-history h4 { margin: 0 0 8px; color: var(--green-dark); font: 600 1rem/1.35 Arial, sans-serif; }
+.home-search-history .home-secondary-resource-links { display: grid; gap: 2px; }
+.home-search-history a, .home-search-history a:visited { display: flex; width: fit-content; align-items: center; min-height: 44px; padding: 3px 0; color: var(--green-dark); font: 500 .9rem/1.4 Arial, sans-serif; text-decoration: none; }
+.home-search-history a:hover, .home-search-history a:focus-visible { text-decoration: underline; text-underline-offset: 3px; }
+.home-search-history a:focus-visible { outline: 2px solid var(--gold); outline-offset: 3px; }
+@media (max-width: 760px) {
+  .home-search-layout { grid-template-columns: minmax(0, 1fr); grid-template-areas: "controls" "history" "sources" "help"; row-gap: 4px; }
+  .home-search-history { margin: 14px 0 5px; padding: 13px 0 5px; border-top: 1px solid var(--line); border-left: 0; }
+}
+@media (max-width: 620px) {
+  .home-search-results-mode > .home-search-layout { display: none; }
+}
