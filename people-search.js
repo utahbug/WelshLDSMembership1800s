@@ -29,7 +29,7 @@
     clearSearch.hidden = true;
     searchQuery.append(clearSearch);
     const occurrenceTypes = [...document.querySelectorAll('input[name="peopleSearchScope"]')];
-    const selectedScope = () => occurrenceTypes.find((control) => control.checked)?.value || "member";
+    const selectedScope = () => occurrenceTypes.find((control) => control.checked)?.value || "all-records";
     const branchFilter = document.querySelector("#peopleBranchFilter");
     const branchSummary = document.querySelector("#peopleBranchSummary");
     const branchChoices = document.querySelector("#peopleBranchChoices");
@@ -53,12 +53,14 @@
     let historicalRequest = 0;
     const allRecordsEnabled = Boolean(window.ALL_RECORDS_DISCOVERY?.search);
     const fullSearchChoice = document.querySelector("[data-full-search-choice]");
-    if (fullSearchChoice && !allRecordsEnabled) fullSearchChoice.remove();
-    const requestedScope = new URLSearchParams(window.location.search).get("scope");
-    if (requestedScope === "all-records" && allRecordsEnabled) {
-      const requestedScopeControl = occurrenceTypes.find((control) => control.value === requestedScope);
-      if (requestedScopeControl) requestedScopeControl.checked = true;
+    if (fullSearchChoice && !allRecordsEnabled) {
+      fullSearchChoice.remove();
+      const memberChoice = occurrenceTypes.find((control) => control.value === "member");
+      if (memberChoice) memberChoice.checked = true;
     }
+    const requestedScope = new URLSearchParams(window.location.search).get("scope");
+    const requestedScopeControl = occurrenceTypes.find((control) => control.value === requestedScope);
+    if (requestedScopeControl && (requestedScope !== "all-records" || allRecordsEnabled)) requestedScopeControl.checked = true;
     for (const branch of branches) {
       const label = document.createElement("label");
       const checkbox = document.createElement("input");

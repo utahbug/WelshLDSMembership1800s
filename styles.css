@@ -675,10 +675,10 @@ body:has(.search-sticky-nav) .research-beta-note { margin-top: 8px; }
 .member-index-loading::after { content: ""; display: block; width: 100%; height: 3px; margin-top: 7px; border-radius: 2px; background: linear-gradient(90deg, transparent 0 12%, var(--gold) 42% 58%, transparent 88% 100%) 0 0 / 200% 100%; animation: image-load-indeterminate 1.15s linear infinite; }
 .research-result { padding: 16px 18px; border: 1px solid var(--line); border-radius: 6px; background: var(--panel); box-shadow: 0 2px 8px rgba(28, 39, 34, .05); overflow-wrap: anywhere; }
 .person-primary-card { position: relative; cursor: pointer; transition: background-color .14s ease, border-color .14s ease, box-shadow .14s ease; }
-.person-primary-card:hover, .person-primary-card:focus-within { border-color: #9d8c62; background: #fffdf7; box-shadow: 0 4px 14px rgba(28, 39, 34, .1); }
+.person-primary-card:hover, .person-primary-card:focus-within { border-color: #9d8c62; background: #fff9e8; box-shadow: 0 5px 16px rgba(28, 39, 34, .13); }
 .person-card-primary-action::after { content: ""; position: absolute; z-index: 1; inset: 0; border-radius: inherit; }
 .person-primary-card :is(a, button, input, select, textarea, summary, details):not(.person-card-primary-action) { position: relative; z-index: 2; }
-.person-primary-card:hover .person-card-primary-action, .person-primary-card:focus-within .person-card-primary-action { color: inherit; text-decoration-line: underline; text-decoration-color: currentColor; text-decoration-thickness: 2px; text-underline-offset: 3px; }
+.person-primary-card:hover .person-card-primary-action, .person-primary-card:focus-within .person-card-primary-action { color: inherit; border-radius: 2px; background: rgba(171, 132, 50, .13); box-shadow: 0 0 0 4px rgba(171, 132, 50, .13); text-decoration-line: underline; text-decoration-color: currentColor; text-decoration-thickness: 2px; text-underline-offset: 3px; }
 .home-unified-person-title { display: block; margin: 0; padding: 0; color: var(--green-dark); border: 0; background: transparent; font: 600 .98rem/1.35 Georgia, serif; text-align: left; cursor: pointer; }
 .home-unified-person-title:focus-visible { outline: 2px solid var(--gold); outline-offset: 3px; border-radius: 2px; }
 .research-result h2 { margin: 4px 0 9px; color: var(--green-dark); font-size: 1.2rem; line-height: 1.3; }
