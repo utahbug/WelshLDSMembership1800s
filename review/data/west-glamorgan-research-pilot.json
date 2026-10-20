@@ -1,0 +1,173 @@
+{
+  "version": 1,
+  "organizationId": "west-glamorgan-conference",
+  "organizationName": "West Glamorgan Conference",
+  "years": "1851–1870",
+  "source": {
+    "title": "Western Glamorgan Conference Minutes, 1851–1870",
+    "cd": "CD 41",
+    "callNumber": "LR 17617 11",
+    "coverage": "Partial historical transcript: cover through manuscript page 7 (meetings from 1 April to 10 June 1851), plus the volume's descriptive front matter",
+    "originalAvailability": "Original source images are not currently available in the public viewer."
+  },
+  "researchNote": "This bounded Review pilot indexes selected, clearly named people in the available partial transcript. It does not represent the full 1851–1870 minute book, infer membership, or merge people with similarly named records.",
+  "transcriptions": [
+    {
+      "title": "Western Glamorgan Conference Minutes, 1851–1870 (partial extract)",
+      "years": "1851",
+      "language": "English",
+      "provenance": "Historical human transcription · partial coverage",
+      "viewTranscript": "publication-viewer.html?collection=typed-viewer-ddc42515ba3dc458&title=Western%20Glamorgan%20Conference%2C%201851%E2%80%931870&type=Transcription%20or%20Translation&page=85"
+    }
+  ],
+  "people": [
+    {
+      "name": "Dan Jones",
+      "searchName": "dan jones captain president",
+      "occurrences": [
+        {
+          "nameAsWritten": "Capt. Dan Jones",
+          "date": "June 1856",
+          "context": "Named in the volume description as president when a later section of council minutes began",
+          "transcriptPage": 86,
+          "manuscriptPage": "front matter",
+          "transcriptHref": "publication-viewer.html?collection=typed-viewer-ddc42515ba3dc458&title=Western%20Glamorgan%20Conference%2C%201851%E2%80%931870&type=Transcription%20or%20Translation&page=86"
+        }
+      ]
+    },
+    {
+      "name": "Thomas Pugh",
+      "searchName": "thomas pugh elder president",
+      "occurrences": [
+        {
+          "nameAsWritten": "Elder Thomas Pugh",
+          "date": "1 April 1851",
+          "context": "Called the general council to order and presented his authority to preside over the conference",
+          "transcriptPage": 87,
+          "manuscriptPage": "1",
+          "transcriptHref": "publication-viewer.html?collection=typed-viewer-ddc42515ba3dc458&title=Western%20Glamorgan%20Conference%2C%201851%E2%80%931870&type=Transcription%20or%20Translation&page=87"
+        },
+        {
+          "nameAsWritten": "Elder Thomas Pugh",
+          "date": "10 June 1851",
+          "context": "Presided at the general council in Neath",
+          "transcriptPage": 101,
+          "manuscriptPage": "7",
+          "transcriptHref": "publication-viewer.html?collection=typed-viewer-ddc42515ba3dc458&title=Western%20Glamorgan%20Conference%2C%201851%E2%80%931870&type=Transcription%20or%20Translation&page=101"
+        }
+      ]
+    },
+    {
+      "name": "Evan Williams",
+      "searchName": "evan williams elder secretary",
+      "occurrences": [
+        {
+          "nameAsWritten": "Elder Evan Williams",
+          "date": "1 April 1851",
+          "context": "Sustained as traveling elder, conference secretary, and collector of conference history",
+          "transcriptPage": 88,
+          "manuscriptPage": "1",
+          "transcriptHref": "publication-viewer.html?collection=typed-viewer-ddc42515ba3dc458&title=Western%20Glamorgan%20Conference%2C%201851%E2%80%931870&type=Transcription%20or%20Translation&page=88"
+        }
+      ]
+    },
+    {
+      "name": "William Harris",
+      "searchName": "william harris elder neath",
+      "occurrences": [
+        {
+          "nameAsWritten": "Elder Williams Harris",
+          "date": "1 April 1851",
+          "context": "Represented the Neath council of three branches",
+          "transcriptPage": 89,
+          "manuscriptPage": "2",
+          "transcriptHref": "publication-viewer.html?collection=typed-viewer-ddc42515ba3dc458&title=Western%20Glamorgan%20Conference%2C%201851%E2%80%931870&type=Transcription%20or%20Translation&page=89"
+        }
+      ]
+    },
+    {
+      "name": "John Rhys Roberts",
+      "searchName": "john rhys roberts secretary swansea",
+      "occurrences": [
+        {
+          "nameAsWritten": "Elder John Rhys Roberts",
+          "date": "15 April 1851",
+          "context": "Appointed secretary to the general council",
+          "transcriptPage": 89,
+          "manuscriptPage": "2",
+          "transcriptHref": "publication-viewer.html?collection=typed-viewer-ddc42515ba3dc458&title=Western%20Glamorgan%20Conference%2C%201851%E2%80%931870&type=Transcription%20or%20Translation&page=89"
+        }
+      ]
+    },
+    {
+      "name": "Levi Richards",
+      "searchName": "levi richards doctor dr",
+      "occurrences": [
+        {
+          "nameAsWritten": "Dr. Levi Richards",
+          "date": "29 April 1851",
+          "context": "Addressed the council on conducting business and distributing tracts",
+          "transcriptPage": 94,
+          "manuscriptPage": "4",
+          "transcriptHref": "publication-viewer.html?collection=typed-viewer-ddc42515ba3dc458&title=Western%20Glamorgan%20Conference%2C%201851%E2%80%931870&type=Transcription%20or%20Translation&page=94"
+        }
+      ]
+    },
+    {
+      "name": "Robert Campbell",
+      "searchName": "robert campbell elder seventy",
+      "occurrences": [
+        {
+          "nameAsWritten": "Elder Robert Campbell",
+          "date": "29 April 1851",
+          "context": "Spoke as a member of the Seventy sent to help address the conference debt",
+          "transcriptPage": 94,
+          "manuscriptPage": "4",
+          "transcriptHref": "publication-viewer.html?collection=typed-viewer-ddc42515ba3dc458&title=Western%20Glamorgan%20Conference%2C%201851%E2%80%931870&type=Transcription%20or%20Translation&page=94"
+        }
+      ]
+    },
+    {
+      "name": "David J. Jones",
+      "searchName": "david j jones ystradgynlais swansea",
+      "occurrences": [
+        {
+          "nameAsWritten": "David J. Jones",
+          "date": "15 April 1851",
+          "context": "Named as the Ystradgynlais representative who paid a contribution for Welsh books",
+          "transcriptPage": 91,
+          "manuscriptPage": "3",
+          "transcriptHref": "publication-viewer.html?collection=typed-viewer-ddc42515ba3dc458&title=Western%20Glamorgan%20Conference%2C%201851%E2%80%931870&type=Transcription%20or%20Translation&page=91"
+        }
+      ]
+    },
+    {
+      "name": "Emrys Davies",
+      "searchName": "emrys davies cwmavon aberavon",
+      "occurrences": [
+        {
+          "nameAsWritten": "Elder Emrys Davies",
+          "date": "29 April 1851",
+          "context": "Asked the council about Thomas Davies's standing and certificate",
+          "transcriptPage": 94,
+          "manuscriptPage": "4",
+          "transcriptHref": "publication-viewer.html?collection=typed-viewer-ddc42515ba3dc458&title=Western%20Glamorgan%20Conference%2C%201851%E2%80%931870&type=Transcription%20or%20Translation&page=94"
+        }
+      ]
+    },
+    {
+      "name": "Thomas Roberts",
+      "searchName": "thomas roberts treboth",
+      "occurrences": [
+        {
+          "nameAsWritten": "Thomas Roberts",
+          "date": "17 May 1851",
+          "context": "Named as the Treboth representative who paid conference funds",
+          "transcriptPage": 98,
+          "manuscriptPage": "5",
+          "transcriptHref": "publication-viewer.html?collection=typed-viewer-ddc42515ba3dc458&title=Western%20Glamorgan%20Conference%2C%201851%E2%80%931870&type=Transcription%20or%20Translation&page=98"
+        }
+      ]
+    }
+  ]
+}

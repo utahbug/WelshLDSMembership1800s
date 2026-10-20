@@ -58,9 +58,9 @@
       status: "established",
       years: "1851–1870",
       collections: 1,
-      source: "Western Glamorgan Conference Minutes, 1851–1870 · CD 41 · LR 17617 21",
-      sourceHref: "index.html?collection=typed-viewer-a04b9653fca1d5e6&image=1&view=facing",
-      evidence: "The established Morriston record cites the enclosing Western Glamorgan Conference minutes and their source identifiers.",
+      source: "Western Glamorgan Conference Minutes, 1851–1870 · CD 41 · LR 17617 11",
+      sourceHref: "publication-viewer.html?collection=typed-viewer-ddc42515ba3dc458&title=Western%20Glamorgan%20Conference%2C%201851%E2%80%931870&type=Transcription%20or%20Translation&page=85",
+      evidence: "The surviving historical transcript identifies the Western Glamorganshire Conference minute book and preserves a partial extract from its cover through manuscript page 7.",
     },
     {
       id: "welsh-district",
@@ -238,8 +238,14 @@
     return `<dl class="organization-research-definition">${source}${evidence}${note}</dl>`;
   }
 
-  const eastGlamorganPilot = fetch("data/east-glamorgan-research-pilot.json")
-    .then((response) => response.ok ? response.json() : Promise.reject(new Error("East Glamorgan research data unavailable")));
+  const researchPilotFiles = new Map([
+    ["east-glamorgan-conference", "data/east-glamorgan-research-pilot.json"],
+    ["west-glamorgan-conference", "data/west-glamorgan-research-pilot.json"],
+  ]);
+  const researchPilots = new Map([...researchPilotFiles].map(([id, path]) => [
+    id,
+    fetch(path).then((response) => response.ok ? response.json() : Promise.reject(new Error(`${id} research data unavailable`))),
+  ]));
 
   function appendText(element, label, value) {
     const term = document.createElement("dt");
@@ -365,7 +371,7 @@
     return section;
   }
 
-  function renderEastGlamorganPilot(item, data) {
+  function renderOrganizationResearchPilot(item, data) {
     const list = document.querySelector("#resourceList");
     const sources = document.createElement("section");
     sources.className = "branch-information organization-source-information";
@@ -376,14 +382,16 @@
     appendText(definition, "Organization type", item.type);
     appendText(definition, "Status", "Established");
     appendText(definition, "Historical source", `${data.source.title} · ${data.source.cd} · ${data.source.callNumber}`);
+    if (data.source.coverage) appendText(definition, "Transcript coverage", data.source.coverage);
     const sourceActions = document.createElement("p");
     sourceActions.className = "organization-source-actions";
-    sourceActions.append(actionLink("View original source", data.source.viewOriginal));
+    if (data.source.viewOriginal) sourceActions.append(actionLink("View original source", data.source.viewOriginal));
+    else sourceActions.textContent = data.source.originalAvailability || "Original source images are not currently available in the public viewer.";
     sources.append(sourcesHeading, definition, sourceActions);
 
     const notes = document.createElement("section");
     notes.className = "branch-information organization-research-notes";
-    notes.innerHTML = `<h3>Research notes</h3><p>${item.evidence}</p><p>This bounded Review pilot preserves source-name occurrences and does not infer membership or merge people with similarly named records.</p>`;
+    notes.innerHTML = `<h3>Research notes</h3><p>${item.evidence}</p><p>${data.researchNote || "This bounded Review pilot preserves source-name occurrences and does not infer membership or merge people with similarly named records."}</p>`;
     list.replaceChildren(sources, peopleSection(data), transcriptionsSection(data), notes);
   }
 
@@ -403,10 +411,11 @@
     document.querySelector("#branchMeta").hidden = true;
     const resourceList = document.querySelector("#resourceList");
     resourceList.innerHTML = `<section class="branch-information organization-research-notes"><h3>Research notes</h3><p><strong>Organization type:</strong> ${item.type}</p><p><strong>Status:</strong> ${item.status === "candidate" ? "Candidate · Under review" : "Established"}</p>${evidenceList(item)}</section>`;
-    if (item.id === "east-glamorgan-conference") {
-      resourceList.innerHTML = `<section class="branch-information organization-pilot-loading" role="status"><h3>East Glamorgan research pilot</h3><p>Loading transcript and people index…</p></section>`;
-      eastGlamorganPilot
-        .then((data) => renderEastGlamorganPilot(item, data))
+    const researchPilot = researchPilots.get(item.id);
+    if (researchPilot) {
+      resourceList.innerHTML = `<section class="branch-information organization-pilot-loading" role="status"><h3>${item.name} research pilot</h3><p>Loading transcript and people index…</p></section>`;
+      researchPilot
+        .then((data) => renderOrganizationResearchPilot(item, data))
         .catch(() => {
           resourceList.innerHTML = `<section class="branch-information organization-research-notes"><h3>Research notes</h3><p>The Review research pilot could not be loaded. The source remains available through <a href="${item.sourceHref}">View source</a>.</p>${evidenceList(item)}</section>`;
         });
