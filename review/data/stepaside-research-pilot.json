@@ -1,0 +1,90 @@
+{
+  "version": 1,
+  "organizationId": "registry-stepaside",
+  "organizationName": "Stepaside",
+  "years": "1858–1860",
+  "source": {
+    "title": "Stepaside Branch, British Mission. General minutes, 1858–1860",
+    "cd": "CD 44",
+    "callNumber": "LR 12727 11",
+    "coverage": "Complete historical transcript of manuscript pages 1–58 and the unnumbered pages at the back of the volume; public transcript PDF pages 3–33",
+    "viewOriginal": "index.html?collection=collection-51&imageFilename=LR-1272711__M_00004.jpg&view=single&branch=Stepaside"
+  },
+  "researchNote": "This conservative source-name occurrence index covers clearly named people in the dated council minutes. Appearance in these records does not establish branch membership, and similarly named people have not been merged automatically.",
+  "transcriptions": [{
+    "title": "Stepaside Branch general minutes, 1858–1860",
+    "years": "1858–1860",
+    "language": "English",
+    "provenance": "Historical human transcription · complete coverage",
+    "viewTranscript": "publication-viewer.html?collection=typed-viewer-9fd2debaf9397329&title=Stepaside%20Branch%20General%20Minutes%2C%201858%E2%80%931860&type=Transcription%20or%20Translation&page=3",
+    "viewOriginal": "index.html?collection=collection-51&imageFilename=LR-1272711__M_00004.jpg&view=single&branch=Stepaside"
+  }],
+  "people": [
+    {"name":"Edward Burgoyne","searchName":"edward burgoyne burgwine burgoine president","occurrences":[
+      {"nameAsWritten":"President Burgoyne","date":"27 June 1858","context":"Presided at the general council and explained why it was being held at Stepaside","transcriptPage":3,"manuscriptPage":"1","frame":"LR-1272711__M_00004.jpg","transcriptHref":"publication-viewer.html?collection=typed-viewer-9fd2debaf9397329&page=3","originalHref":"index.html?collection=collection-51&imageFilename=LR-1272711__M_00004.jpg&view=single&branch=Stepaside"},
+      {"nameAsWritten":"President E Burgoyne","date":"23 January 1859","context":"Presided and exhorted officers and Saints concerning duty and tithing","transcriptPage":9,"manuscriptPage":"21–23","frame":"LR-1272711__M_00024.jpg","transcriptHref":"publication-viewer.html?collection=typed-viewer-9fd2debaf9397329&page=9","originalHref":"index.html?collection=collection-51&imageFilename=LR-1272711__M_00024.jpg&view=single&branch=Stepaside"},
+      {"nameAsWritten":"Edward Burgoyne President","date":"25 March 1860","context":"Presided when branch leadership and disciplinary matters were considered","transcriptPage":18,"manuscriptPage":"46–47","frame":"LR-1272711__M_00049.jpg","transcriptHref":"publication-viewer.html?collection=typed-viewer-9fd2debaf9397329&page=18","originalHref":"index.html?collection=collection-51&imageFilename=LR-1272711__M_00049.jpg&view=single&branch=Stepaside"}
+    ]},
+    {"name":"John Gibbs","searchName":"john gibbs elder clerk president","occurrences":[
+      {"nameAsWritten":"Elder John Gibbs","date":"27 June 1858","context":"Addressed the council on faith, duty, and the conference book debt","transcriptPage":3,"manuscriptPage":"2–3","frame":"LR-1272711__M_00005.jpg","transcriptHref":"publication-viewer.html?collection=typed-viewer-9fd2debaf9397329&page=3","originalHref":"index.html?collection=collection-51&imageFilename=LR-1272711__M_00005.jpg&view=single&branch=Stepaside"},
+      {"nameAsWritten":"John Gibbs President","date":"22 April 1860","context":"Signed the council record as president","transcriptPage":19,"manuscriptPage":"48","frame":"LR-1272711__M_00051.jpg","transcriptHref":"publication-viewer.html?collection=typed-viewer-9fd2debaf9397329&page=19","originalHref":"index.html?collection=collection-51&imageFilename=LR-1272711__M_00051.jpg&view=single&branch=Stepaside"},
+      {"nameAsWritten":"John Gibbs","date":"22 July 1860","context":"Spoke about priesthood duty and preaching the gospel","transcriptPage":20,"manuscriptPage":"50","frame":"LR-1272711__M_00053.jpg","transcriptHref":"publication-viewer.html?collection=typed-viewer-9fd2debaf9397329&page=20","originalHref":"index.html?collection=collection-51&imageFilename=LR-1272711__M_00053.jpg&view=single&branch=Stepaside"}
+    ]},
+    {"name":"Charles Rees","searchName":"charles rees reeese elder president counselor","occurrences":[
+      {"nameAsWritten":"Elder Charles Rees","date":"27 June 1858","context":"Reported the condition of Stepaside Branch","transcriptPage":3,"manuscriptPage":"1","frame":"LR-1272711__M_00004.jpg","transcriptHref":"publication-viewer.html?collection=typed-viewer-9fd2debaf9397329&page=3","originalHref":"index.html?collection=collection-51&imageFilename=LR-1272711__M_00004.jpg&view=single&branch=Stepaside"},
+      {"nameAsWritten":"Brother Charles Rees","date":"19 October 1858","context":"Released from the presidency of Stepaside Branch","transcriptPage":6,"manuscriptPage":"12","frame":"LR-1272711__M_00015.jpg","transcriptHref":"publication-viewer.html?collection=typed-viewer-9fd2debaf9397329&page=6","originalHref":"index.html?collection=collection-51&imageFilename=LR-1272711__M_00015.jpg&view=single&branch=Stepaside"},
+      {"nameAsWritten":"Elder Charls Rees","date":"24 July 1859","context":"Appointed president of Stepaside Branch","transcriptPage":14,"manuscriptPage":"33","frame":"LR-1272711__M_00036.jpg","transcriptHref":"publication-viewer.html?collection=typed-viewer-9fd2debaf9397329&page=14","originalHref":"index.html?collection=collection-51&imageFilename=LR-1272711__M_00036.jpg&view=single&branch=Stepaside"}
+    ]},
+    {"name":"William Griffiths","searchName":"william griffiths griffith elder clerk tenby","occurrences":[
+      {"nameAsWritten":"Elder William Griffiths","date":"27 June 1858","context":"Reported the condition of Tenby Branch and was appointed clerk","transcriptPage":3,"manuscriptPage":"1–4","frame":"LR-1272711__M_00004.jpg","transcriptHref":"publication-viewer.html?collection=typed-viewer-9fd2debaf9397329&page=3","originalHref":"index.html?collection=collection-51&imageFilename=LR-1272711__M_00004.jpg&view=single&branch=Stepaside"},
+      {"nameAsWritten":"William Griffiths Tenby","date":"25 March 1860","context":"Represented Tenby Branch and seconded disciplinary motions","transcriptPage":18,"manuscriptPage":"46","frame":"LR-1272711__M_00049.jpg","transcriptHref":"publication-viewer.html?collection=typed-viewer-9fd2debaf9397329&page=18","originalHref":"index.html?collection=collection-51&imageFilename=LR-1272711__M_00049.jpg&view=single&branch=Stepaside"}
+    ]},
+    {"name":"Thomas Phillips","searchName":"thomas phillips philips elder president","occurrences":[
+      {"nameAsWritten":"Brother Thomas Philips","date":"19 December 1858","context":"Appointed president of Stepaside Branch","transcriptPage":8,"manuscriptPage":"18–20","frame":"LR-1272711__M_00021.jpg","transcriptHref":"publication-viewer.html?collection=typed-viewer-9fd2debaf9397329&page=8","originalHref":"index.html?collection=collection-51&imageFilename=LR-1272711__M_00021.jpg&view=single&branch=Stepaside"},
+      {"nameAsWritten":"Elder Thomas Phillips","date":"23 January 1859","context":"Reported that the branch was in better order and organized assistance for President Calkin's family","transcriptPage":9,"manuscriptPage":"21–22","frame":"LR-1272711__M_00024.jpg","transcriptHref":"publication-viewer.html?collection=typed-viewer-9fd2debaf9397329&page=9","originalHref":"index.html?collection=collection-51&imageFilename=LR-1272711__M_00024.jpg&view=single&branch=Stepaside"},
+      {"nameAsWritten":"Elder Thomas Phillips","date":"25 March 1860","context":"Asked to take the presidency of Stepaside Branch","transcriptPage":18,"manuscriptPage":"46–47","frame":"LR-1272711__M_00049.jpg","transcriptHref":"publication-viewer.html?collection=typed-viewer-9fd2debaf9397329&page=18","originalHref":"index.html?collection=collection-51&imageFilename=LR-1272711__M_00049.jpg&view=single&branch=Stepaside"}
+    ]},
+    {"name":"Benjamin Howels","searchName":"benjamin howels howells bowels elder deacon","occurrences":[
+      {"nameAsWritten":"Elder Benjamin Howels","date":"27 June 1858","context":"Hosted the general council at his house","transcriptPage":3,"manuscriptPage":"1","frame":"LR-1272711__M_00004.jpg","transcriptHref":"publication-viewer.html?collection=typed-viewer-9fd2debaf9397329&page=3","originalHref":"index.html?collection=collection-51&imageFilename=LR-1272711__M_00004.jpg&view=single&branch=Stepaside"},
+      {"nameAsWritten":"Elder Benjamin Howls","date":"31 October 1858","context":"Appointed to act as deacon in Stepaside Branch","transcriptPage":7,"manuscriptPage":"15","frame":"LR-1272711__M_00018.jpg","transcriptHref":"publication-viewer.html?collection=typed-viewer-9fd2debaf9397329&page=7","originalHref":"index.html?collection=collection-51&imageFilename=LR-1272711__M_00018.jpg&view=single&branch=Stepaside"}
+    ]},
+    {"name":"Daniel Rees","searchName":"daniel dan rees elder teacher","occurrences":[
+      {"nameAsWritten":"Brother Daniel Rees","date":"19 September 1858","context":"Called to be a teacher in Stepaside Branch","transcriptPage":5,"manuscriptPage":"10","frame":"LR-1272711__M_00013.jpg","transcriptHref":"publication-viewer.html?collection=typed-viewer-9fd2debaf9397329&page=5","originalHref":"index.html?collection=collection-51&imageFilename=LR-1272711__M_00013.jpg&view=single&branch=Stepaside"},
+      {"nameAsWritten":"Brother Daniel Rees","date":"25 March 1860","context":"Suspended for neglect of duty","transcriptPage":18,"manuscriptPage":"46","frame":"LR-1272711__M_00049.jpg","transcriptHref":"publication-viewer.html?collection=typed-viewer-9fd2debaf9397329&page=18","originalHref":"index.html?collection=collection-51&imageFilename=LR-1272711__M_00049.jpg&view=single&branch=Stepaside"},
+      {"nameAsWritten":"Elder Daniel Rees","date":"22 July 1860","context":"Cut off after renewed concerns about his conduct","transcriptPage":20,"manuscriptPage":"50","frame":"LR-1272711__M_00053.jpg","transcriptHref":"publication-viewer.html?collection=typed-viewer-9fd2debaf9397329&page=20","originalHref":"index.html?collection=collection-51&imageFilename=LR-1272711__M_00053.jpg&view=single&branch=Stepaside"}
+    ]},
+    {"name":"John Davies","searchName":"john davies davis elder lydstep tenby","occurrences":[
+      {"nameAsWritten":"Elder John Davies","date":"27 June 1858","context":"Reported on the Saints at Lydstep and was appointed to preside over the newly organized branch","transcriptPage":3,"manuscriptPage":"2","frame":"LR-1272711__M_00005.jpg","transcriptHref":"publication-viewer.html?collection=typed-viewer-9fd2debaf9397329&page=3","originalHref":"index.html?collection=collection-51&imageFilename=LR-1272711__M_00005.jpg&view=single&branch=Stepaside"}
+    ]},
+    {"name":"George Gibbs","searchName":"george g gibbs elder clerk president","occurrences":[
+      {"nameAsWritten":"Brother George Gibbs","date":"19 October 1858","context":"Seconded branch business and gave instruction to the council","transcriptPage":6,"manuscriptPage":"11–12","frame":"LR-1272711__M_00014.jpg","transcriptHref":"publication-viewer.html?collection=typed-viewer-9fd2debaf9397329&page=6","originalHref":"index.html?collection=collection-51&imageFilename=LR-1272711__M_00014.jpg&view=single&branch=Stepaside"},
+      {"nameAsWritten":"George Gibbs President","date":"21 October 1860","context":"Presided and instructed officers concerning duty and faithfulness","transcriptPage":21,"manuscriptPage":"53","frame":"LR-1272711__M_00056.jpg","transcriptHref":"publication-viewer.html?collection=typed-viewer-9fd2debaf9397329&page=21","originalHref":"index.html?collection=collection-51&imageFilename=LR-1272711__M_00056.jpg&view=single&branch=Stepaside"}
+    ]},
+    {"name":"William Cosslett","searchName":"william cosslett coslett coslet president elder","occurrences":[
+      {"nameAsWritten":"William Cosslett President","date":"20 May 1860","context":"Presided, instructed the officers, and signed the council record","transcriptPage":19,"manuscriptPage":"48","frame":"LR-1272711__M_00051.jpg","transcriptHref":"publication-viewer.html?collection=typed-viewer-9fd2debaf9397329&page=19","originalHref":"index.html?collection=collection-51&imageFilename=LR-1272711__M_00051.jpg&view=single&branch=Stepaside"},
+      {"nameAsWritten":"Elder Wm Coslet","date":"22 September 1860","context":"Presided and exhorted the council concerning faithfulness and preaching","transcriptPage":20,"manuscriptPage":"52","frame":"LR-1272711__M_00055.jpg","transcriptHref":"publication-viewer.html?collection=typed-viewer-9fd2debaf9397329&page=20","originalHref":"index.html?collection=collection-51&imageFilename=LR-1272711__M_00055.jpg&view=single&branch=Stepaside"}
+    ]},
+    {"name":"Thomas Noot","searchName":"thomas noot elder clerk tenby","occurrences":[
+      {"nameAsWritten":"Elder Thomas Noot","date":"27 June 1858","context":"Offered the opening prayer at the general council","transcriptPage":3,"manuscriptPage":"1","frame":"LR-1272711__M_00004.jpg","transcriptHref":"publication-viewer.html?collection=typed-viewer-9fd2debaf9397329&page=3","originalHref":"index.html?collection=collection-51&imageFilename=LR-1272711__M_00004.jpg&view=single&branch=Stepaside"}
+    ]},
+    {"name":"Dan Jones","searchName":"dan jones president","occurrences":[
+      {"nameAsWritten":"Brother Dan Jones","date":"19 October 1858","context":"Mentioned retrospectively in discussion of a former council procedure during his presidency","transcriptPage":6,"manuscriptPage":"14","frame":"LR-1272711__M_00017.jpg","transcriptHref":"publication-viewer.html?collection=typed-viewer-9fd2debaf9397329&page=6","originalHref":"index.html?collection=collection-51&imageFilename=LR-1272711__M_00017.jpg&view=single&branch=Stepaside"}
+    ]},
+    {"name":"President Calkin","searchName":"president calkin","occurrences":[
+      {"nameAsWritten":"President Calkin","date":"23 January 1859","context":"His family's hardship during his absence was given as the reason for a collection","transcriptPage":9,"manuscriptPage":"22","frame":"LR-1272711__M_00025.jpg","transcriptHref":"publication-viewer.html?collection=typed-viewer-9fd2debaf9397329&page=9","originalHref":"index.html?collection=collection-51&imageFilename=LR-1272711__M_00025.jpg&view=single&branch=Stepaside"}
+    ]},
+    {"name":"Eliza Griffiths","searchName":"eliza griffiths tenby","occurrences":[
+      {"nameAsWritten":"Eliza Griffiths","date":"20 February 1859","context":"Reported as having left Tenby; a later speaker described her feelings as neglect rather than hostility","transcriptPage":10,"manuscriptPage":"24–25","frame":"LR-1272711__M_00027.jpg","transcriptHref":"publication-viewer.html?collection=typed-viewer-9fd2debaf9397329&page=10","originalHref":"index.html?collection=collection-51&imageFilename=LR-1272711__M_00027.jpg&view=single&branch=Stepaside"}
+    ]},
+    {"name":"Henry Harries","searchName":"henry harries elder","occurrences":[
+      {"nameAsWritten":"Elder Henry Harries","date":"20 March 1859","context":"Addressed the council while visiting Saints who had friends in the valley","transcriptPage":12,"manuscriptPage":"27","frame":"LR-1272711__M_00030.jpg","transcriptHref":"publication-viewer.html?collection=typed-viewer-9fd2debaf9397329&page=12","originalHref":"index.html?collection=collection-51&imageFilename=LR-1272711__M_00030.jpg&view=single&branch=Stepaside"}
+    ]},
+    {"name":"Hanna Davies","searchName":"hanna hannah davies sister tenby","occurrences":[
+      {"nameAsWritten":"Sister Hanna Davies","date":"25 March 1860","context":"Named in Tenby branch business and cut off following a motion in council","transcriptPage":18,"manuscriptPage":"46","frame":"LR-1272711__M_00049.jpg","transcriptHref":"publication-viewer.html?collection=typed-viewer-9fd2debaf9397329&page=18","originalHref":"index.html?collection=collection-51&imageFilename=LR-1272711__M_00049.jpg&view=single&branch=Stepaside"}
+    ]},
+    {"name":"William White","searchName":"william white elder","occurrences":[
+      {"nameAsWritten":"Brother William White","date":"21 November 1858","context":"Addressed the council on duties in building up the kingdom","transcriptPage":7,"manuscriptPage":"16","frame":"LR-1272711__M_00019.jpg","transcriptHref":"publication-viewer.html?collection=typed-viewer-9fd2debaf9397329&page=7","originalHref":"index.html?collection=collection-51&imageFilename=LR-1272711__M_00019.jpg&view=single&branch=Stepaside"},
+      {"nameAsWritten":"Elder Wm White","date":"21 October 1860","context":"Spoke about the presence of the Spirit in the council","transcriptPage":21,"manuscriptPage":"53","frame":"LR-1272711__M_00056.jpg","transcriptHref":"publication-viewer.html?collection=typed-viewer-9fd2debaf9397329&page=21","originalHref":"index.html?collection=collection-51&imageFilename=LR-1272711__M_00056.jpg&view=single&branch=Stepaside"}
+    ]}
+  ]
+}

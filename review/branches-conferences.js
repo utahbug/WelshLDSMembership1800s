@@ -241,6 +241,7 @@
   const researchPilotFiles = new Map([
     ["east-glamorgan-conference", "data/east-glamorgan-research-pilot.json"],
     ["west-glamorgan-conference", "data/west-glamorgan-research-pilot.json"],
+    ["registry-stepaside", "data/stepaside-research-pilot.json"],
   ]);
   const researchPilots = new Map([...researchPilotFiles].map(([id, path]) => [
     id,
@@ -314,7 +315,7 @@
     heading.textContent = `People mentioned in these records (${data.people.length})`;
     const explanation = document.createElement("p");
     explanation.className = "organization-section-intro";
-    explanation.textContent = "A source-name occurrence index for this pilot. Appearance in the minutes does not establish conference or branch membership.";
+    explanation.textContent = "A source-name occurrence index for this pilot. Appearance in the records does not establish conference or branch membership.";
     const label = document.createElement("label");
     label.htmlFor = "organizationPeopleFilter";
     label.textContent = "Search names";
@@ -395,6 +396,25 @@
     list.replaceChildren(sources, peopleSection(data), transcriptionsSection(data), notes);
   }
 
+  function appendBranchResearchPilot(name) {
+    const item = establishedOrganizations.find((candidate) => candidate.registry && normalize(candidate.name) === normalize(name));
+    const pilot = item ? researchPilots.get(item.id) : null;
+    const list = document.querySelector("#resourceList");
+    if (!item || !pilot || !list || list.querySelector(".organization-people-section")) return;
+    const loading = document.createElement("section");
+    loading.className = "branch-information organization-pilot-loading";
+    loading.setAttribute("role", "status");
+    loading.innerHTML = `<h3>${item.name} research pilot</h3><p>Loading transcript and people index…</p>`;
+    list.append(loading);
+    pilot
+      .then((data) => {
+        loading.replaceWith(peopleSection(data), transcriptionsSection(data));
+      })
+      .catch(() => {
+        loading.innerHTML = `<h3>${item.name} research pilot</h3><p>The Review research pilot could not be loaded. Existing branch resources remain available above.</p>`;
+      });
+  }
+
   function showCustomDetail(item) {
     document.querySelector("#homePanel").hidden = true;
     directory.hidden = true;
@@ -436,7 +456,11 @@
   }
 
   const originalRouteBranch = window.WELSH_ROUTE_BRANCH;
-  if (originalRouteBranch) window.WELSH_ROUTE_BRANCH = (name, push = true) => { originalRouteBranch(name, push); injectResearchNote(name); };
+  if (originalRouteBranch) window.WELSH_ROUTE_BRANCH = (name, push = true) => {
+    originalRouteBranch(name, push);
+    injectResearchNote(name);
+    appendBranchResearchPilot(name);
+  };
 
   function routePrototypeOrganization() {
     const parameters = new URLSearchParams(location.search);
@@ -447,7 +471,10 @@
       return;
     }
     const branch = parameters.get("branch");
-    if (branch) injectResearchNote(branch);
+    if (branch) {
+      injectResearchNote(branch);
+      appendBranchResearchPilot(branch);
+    }
     if (parameters.get("view") === "branches") {
       document.title = "Branches & Conferences — LDS Welsh Membership Records";
       render();
