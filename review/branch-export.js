@@ -4,7 +4,7 @@
   const utilitySlot = directory?.querySelector(".branch-export-slot");
   const topSlot = directory?.querySelector(".branch-export-top-slot");
   const data = window.WELSH_BRANCH_EXPORT_DATA;
-  if (!directory || !heading || !data) return;
+  if (!directory || !data || (!utilitySlot && !heading)) return;
   const details = document.createElement("details");
   details.className = "branch-export-control";
   details.innerHTML = `<summary aria-expanded="false">Export branch data</summary><div class="branch-export-menu"><fieldset><legend>Scope</legend><label><input type="radio" name="branch-export-scope" value="canonical" checked>Identified branches</label><label><input type="radio" name="branch-export-scope" value="possible">Possible branches under review</label><label><input type="radio" name="branch-export-scope" value="both">Both</label></fieldset><button type="button" data-export="copy-list">Copy branch list</button><button type="button" data-export="copy-details">Copy branch list with details</button><button type="button" data-export="csv">Download CSV</button><button type="button" data-export="xlsx">Download Excel</button><span class="branch-export-status" aria-live="polite"></span></div>`;

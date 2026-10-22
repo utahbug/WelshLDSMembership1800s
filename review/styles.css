@@ -1269,14 +1269,15 @@ body:has(.search-sticky-nav) .research-beta-note + .site-disclaimer { margin: 0;
 @media (max-width: 430px) { .branch-directory-utilities { gap: 0 12px; } .branch-directory-utilities > * { flex-basis: 100%; } .branch-directory-utilities > :not(:first-child) { margin-left: 0; padding-left: 0; border-left: 0; border-top: 1px solid var(--line); } }
 
 /* Temporary Review: Branches & Conferences directory prototype. */
-.organization-filter-row { display: flex; flex-wrap: wrap; align-items: center; gap: 8px 12px; margin: 12px 0 4px; }
-.organization-type-filters { display: inline-flex; flex-wrap: wrap; gap: 4px; }
-.organization-filter-row button { min-height: 44px; box-sizing: border-box; padding: 8px 13px; color: var(--green-dark); border: 1px solid #807866; border-radius: 999px; background: var(--panel); cursor: pointer; font: 600 .84rem/1.2 Arial, sans-serif; }
-.organization-filter-row button[aria-pressed="true"] { color: white; border-color: var(--green-dark); background: var(--green-dark); }
-.organization-filter-row button:hover { border-color: var(--green); box-shadow: 0 2px 8px rgba(23,60,49,.16); }
-.organization-filter-row button:focus-visible { outline: 3px solid var(--gold); outline-offset: 2px; }
-.organization-review-filter { display: inline-flex; align-items: center; gap: 6px; }
-.organization-filter-summary { margin: 7px 0 0; color: var(--muted); font: .82rem/1.45 Arial, sans-serif; }
+.organization-directory-header { display: flex; align-items: flex-end; justify-content: space-between; gap: 8px 18px; margin-top: 10px; border-bottom: 1px solid var(--line); }
+.organization-tabs { min-width: 0; display: flex; flex-wrap: wrap; align-items: flex-end; gap: 2px; margin-bottom: -1px; }
+.organization-tabs button { min-height: 44px; box-sizing: border-box; padding: 8px 12px; color: var(--green-dark); border: 1px solid transparent; border-bottom-color: var(--line); border-radius: 5px 5px 0 0; background: transparent; cursor: pointer; font: 600 .84rem/1.2 Arial, sans-serif; }
+.organization-tabs button[aria-pressed="true"] { border-color: var(--line); border-bottom-color: var(--panel); background: var(--panel); box-shadow: inset 0 3px 0 var(--green-dark); font-weight: 700; }
+.organization-tabs button:hover { border-color: var(--green); border-bottom-color: var(--line); background: #f7f3e8; }
+.organization-tabs button[aria-pressed="true"]:hover { border-bottom-color: var(--panel); background: var(--panel); }
+.organization-tabs button:focus-visible { position: relative; z-index: 1; outline: 3px solid var(--gold); outline-offset: -3px; }
+.organization-directory-meta { flex: 0 0 auto; min-height: 44px; display: flex; align-items: center; justify-content: flex-end; gap: 6px; margin-left: auto; }
+.organization-directory-meta #collectionCount { margin: 0; color: var(--muted); font: 600 .78rem/1.3 Arial, sans-serif; white-space: nowrap; }
 #branchList.organization-directory-list { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 9px 12px; }
 .organization-card { min-width: 0; min-height: 76px; box-sizing: border-box; display: flex; flex-direction: column; justify-content: center; gap: 5px; padding: 13px 15px; color: var(--ink); border: 1px solid var(--line); border-left: 4px solid var(--gold); border-radius: 4px; background: var(--panel); text-decoration: none; }
 .organization-card:hover { border-color: var(--green); border-left-color: var(--gold); background: #f7f3e8; box-shadow: 0 4px 14px rgba(23,60,49,.14); }
@@ -1342,15 +1343,15 @@ body:has(.search-sticky-nav) .research-beta-note + .site-disclaimer { margin: 0;
 @media (max-width: 760px) {
   #branchList.organization-directory-list { grid-template-columns: 1fr; }
   .organization-review-grid { grid-template-columns: 1fr; }
-  .organization-filter-row { align-items: stretch; }
-  .organization-type-filters { flex: 1 1 auto; }
-  .organization-type-filters button { flex: 1 1 auto; }
+  .organization-directory-header { align-items: stretch; }
+  .organization-tabs { flex: 1 1 auto; }
+  .organization-tabs button { flex: 1 1 auto; }
 }
 @media (max-width: 430px) {
-  .organization-filter-row { display: grid; grid-template-columns: 1fr; }
-  .organization-type-filters { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); }
-  .organization-filter-row button { padding-inline: 9px; }
-  .organization-review-filter { width: 100%; justify-content: center; }
+  .organization-directory-header { display: flex; flex-direction: column; gap: 0; }
+  .organization-tabs { width: 100%; display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .organization-tabs button { width: 100%; padding-inline: 9px; }
+  .organization-directory-meta { width: 100%; min-height: 44px; margin-left: 0; }
   .organization-card-heading { flex-wrap: wrap; }
   .organization-type { width: 100%; margin-left: 0; text-align: left; }
   .organization-research-definition { grid-template-columns: 1fr; gap: 3px; }

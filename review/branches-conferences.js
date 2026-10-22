@@ -124,23 +124,24 @@
   let reviewOnly = false;
 
   top.innerHTML = `
-    <div class="directory-heading"><h3>Organizations</h3><p id="collectionCount"></p></div>
-    <div class="organization-filter-row" aria-label="Filter organizations">
-      <div class="organization-type-filters" role="group" aria-label="Organization type">
+    <div class="organization-tabs" role="group" aria-label="Filter organizations">
         <button type="button" data-organization-type="all" aria-pressed="true">All</button>
         <button type="button" data-organization-type="branch" aria-pressed="false">Branches</button>
         <button type="button" data-organization-type="conference" aria-pressed="false">Conferences</button>
-      </div>
-      <button type="button" class="organization-review-filter" aria-pressed="false"><span aria-hidden="true">ⓘ</span> Under review</button>
-      <div class="branch-export-top-slot"></div>
+        <button type="button" class="organization-review-filter" aria-pressed="false">Under review</button>
     </div>
-    <p class="organization-filter-summary" id="organizationFilterSummary" aria-live="polite"></p>`;
+    <div class="organization-directory-meta">
+      <p id="collectionCount" role="status" aria-live="polite"></p>
+      <div class="branch-export-top-slot"></div>
+    </div>`;
+  top.classList.add("organization-directory-header");
   count = directory.querySelector("#collectionCount");
 
   const heading = directory.querySelector("h2");
   const description = directory.querySelector(".directory-scope");
   heading.textContent = "Branches & Conferences";
-  description.textContent = "Browse Welsh Latter-day Saint branches, conferences, and related historical organizations.";
+  description.textContent = "";
+  description.hidden = true;
   branchList.setAttribute("aria-label", "Welsh Latter-day Saint branches, conferences, and related historical organizations");
   branchList.classList.add("organization-directory-list");
 
@@ -212,21 +213,22 @@
     }
     const context = reviewOnly ? "under review" : typeFilter === "all" ? "established organizations" : `${typeFilter === "branch" ? "branches" : "conferences"}`;
     count.textContent = `${items.length} ${context}`;
-    document.querySelector("#organizationFilterSummary").textContent = reviewOnly
-      ? "Showing established organizations with research notes and candidates that are still under review."
-      : "Showing established organizations. Candidate organizations remain in the Under review view.";
   }
 
   function setType(next) {
     typeFilter = next;
+    reviewOnly = false;
     directory.querySelectorAll("[data-organization-type]").forEach((button) => button.setAttribute("aria-pressed", String(button.dataset.organizationType === next)));
+    directory.querySelector(".organization-review-filter").setAttribute("aria-pressed", "false");
     render();
   }
 
   directory.querySelectorAll("[data-organization-type]").forEach((button) => button.addEventListener("click", () => setType(button.dataset.organizationType)));
   directory.querySelector(".organization-review-filter").addEventListener("click", (event) => {
-    reviewOnly = !reviewOnly;
-    event.currentTarget.setAttribute("aria-pressed", String(reviewOnly));
+    reviewOnly = true;
+    typeFilter = "all";
+    directory.querySelectorAll("[data-organization-type]").forEach((button) => button.setAttribute("aria-pressed", "false"));
+    event.currentTarget.setAttribute("aria-pressed", "true");
     render();
   });
 
