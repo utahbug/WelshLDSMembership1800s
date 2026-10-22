@@ -248,7 +248,10 @@
     });
     const controls = document.querySelector("#people-search-controls");
     const searchSubmit = document.createElement("button");
-    searchSubmit.id = "peopleSearchSubmit"; searchSubmit.type = "button"; searchSubmit.className = "search-submit"; searchSubmit.textContent = "Search";
+    searchSubmit.id = "peopleSearchSubmit"; searchSubmit.type = "button"; searchSubmit.className = "search-submit people-search-submit";
+    searchSubmit.setAttribute("aria-label", "Search records");
+    searchSubmit.setAttribute("title", "Search");
+    searchSubmit.innerHTML = '<svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="10" cy="10" r="5.5"/><path d="m14 14 5 5"/></svg>';
     searchQuery.after(searchSubmit);
     const mobileHeading = document.createElement("div");
     mobileHeading.className = "mobile-search-results-heading"; mobileHeading.hidden = true;
