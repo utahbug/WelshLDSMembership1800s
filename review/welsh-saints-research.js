@@ -33,6 +33,16 @@
   if (!typedRecords.length) type.querySelector('option[value="typed-branch-record-extract"]')?.remove();
   const allRecords = [...saintsRecords, ...typedRecords];
   const updatedAt = [index?.generatedAt, typedIndex?.generatedAt].filter(Boolean).sort().at(-1);
+  const searchSubmit = document.createElement("button");
+  searchSubmit.id = "researchSearchSubmit";
+  searchSubmit.type = "button";
+  searchSubmit.className = "search-submit people-search-submit welsh-saints-search-submit";
+  searchSubmit.setAttribute("aria-label", "Search Welsh Saints records");
+  searchSubmit.setAttribute("title", "Search");
+  searchSubmit.innerHTML = '<svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="10" cy="10" r="5.5"/><path d="m14 14 5 5"/></svg>';
+  searchQuery.after(searchSubmit);
+  summary.tabIndex = -1;
+  summary.hidden = true;
   if (index?.betaPublicIndex && help) help.textContent = "Discovery results identify Welsh Saints Project records and link to the original source; complete source text remains at the Welsh Saints Project.";
   const canonicalBranchLink = (name) => name === "Abertawe" ? "Swansea" : name;
   let detailReturnTarget = null;
@@ -205,13 +215,17 @@
   function render() {
     const query = search.value.trim();
     if (!query) {
-      summary.textContent = index?.betaPublicIndex ? `${saintsRecords.length.toLocaleString()} searchable Welsh Saints Project records · updated ${new Date(updatedAt).toLocaleDateString()}` : `${allRecords.length.toLocaleString()} searchable records (${saintsRecords.length.toLocaleString()} Welsh Saints records and ${typedRecords.length.toLocaleString()} typed transcript pages) · updated ${new Date(updatedAt).toLocaleDateString()}`;
+      summary.textContent = "";
+      summary.hidden = true;
       results.replaceChildren();
       return;
     }
     const ranked = findMatches(query);
     const matches = ranked.map(({ record }) => record);
-    summary.textContent = `${matches.length}${matches.length === 250 ? "+" : ""} result${matches.length === 1 ? "" : "s"} · ${allRecords.length.toLocaleString()} searchable Welsh Saints Project records · updated ${new Date(updatedAt).toLocaleDateString()}`;
+    summary.hidden = false;
+    summary.textContent = matches.length
+      ? `${matches.length}${matches.length === 250 ? "+" : ""} result${matches.length === 1 ? "" : "s"}`
+      : "No records matched this search.";
     results.replaceChildren(...ranked.map(({ record, evidence }) => {
       const item = document.createElement("article"); item.className = "research-result";
       if (record.type === "typed-branch-record-extract") {
@@ -237,7 +251,7 @@
       }
       return item;
     }));
-    if (!matches.length) results.innerHTML = "<p>No records matched this search.</p>";
+    if (!matches.length) results.replaceChildren();
   }
 
   results.addEventListener("click", (event) => {
@@ -249,11 +263,27 @@
   });
   const updateClearSearch = () => { clearSearch.hidden = !search.value; };
   let pendingRender = 0;
+  let focusSubmittedResult = false;
+  const submitSearch = () => {
+    clearTimeout(pendingRender);
+    focusSubmittedResult = true;
+    updateClearSearch();
+    render();
+    if (!focusSubmittedResult || summary.hidden) return;
+    focusSubmittedResult = false;
+    if (!matchMedia("(max-width: 620px)").matches) return;
+    requestAnimationFrame(() => {
+      summary.focus({ preventScroll: true });
+      summary.scrollIntoView({ block: "start", behavior: "smooth" });
+    });
+  };
   const scheduleRender = () => {
     clearTimeout(pendingRender);
     pendingRender = setTimeout(render, 200);
   };
   search.addEventListener("input", () => { updateClearSearch(); scheduleRender(); });
+  search.addEventListener("keydown", (event) => { if (event.key === "Enter") { event.preventDefault(); submitSearch(); } });
+  searchSubmit.addEventListener("click", submitSearch);
   clearSearch.addEventListener("click", () => { clearTimeout(pendingRender); search.value = ""; updateClearSearch(); render(); search.focus(); });
   type.addEventListener("change", () => { clearTimeout(pendingRender); render(); }); updateClearSearch(); render();
   requestAnimationFrame(() => {
