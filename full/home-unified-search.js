@@ -160,7 +160,13 @@
     row.replaceWith(form); form.append(input);
   }
   if (!form.querySelector(".search-submit")) {
-    const button = document.createElement("button"); button.className = "search-submit"; button.type = "submit"; button.textContent = "Search"; form.append(button);
+    const button = document.createElement("button");
+    button.className = "search-submit people-search-submit home-search-submit";
+    button.type = "submit";
+    button.setAttribute("aria-label", "Search the archive");
+    button.setAttribute("title", "Search");
+    button.innerHTML = '<svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="10" cy="10" r="5.5"/><path d="m14 14 5 5"/></svg>';
+    form.append(button);
   }
   let mobileHeading = resultRoot.querySelector(".mobile-search-results-heading");
   if (!mobileHeading) {

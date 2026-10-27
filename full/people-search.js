@@ -189,7 +189,9 @@
         results.replaceChildren(...visible.map((item) => item.kind === "member" ? makeMemberArticle(item.record) : historicalArticle(item.record, rawQuery,
           item.record.sourceType === "welsh-saints" && item.record.recordSubtype === "immigrant" ? welshPersonRecords.get(String(item.record.sourceId).split(":").at(-1)) : null)));
         const total = memberMatches.length + historical.totalMatches;
-        resultSummary.textContent = `${total.toLocaleString()} mixed-source result${total === 1 ? "" : "s"} found${historical.records.length < historical.totalMatches ? " (showing the highest-ranked historical matches)" : ""}`;
+        resultSummary.textContent = total
+          ? `${total.toLocaleString()} mixed-source result${total === 1 ? "" : "s"}${historical.records.length < historical.totalMatches ? " · highest-ranked historical matches shown" : ""}`
+          : "No records matched this search.";
         if (combined.length > visible.length) {
           const more = document.createElement("button"); more.type = "button"; more.className = "people-show-more"; more.textContent = `Show more results (${(combined.length - visible.length).toLocaleString()} remaining)`;
           more.addEventListener("click", () => { visibleLimit += 50; render(); }); results.append(more);
@@ -220,13 +222,15 @@
       const query = browseSelectedBranches ? "" : normalize(rawQuery);
       summary.textContent = "";
       if (!searchStarted) { resultSummary.textContent = ""; results.replaceChildren(); return; }
-      if (browseSelectedBranches && selectedBranches.size === 0) { resultSummary.textContent = "0 matches found"; results.innerHTML = "<p>Enter a person’s name or select one or more branches to browse their searchable member records.</p>"; return; }
+      if (browseSelectedBranches && selectedBranches.size === 0) { resultSummary.textContent = "Enter a person’s name or select one or more branches to browse their searchable member records."; results.replaceChildren(); return; }
       const matches = records.filter((record) => selectedBranches.has(record.branch)
         && record.occurrenceType === scope
         && searchCore.matches(record, query, collections.get(record.collectionId)));
       const branchScope = selectedBranches.size === branches.length ? "" : selectedBranches.size === 1 ? ` in ${[...selectedBranches][0]}` : ` in ${selectedBranches.size.toLocaleString()} branches`;
       const resultNoun = browseSelectedBranches && scope === "member" ? `member${matches.length === 1 ? "" : "s"}` : `match${matches.length === 1 ? "" : "es"}`;
-      resultSummary.textContent = `${matches.length.toLocaleString()} ${resultNoun} found${branchScope}`;
+      resultSummary.textContent = matches.length
+        ? `${matches.length.toLocaleString()} ${resultNoun}${branchScope}`
+        : "No member records matched this search.";
       const visibleMatches = matches.slice(0, visibleLimit);
       results.replaceChildren(...visibleMatches.map(memberCard));
       if (matches.length > visibleMatches.length) {
@@ -236,7 +240,7 @@
         more.addEventListener("click", () => { visibleLimit += 50; render(); });
         results.append(more);
       }
-      if (!matches.length) results.innerHTML = "<p>No member records matched this search.</p>";
+      if (!matches.length) results.replaceChildren();
     }
     document.addEventListener("click", (event) => { if (branchFilter.open && !branchFilter.contains(event.target)) branchFilter.open = false; });
     results.addEventListener("click", async (event) => {
@@ -248,30 +252,40 @@
     });
     const controls = document.querySelector("#people-search-controls");
     const searchSubmit = document.createElement("button");
-    searchSubmit.id = "peopleSearchSubmit"; searchSubmit.type = "button"; searchSubmit.className = "search-submit"; searchSubmit.textContent = "Search";
+    searchSubmit.id = "peopleSearchSubmit"; searchSubmit.type = "button"; searchSubmit.className = "search-submit people-search-submit";
+    searchSubmit.setAttribute("aria-label", "Search records");
+    searchSubmit.setAttribute("title", "Search");
+    searchSubmit.innerHTML = '<svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="10" cy="10" r="5.5"/><path d="m14 14 5 5"/></svg>';
     searchQuery.after(searchSubmit);
-    const mobileHeading = document.createElement("div");
-    mobileHeading.className = "mobile-search-results-heading"; mobileHeading.hidden = true;
-    mobileHeading.innerHTML = '<div><h2 tabindex="-1">Results</h2><p></p></div><button class="change-search" type="button">Change search</button>';
-    summary.before(mobileHeading);
-    const mobileTitle = mobileHeading.querySelector("h2");
-    const mobileCount = mobileHeading.querySelector("p");
-    const syncMobileHeading = () => { mobileCount.textContent = resultSummary.textContent; };
-    new MutationObserver(syncMobileHeading).observe(resultSummary, { childList: true, characterData: true, subtree: true });
+    const statusRow = document.createElement("div");
+    statusRow.className = "search-results-status-row"; statusRow.hidden = true;
+    const changeSearch = document.createElement("button");
+    changeSearch.className = "change-search"; changeSearch.type = "button"; changeSearch.textContent = "Change search";
+    resultSummary.tabIndex = -1;
+    summary.after(statusRow);
+    statusRow.append(resultSummary, changeSearch);
+    let focusSubmittedResult = false;
+    const syncResultState = () => {
+      const message = resultSummary.textContent.trim();
+      statusRow.hidden = !message;
+      if (!focusSubmittedResult || !message || message.startsWith("Searching")) return;
+      focusSubmittedResult = false;
+      if (!matchMedia("(max-width: 620px)").matches) return;
+      app.classList.add("people-search-results-mode");
+      requestAnimationFrame(() => {
+        resultSummary.focus({ preventScroll: true });
+        resultSummary.scrollIntoView({ block: "start", behavior: "smooth" });
+      });
+    };
+    new MutationObserver(syncResultState).observe(resultSummary, { childList: true, characterData: true, subtree: true });
     const updateClearSearch = () => { clearSearch.hidden = !search.value; };
     const submitSearch = () => {
-      searchStarted = true; visibleLimit = 50; updateClearSearch(); render();
-      if (matchMedia("(max-width: 620px)").matches) {
-        const query = search.value.trim();
-        mobileTitle.textContent = query && query !== "*" ? `Results for “${query}”` : "Results";
-        mobileHeading.hidden = false; app.classList.add("people-search-results-mode");
-        requestAnimationFrame(() => { syncMobileHeading(); const bounds = mobileHeading.getBoundingClientRect(); if (bounds.top < 0 || bounds.bottom > innerHeight) mobileHeading.scrollIntoView({ block: "start", behavior: "smooth" }); });
-      }
+      focusSubmittedResult = true; searchStarted = true; visibleLimit = 50; updateClearSearch(); render();
     };
     search.addEventListener("input", () => { searchStarted = true; visibleLimit = 50; updateClearSearch(); render(); });
     search.addEventListener("keydown", (event) => { if (event.key === "Enter") { event.preventDefault(); submitSearch(); } });
     searchSubmit.addEventListener("click", submitSearch);
-    mobileHeading.querySelector(".change-search").addEventListener("click", () => { app.classList.remove("people-search-results-mode"); mobileHeading.hidden = true; requestAnimationFrame(() => { controls.scrollIntoView({ block: "start", behavior: "smooth" }); search.focus({ preventScroll: true }); }); });
+    changeSearch.addEventListener("click", () => { app.classList.remove("people-search-results-mode"); requestAnimationFrame(() => { controls.scrollIntoView({ block: "start", behavior: "smooth" }); search.focus({ preventScroll: true }); }); });
     clearSearch.addEventListener("click", () => { search.value = ""; searchStarted = false; visibleLimit = 50; updateClearSearch(); render(); search.focus(); });
     occurrenceTypes.forEach((control) => control.addEventListener("change", () => { searchStarted = true; visibleLimit = 50; render(); }));
     updateBranchSummary(); updateClearSearch(); render(); finishLoading();
